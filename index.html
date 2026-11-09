@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VideoIntel Hub</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0b1120; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 16px; }
+    header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; }
+    h1 { font-size: 1.15rem; color: #38bdf8; font-weight: 700; }
+    .badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+    .feed { display: grid; gap: 14px; max-width: 650px; margin: 0 auto; }
+    .card { background: #131c31; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+    .card img { width: 100%; height: auto; display: block; border-bottom: 1px solid #1e293b; }
+    .content { padding: 12px; }
+    .meta { font-size: 0.72rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
+    .title { font-size: 0.92rem; line-height: 1.35; font-weight: 600; color: #f1f5f9; }
+    #status { text-align: center; font-size: 0.75rem; color: #64748b; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚡ VideoIntel Hub</h1>
+    <span class="badge" id="update-badge">Syncing...</span>
+  </header>
+
+  <div class="feed" id="feed-container"></div>
+  <div id="status">Loading latest intelligence updates...</div>
+
+  <script>
+    async function loadFeed() {
+      try {
+        const res = await fetch('videos.json?nocache=' + Date.now());
+        const data = await res.json();
+        document.getElementById('update-badge').innerText = 'Synced: ' + data.last_updated;
+        document.getElementById('status').innerText = 'Showing ' + data.videos.length + ' latest updates.';
+
+        const container = document.getElementById('feed-container');
+        container.innerHTML = data.videos.map(v => `
+          <a class="card" href="${v.link}" target="_blank">
+            <img src="${v.thumbnail}" loading="lazy" alt="Thumbnail">
+            <div class="content">
+              <div class="meta">📺 ${v.channel} • ${new Date(v.published).toLocaleDateString()}</div>
+              <div class="title">${v.title}</div>
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        document.getElementById('status').innerText = 'Awaiting initial cloud sync...';
+      }
+    }
+    loadFeed();
+  </script>
+</body>
+</html>
