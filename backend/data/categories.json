@@ -1,0 +1,27 @@
+[
+  {
+    "id": "ir_geopolitics",
+    "title": "International Relations & Geopolitics",
+    "upsc_mapping": "GS Paper II (Bilateral, regional and global groupings)"
+  },
+  {
+    "id": "national_governance",
+    "title": "National Policy & Governance",
+    "upsc_mapping": "GS Paper II (Government policies and interventions)"
+  },
+  {
+    "id": "economy_development",
+    "title": "Economy & Infrastructure",
+    "upsc_mapping": "GS Paper III (Indian Economy, growth, and development)"
+  },
+  {
+    "id": "defense_security",
+    "title": "Defense & Internal Security",
+    "upsc_mapping": "GS Paper III (Security challenges and border management)"
+  },
+  {
+    "id": "science_environment",
+    "title": "Science, Tech & Environment",
+    "upsc_mapping": "GS Paper III (Environment conservation, tech developments)"
+  }
+]
