@@ -149,6 +149,7 @@ async def run_pipeline():
                 await session.commit()
                 print(f"[Ingest] Saved: {v['title'][:30]}")
 
-    print("[Ingest] Pipeline execution cycle finished.").
-   if __name__ == "__main__":
- asyncio.run(run_pipeline())
+    print("[Ingest] Pipeline execution cycle finished.")
+
+if __name__ == "__main__":
+    asyncio.run(run_pipeline())
