@@ -1,0 +1,33 @@
+name: 24x7 Feed Scanner
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs automatically every hour
+  workflow_dispatch:      # Allows manual trigger anytime
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Fetch Script
+        run: python fetch_videos.py
+
+      - name: Commit and Push Data
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add videos.json
+          git commit -m "Automated feed update: $(date -u)" || echo "No changes detected"
+          git push
