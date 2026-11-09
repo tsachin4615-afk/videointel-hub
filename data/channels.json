@@ -1,0 +1,34 @@
+[
+  {
+    "id": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+    "name": "World Affairs by Unacademy",
+    "handle": "@WorldAffairsUnacademy",
+    "category": "International Relations & Geopolitics",
+    "upsc_paper": "GS-2",
+    "active": true
+  },
+  {
+    "id": "UCsT0YIqwnpJCM-mx7-gSA4Q",
+    "name": "StudyIQ IAS",
+    "handle": "@StudyIQIAS",
+    "category": "National & Governance",
+    "upsc_paper": "GS-2 / GS-3",
+    "active": true
+  },
+  {
+    "id": "UCfblXQZqI4uA5vVq_zCclgA",
+    "name": "India Decoded",
+    "handle": "@IndiaDecodedAA",
+    "category": "Defense & Strategic Affairs",
+    "upsc_paper": "GS-3",
+    "active": true
+  },
+  {
+    "id": "UC9_n2bU3sB7iUeX4G1c0nrg",
+    "name": "Parcham Classes",
+    "handle": "@ParchamClasses",
+    "category": "Economy & General Studies",
+    "upsc_paper": "GS-3 / Prelims",
+    "active": true
+  }
+]
