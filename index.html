@@ -2,55 +2,116 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0b1120">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
   <title>VideoIntel Hub</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #0b1120; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 16px; }
-    header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; }
-    h1 { font-size: 1.15rem; color: #38bdf8; font-weight: 700; }
-    .badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
-    .feed { display: grid; gap: 14px; max-width: 650px; margin: 0 auto; }
-    .card { background: #131c31; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-    .card img { width: 100%; height: auto; display: block; border-bottom: 1px solid #1e293b; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background: #0b1120; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 40px; }
+    
+    /* Native App Top Bar */
+    header { position: sticky; top: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1e293b; padding: 14px 16px 10px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; }
+    h1 { font-size: 1.15rem; color: #38bdf8; font-weight: 700; letter-spacing: -0.01em; }
+    .badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 3px 8px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; }
+    
+    /* Horizontal Category Scroller */
+    .filter-bar { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 4px; scrollbar-width: none; }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .pill { white-space: nowrap; font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 999px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer; transition: all 0.2s; }
+    .pill.active { background: #0284c7; color: #ffffff; border-color: #38bdf8; }
+
+    /* Video Feed Container */
+    .feed { display: grid; gap: 14px; max-width: 600px; margin: 12px auto; padding: 0 12px; }
+    .card { background: #131c31; border: 1px solid #1e293b; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
+    .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; border-bottom: 1px solid #1e293b; }
     .content { padding: 12px; }
-    .meta { font-size: 0.72rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
-    .title { font-size: 0.92rem; line-height: 1.35; font-weight: 600; color: #f1f5f9; }
+    .meta { font-size: 0.74rem; color: #38bdf8; margin-bottom: 6px; font-weight: 600; }
+    .title { font-size: 0.92rem; line-height: 1.35; font-weight: 600; color: #f1f5f9; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     #status { text-align: center; font-size: 0.75rem; color: #64748b; margin-top: 20px; }
   </style>
 </head>
 <body>
   <header>
-    <h1>⚡ VideoIntel Hub</h1>
-    <span class="badge" id="update-badge">Syncing...</span>
+    <div class="top-bar">
+      <h1>⚡ VideoIntel Hub</h1>
+      <span class="badge" id="update-badge">Syncing...</span>
+    </div>
+    <div class="filter-bar" id="channel-filters">
+      <button class="pill active" onclick="filterChannel('ALL')">All Feeds</button>
+    </div>
   </header>
 
   <div class="feed" id="feed-container"></div>
-  <div id="status">Loading latest intelligence updates...</div>
+  <div id="status">Syncing with cloud cache...</div>
 
   <script>
-    async function loadFeed() {
+    let rawVideos = [];
+
+    async function init() {
       try {
         const res = await fetch('videos.json?nocache=' + Date.now());
         const data = await res.json();
-        document.getElementById('update-badge').innerText = 'Synced: ' + data.last_updated;
-        document.getElementById('status').innerText = 'Showing ' + data.videos.length + ' latest updates.';
+        rawVideos = data.videos || [];
 
-        const container = document.getElementById('feed-container');
-        container.innerHTML = data.videos.map(v => `
-          <a class="card" href="${v.link}" target="_blank">
-            <img src="${v.thumbnail}" loading="lazy" alt="Thumbnail">
-            <div class="content">
-              <div class="meta">📺 ${v.channel} • ${new Date(v.published).toLocaleDateString()}</div>
-              <div class="title">${v.title}</div>
-            </div>
-          </a>
-        `).join('');
-      } catch (e) {
-        document.getElementById('status').innerText = 'Awaiting initial cloud sync...';
+        document.getElementById('update-badge').innerText = 'Synced ' + data.last_updated;
+        buildFilterTabs();
+        renderCards(rawVideos);
+      } catch (err) {
+        document.getElementById('status').innerText = 'Unable to fetch cache.';
       }
     }
-    loadFeed();
+
+    function buildFilterTabs() {
+      const channelSet = new Set(rawVideos.map(v => v.channel));
+      const filterBox = document.getElementById('channel-filters');
+      channelSet.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.className = 'pill';
+        btn.innerText = ch;
+        btn.onclick = () => filterChannel(ch, btn);
+        filterBox.appendChild(btn);
+      });
+    }
+
+    function filterChannel(channel, el) {
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      if (el) el.classList.add('active');
+      else document.querySelector('.pill').classList.add('active');
+
+      if (channel === 'ALL') {
+        renderCards(rawVideos);
+      } else {
+        renderCards(rawVideos.filter(v => v.channel === channel));
+      }
+    }
+
+    function renderCards(videos) {
+      const container = document.getElementById('feed-container');
+      const status = document.getElementById('status');
+      
+      if (!videos.length) {
+        container.innerHTML = '';
+        status.innerText = 'No updates found.';
+        return;
+      }
+      
+      status.innerText = 'Showing ' + videos.length + ' latest updates.';
+      container.innerHTML = videos.map(v => `
+        <a class="card" href="${v.link}" target="_blank" rel="noopener">
+          <img src="${v.thumbnail}" loading="lazy" alt="Cover">
+          <div class="content">
+            <div class="meta">📺 ${v.channel} • ${new Date(v.published).toLocaleDateString()}</div>
+            <div class="title">${v.title}</div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    init();
   </script>
 </body>
 </html>
