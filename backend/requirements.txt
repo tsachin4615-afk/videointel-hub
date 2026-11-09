@@ -1,9 +1,0 @@
-
-fastapi
-uvicorn[standard]
-google-genai
-pydantic-settings
-sqlalchemy
-httpx
-youtube-transcript-api
-python-dotenv
