@@ -1,113 +1,742 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0b1120">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="manifest.json">
-  <title>VideoIntel Hub</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { background: #0b1120; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 40px; }
-    header { position: sticky; top: 0; z-index: 50; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1e293b; padding: 14px 16px 10px; }
-    .top-bar { display: flex; justify-content: space-between; align-items: center; }
-    h1 { font-size: 1.15rem; color: #38bdf8; font-weight: 700; }
-    .badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 3px 8px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; }
-    .filter-bar { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 4px; scrollbar-width: none; }
-    .filter-bar::-webkit-scrollbar { display: none; }
-    .pill { white-space: nowrap; font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 999px; background: #1e293b; color: #94a3b8; border: 1px solid #334155; cursor: pointer; }
-    .pill.active { background: #0284c7; color: #ffffff; border-color: #38bdf8; }
-    .feed { display: grid; gap: 14px; max-width: 600px; margin: 12px auto; padding: 0 12px; }
-    .card { background: #131c31; border: 1px solid #1e293b; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-    .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; border-bottom: 1px solid #1e293b; }
-    .content { padding: 12px; }
-    .meta { font-size: 0.74rem; color: #38bdf8; margin-bottom: 6px; font-weight: 600; }
-    .title { font-size: 0.92rem; line-height: 1.35; font-weight: 600; color: #f1f5f9; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    #status { text-align: center; font-size: 0.75rem; color: #64748b; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080e1b">
+<title>VideoIntel Hub | Intelligence OS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root {
+  --bg:#080e1b;
+  --panel:#101a2b;
+  --panel2:#152238;
+  --border:#25344c;
+  --text:#edf3ff;
+  --muted:#8fa1bb;
+  --blue:#58a6ff;
+  --cyan:#42d6df;
+  --green:#37d69a;
+  --orange:#ffb454;
+  --red:#ff7185;
+  --purple:#b69cff;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  font-size:14px;
+}
+button,input,textarea {font:inherit}
+button {cursor:pointer}
+.topbar {
+  height:66px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  background:#0b1424ee;
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(15px);
+}
+.brand {display:flex;align-items:center;gap:11px}
+.logo {
+  width:38px;height:38px;border-radius:12px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#1687ff,#42d6df);
+  color:#06111f;font-size:18px;
+}
+.brand h1 {font-size:16px;margin:0;font-weight:800}
+.brand small {color:var(--muted);font-size:10px;letter-spacing:1px}
+.top-actions {display:flex;gap:12px;align-items:center}
+.status {
+  color:var(--orange);
+  border:1px solid #72532c;
+  background:#332817;
+  padding:6px 10px;border-radius:20px;font-size:10px;
+}
+.icon-btn {
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--text);
+  border-radius:9px;padding:9px 11px;
+}
+.layout {display:flex;min-height:calc(100vh - 66px)}
+.sidebar {
+  width:225px;flex-shrink:0;
+  border-right:1px solid var(--border);
+  padding:20px 13px;
+  background:#0b1422;
+}
+.nav-label {
+  color:#60738f;font-size:10px;font-weight:700;
+  letter-spacing:1.5px;padding:14px 12px 8px;
+}
+.nav-item {
+  width:100%;display:flex;align-items:center;gap:12px;
+  padding:12px;border:0;border-radius:9px;
+  background:transparent;color:var(--muted);
+  text-align:left;margin-bottom:4px;
+}
+.nav-item i {width:18px;text-align:center}
+.nav-item.active,.nav-item:hover {
+  background:#172a45;color:var(--blue);
+}
+.sidebar-note {
+  margin:24px 5px;padding:12px;border:1px solid var(--border);
+  border-radius:10px;color:var(--muted);font-size:11px;line-height:1.6;
+}
+.main {flex:1;min-width:0;padding:25px;max-width:1500px;margin:0 auto;width:100%}
+.page-head {
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:15px;margin-bottom:22px;flex-wrap:wrap;
+}
+.page-head h2 {font-size:23px;margin:0 0 7px}
+.page-head p {margin:0;color:var(--muted);font-size:12px}
+.demo-tag {
+  display:inline-flex;gap:6px;align-items:center;
+  color:var(--orange);font-size:10px;
+  border:1px solid #72532c;padding:6px 9px;border-radius:20px;
+}
+.metrics {
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;margin-bottom:22px;
+}
+.metric {
+  padding:17px;border:1px solid var(--border);
+  background:var(--panel);border-radius:13px;
+}
+.metric-top {display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.metric-icon {color:var(--blue);font-size:16px}
+.metric-value {font-size:26px;font-weight:800;margin:12px 0 5px}
+.metric-foot {font-size:10px;color:var(--muted)}
+.section-title {
+  font-size:14px;font-weight:700;margin:23px 0 13px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.section-title small {color:var(--muted);font-weight:400;font-size:11px}
+.toolbar {display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}
+.search {
+  flex:1;min-width:180px;position:relative;
+}
+.search input {
+  width:100%;padding:11px 13px 11px 37px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:9px;color:var(--text);outline:none;
+}
+.search i {position:absolute;left:13px;top:13px;color:var(--muted)}
+.select,.secondary-btn {
+  background:var(--panel);border:1px solid var(--border);
+  color:var(--text);padding:10px 12px;border-radius:9px;
+}
+.primary-btn {
+  border:0;background:var(--blue);color:#071322;
+  padding:10px 14px;border-radius:9px;font-weight:700;
+}
+.news-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.news-card {
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:13px;padding:17px;min-width:0;
+}
+.news-meta {
+  display:flex;justify-content:space-between;gap:8px;
+  color:var(--muted);font-size:10px;margin-bottom:12px;
+}
+.tag {
+  display:inline-block;border-radius:5px;padding:5px 8px;
+  font-size:10px;background:#17304e;color:#83bdff;
+}
+.news-card h3 {font-size:16px;line-height:1.45;margin:12px 0 9px}
+.news-card p {font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 13px}
+.news-card ul {padding-left:18px;color:#b8c7da;font-size:11px;line-height:1.8}
+.card-actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.card-actions button {
+  border:1px solid var(--border);background:#142238;color:var(--text);
+  padding:8px 10px;border-radius:7px;font-size:10px;
+}
+.card-actions button:hover {border-color:var(--blue)}
+.article-layout {display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:15px}
+.article-body,.side-card,.panel {
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:13px;padding:19px;
+}
+.article-body h2 {font-size:22px;line-height:1.4}
+.article-body h3 {font-size:15px;color:var(--cyan);margin-top:24px}
+.article-body p,.article-body li {color:#bac9dc;line-height:1.8;font-size:13px}
+.article-label {color:var(--blue);font-size:10px;font-weight:700;letter-spacing:1px}
+.side-card {margin-bottom:12px}
+.side-card h4 {margin:0 0 12px}
+.side-card p {font-size:11px;color:var(--muted);line-height:1.6}
+.row-item {
+  padding:13px 0;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;gap:10px;align-items:center;
+}
+.row-item:last-child {border:0}
+.row-item strong {font-size:12px}
+.row-item small {display:block;color:var(--muted);margin-top:5px;font-size:10px}
+.badge {
+  padding:5px 8px;border-radius:6px;background:#173b34;
+  color:var(--green);font-size:10px;white-space:nowrap;
+}
+.badge.pending {background:#3c2d19;color:var(--orange)}
+.channel-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.channel {
+  background:var(--panel);border:1px solid var(--border);
+  padding:15px;border-radius:12px;
+}
+.channel h3 {font-size:13px;margin:0 0 7px}
+.channel p {font-size:10px;color:var(--muted)}
+.channel button {
+  padding:7px 9px;border-radius:7px;border:1px solid var(--border);
+  background:var(--panel2);color:var(--text);font-size:10px;margin-right:5px;
+}
+.empty {
+  padding:35px;text-align:center;color:var(--muted);
+  border:1px dashed var(--border);border-radius:12px;
+}
+.modal {
+  position:fixed;inset:0;background:#000b;z-index:50;
+  display:none;align-items:center;justify-content:center;padding:15px;
+}
+.modal.show {display:flex}
+.modal-box {
+  width:min(560px,100%);max-height:85vh;overflow:auto;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:15px;padding:20px;
+}
+.modal-box h3 {margin-top:0}
+.modal-box textarea,.modal-box input {
+  width:100%;background:#091323;color:var(--text);
+  border:1px solid var(--border);padding:12px;border-radius:9px;
+  margin:8px 0 13px;outline:none;
+}
+.modal-box textarea {min-height:110px;resize:vertical}
+.modal-actions {display:flex;justify-content:flex-end;gap:8px}
+.mobile-nav {display:none}
+.page {display:none}
+.page.active {display:block}
+.footer {
+  color:#60738f;font-size:10px;text-align:center;
+  padding:25px 0 12px;
+}
+.light-mode {
+  --bg:#edf2f9;--panel:#fff;--panel2:#edf2fa;
+  --border:#d7e0ec;--text:#17253b;--muted:#63748c;
+}
+.light-mode .topbar,.light-mode .sidebar {background:#f8fbff}
+.light-mode .nav-item.active {background:#e4efff}
+.light-mode .article-body p,.light-mode .article-body li,
+.light-mode .news-card ul {color:#44556e}
+@media(max-width:900px) {
+  .sidebar {width:190px}
+  .metrics {grid-template-columns:repeat(2,1fr)}
+  .article-layout {grid-template-columns:1fr}
+}
+@media(max-width:650px) {
+  .topbar {height:58px;padding:0 12px}
+  .brand h1 {font-size:14px}
+  .brand small {font-size:8px}
+  .logo {width:34px;height:34px}
+  .status {font-size:9px;padding:5px 7px}
+  .sidebar {display:none}
+  .main {padding:17px 12px 90px}
+  .page-head h2 {font-size:20px}
+  .metrics {gap:9px}
+  .metric {padding:12px}
+  .metric-value {font-size:22px}
+  .news-grid,.channel-grid {grid-template-columns:1fr}
+  .news-card {padding:14px}
+  .mobile-nav {
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:30;
+    background:#0b1424f5;border-top:1px solid var(--border);
+    justify-content:space-around;padding:9px 3px max(9px,env(safe-area-inset-bottom));
+    backdrop-filter:blur(15px);
+  }
+  .mobile-nav button {
+    border:0;background:none;color:var(--muted);
+    display:flex;flex-direction:column;align-items:center;gap:5px;
+    font-size:9px;min-width:54px;
+  }
+  .mobile-nav button i {font-size:17px}
+  .mobile-nav button.active {color:var(--blue)}
+  .toolbar .select {flex:1}
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <div class="top-bar">
-      <h1>⚡ VideoIntel Hub</h1>
-      <span class="badge" id="update-badge">Syncing...</span>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo"><i class="fa-solid fa-eye"></i></div>
+    <div>
+      <h1>VideoIntel Hub</h1>
+      <small>INTELLIGENCE & KNOWLEDGE OS</small>
     </div>
-    <div class="filter-bar" id="channel-filters">
-      <button class="pill active" onclick="filterChannel('ALL')">All Feeds</button>
+  </div>
+  <div class="top-actions">
+    <span class="status"><i class="fa-solid fa-circle"></i> DEMO MODE</span>
+    <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
+      <i class="fa-solid fa-moon" id="themeIcon"></i>
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="nav-label">INTELLIGENCE</div>
+  <button class="nav-item active" data-page="home"><i class="fa-solid fa-house"></i> Daily Intelligence</button>
+  <button class="nav-item" data-page="deep"><i class="fa-solid fa-newspaper"></i> Deep News</button>
+  <button class="nav-item" data-page="world"><i class="fa-solid fa-earth-asia"></i> National & International</button>
+  <button class="nav-item" data-page="economy"><i class="fa-solid fa-chart-line"></i> Economy & Business</button>
+  <button class="nav-item" data-page="science"><i class="fa-solid fa-microchip"></i> Science & Technology</button>
+
+  <div class="nav-label">VIDEO INTELLIGENCE</div>
+  <button class="nav-item" data-page="videos"><i class="fa-brands fa-youtube"></i> Video Backlog</button>
+  <button class="nav-item" data-page="channels"><i class="fa-solid fa-tower-broadcast"></i> Channel Engines</button>
+
+  <div class="nav-label">KNOWLEDGE</div>
+  <button class="nav-item" data-page="library"><i class="fa-solid fa-book-open"></i> Knowledge Library</button>
+  <button class="nav-item" data-page="assistant"><i class="fa-solid fa-robot"></i> AI Research Assistant</button>
+  <button class="nav-item" data-page="saved"><i class="fa-solid fa-bookmark"></i> Saved Articles</button>
+  <button class="nav-item" data-page="upsc"><i class="fa-solid fa-graduation-cap"></i> UPSC Mode</button>
+
+  <div class="sidebar-note">
+    <i class="fa-solid fa-circle-info"></i>
+    This is the frontend preview. Live YouTube syncing and AI analysis require backend configuration.
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- HOME -->
+<section class="page active" id="page-home">
+  <div class="page-head">
+    <div>
+      <h2>Daily Intelligence</h2>
+      <p>Your knowledge command centre · General news first, UPSC optional</p>
     </div>
-  </header>
+    <span class="demo-tag"><i class="fa-solid fa-flask"></i> Sample content</span>
+  </div>
 
-  <div class="feed" id="feed-container"></div>
-  <div id="status">Syncing feed...</div>
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-top">Videos discovered <i class="fa-brands fa-youtube metric-icon"></i></div>
+      <div class="metric-value">—</div>
+      <div class="metric-foot">Waiting for backend connection</div>
+    </div>
+    <div class="metric">
+      <div class="metric-top">Topics analysed <i class="fa-solid fa-brain metric-icon"></i></div>
+      <div class="metric-value">—</div>
+      <div class="metric-foot">Live analysis not connected</div>
+    </div>
+    <div class="metric">
+      <div class="metric-top">Pending backlog <i class="fa-solid fa-clock metric-icon"></i></div>
+      <div class="metric-value" id="pendingCount">3</div>
+      <div class="metric-foot">Illustrative sample items</div>
+    </div>
+    <div class="metric">
+      <div class="metric-top">Saved articles <i class="fa-solid fa-bookmark metric-icon"></i></div>
+      <div class="metric-value" id="savedCount">0</div>
+      <div class="metric-foot">Stored in this browser</div>
+    </div>
+  </div>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
+  <div class="section-title">Intelligence Feed <small>Illustrative articles</small></div>
+  <div class="toolbar">
+    <div class="search"><i class="fa-solid fa-search"></i><input id="feedSearch" placeholder="Search topics, keywords..." oninput="renderFeed()"></div>
+    <select class="select" id="categoryFilter" onchange="renderFeed()">
+      <option value="all">All categories</option>
+      <option value="Geopolitics">Geopolitics</option>
+      <option value="Economy">Economy</option>
+      <option value="Technology">Technology</option>
+    </select>
+  </div>
+  <div class="news-grid" id="feedGrid"></div>
+</section>
 
-    let rawVideos = [];
+<!-- DEEP NEWS -->
+<section class="page" id="page-deep">
+  <div class="page-head">
+    <div><h2>Deep News Reader</h2><p>Explore a topic beyond the headline.</p></div>
+  </div>
+  <div id="articleView"></div>
+</section>
 
-    async function init() {
-      try {
-        const res = await fetch('videos.json?nocache=' + Date.now());
-        const data = await res.json();
-        rawVideos = data.videos || [];
-        document.getElementById('update-badge').innerText = 'Synced ' + data.last_updated;
-        buildFilterTabs();
-        renderCards(rawVideos);
-      } catch (err) {
-        document.getElementById('status').innerText = 'Unable to fetch cache.';
-      }
-    }
+<!-- WORLD -->
+<section class="page" id="page-world">
+  <div class="page-head"><div><h2>National & International</h2><p>Explore governance, geopolitics and international affairs.</p></div></div>
+  <div class="news-grid" id="worldGrid"></div>
+</section>
 
-    function buildFilterTabs() {
-      const channelSet = new Set(rawVideos.map(v => v.channel));
-      const filterBox = document.getElementById('channel-filters');
-      channelSet.forEach(ch => {
-        const btn = document.createElement('button');
-        btn.className = 'pill';
-        btn.innerText = ch;
-        btn.onclick = () => filterChannel(ch, btn);
-        filterBox.appendChild(btn);
-      });
-    }
+<!-- ECONOMY -->
+<section class="page" id="page-economy">
+  <div class="page-head"><div><h2>Economy & Business</h2><p>Markets, policy, finance and economic developments.</p></div></div>
+  <div class="news-grid" id="economyGrid"></div>
+</section>
 
-    function filterChannel(channel, el) {
-      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-      if (el) el.classList.add('active');
-      else document.querySelector('.pill').classList.add('active');
+<!-- SCIENCE -->
+<section class="page" id="page-science">
+  <div class="page-head"><div><h2>Science & Technology</h2><p>Research, AI, technology and innovation.</p></div></div>
+  <div class="news-grid" id="scienceGrid"></div>
+</section>
 
-      if (channel === 'ALL') {
-        renderCards(rawVideos);
-      } else {
-        renderCards(rawVideos.filter(v => v.channel === channel));
-      }
-    }
+<!-- BACKLOG -->
+<section class="page" id="page-videos">
+  <div class="page-head">
+    <div><h2>Video Intelligence</h2><p>New YouTube videos waiting for processing.</p></div>
+    <button class="primary-btn" onclick="showAddVideo()"><i class="fa-solid fa-plus"></i> Add video</button>
+  </div>
+  <div class="panel">
+    <div class="section-title">Pending Backlog <small>Sample data only</small></div>
+    <div id="backlogList"></div>
+  </div>
+</section>
 
-    function renderCards(videos) {
-      const container = document.getElementById('feed-container');
-      const status = document.getElementById('status');
-      if (!videos.length) {
-        container.innerHTML = '';
-        status.innerText = 'No updates found.';
-        return;
-      }
-      status.innerText = 'Showing ' + videos.length + ' latest updates.';
-      container.innerHTML = videos.map(v => `
-        <a class="card" href="${v.link}" target="_blank" rel="noopener">
-          <img src="${v.thumbnail}" loading="lazy" alt="Cover">
-          <div class="content">
-            <div class="meta">📺 ${v.channel} • ${new Date(v.published).toLocaleDateString()}</div>
-            <div class="title">${v.title}</div>
-          </div>
-        </a>
-      `).join('');
-    }
+<!-- CHANNELS -->
+<section class="page" id="page-channels">
+  <div class="page-head">
+    <div><h2>Channel Engines</h2><p>Manage your YouTube topic discovery sources.</p></div>
+    <button class="primary-btn" onclick="showAddChannel()"><i class="fa-solid fa-plus"></i> Add channel</button>
+  </div>
+  <div class="channel-grid" id="channelGrid"></div>
+</section>
 
-    init();
-  </script>
+<!-- LIBRARY -->
+<section class="page" id="page-library">
+  <div class="page-head"><div><h2>Knowledge Library</h2><p>Your searchable collection of analysed topics.</p></div></div>
+  <div class="toolbar">
+    <div class="search"><i class="fa-solid fa-search"></i><input id="librarySearch" placeholder="Search your library..." oninput="renderLibrary()"></div>
+  </div>
+  <div id="libraryGrid" class="news-grid"></div>
+</section>
+
+<!-- ASSISTANT -->
+<section class="page" id="page-assistant">
+  <div class="page-head"><div><h2>AI Research Assistant</h2><p>Research interface preview. Connect Gemini backend to enable answers.</p></div></div>
+  <div class="panel">
+    <div class="article-label">RESEARCH WORKSPACE</div>
+    <h3>Explore a topic</h3>
+    <p style="color:var(--muted);line-height:1.7">Ask questions about a topic, compare viewpoints, request explanations or create a research outline. Live AI responses will be enabled after backend integration.</p>
+    <textarea id="assistantQuestion" placeholder="Example: Explain the background, stakeholders and implications of this topic..." style="width:100%;min-height:120px;background:#091323;color:var(--text);border:1px solid var(--border);border-radius:9px;padding:13px"></textarea>
+    <button class="primary-btn" onclick="askAssistant()">Submit question</button>
+    <div id="assistantResponse" style="margin-top:15px"></div>
+  </div>
+</section>
+
+<!-- SAVED -->
+<section class="page" id="page-saved">
+  <div class="page-head"><div><h2>Saved Articles</h2><p>Your bookmarked topics.</p></div></div>
+  <div class="news-grid" id="savedGrid"></div>
+</section>
+
+<!-- UPSC -->
+<section class="page" id="page-upsc">
+  <div class="page-head"><div><h2>UPSC Mode</h2><p>Optional exam-focused layer on top of general news.</p></div></div>
+  <div class="panel">
+    <h3>UPSC learning tools</h3>
+    <div class="row-item"><strong>Prelims facts & MCQs</strong><span class="badge pending">Backend pending</span></div>
+    <div class="row-item"><strong>GS syllabus mapping</strong><span class="badge pending">Backend pending</span></div>
+    <div class="row-item"><strong>Mains answer frameworks</strong><span class="badge pending">Backend pending</span></div>
+    <div class="row-item"><strong>Essay and revision notes</strong><span class="badge pending">Backend pending</span></div>
+    <p style="color:var(--muted);line-height:1.7">UPSC content will be generated from topics discovered through your selected YouTube sources, with relevant external research clearly identified.</p>
+  </div>
+</section>
+
+<div class="footer">VIDEOINTEL HUB · FRONTEND PREVIEW · NOT CONNECTED TO LIVE DATA</div>
+</main>
+</div>
+
+<nav class="mobile-nav">
+  <button class="active" data-page="home"><i class="fa-solid fa-house"></i>Home</button>
+  <button data-page="deep"><i class="fa-solid fa-newspaper"></i>Deep News</button>
+  <button data-page="videos"><i class="fa-brands fa-youtube"></i>Videos</button>
+  <button data-page="assistant"><i class="fa-solid fa-robot"></i>AI</button>
+  <button data-page="saved"><i class="fa-solid fa-bookmark"></i>Saved</button>
+</nav>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 id="modalTitle">Add item</h3>
+      <button class="icon-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="modalContent"></div>
+    <div class="modal-actions">
+      <button class="secondary-btn" onclick="closeModal()">Cancel</button>
+      <button class="primary-btn" id="modalSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const articles = [
+{
+ id:1,category:"Geopolitics",
+ title:"Changing dynamics of global geopolitics",
+ source:"Sample editorial",
+ summary:"An illustrative overview of how international relationships, strategic interests and regional developments influence global affairs.",
+ bullets:[
+ "Strategic partnerships and international institutions.",
+ "Economic interdependence and trade relationships.",
+ "Regional security and diplomatic developments."
+ ],
+ background:"International relations are shaped by historical relationships, economic interests, geography and changing security priorities. A careful analysis should distinguish established facts from political claims.",
+ impact:"Developments in international relations can influence trade, energy security, defence cooperation, investment and diplomatic engagement.",
+ viewpoints:"Different countries may interpret the same development through their own security, economic and diplomatic priorities.",
+ verification:"Illustrative sample. This is not a verified current news report.",
+ tags:["International Relations","Diplomacy","Security"]
+},
+{
+ id:2,category:"Economy",
+ title:"Understanding inflation and monetary policy",
+ source:"Sample explainer",
+ summary:"A general introduction to inflation, purchasing power, interest rates and the role of monetary policy.",
+ bullets:[
+ "Demand-side and supply-side inflation.",
+ "Interest rates and monetary transmission.",
+ "Impact on households, businesses and savings."
+ ],
+ background:"Inflation refers to a sustained rise in the general price level. Central banks use monetary policy tools to influence economic conditions and price stability.",
+ impact:"Changes in inflation and interest rates can affect borrowing costs, consumption, investment and household budgets.",
+ viewpoints:"Economists may differ on the causes of inflation and the appropriate speed and scale of policy responses.",
+ verification:"Illustrative educational content, not a current economic update.",
+ tags:["Inflation","Monetary Policy","Economics"]
+},
+{
+ id:3,category:"Technology",
+ title:"Artificial intelligence and the changing digital economy",
+ source:"Sample technology explainer",
+ summary:"An introductory overview of AI applications, productivity, data governance and the challenges of responsible deployment.",
+ bullets:[
+ "AI applications across sectors.",
+ "Data protection and accountability.",
+ "Employment, skills and productivity."
+ ],
+ background:"Artificial intelligence includes systems that perform tasks such as pattern recognition, language processing and prediction. Its real-world effects depend on how organisations deploy and govern these systems.",
+ impact:"AI can influence education, healthcare, business processes, research and public services.",
+ viewpoints:"Potential benefits must be considered alongside concerns about reliability, fairness, privacy and workforce transitions.",
+ verification:"Illustrative sample. Not a report of a specific recent development.",
+ tags:["Artificial Intelligence","Digital Economy","Technology"]
+}
+];
+
+let backlog = [
+ {id:101,title:"Sample YouTube video – International affairs",channel:"Sample Channel A",status:"Pending"},
+ {id:102,title:"Sample YouTube video – Economic developments",channel:"Sample Channel B",status:"Pending"},
+ {id:103,title:"Sample YouTube video – Science and technology",channel:"Sample Channel C",status:"Pending"}
+];
+
+let channels = [
+ {id:1,name:"StudyIQ IAS",url:"",active:true},
+ {id:2,name:"World Affairs",url:"",active:true},
+ {id:3,name:"Firstpost",url:"",active:true},
+ {id:4,name:"WION",url:"",active:true}
+];
+
+let saved = JSON.parse(localStorage.getItem("vhub_saved") || "[]");
+let nextId = 200;
+
+function escapeHTML(value) {
+ return String(value).replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+function go(page) {
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.querySelectorAll("[data-page]").forEach(b=>b.classList.remove("active"));
+ const target=document.getElementById("page-"+page);
+ if(target) target.classList.add("active");
+ document.querySelectorAll('[data-page="'+page+'"]').forEach(b=>b.classList.add("active"));
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(page==="saved") renderSaved();
+ if(page==="videos") renderBacklog();
+ if(page==="channels") renderChannels();
+ if(page==="library") renderLibrary();
+}
+
+document.querySelectorAll("[data-page]").forEach(b=>{
+ b.addEventListener("click",()=>go(b.dataset.page));
+});
+
+function articleCard(a) {
+ const isSaved=saved.includes(a.id);
+ return `
+ <article class="news-card">
+  <div class="news-meta"><span class="tag">${escapeHTML(a.category)}</span><span>${escapeHTML(a.source)}</span></div>
+  <h3>${escapeHTML(a.title)}</h3>
+  <p>${escapeHTML(a.summary)}</p>
+  <ul>${a.bullets.map(x=>"<li>"+escapeHTML(x)+"</li>").join("")}</ul>
+  <div class="card-actions">
+   <button onclick="openArticle(${a.id})"><i class="fa-solid fa-book-open"></i> Read deep analysis</button>
+   <button onclick="toggleSave(${a.id})"><i class="fa-${isSaved?"solid":"regular"} fa-bookmark"></i> ${isSaved?"Saved":"Save"}</button>
+  </div>
+ </article>`;
+}
+
+function renderFeed() {
+ const q=(document.getElementById("feedSearch")?.value||"").toLowerCase();
+ const cat=document.getElementById("categoryFilter")?.value||"all";
+ const list=articles.filter(a=>
+  (cat==="all"||a.category===cat) &&
+  (a.title+" "+a.summary+" "+a.category).toLowerCase().includes(q)
+ );
+ document.getElementById("feedGrid").innerHTML=list.length?list.map(articleCard).join():'<div class="empty">No matching topics found.</div>';
+}
+
+function openArticle(id) {
+ const a=articles.find(x=>x.id===id);
+ if(!a)return;
+ go("deep");
+ document.getElementById("articleView").innerHTML=`
+ <div class="article-layout">
+ <article class="article-body">
+  <div class="article-label">${escapeHTML(a.category)} · SAMPLE CONTENT</div>
+  <h2>${escapeHTML(a.title)}</h2>
+  <p>${escapeHTML(a.summary)}</p>
+  <h3>1. Key discussion points</h3>
+  <ul>${a.bullets.map(x=>"<li>"+escapeHTML(x)+"</li>").join("")}</ul>
+  <h3>2. Background and context</h3><p>${escapeHTML(a.background)}</p>
+  <h3>3. Broader impact</h3><p>${escapeHTML(a.impact)}</p>
+  <h3>4. Different viewpoints</h3><p>${escapeHTML(a.viewpoints)}</p>
+  <h3>5. Verification status</h3><p>${escapeHTML(a.verification)}</p>
+  <h3>6. Related keywords</h3><p>${a.tags.map(escapeHTML).join(" · ")}</p>
+  <p style="border-top:1px solid var(--border);padding-top:12px">Source attribution and video references will appear here after backend integration.</p>
+  <button class="primary-btn" onclick="toggleSave(${a.id})"> <i class="fa-solid fa-bookmark"></i> Save article</button>
+ </article>
+ <aside>
+  <div class="side-card"><h4>Article information</h4><p>Category: ${escapeHTML(a.category)}</p><p>Source: ${escapeHTML(a.source)}</p><p>Status: Sample content</p></div>
+  <div class="side-card"><h4>Research tools</h4><p>Video transcript analysis</p><p>External fact verification</p><p>Timeline generation</p><p>UPSC mapping</p></div>
+ </aside></div>`;
+}
+
+function renderBacklog() {
+ document.getElementById("pendingCount").textContent=backlog.length;
+ document.getElementById("backlogList").innerHTML=backlog.length?backlog.map(v=>`
+ <div class="row-item">
+ <div><strong>${escapeHTML(v.title)}</strong><small>${escapeHTML(v.channel)} · ${escapeHTML(v.status)}</small></div>
+ <button class="secondary-btn" onclick="synthesize(${v.id})">Synthesize</button>
+ </div>`).join(""):'<div class="empty">Your backlog is empty.</div>';
+}
+
+function synthesize(id) {
+ alert("This is a frontend preview. Real Gemini synthesis will work after the secure backend is connected.");
+}
+
+function renderChannels() {
+ document.getElementById("channelGrid").innerHTML=channels.map(c=>`
+ <div class="channel">
+ <h3><i class="fa-brands fa-youtube" style="color:var(--red)"></i> ${escapeHTML(c.name)}</h3>
+ <p>Discovery status: ${c.active?"Enabled":"Paused"}</p>
+ <button onclick="toggleChannel(${c.id})">${c.active?"Pause":"Resume"}</button>
+ <button onclick="removeChannel(${c.id})">Remove</button>
+ </div>`).join("");
+}
+
+function toggleChannel(id) {
+ const c=channels.find(x=>x.id===id);
+ if(c)c.active=!c.active;
+ renderChannels();
+}
+
+function removeChannel(id) {
+ if(confirm("Remove this channel from the local preview?")) {
+  channels=channels.filter(x=>x.id!==id);
+  renderChannels();
+ }
+}
+
+function toggleSave(id) {
+ saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];
+ localStorage.setItem("vhub_saved",JSON.stringify(saved));
+ document.getElementById("savedCount").textContent=saved.length;
+ renderFeed();
+ renderSaved();
+}
+
+function renderSaved() {
+ const list=articles.filter(a=>saved.includes(a.id));
+ document.getElementById("savedGrid").innerHTML=list.length?list.map(articleCard).join():'<div class="empty">No saved articles yet. Use the Save button on an article.</div>';
+}
+
+function renderLibrary() {
+ const q=(document.getElementById("librarySearch")?.value||"").toLowerCase();
+ const list=articles.filter(a=>(a.title+" "+a.summary+" "+a.category).toLowerCase().includes(q));
+ document.getElementById("libraryGrid").innerHTML=list.map(articleCard).join()||'<div class="empty">No matching topics.</div>';
+}
+
+function showModal(title,content,callback) {
+ document.getElementById("modalTitle").textContent=title;
+ document.getElementById("modalContent").innerHTML=content;
+ document.getElementById("modalSave").onclick=callback;
+ document.getElementById("modal").classList.add("show");
+}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+
+function showAddChannel() {
+ showModal("Add YouTube channel",`
+ <label>Channel name</label>
+ <input id="newChannel" placeholder="Enter channel name">
+ <label>Channel URL</label>
+ <input id="newChannelUrl" placeholder="Paste YouTube channel URL">`,
+ ()=>{
+  const name=document.getElementById("newChannel").value.trim();
+  const url=document.getElementById("newChannelUrl").value.trim();
+  if(!name){alert("Enter a channel name");return}
+  channels.push({id:++nextId,name,url,active:true});
+  closeModal();renderChannels();
+  alert("Added to this browser preview only. Live discovery needs backend integration.");
+ });
+}
+
+function showAddVideo() {
+ showModal("Add YouTube video",`
+ <label>Video title</label><input id="newVideo" placeholder="Enter video title">
+ <label>YouTube video URL</label><input id="newVideoUrl" placeholder="Paste video URL">`,
+ ()=>{
+  const title=document.getElementById("newVideo").value.trim();
+  if(!title){alert("Enter a title");return}
+  backlog.push({id:++nextId,title,channel:"Manually added",status:"Pending"});
+  closeModal();renderBacklog();
+ });
+}
+
+function askAssistant() {
+ const q=document.getElementById("assistantQuestion").value.trim();
+ if(!q){alert("Enter a question first");return}
+ document.getElementById("assistantResponse").innerHTML=
+ '<div class="panel"><strong>Backend connection required</strong><p style="color:var(--muted);line-height:1.7">Your question is ready. A secure Gemini API connection is required to generate a real research answer. No API key is being used or stored by this page.</p></div>';
+}
+
+function toggleTheme() {
+ document.body.classList.toggle("light-mode");
+ document.getElementById("themeIcon").className=
+ document.body.classList.contains("light-mode")?"fa-solid fa-sun":"fa-solid fa-moon";
+}
+
+function renderAll() {
+ renderFeed();
+ renderBacklog();
+ renderChannels();
+ renderSaved();
+ renderLibrary();
+ document.getElementById("savedCount").textContent=saved.length;
+ document.getElementById("worldGrid").innerHTML=articles.filter(a=>a.category==="Geopolitics").map(articleCard).join();
+ document.getElementById("economyGrid").innerHTML=articles.filter(a=>a.category==="Economy").map(articleCard).join();
+ document.getElementById("scienceGrid").innerHTML=articles.filter(a=>a.category==="Technology").map(articleCard).join();
+}
+renderAll();
+</script>
 </body>
 </html>
