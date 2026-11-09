@@ -1,0 +1,14 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Database
+data/*.db
+data/*.sqlite3
+
+# Logs & OS
+*.log
+.DS_Store
