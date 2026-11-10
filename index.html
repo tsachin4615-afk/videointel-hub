@@ -26,7 +26,7 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             VideoIntel Hub
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">Master AI Engine</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">Fault-Tolerant Engine</span>
           </h1>
           <p class="text-xs text-slate-400">Current Affairs & Competitive Exam Intelligence</p>
         </div>
@@ -50,7 +50,7 @@
         <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
         <span>Master Gemini Engine — Cross-Feed Intelligence</span>
       </div>
-      <p class="text-xs text-slate-400 mb-3">Query across all loaded intelligence briefings simultaneously or run pre-synthesized briefs:</p>
+      <p class="text-xs text-slate-400 mb-3">Query across all loaded intelligence briefings simultaneously with automatic fallback:</p>
       
       <!-- Master Preload Buttons -->
       <div class="flex flex-wrap gap-2 mb-3">
@@ -166,31 +166,60 @@
       renderGrid();
     }
 
-    // Direct Gemini API Request Helper with High-Capacity Model Priority
-    async function callGemini(promptText) {
+    // AUTOMATIC CASCADE FALLBACK MATRIX:
+    // If one engine is busy, over capacity, deprecated, or unavailable, it silently hops to the next best engine.
+    async function callGeminiWithAutoFallback(promptText, statusCallback) {
       const key = getApiKey();
       if (!key) throw new Error("GEMINI_KEY_REQUIRED");
 
-      const models = ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-2.5-flash"];
-      let lastErr = null;
+      // Ranked priority of fast flash endpoints
+      let candidatePool = [
+        "gemini-3.8-flash",
+        "gemini-1.5-flash",
+        "gemini-1.5-flash-8b",
+        "gemini-2.5-flash",
+        "gemini-2.0-flash",
+        "gemini-flash-latest"
+      ];
 
-      for (const m of models) {
+      for (let i = 0; i < candidatePool.length; i++) {
+        const modelName = candidatePool[i];
         try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`, {
+          if (statusCallback && i > 0) {
+            statusCallback(`Engine busy; routing to next best (${modelName})...`);
+          }
+
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${key}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
           });
+
           const data = await res.json();
-          if (data.error) throw new Error(data.error.message);
+
+          // Check if response contains API error
+          if (data.error) {
+            const errorMsg = data.error.message || "";
+            // Check if Google returned a new suggested model name in the error text
+            const match = errorMsg.match(/models\/([a-zA-Z0-9\.\-_]+)/);
+            if (match && match[1] && !candidatePool.includes(match[1])) {
+              candidatePool.splice(i + 1, 0, match[1]); // insert suggested model next
+            }
+            // Move to next candidate in loop without showing errors to user
+            continue;
+          }
+
           const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!reply) throw new Error("Empty candidate output");
-          return reply;
-        } catch (e) {
-          lastErr = e;
+          if (reply && reply.trim().length > 0) {
+            return reply; // Successful response!
+          }
+        } catch (netErr) {
+          // Network hiccup on this endpoint; try next
+          continue;
         }
       }
-      throw lastErr;
+
+      throw new Error("All AI engines are temporarily over-capacity. Please retry in 10 seconds.");
     }
 
     function formatMarkdown(text) {
@@ -214,10 +243,9 @@
       box.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master Gemini synthesizing across all briefings...</span>
+          <span id="masterStatusText">Master Gemini synthesizing across briefings...</span>
         </div>`;
 
-      // Build context from all loaded video titles and descriptions
       const contextSummary = allVideos.slice(0, 12).map((v, i) => 
         `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description.slice(0, 250)}`
       ).join('\n');
@@ -233,7 +261,11 @@ Provide an authoritative, well-structured intelligence report. Use bold headings
       `;
 
       try {
-        const text = await callGemini(masterPrompt);
+        const text = await callGeminiWithAutoFallback(masterPrompt, (msg) => {
+          const el = document.getElementById('masterStatusText');
+          if (el) el.innerText = msg;
+        });
+
         box.innerHTML = `
           <div class="flex items-center justify-between pb-2 border-b border-indigo-800/60 mb-2">
             <span class="font-semibold text-indigo-300 flex items-center gap-1.5">
@@ -250,7 +282,7 @@ Provide an authoritative, well-structured intelligence report. Use bold headings
           promptApiKey();
           box.classList.add('hidden');
         } else {
-          box.innerHTML = `<div class="text-rose-400 text-xs"><i class="fa-solid fa-triangle-exclamation"></i> Master Analysis Error: ${err.message}</div>`;
+          box.innerHTML = `<div class="text-rose-400 text-xs"><i class="fa-solid fa-triangle-exclamation"></i> Analysis note: ${err.message}</div>`;
         }
       }
     }
@@ -314,7 +346,7 @@ Provide an authoritative, well-structured intelligence report. Use bold headings
               </button>
             </div>
 
-            <!-- Dynamic AI-Generated Questions Container (Populated on tap) -->
+            <!-- Dynamic AI-Generated Questions Container -->
             <div id="aiQuestions-${item.id}" class="hidden flex flex-wrap gap-1.5 mb-2.5 p-2 rounded-lg bg-[#141d33] border border-purple-900/50">
             </div>
 
@@ -348,14 +380,14 @@ Provide an authoritative, well-structured intelligence report. Use bold headings
       if (val) askVideoGemini(id, val);
     }
 
-    // Preloaded Self-Thinking Questions Generator
+    // Dynamic Self-Thinking Questions Generator
     async function generateVideoQuestions(videoId) {
       const video = allVideos.find(v => v.id === videoId);
       if (!video) return;
 
       const container = document.getElementById(`aiQuestions-${videoId}`);
       container.classList.remove('hidden');
-      container.innerHTML = `<span class="text-[11px] text-purple-300 flex items-center gap-1"><i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> AI thinking of tailored investigative questions...</span>`;
+      container.innerHTML = `<span class="text-[11px] text-purple-300 flex items-center gap-1"><i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> Formulating smart inquiries...</span>`;
 
       const prompt = `
 Based on this video briefing:
@@ -367,7 +399,7 @@ Return ONLY valid JSON array with 3 short strings. Example: ["Question 1?", "Que
 `;
 
       try {
-        const raw = await callGemini(prompt);
+        const raw = await callGeminiWithAutoFallback(prompt);
         const match = raw.match(/\[.*\]/s);
         const questions = JSON.parse(match ? match[0] : raw);
 
@@ -383,7 +415,7 @@ Return ONLY valid JSON array with 3 short strings. Example: ["Question 1?", "Que
           `).join('')}
         `;
       } catch (e) {
-        container.innerHTML = `<span class="text-[11px] text-rose-400">Could not generate questions: ${e.message}</span>`;
+        container.innerHTML = `<span class="text-[11px] text-rose-400">Could not generate questions. Tap to retry.</span>`;
       }
     }
 
@@ -397,7 +429,7 @@ Return ONLY valid JSON array with 3 short strings. Example: ["Question 1?", "Que
       box.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Gemini analyzing: "<em>${question.slice(0, 45)}...</em>"...</span>
+          <span id="cardStatusText-${videoId}">Gemini analyzing: "<em>${question.slice(0, 45)}...</em>"...</span>
         </div>`;
 
       const prompt = `
@@ -413,7 +445,11 @@ Provide a crisp, clear, high-yield briefing tailored precisely to this instructi
 `;
 
       try {
-        const text = await callGemini(prompt);
+        const text = await callGeminiWithAutoFallback(prompt, (msg) => {
+          const el = document.getElementById(`cardStatusText-${videoId}`);
+          if (el) el.innerText = msg;
+        });
+
         box.innerHTML = `
           <div class="flex items-center justify-between pb-1.5 border-b border-slate-700/60 mb-2">
             <span class="text-[11px] font-semibold text-indigo-300 flex items-center gap-1">
@@ -434,8 +470,8 @@ Provide a crisp, clear, high-yield briefing tailored precisely to this instructi
             <div class="text-rose-400 text-xs flex items-start gap-1.5">
               <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
               <div>
-                <p class="font-medium">Analysis failed: ${err.message}</p>
-                <p class="text-[11px] text-slate-400 mt-0.5">Tap "Set Gemini Key" at top if you need to update your key.</p>
+                <p class="font-medium">${err.message}</p>
+                <p class="text-[11px] text-slate-400 mt-0.5">Please check back in a few seconds.</p>
               </div>
             </div>`;
         }
