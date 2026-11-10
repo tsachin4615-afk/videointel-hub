@@ -1,15 +1,11 @@
 {
-  "last_updated": "2026-11-10 00:28 UTC",
+  "last_updated": "2026-11-10 04:39 UTC",
   "total_videos": 135,
-  "successful_channels": 1,
+  "successful_channels": 6,
   "failed_channels": [
     {
-      "channel": "StudyIQ IAS",
-      "error": "HTTP Error 404: Not Found"
-    },
-    {
-      "channel": "World Affairs",
-      "error": "HTTP Error 404: Not Found"
+      "channel": "DEF Talks by Aadi",
+      "error": "HTTP Error 500: Internal Server Error"
     },
     {
       "channel": "Coffee With Sumeet Jain",
@@ -18,25 +14,199 @@
     {
       "channel": "Firstpost Vantage",
       "error": "HTTP Error 404: Not Found"
-    },
-    {
-      "channel": "WION",
-      "error": "HTTP Error 404: Not Found"
-    },
-    {
-      "channel": "Finology Legal",
-      "error": "HTTP Error 404: Not Found"
-    },
-    {
-      "channel": "Pranjal Kamra",
-      "error": "HTTP Error 404: Not Found"
-    },
-    {
-      "channel": "Bankers Adda247",
-      "error": "HTTP Error 404: Not Found"
     }
   ],
   "videos": [
+    {
+      "video_id": "0JcLafB-DvQ",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "South Korea Steps Up Efforts To Bridge Digital Divide | WION News",
+      "link": "https://www.youtube.com/watch?v=0JcLafB-DvQ",
+      "published": "2026-11-10T04:13:06+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/0JcLafB-DvQ/hqdefault.jpg",
+      "description": "South Korea is stepping up efforts to tackle the digital divide and make technology more accessible to all sections of society. The initiative focuses on addressing gaps in digital access and helping people adapt to an increasingly technology-driven world. Efforts to improve digital literacy and inclusion remain central to bridging the gap.\n\n#southkorea #ai #wion #southkoreaai\n\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "RXDZuQwTAzU",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "'Eetha' Set For Theatrical Release On December 4 | WION News",
+      "link": "https://www.youtube.com/watch?v=RXDZuQwTAzU",
+      "published": "2026-11-10T04:08:52+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/RXDZuQwTAzU/hqdefault.jpg",
+      "description": "The upcoming film 'Eetha' is set to release in cinemas on December 4. The film is gearing up for its theatrical debut, with audiences awaiting its arrival on the big screen. The December release adds to the lineup of films scheduled to hit theatres towards the end of the year.\n\n\n\n#eetha #wion #worldnews #december  #bollywood \n\n\n\n\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "qDmdaZ6GI14",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "Russia-Ukraine Peace Talks In Abu Dhabi | US Seeks Broader Ukraine Deal  | WION Headlines",
+      "link": "https://www.youtube.com/watch?v=qDmdaZ6GI14",
+      "published": "2026-11-10T04:02:15+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/qDmdaZ6GI14/hqdefault.jpg",
+      "description": "Top Headlines of the Hour: \n-Russia-Ukraine Peace Talks In Abu Dhabi \n-Trump Sees Positive Momentum On Iran\n-Republicans Move To Impeach Hegseth \n-Explosions Rock Saudi Capital Riyadh \n\n#saudiunderattack #zelensky #wion #news #russiaukrainewar \n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "bgBGjmDUFRg",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "Houthis Vs Saudi Arabia: Deadly Airstrikes Hit Homes Near Yemen’s Capital Sanaa | WION Originals",
+      "link": "https://www.youtube.com/watch?v=bgBGjmDUFRg",
+      "published": "2026-11-10T03:35:14+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/bgBGjmDUFRg/hqdefault.jpg",
+      "description": "At least 33 people have been killed and 39 injured in reported airstrikes targeting residential areas in Bani Hushaysh, east of Yemen’s capital, Sanaa. Most of the victims are reportedly women and children. Eyewitness footage obtained by Reuters shows a powerful explosion followed by massive clouds of dust. Meanwhile, more than 200,000 people have been displaced since the latest fighting began, deepening the humanitarian crisis in Yemen.\n\n#houthis #saudiarabia #houthiattack #houthivssaudi #houthisattack #saudiattack #droneattack #wion \n\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "gfBCpW-iiu4",
+      "channel": "StudyIQ IAS",
+      "channel_id": "UCrC8mOqJQpoB7NuIMKIS6rQ",
+      "title": "UPSC Aspirants, Grab 65% OFF Today! | Diwali Mega Sale Ending Today #shorts #sale #upsc",
+      "link": "https://www.youtube.com/shorts/gfBCpW-iiu4",
+      "published": "2026-11-10T03:30:05+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/gfBCpW-iiu4/hqdefault.jpg",
+      "description": ""
+    },
+    {
+      "video_id": "1cA68sO54GE",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "US-Iran War: Trump Declares Iran War 'Effectively Over' On Military Front | WION News",
+      "link": "https://www.youtube.com/watch?v=1cA68sO54GE",
+      "published": "2026-11-10T03:25:35+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/1cA68sO54GE/hqdefault.jpg",
+      "description": "US President Donald Trump has said the Iran war is effectively over from a military standpoint. His remarks come amid the ongoing conflict between Washington and Tehran and growing questions over the next phase of the confrontation. Trump's statement signals his assessment of the military situation, even as wider regional tensions remain a concern.\n\n\n#PeteHegseth #IranWar #DonaldTrump #USIranConflict #middleeastconflict #wion \n\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "GGafXh2Mi6E",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "Pete Hegseth Dismisses Impeachment Push As 'Sham' | WION News",
+      "link": "https://www.youtube.com/watch?v=GGafXh2Mi6E",
+      "published": "2026-11-10T03:18:15+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/GGafXh2Mi6E/hqdefault.jpg",
+      "description": "US Defence Secretary Pete Hegseth has dismissed calls for his impeachment, describing the move as a 'sham'. His remarks come amid mounting political pressure and criticism from lawmakers. The impeachment push has added to tensions surrounding the Trump administration as Hegseth faces scrutiny over his role as Pentagon chief.\n\n#petehegseth #wion #news #trump \nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "_jriyKextII",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "World DNA|  Trump: Iran War Effectively Over | Hegseth Faces Impeachment | Trump Defends NVIDIA CEO",
+      "link": "https://www.youtube.com/watch?v=_jriyKextII",
+      "published": "2026-11-10T03:13:32+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/_jriyKextII/hqdefault.jpg",
+      "description": "World DNA|  Trump: Iran War Effectively Over | Hegseth Faces Impeachment | Trump Defends NVIDIA CEO\n\nWorld DNA brings you the latest global developments. US President Donald Trump says the Iran war is effectively over, signalling a possible shift in the ongoing conflict. Meanwhile, US Defence Secretary Pete Hegseth faces calls for impeachment. Trump also defends NVIDIA CEO Jensen Huang amid scrutiny surrounding the chipmaker. Catch up on these stories and other major international headlines.\n\n#WorldDNA #DonaldTrump #IranWar #USIranTensions #PeteHegseth #HegsethImpeachment #NVIDIA #JensenHuang #TrumpNews #USPolitics #WorldNews #InternationalNews #WION #WIONWorldDNA\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "3OJ_BMR4LB8",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "NVIDIA CEO Jensen Huang Faces Questions Over China Links | WION News",
+      "link": "https://www.youtube.com/watch?v=3OJ_BMR4LB8",
+      "published": "2026-11-10T03:12:09+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/3OJ_BMR4LB8/hqdefault.jpg",
+      "description": "The Jensen Huang controversy has drawn attention to concerns over the suspected diversion of advanced artificial intelligence (AI) chips to China. The issue raises questions about technology exports, semiconductor supply chains, and restrictions on the sale of high-performance AI processors to China. With growing competition between the United States and China in the AI industry, the allegations have renewed discussions about export controls, technology security, and the global semiconductor market. The controversy also puts the spotlight on Nvidia CEO Jensen Huang and the challenges facing major technology companies operating in an increasingly sensitive geopolitical environment.\n\n#jensenhuang #china #AI #wion \n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "kyFxFVHxIMk",
+      "channel": "Bankers Adda247",
+      "channel_id": "UC7DgZZeZD2HKc7JUAsIwe-w",
+      "title": "IBPS RRB PO & Clerk 2026 | IBPS RRB Reasoning Mock Test | By Sona Sharma",
+      "link": "https://www.youtube.com/watch?v=kyFxFVHxIMk",
+      "published": "2026-11-10T03:11:26+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/kyFxFVHxIMk/hqdefault.jpg",
+      "description": "Boost your speed and accuracy with this comprehensive Reasoning Mock Test designed for the 2026 IBPS RRB PO and Clerk examinations. Master the art of solving 40 questions within 25 minutes using proven time-management techniques.\r\n\r\n📌 Key Highlights:\r\n• Reasoning speed test for IBPS RRB 2026\r\n• Logical reasoning practice for PO and Clerk\r\n• 40 questions timed practice session\r\n• Exam pattern based reasoning questions\r\n• Shortcut methods for complex reasoning puzzles\r\n• Time management strategies for bank exams\r\n\r\nThis practice set is essential for candidates targeting the 2026 banking recruitment cycle. Consistent practice with these mock tests helps improve sectional scores in the reasoning ability section. Prepare effectively for the upcoming IBPS RRB PO and Clerk prelims with these curated exam-level questions.\r\n\r\n🚀Welcome to Bankersadda Official YouTube Channel 🚀 India's Leading Banking Exam Preparation YouTube Channel. Preparing for All Bank Exams (SBI Clerk, SBI PO, IBPS RRB PO/Clerk, IBPS PO, IBPS Clerk, RBI Assistant, LIC Assistant, RBI Office Attendant) with quality content and daily live classes. \r\n\r\n📲For Admission & Counselling Call Now: 07070702247\r\n📲Download Adda247 App: https://adda247.go.link/bankmahapack1\r\n👉Bank Exams PYP: https://adda247.go.link/BA_YT\r\n\r\nCheck Out Our Courses:-\r\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\r\n👉 Bank Maha Pack\r\nhttps://adda247.go.link/bankmahapack1\r\n\r\n👉 Bank Maha Pack Plus\r\nhttps://adda247.go.link/bankmahapackplus1\r\n\r\n📌 Connect with [Our Social Media Platform] :\r\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\r\n👉Join our Telegram Group:- https://t.me/bankersaddaofficialgroup\r\n👉Join our Telegram Channel:- https://t.me/adda247live\r\n👉Facebook:- https://www.facebook.com/bankersadda\r\n👉Instagram:- https://www.instagram.com/bankingadda247_\r\n👉Adda247 Website:-  https://bit.ly/33J6GuB\r\n👉Whatsapp Channel:- https://bit.ly/47PYdao\r\n\r\n#rrb2026 #ibpsrrb #ibps2026 #rrbclerk #clerk2026 #ibpsclerk #rrbreasoning #reasoning2026 #reasoningmock #clerkreasoning"
+    },
+    {
+      "video_id": "q-GOT6k2F1M",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "NVIDIA CEO Jensen Huang Faces Questions Over China Links | WION News",
+      "link": "https://www.youtube.com/watch?v=q-GOT6k2F1M",
+      "published": "2026-11-10T03:02:26+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/q-GOT6k2F1M/hqdefault.jpg",
+      "description": "The Jensen Huang controversy has drawn attention to concerns over the suspected diversion of advanced artificial intelligence (AI) chips to China. The issue raises questions about technology exports, semiconductor supply chains, and restrictions on the sale of high-performance AI processors to China. With growing competition between the United States and China in the AI industry, the allegations have renewed discussions about export controls, technology security, and the global semiconductor market. The controversy also puts the spotlight on Nvidia CEO Jensen Huang and the challenges facing major technology companies operating in an increasingly sensitive geopolitical environment.\n\n#jensenhuang #china #AI #wion \n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "Mk7CtSR8w-M",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "'Godzilla' Beats Ramayana At North American Box Office | WION News",
+      "link": "https://www.youtube.com/watch?v=Mk7CtSR8w-M",
+      "published": "2026-11-10T02:51:01+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/Mk7CtSR8w-M/hqdefault.jpg",
+      "description": "'Godzilla' has set a new record in North America, marking a major milestone for the franchise. The latest achievement highlights the film's strong performance and growing popularity among audiences. The record adds another chapter to the iconic monster franchise's box office history.\n\n#Godzilla #GodzillaMovie #BoxOffice #NorthAmerica #BoxOfficeRecord #GodzillaFranchise #Hollywood #EntertainmentNews #FilmNews #WION\n\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "__Xw7snnepU",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "White House Under 'Lockdown' After Car Crash Nearby | WION News",
+      "link": "https://www.youtube.com/watch?v=__Xw7snnepU",
+      "published": "2026-11-10T02:41:29+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/__Xw7snnepU/hqdefault.jpg",
+      "description": "The White House was placed under lockdown following a car crash in the vicinity, triggering a security response. Authorities responded to the incident as security measures were tightened around the presidential complex. Further details about the crash and any possible injuries are awaited.\n\n#WhiteHouse #WhiteHouseLockdown #CarCrash #WashingtonDC #USNews #SecurityAlert #WhiteHouseSecurity #DonaldTrump #BreakingNews #WION\n\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "p0omIU6guWU",
+      "channel": "StudyIQ IAS",
+      "channel_id": "UCrC8mOqJQpoB7NuIMKIS6rQ",
+      "title": "India power shortfall hits three-year peak | Ankit Agrawal Study IQ",
+      "link": "https://www.youtube.com/watch?v=p0omIU6guWU",
+      "published": "2026-11-10T02:33:22+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/p0omIU6guWU/hqdefault.jpg",
+      "description": "StudyIQ UPSC Selection Guide - By Ankit Sir \nFill The Google Form For Personalized Guidance \nhttps://forms.gle/2xEb6cDgLc7NV7ii6 \n\nSuccess In Prelims (SIP) 2027 With Daksh Mentorship: https://studyiq.go.link/aq0OH \n\nClear UPSC with StudyIQ’s Courses : https://studyiq.go.link/ANKITLIVE \nCall Us for UPSC Counselling-  9266777640\nUse code ‘ANKITLIVE ‘' to get Highest Discount\n\nFor any doubt, Click here for Whatsapp Chat http://wa.me/919318480549\n\n🚀 UPSC GS Foundation P2I Hinglish  Batches \n👉 UPSC CSE 2027 (Bilingual) - Pratigya Batch\n🔗 https://studyiq.go.link/ANKITLIVE \n👉UPSC CSE 2028 (Bilingual) - Nirmaan Batch\n🔗 https://studyiq.go.link/2p1Xv \n👉UPSC CSE 2029 (Bilingual) - Samarth Batch\n🔗 https://studyiq.go.link/dnEj6 \n\n🚀UPSC GS Foundation P2I Hindi Batches \n👉UPSC CSE 2027 (Hindi) - Pratigya Batch\n🔗 https://studyiq.go.link/jdfpu  \n👉UPSC CSE 2028 (Hindi) - Nirmaan Batch\n🔗 https://studyiq.go.link/4Ve60  \n👉UPSC CSE 2029 (Hindi) - Samarth Batch\n🔗 https://studyiq.go.link/lBn3O \n\n🚀UPSC GS Foundation P2I English Batches \n👉UPSC CSE 2027 (English) - Resolution\n🔗 https://studyiq.go.link/bBXcd  \n👉UPSC CSE 2028 (English) - Resolution\n🔗 https://studyiq.go.link/jGHYj \n👉UPSC CSE 2029 (English) - Resolution\n🔗https://studyiq.go.link/erjC1 \n---------------------------------------\n17 Optional Courses -  https://studyiq.go.link/ccb1F \nCall Us for UPSC Counselling- 76-4000-3000\n-----------------------------------------------------\nSelect 100 Mentorship Program - https://studyiq.go.link/99aRl \n-----------------------------------------------------\nGet Test Series (Prelims, CSAT, Mains) - https://studyiq.go.link/btZuB \nBuy Best Selling UPSC Books: https://studyiq.go.link/2DU6N \n---------------------------------------------------\nFree Courses for UPSC Aspirants\nNCERT Course - https://studyiq.go.link/6JCfs \nRAFTAAR - https://studyiq.go.link/k1Mud \n-------------------------------------------------\nDownload our App for Dedicated UPSC Materials & Support - https://studyiq.go.link/hgd56 \n----------------------------------------------\nRead all Information Rich Blogs & Articles here - https://www.studyiq.com/articles/\n-------------------------------------------------\nFor UPSC IAS Offline Classes, Please call: 9459-456-945\n-------------------------------------------------\n\n📌 Connect with [Our Social Media Platform] :\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\nJoin our Telegram Group:- https://t.me/Studyiqeducation\nWhatsapp Channel - https://bit.ly/3M1i8Ya\nFacebook:  https://bit.ly/3PZTJDo\nInstagram:  https://bit.ly/48RZNGO\nTwitter: https://bit.ly/48On8t7\n\nFor any doubt, Call 76-4000-3000 or Click here for Whatsapp Chat http://wa.me/919318480549"
+    },
+    {
+      "video_id": "IioFoLqW08c",
+      "channel": "Bankers Adda247",
+      "channel_id": "UC7DgZZeZD2HKc7JUAsIwe-w",
+      "title": "Can You Learn Competitive English from YouTube? | Best English Learning Strategy",
+      "link": "https://www.youtube.com/watch?v=IioFoLqW08c",
+      "published": "2026-11-10T02:30:07+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/IioFoLqW08c/hqdefault.jpg",
+      "description": "🔴 Free Content By Parth Sir \nhttps://adda247.go.link/parthkrishan\n\nCan you really learn Competitive English through YouTube classes? 🤔\n\nAre free YouTube classes enough to prepare English for competitive exams, or do you need paid courses? In this session, we will discuss how to use YouTube effectively for English preparation and build strong concepts from basic to advanced level.\n\n🎯 What Will You Learn?\n- Can YouTube Help You Master Competitive English?\n- How to Start English Preparation Through YouTube\n- Best Strategy for Learning English Online\n- English Grammar from Basic to Advanced\n- Vocabulary Building Techniques\n- Reading Comprehension & Practice Questions\n- How to Improve Accuracy and Speed\n- Common Mistakes to Avoid During Preparation\n- YouTube Classes vs Paid Courses\n\n#competitiveenglish #learnenglish #youtubeclasses #englishlearning #englishpreparation #englishgrammar #englishvocabulary #bankexams #bankexamenglish #freeenglishclasses #onlinelearning #sbipo #sbiclerk #ibpspo #adda247 #bankersadda \n\n🚀Welcome to Bankersadda Official YouTube Channel 🚀 India's Leading Banking Exam Preparation YouTube Channel. Preparing for All Bank Exams (SBI Clerk, SBI PO, IBPS RRB PO/Clerk, IBPS PO, IBPS Clerk, RBI Assistant, LIC Assistant, RBI Office Attendant) with quality content and daily live classes. \n\n📲For Admission & Counselling Call Now: 07070702247\n📲Download Adda247 App: https://adda247.go.link/bankmahapack1\n👉Bank Exams PYP: https://adda247.go.link/BA_YT\n\nCheck Out Our Courses:-\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\n👉 Bank Maha Pack\nhttps://adda247.go.link/bankmahapack1\n\n👉 Bank Maha Pack Plus\nhttps://adda247.go.link/bankmahapackplus1\n\n📌 Connect with [Our Social Media Platform] :\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\n👉Join our Telegram Group:- https://t.me/bankersaddaofficialgroup\n👉Join our Telegram Channel:- https://t.me/adda247live\n👉Facebook:- https://www.facebook.com/bankersadda\n👉Instagram:- https://www.instagram.com/bankingadda247_\n👉Adda247 Website:-  https://bit.ly/33J6GuB\n👉Whatsapp Channel:- https://bit.ly/47PYdao"
+    },
+    {
+      "video_id": "zKhUtuD2Lkk",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "Explosions Rock Saudi Capital Riyadh | US Seeks Broader Ukraine Deal  | WION Headlines",
+      "link": "https://www.youtube.com/watch?v=zKhUtuD2Lkk",
+      "published": "2026-11-10T02:16:06+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/zKhUtuD2Lkk/hqdefault.jpg",
+      "description": "Top Headlines of the Hour: \n-Trump Sees Positive Momentum On Iran\n-Republicans Move To Impeach Hegseth \n-Explosions Rock Saudi Capital Riyadh \n\n#saudiunderattack #zelensky #wion #news #russiaukrainewar \n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "qKkWIRzWg9U",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "Trump Clashes With Media, Calls Reporter A 'Loser' | WION Shorts",
+      "link": "https://www.youtube.com/shorts/qKkWIRzWg9U",
+      "published": "2026-11-10T02:07:45+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/qKkWIRzWg9U/hqdefault.jpg",
+      "description": "US President Donald Trump lashed out at the media during a White House briefing, calling a reporter a 'loser'. Trump made the remark while addressing journalists, adding to tensions between the US President and the press. Watch the exchange and the latest developments from the White House.\n\n#trump #usa #iranwar #strikes #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "YhIRpCG2fH8",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "Russia-Ukraine War LIVE: Ukraine's Energy War Turns Explosive, Nuclear Fears Rise | WION",
+      "link": "https://www.youtube.com/watch?v=YhIRpCG2fH8",
+      "published": "2026-11-10T02:02:26+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/YhIRpCG2fH8/hqdefault.jpg",
+      "description": "Russia-Ukraine War LIVE: Ukraine's Energy War Turns Explosive, Nuclear Fears Rise | WION \n\nUkraine has accused Russia of targeting a substation critical to the operation of the Khmelnytskyi nuclear power plant, raising concerns over nuclear safety across Europe. The allegation comes amid a massive Russian assault on Ukraine's energy infrastructure and a deadly strike on a humanitarian aid centre in Komyshuvakha, where 37 people have been reported killed and dozens remain missing. But Kyiv is striking back, with Ukrainian drones hitting a Russian oil refinery and an Ozon logistics centre. Meanwhile, clashes over military recruitment near Kyiv expose growing public anger over mobilisation & the pressures of a prolonged war is causing another headache for President Zelensky.\n\n#RussiaUkraineWar #Ukraine #Russia #Zelensky #wion \n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
+    {
+      "video_id": "cTWC-WLns6Q",
+      "channel": "WION",
+      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+      "title": "US-Iran War LIVE: US Prepares New Iran Strikes As Khamenei Vows Severe Response To Attacks | WION",
+      "link": "https://www.youtube.com/watch?v=cTWC-WLns6Q",
+      "published": "2026-11-10T01:27:05+00:00",
+      "thumbnail": "https://i.ytimg.com/vi/cTWC-WLns6Q/hqdefault.jpg",
+      "description": "US-Iran War LIVE: US Prepares New Iran Strikes As Khamenei Vows Severe Response To Attacks | WION\n\nTensions between the United States and Iran continue to escalate as Washington prepares for possible fresh strikes on Iranian targets. Iran's Supreme Leader Ayatollah Ali Khamenei has vowed a deadly retaliation, raising fears of another major military confrontation in the Middle East. Is the US preparing for another round of attacks?\n\n#usiranwar #donaldtrump #mojtabakhamenei #wion \n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
+    },
     {
       "video_id": "CIOJFr30nOo",
       "channel": "Firstpost Vantage",
@@ -176,156 +346,6 @@
       "published": "2026-11-09T18:57:14+00:00",
       "thumbnail": "https://i.ytimg.com/vi/nraa7qQ8Gpk/hqdefault.jpg",
       "description": "US Defense Secretary Pete Hegseth has dismissed concerns over an impeachment push against him, saying he is ready to defend his record at the Pentagon. Asked whether he has enough Republican support to defeat articles of impeachment, Hegseth responded, \"We're not worried about that.\" His remarks come as Republican Representative Thomas Massie attempts to force a vote on impeachment articles against the Pentagon chief in the US House of Representatives. The move puts Hegseth's political support among Republicans in focus as the impeachment effort advances. Will Massie succeed in forcing a vote, and how will Hegseth respond to the challenge?\n\n---\n\nPete Hegseth | Hegseth Impeachment | US Defense Secretary | Pentagon Chief | Pentagon | Thomas Massie | Impeachment Push | Impeachment Vote | US House Of Representatives | Republican Party | Firstpost \n\n#petehegseth #hegseth #impeachment #hegsethimpeachment #thomasmassie #pentagon #uspolitics #donaldtrump #trumpadministration #republicans #ushouse #uscongress #washingtondc  #firstpost\n\npete hegseth, hegseth impeachment, pete hegseth news, hegseth latest, us defense secretary, pentagon chief, pentagon news, us politics, america news, donald trump, trump administration, thomas massie, massie impeachment, impeachment push, impeachment vote, us house, house of representatives, republican party, republican support, political battle, washington news, us defense department, pentagon, defense secretary, hegseth statement, trump news, breaking news, us congress, political news, latest news\n\nFirstpost is an Indian news and media website. Get all the incisive opinions, in-depth analyses and other visual stories that matter to you and the world right here on this channel. \n\nSubscribe to Firstpost channel and press the bell icon to get notified when we go live.   \nhttps://www.youtube.com/@Firstpost\n\nFollow Firstpost on Website:\nhttps://www.firstpost.com\n\nFollow Firstpost on Instagram:\nhttps://www.instagram.com/firstpost/ \n\nFollow Firstpost on Facebook:\nhttps://www.facebook.com/firstpostin/ \n\nFollow Firstpost on X:\nhttps://twitter.com/firstpost\n\nFollow Firstpost on WhatsApp:\nhttps://www.whatsapp.com/channel/0029Va6zOIrEQIamseyg762V"
-    },
-    {
-      "video_id": "fZLTub8qykc",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Defence Minister’s Drone Swarm Warning Near Chicken’s Neck | WION Defence Pulse",
-      "link": "https://www.youtube.com/shorts/fZLTub8qykc",
-      "published": "2026-11-09T18:33:40+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/fZLTub8qykc/hqdefault.jpg",
-      "description": "Defence Minister’s Drone Swarm Warning Near Chicken’s Neck | WION Defence Pulse\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "mKm66rEaepI",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "GPS Jammed? Russia’s Geran-5 Can Navigate by Camera | WION Defence Pulse",
-      "link": "https://www.youtube.com/shorts/mKm66rEaepI",
-      "published": "2026-11-09T18:32:46+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/mKm66rEaepI/hqdefault.jpg",
-      "description": "While basic, consumer-grade drones rely completely on satellite signals and will crash or drift off course when jammed, advanced military drones use backup systems to maintain their missions.\n\n#defence #satellite #military #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "ru6Gt1X13j0",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Mind Reading Is Here: China’s New Tech Hits 94% Accuracy | WION Fineprint",
-      "link": "https://www.youtube.com/watch?v=ru6Gt1X13j0",
-      "published": "2026-11-09T18:31:55+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/ru6Gt1X13j0/hqdefault.jpg",
-      "description": "Chinese researchers have developed a breakthrough skin-mimetic gradient hydrogel electrode for non-invasive brain-computer interfaces (BCIs) that achieves over 94% accuracy in visual mind-typing tests during day-long wear.\n\n#china #mindreading #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "JebV9gx4c8c",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Israeli Robot Launches Drone Swarms in the Battlefield | WION Defence Pulse",
-      "link": "https://www.youtube.com/shorts/JebV9gx4c8c",
-      "published": "2026-11-09T18:31:34+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/JebV9gx4c8c/hqdefault.jpg",
-      "description": "Israel has conducted a military drill showcasing the use of armed robotic systems and coordinated drone swarms, highlighting the growing role of autonomous technologies in modern warfare. The exercise demonstrated how unmanned ground robots and aerial drones can be integrated into military operations for surveillance, coordination, and battlefield support. The development reflects Israel's increasing focus on advanced defence technologies and artificial intelligence-driven military systems. It also raises wider questions about the future of warfare, military automation, and the use of autonomous weapons in conflict zones.\n\n#israel #defence #wion \n\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "DUjM4YGblzw",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "The 'Huang' Affair: Did NVIDIA CEO Give Away Top U.S. AI Secrets? | Race To Power",
-      "link": "https://www.youtube.com/shorts/DUjM4YGblzw",
-      "published": "2026-11-09T18:28:04+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/DUjM4YGblzw/hqdefault.jpg",
-      "description": "United States-based chipmaker NVIDIA is investigating its chief executive officer, jensen Huang, after he admitted that he had an intimate relationship with a woman accused of working for Chinese intelligence. How will this impact the race to power over AI?\n\n#AI #china #usa #nvidia #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "a3gQ0z9qbYc",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "COP31 Opens With Climate Action in Focus | WION Fineprint",
-      "link": "https://www.youtube.com/watch?v=a3gQ0z9qbYc",
-      "published": "2026-11-09T18:27:17+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/a3gQ0z9qbYc/hqdefault.jpg",
-      "description": "The 31st UN Climate Change Conference (COP31) will take place in Antalya, Türkiye, from 9 to 20 November 2026. Against a backdrop of record-breaking temperatures, escalating climate impacts and growing energy insecurity, COP31 is a critical opportunity for countries to accelerate climate action and strengthen cooperation.\n\n#COP31 #climate #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "28Izc-Fw82g",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "China Uses 'Honey Trap' to Steal Hi-Tech Secrets? How Alice Huang Targeted NVIDIA CEO Huang | WION",
-      "link": "https://www.youtube.com/shorts/28Izc-Fw82g",
-      "published": "2026-11-09T18:27:01+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/28Izc-Fw82g/hqdefault.jpg",
-      "description": "China Uses 'Honey Trap' to Steal Hi-Tech Secrets? How Alice Huang Targeted NVIDIA CEO Huang | GRAVITAS\n\nThe Jensen Huang controversy has drawn attention to concerns over the suspected diversion of advanced artificial intelligence (AI) chips to China. The issue raises questions about technology exports, semiconductor supply chains, and restrictions on the sale of high-performance AI processors to China. With growing competition between the United States and China in the AI industry, the allegations have renewed discussions about export controls, technology security, and the global semiconductor market. The controversy also puts the spotlight on Nvidia CEO Jensen Huang and the challenges facing major technology companies operating in an increasingly sensitive geopolitical environment.\n\n#jensenhuang #china #AI #wion \n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "HNWb-gWb-YU",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Pakistan TV Anchor Shot Dead at Home, Husband Arrested After National Outrage | GRAVITAS",
-      "link": "https://www.youtube.com/shorts/HNWb-gWb-YU",
-      "published": "2026-11-09T18:25:04+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/HNWb-gWb-YU/hqdefault.jpg",
-      "description": "Gender-based violence remains a major issue in Pakistan, cutting across class boundaries. In 2025, Pakistan reported 1,332 murders linked to domestic violence. Amid this, the murder of Pakistani news anchor Rabia Ahsan sent shockwaves across the country.\n\n#pakistan #journalist #murder #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "DI8T8gzF_DA",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Jury Convicts Russell Brand of 2009 Rape & Assaults | WION News",
-      "link": "https://www.youtube.com/watch?v=DI8T8gzF_DA",
-      "published": "2026-11-09T18:22:08+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/DI8T8gzF_DA/hqdefault.jpg",
-      "description": "Russell Brand, the popular conspiracy-minded YouTuber who first found fame as a comedy and acting star, was found guilty in a London court on Thursday of one count of rape and three counts of sexual assault.\n\nHe was found not guilty of two other counts of rape and one count of attempted indecent assault.\n\nThe jury, at Southwark Crown Court in London, took about eight and a half hours to reach its unanimous decisions, which concerned episodes that prosecutors said involved six women and occurred between 1999 and 2009, a period when Mr. Brand was becoming a public figure.\n\n#russellbrand #actor #rape #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "wR8KD1R3ZdM",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Delhi Pollution: Deadly Cover-Up? When Delhi Choked, Its Pollution Monitors Went Silent | GRAVITAS",
-      "link": "https://www.youtube.com/shorts/wR8KD1R3ZdM",
-      "published": "2026-11-09T18:21:45+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/wR8KD1R3ZdM/hqdefault.jpg",
-      "description": "New Delhi witnessed alarming levels of air pollution post Diwali as firecrackers filled the skies with smoke. However, questions were raised over the real extent of pollution as at least 43 of Delhi's 59 monitoring stations stopped reporting data for at least an hour.\n\n#delhi #pollution #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "XOTUBmNIrKM",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "White House Put in Lockdown | Canada Imposes New Sanctions Against Russia | Headlines",
-      "link": "https://www.youtube.com/watch?v=XOTUBmNIrKM",
-      "published": "2026-11-09T18:18:35+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/XOTUBmNIrKM/hqdefault.jpg",
-      "description": "Top Headlines of the Hour: \n\n- China Rejects Spy Allegation Linked To Nvidia CEO \n- PAK Dam Breach Triggers Emergency\n- Iran: US Should Follow Public Sentiment\n- Rubio Lands In Paris To Attend G7\n\n#netanyahu #israel #nividia #traincollisionegypt #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "7r3axfyg8iI",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Congress Leader Rahul Gandhi Questions 'Who Is Anti-National?' | WION News",
-      "link": "https://www.youtube.com/watch?v=7r3axfyg8iI",
-      "published": "2026-11-09T18:18:14+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/7r3axfyg8iI/hqdefault.jpg",
-      "description": "Leader of the Opposition in the Lok Sabha Rahul Gandhi has challenged Prime Minister Narendra Modi to an open debate on \"who is anti-national and who is controlled by foreign forces\".\n\n#rahulgandhi #congress #pmmodi #india #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "YYgbY6RrmQM",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Ukraine & Iran Wars Dominate G7 Foreign Ministers' Agenda | WION Fineprint",
-      "link": "https://www.youtube.com/watch?v=YYgbY6RrmQM",
-      "published": "2026-11-09T18:03:25+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/YYgbY6RrmQM/hqdefault.jpg",
-      "description": "G7 top diplomats begin a two-day meeting in Paris, with European foreign ministers set to press US Secretary of State Marco Rubio to ensure any settlement in the war with Russia is fair to Ukraine and steer clear of any new escalation with Iran.\n\n#G7 #paris #europe #iran #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "-3cO1kMK1cw",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Keralam Launches Single-Window System to Speed Up Investments | WION Pulse",
-      "link": "https://www.youtube.com/watch?v=-3cO1kMK1cw",
-      "published": "2026-11-09T18:00:21+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/-3cO1kMK1cw/hqdefault.jpg",
-      "description": "Kerala has introduced the SARAL Keralam Act to replace outdated single-window clearance systems and speed up investment approvals across the state.\n\n#kerala #saralscheme #investment #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
-    },
-    {
-      "video_id": "1MakB8nQA5o",
-      "channel": "WION",
-      "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
-      "title": "Delhi Pollution: Deadly Cover-Up? When Delhi Choked, Its Pollution Monitors Went Silent | GRAVITAS",
-      "link": "https://www.youtube.com/watch?v=1MakB8nQA5o",
-      "published": "2026-11-09T17:59:47+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/1MakB8nQA5o/hqdefault.jpg",
-      "description": "New Delhi witnessed alarming levels of air pollution post Diwali as firecrackers filled the skies with smoke. However, questions were raised over the real extent of pollution as at least 43 of Delhi's 59 monitoring stations stopped reporting data for at least an hour.\n\n#delhi #pollution #wion\n\nAbout Channel: \n\nWION The World is One News examines global issues with in-depth analysis. We provide much more than the news of the day. Our aim is to empower people to explore their world. With our Global headquarters in New Delhi, we bring you news on the hour, by the hour. We deliver information that is not biased. We are journalists who are neutral to the core and non-partisan when it comes to world politics. People are tired of biased reportage and we stand for a globalized united world. So for us, the World is truly One.\n \nPlease keep discussions on this channel clean and respectful and refrain from using racist or sexist slurs and personal insults.\n\nSubscribe to our channel at https://goo.gl/JfY3NI\nCheck out our website: http://www.wionews.com\nJoin our WhatsApp Channel: https://bit.ly/455YOQ0\nConnect with us on our social media handles:\nFacebook: https://www.facebook.com/WIONews\nTwitter: https://twitter.com/WIONews\nInstagram: https://www.instagram.com/wionews/\nFollow us on Google News for the latest updates\n\nZee News:- https://bit.ly/2Ac5G60\nZee Business:- https://bit.ly/36vI2xa\nDNA India:- https://bit.ly/2ZDuLRY\nWION: https://bit.ly/3gnDb5J\nZee News Apps: https://bit.ly/ZeeNewsApps"
     },
     {
       "video_id": "yasnKp1UoKk",
@@ -638,16 +658,6 @@
       "description": "🔴 Free Content By Parth Sir \nhttps://adda247.go.link/parthkrishan\n\n\nIn this session, learn how to start English preparation from basics, follow the right study strategy and gradually improve your performance.\n\nThis session will help you build a strong foundation in English and guide you towards becoming confident in the subject.\n\n🎯 What You Will Learn:\n- How to Start English Preparation from Zero\n- Basic English Grammar Concepts\n- Vocabulary Building Strategy\n- Reading Comprehension Preparation\n- Error Detection & Sentence Improvement\n- Cloze Test & Para Jumbles\n- Daily English Practice Routine\n- Beginner to Advanced Preparation Roadmap\n- Common Mistakes to Avoid\n\n#englishpreparation2027 #englishfromzero #zerotohero #learnenglish #englishforbeginners #englishgrammar #englishvocabulary #bankexam2027 #bankpreparation #sbipo #sbiclerk #ibpspo #ibpsclerk #englishstrategy #adda247 #bankersadda \n\n\n🚀Welcome to Bankersadda Official YouTube Channel 🚀 India's Leading Banking Exam Preparation YouTube Channel. Preparing for All Bank Exams (SBI Clerk, SBI PO, IBPS RRB PO/Clerk, IBPS PO, IBPS Clerk, RBI Assistant, LIC Assistant, RBI Office Attendant) with quality content and daily live classes. \n\n📲For Admission & Counselling Call Now: 07070702247\n📲Download Adda247 App: https://adda247.go.link/bankmahapack1\n👉Bank Exams PYP: https://adda247.go.link/BA_YT\n\nCheck Out Our Courses:-\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\n👉 Bank Maha Pack\nhttps://adda247.go.link/bankmahapack1\n\n👉 Bank Maha Pack Plus\nhttps://adda247.go.link/bankmahapackplus1\n\n📌 Connect with [Our Social Media Platform] :\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\n👉Join our Telegram Group:- https://t.me/bankersaddaofficialgroup\n👉Join our Telegram Channel:- https://t.me/adda247live\n👉Facebook:- https://www.facebook.com/bankersadda\n👉Instagram:- https://www.instagram.com/bankingadda247_\n👉Adda247 Website:-  https://bit.ly/33J6GuB\n👉Whatsapp Channel:- https://bit.ly/47PYdao"
     },
     {
-      "video_id": "R6zDuznooL8",
-      "channel": "StudyIQ IAS",
-      "channel_id": "UCrC8mOqJQpoB7NuIMKIS6rQ",
-      "title": "El Nino: Govt prepares rabi contingency plan | Ankit Agrawal Study IQ",
-      "link": "https://www.youtube.com/watch?v=R6zDuznooL8",
-      "published": "2026-11-09T02:28:25+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/R6zDuznooL8/hqdefault.jpg",
-      "description": "StudyIQ UPSC Selection Guide - By Ankit Sir \nFill The Google Form For Personalized Guidance \nhttps://forms.gle/2xEb6cDgLc7NV7ii6 \n\nClear UPSC with StudyIQ’s Courses : https://studyiq.go.link/ANKITLIVE \nCall Us for UPSC Counselling-  9266777640\nUse code ‘ANKITLIVE ‘' to get Highest Discount\n\nFor any doubt, Click here for Whatsapp Chat http://wa.me/919318480549\n\n🚀 UPSC GS Foundation P2I Hinglish  Batches \n👉 UPSC CSE 2027 (Bilingual) - Pratigya Batch\n🔗 https://studyiq.go.link/ANKITLIVE \n👉UPSC CSE 2028 (Bilingual) - Nirmaan Batch\n🔗 https://studyiq.go.link/2p1Xv \n👉UPSC CSE 2029 (Bilingual) - Samarth Batch\n🔗 https://studyiq.go.link/dnEj6 \n\n🚀UPSC GS Foundation P2I Hindi Batches \n👉UPSC CSE 2027 (Hindi) - Pratigya Batch\n🔗 https://studyiq.go.link/jdfpu  \n👉UPSC CSE 2028 (Hindi) - Nirmaan Batch\n🔗 https://studyiq.go.link/4Ve60  \n👉UPSC CSE 2029 (Hindi) - Samarth Batch\n🔗 https://studyiq.go.link/lBn3O \n\n🚀UPSC GS Foundation P2I English Batches \n👉UPSC CSE 2027 (English) - Resolution\n🔗 https://studyiq.go.link/bBXcd  \n👉UPSC CSE 2028 (English) - Resolution\n🔗 https://studyiq.go.link/jGHYj \n👉UPSC CSE 2029 (English) - Resolution\n🔗https://studyiq.go.link/erjC1 \n---------------------------------------\n\n17 Optional Courses -  https://studyiq.go.link/ccb1F \nCall Us for UPSC Counselling- 76-4000-3000\n-----------------------------------------------------\nSelect 100 Mentorship Program - https://studyiq.go.link/99aRl \n-----------------------------------------------------\nGet Test Series (Prelims, CSAT, Mains) - https://studyiq.go.link/btZuB \nBuy Best Selling UPSC Books: https://studyiq.go.link/2DU6N \n---------------------------------------------------\nFree Courses for UPSC Aspirants\nNCERT Course - https://studyiq.go.link/6JCfs \nRAFTAAR - https://studyiq.go.link/k1Mud \n-------------------------------------------------\nDownload our App for Dedicated UPSC Materials & Support - https://studyiq.go.link/hgd56 \n----------------------------------------------\nRead all Information Rich Blogs & Articles here - https://www.studyiq.com/articles/\n-------------------------------------------------\nFor UPSC IAS Offline Classes, Please call: 9459-456-945\n-------------------------------------------------\n\n📌 Connect with [Our Social Media Platform] :\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\nJoin our Telegram Group:- https://t.me/Studyiqeducation\nWhatsapp Channel - https://bit.ly/3M1i8Ya\nFacebook:  https://bit.ly/3PZTJDo\nInstagram:  https://bit.ly/48RZNGO\nTwitter: https://bit.ly/48On8t7\n\nFor any doubt, Call 76-4000-3000 or Click here for Whatsapp Chat http://wa.me/919318480549"
-    },
-    {
       "video_id": "M5Pn3ruQ5Ms",
       "channel": "Coffee With Sumeet Jain",
       "channel_id": "UCcnwa6E4BwDJKeATB6tqmsQ",
@@ -666,16 +676,6 @@
       "published": "2026-11-08T16:19:56+00:00",
       "thumbnail": "https://i.ytimg.com/vi/xN7x3ugD-Iw/hqdefault.jpg",
       "description": ""
-    },
-    {
-      "video_id": "Up7P2JbvvPA",
-      "channel": "StudyIQ IAS",
-      "channel_id": "UCrC8mOqJQpoB7NuIMKIS6rQ",
-      "title": "How Agriculture Made Indians Shorter! | GS 3 | StudyIQ IAS",
-      "link": "https://www.youtube.com/watch?v=Up7P2JbvvPA",
-      "published": "2026-11-08T16:00:10+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/Up7P2JbvvPA/hqdefault.jpg",
-      "description": "StudyIQ UPSC Selection Guide - For Options \nFill The Google Form For Personalized Guidance\n:- https://forms.gle/pko56UkHLiSsFb2e7 \n\nClear UPSC with StudyIQ’s Courses : https://studyiq.go.link/a6GOZ  \nCall Us for UPSC Counselling-  76-4000-3000\nUse code ‘MSCLIVE ‘' to get Highest Discount\n\nFor any doubt, Click here for Whatsapp Chat http://wa.me/919318480549\n\n🚀 UPSC GS Foundation P2I Batches (Prelims - Mains - Interviews)\n👉 UPSC CSE 2027 (Bilingual) - Pratigya Batch\n🔗 https://studyiq.go.link/a6GOZ  \n👉UPSC CSE 2028 (Bilingual) - Nirmaan Batch\n🔗 https://studyiq.go.link/gSvty \n👉UPSC CSE 2029 (Bilingual) - Samarth Batch\n🔗 https://studyiq.go.link/31esv \n\n🚀Hindi Medium P2I Foundation Batches \n👉UPSC CSE 2027 (Hindi) - Pratigya Batch\n🔗 https://studyiq.go.link/5HiB4 \n👉UPSC CSE 2028 (Hindi) - Nirmaan Batch\n🔗https://studyiq.go.link/1HM9H \n👉UPSC CSE 2029 (Hindi) - Samarth Batch\n🔗 https://studyiq.go.link/hESHq \n\n🚀English Medium P2I Foundation Batches \n👉UPSC CSE 2027 (English) - Resolution\n🔗 https://studyiq.go.link/aQj8Z\n👉UPSC CSE 2028 (English) - Resolution\n🔗 https://studyiq.go.link/iI8GL \n👉UPSC CSE 2029 (English) - Resolution\n🔗https://studyiq.go.link/dxC0F \n---------------------------------------\n\nWill Human Intelligence Become as Meaningless as a Cow's? | GS3: Science & Technology | Study IQ IAS\n\nWhat if AI becomes so intelligent that humans look like cows to it? Is that science fiction, or the direction we are heading?\n\nIn this video you will learn:\n\nWhy scientists and tech leaders compare human intelligence to animal intelligence\nWhat superintelligence (AGI) means and how close we are\nHow AI could change jobs, decisions and daily life\nWhat humans can still do to stay relevant\n\nWhether you follow breaking news, top news or India news, this topic will affect you. AI is already shaping technology news, work and education worldwide.\n\n👍 Like if this made you think. 💬 Comment: Will AI ever be smarter than humans? 🔔 Subscribe for daily explainers on India news, world news and technology.\n\nUPSC IAS (Mains) Anthropology Optional Live 2027-28 Batch By Mangal Singh: https://studyiq.go.link/jI8QW  \nCall Us for UPSC Counselling- 76-4000-3000\n-----------------------------------------------------\nAnthropology Optional 2026 Crash Course By Mangal Singh:\n-----------------------------------------------------\nSelect 100 Mentorship Program - https://studyiq.go.link/hzda5 \n-----------------------------------------------------\nGet Test Series (Prelims, CSAT, Mains) - https://studyiq.go.link/btZuB \nBuy Best Selling UPSC Books: https://studyiq.go.link/2DU6N \n---------------------------------------------------\nFree Courses for UPSC Aspirants\nNCERT Course - https://studyiq.go.link/6JCfs \nRAFTAAR - https://studyiq.go.link/k1Mud \n-------------------------------------------------\nDownload our App for Dedicated UPSC Materials & Support - https://studyiq.go.link/hgd56 \n----------------------------------------------\nRead all Information Rich Blogs & Articles here - https://www.studyiq.com/articles/\n-------------------------------------------------\nFor UPSC IAS Offline Classes, Please call 9459-456-945\n-------------------------------------------------\n\n📌 Connect with [Our Social Media Platform] :\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\nJoin our Telegram Group:- https://t.me/Studyiqeducation\nWhatsapp Channel - https://bit.ly/3M1i8Ya\nFacebook:  https://bit.ly/3PZTJDo\nInstagram:  https://bit.ly/48RZNGO\nTwitter: https://bit.ly/48On8t7\n\nFor any doubt, Call 76-4000-3000 or Click here for Whatsapp Chat http://wa.me/919318480549\n\n#ai #artificialintelligence #breakingnews #topnews #indianews #indianyoutuber #humanintelligence #aifuture #superintelligence #agi #technews #worldnews #newstoday #explained #aidanger #chatgpt #science #technology #studyiq #studyiqias"
     },
     {
       "video_id": "RjPOxZXUErk",
@@ -828,16 +828,6 @@
       "description": "Banking Team Dance Mode On 💥🕺"
     },
     {
-      "video_id": "lh2micPpCV0",
-      "channel": "Bankers Adda247",
-      "channel_id": "UC7DgZZeZD2HKc7JUAsIwe-w",
-      "title": "Chinese Whisper Challenge 😂🤫 #shortsfeed",
-      "link": "https://www.youtube.com/shorts/lh2micPpCV0",
-      "published": "2026-11-08T02:30:34+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/lh2micPpCV0/hqdefault.jpg",
-      "description": "Chinese Whisper Challenge 😂🤫"
-    },
-    {
       "video_id": "ECqF1A3y97Y",
       "channel": "Coffee With Sumeet Jain",
       "channel_id": "UCcnwa6E4BwDJKeATB6tqmsQ",
@@ -846,16 +836,6 @@
       "published": "2026-11-08T02:03:28+00:00",
       "thumbnail": "https://i.ytimg.com/vi/ECqF1A3y97Y/hqdefault.jpg",
       "description": ""
-    },
-    {
-      "video_id": "Gkado-kITIk",
-      "channel": "Bankers Adda247",
-      "channel_id": "UC7DgZZeZD2HKc7JUAsIwe-w",
-      "title": "Male Faculties Diwali Special Game Challenge | Who Will Win? 😂",
-      "link": "https://www.youtube.com/watch?v=Gkado-kITIk",
-      "published": "2026-11-08T01:30:28+00:00",
-      "thumbnail": "https://i.ytimg.com/vi/Gkado-kITIk/hqdefault.jpg",
-      "description": "👉 Bank Maha Pack: https://adda247.go.link/bankmahapack1\n👉 For Admission Enquiry Call On: 7070702247\n\nWatch our Adda247 male faculties go head-to-head in this fun and exciting quick game challenge! See who takes home the win in this high-energy showdown full of laughs, competition, and festive celebration.\n\nSubscribe to Adda247 Bankers for the best banking exam preparation, guidance, and fun team moments!\n\n0:00 - Challenge introduction & rules\n0:10 - Round 1: Fast-paced competition begins\n0:25 - The ultimate showdown & intense moments\n0:38 - Winner revealed & final reactions\n\n🚀Welcome to Bankersadda Official YouTube Channel 🚀 India's Leading Banking Exam Preparation YouTube Channel. Preparing for All Bank Exams (SBI Clerk, SBI PO, IBPS RRB PO/Clerk, IBPS PO, IBPS Clerk, RBI Assistant, LIC Assistant, RBI Office Attendant) with quality content and daily live classes. \n\n📲For Admission & Counselling Call Now: 07070702247\n📲Download Adda247 App: https://adda247.go.link/bankmahapack1\n👉Bank Exams PYP: https://adda247.go.link/BA_YT\n\nCheck Out Our Courses:-\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\n👉 Bank Maha Pack\nhttps://adda247.go.link/bankmahapack1\n\n👉 Bank Maha Pack Plus\nhttps://adda247.go.link/bankmahapackplus1\n\n📌 Connect with [Our Social Media Platform] :\n▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\n👉Join our Telegram Group:- https://t.me/bankersaddaofficialgroup\n👉Join our Telegram Channel:- https://t.me/adda247live\n👉Facebook:- https://www.facebook.com/bankersadda\n👉Instagram:- https://www.instagram.com/bankingadda247_\n👉Adda247 Website:-  https://bit.ly/33J6GuB\n👉Whatsapp Channel:- https://bit.ly/47PYdao\n\n\n\\#Adda247 #BankersAdda #GameChallenge #FunChallenge #DiwaliChallenge"
     },
     {
       "video_id": "WUR4mnargGs",
