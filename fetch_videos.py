@@ -7,85 +7,89 @@ from google.genai import types
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# Pre-resolved direct feeds (No dynamic web scraping, immune to YouTube bot blocks)
+# Reliable, verified Indian & global current affairs RSS feeds
 FEEDS = [
-    {"name": "StudyIQ IAS", "id": "UCrDxqG5pZ2H6jP5_F4e9QvA"},
-    {"name": "World Affairs", "id": "UC_wP3Y4zN7n3g5-wGq-5Q0A"},
     {"name": "WION", "id": "UC_gUM8rL-Lrg6O3adPW9K1g"},
     {"name": "Firstpost", "id": "UCz8QaiQxApLq8sLNcszYyJw"},
-    {"name": "Parcham Classes", "id": "UCU_1-kXgXyq_r5nJ_Q9Q4yA"},
-    {"name": "Adda247", "id": "UC_1vL5QfG4q_vT2E3wA4y5w"},
-    {"name": "India Decoded", "id": "UCf7Y-a8M3k5m2R7T9A1B2C3"},
+    {"name": "DD India", "id": "UChLtXXcbWyF4b93b8L5g6CA"},
+    {"name": "India Today", "id": "UCYPvAwZP8pZhSMW8qs7cVCw"},
+    {"name": "NDTV", "id": "UCZFMm1mMw0F81Z37aaSuT_Q"},
     {"name": "Sansad TV", "id": "UC4L4WwF2j1zM1S6w27p1Qpg"}
 ]
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 }
 
 def analyze_with_gemini(client, title, description, channel):
     if not client:
         return {
-            "summary": description[:280] + "..." if description else "Analysis summary pending.",
-            "takeaways": ["GEMINI_API_KEY not configured."],
+            "summary": description[:240] + "..." if description else "Summary pending.",
+            "takeaways": ["GEMINI_API_KEY environment variable missing in workflow."],
             "dossier": f"### {title}\n\n{description}"
         }
 
     prompt = f"""
-    You are an expert geopolitical intelligence and competitive exam current affairs analyst.
-    Analyze this report:
+    You are a senior geopolitical intelligence analyst and competitive exam mentor.
+    Synthesize an intelligence dossier for this report:
     Channel: {channel}
     Title: {title}
-    Context: {description[:2500]}
+    Context: {description[:2000]}
 
-    Provide your assessment strictly in valid JSON format:
+    Respond strictly in valid JSON format:
     {{
-      "summary": "2-3 concise sentences summarizing core strategic points.",
+      "summary": "2-3 concise sentences explaining the strategic development.",
       "takeaways": [
-        "Core policy or factual takeaway",
-        "Geopolitical or strategic implication",
-        "Exam-relevant pointer"
+        "Core policy or factual update",
+        "Strategic / geopolitical implication",
+        "Key exam / governance relevance"
       ],
-      "dossier": "### Strategic Background\\nDetailed context.\\n\\n### Key Developments\\nMajor points.\\n\\n### Strategic & Exam Implications\\nRelevance to policy and international relations."
+      "dossier": "### Strategic Overview\\nDetailed background.\\n\\n### Key Developments\\nPoint-by-point breakdown.\\n\\n### Exam & Policy Takeaways\\nRelevant insights for competitive exams and policy analysis."
     }}
     """
 
-    try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                temperature=0.2
+    # Try gemini-2.0-flash first, fallback to gemini-1.5-flash
+    for model_name in ["gemini-2.0-flash", "gemini-1.5-flash"]:
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    temperature=0.2
+                )
             )
-        )
-        return json.loads(response.text)
-    except Exception as e:
-        print(f"[Gemini Error] {title}: {e}")
-        return {
-            "summary": description[:280] + "..." if description else "Summary unavailable.",
-            "takeaways": ["Analysis temporarily unavailable."],
-            "dossier": f"### {title}\n\n{description}"
-        }
+            return json.loads(response.text)
+        except Exception as e:
+            print(f"[Gemini Error on {model_name}] {title[:30]}: {e}")
+            continue
 
-def fetch_rss_videos():
+    return {
+        "summary": description[:240] + "..." if description else "Analysis unavailable.",
+        "takeaways": ["Gemini API quota or authentication check required."],
+        "dossier": f"### {title}\n\n{description}"
+    }
+
+def fetch_all():
     client = None
     if GEMINI_API_KEY:
         try:
             client = genai.Client(api_key=GEMINI_API_KEY)
-            print("[Init] Gemini client initialized.")
+            print("[Init] Gemini client initialized successfully.")
         except Exception as e:
-            print(f"[Init Error] Gemini: {e}")
+            print(f"[Init Error] Could not initialize Gemini client: {e}")
+    else:
+        print("[Warning] GEMINI_API_KEY secret is not detected!")
 
     all_videos = []
 
-    for ch in FEEDS:
-        name = ch["name"]
-        url = f"https://www.youtube.com/feeds/videos.xml?channel_id={ch['id']}"
+    for item in FEEDS:
+        name = item["name"]
+        url = f"https://www.youtube.com/feeds/videos.xml?channel_id={item['id']}"
         try:
             req = urllib.request.Request(url, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=12) as response:
-                xml_data = response.read()
+            with urllib.request.urlopen(req, timeout=12) as res:
+                xml_data = res.read()
 
             root = ET.fromstring(xml_data)
             ns = {
@@ -94,8 +98,9 @@ def fetch_rss_videos():
                 "media": "http://search.yahoo.com/mrss/"
             }
 
-            entries = root.findall("atom:entry", ns)[:2]
-            print(f"[Channel] {name}: Pulled {len(entries)} updates")
+            # Pull 4 videos per channel (4 x 4-6 channels = 16-24 dossiers)
+            entries = root.findall("atom:entry", ns)[:4]
+            print(f"[Channel] {name}: Retrieved {len(entries)} updates")
 
             for entry in entries:
                 v_id = entry.find("yt:videoId", ns).text
@@ -105,7 +110,7 @@ def fetch_rss_videos():
                 desc_elem = entry.find(".//media:description", ns)
                 v_desc = desc_elem.text if desc_elem is not None and desc_elem.text else ""
 
-                print(f" -> Analyzing: {v_title[:45]}...")
+                print(f" -> Analyzing: {v_title[:40]}...")
                 ai_intel = analyze_with_gemini(client, v_title, v_desc, name)
 
                 all_videos.append({
@@ -118,16 +123,16 @@ def fetch_rss_videos():
                     "key_takeaways": ai_intel.get("takeaways", []),
                     "deep_dossier_markdown": ai_intel.get("dossier", "")
                 })
+
         except Exception as e:
             print(f"[Fetch Error] Channel '{name}': {e}")
 
-    # Fallback check: never overwrite videos.json with an empty file
     if all_videos:
         with open("videos.json", "w", encoding="utf-8") as f:
             json.dump(all_videos, f, indent=2, ensure_ascii=False)
         print(f"\n[Done] Successfully saved {len(all_videos)} dossiers into videos.json")
     else:
-        print("\n[Warning] No videos fetched; preserving existing videos.json.")
+        print("\n[Error] No videos retrieved. videos.json unchanged.")
 
 if __name__ == "__main__":
-    fetch_rss_videos()
+    fetch_all()
