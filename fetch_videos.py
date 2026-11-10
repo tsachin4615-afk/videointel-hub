@@ -7,27 +7,27 @@ from google.genai import types
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# Verified feeds for current affairs, exam prep, and geopolitical intelligence
+# Robust list of verified Indian & global current affairs RSS feeds
 FEEDS = [
     {
         "name": "WION",
         "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC_gUM8rL-Lrg6O3adPW9K1g"
     },
     {
-        "name": "StudyIQ IAS",
-        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrDxqG5pZ2H6jP5_F4e9QvA"
-    },
-    {
-        "name": "World Affairs",
-        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP4W9sL5Kvd4Gv9a9qWJ4lg"
-    },
-    {
         "name": "Firstpost",
         "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCz8QaiQxApLq8sLNcszYyJw"
     },
     {
-        "name": "Sansad TV",
-        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCV0UqW3hV9W2jB5b6zQ_YgA"
+        "name": "NDTV India",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCZFMm1mMw0F81Z37aaSuT_Q"
+    },
+    {
+        "name": "India Today",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCYPvAwZP8pZhSMW8qs7cVCw"
+    },
+    {
+        "name": "DD India",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UChLtXXcbWyF4b93b8L5g6CA"
     }
 ]
 
@@ -105,9 +105,9 @@ def fetch_rss_videos():
                 "media": "http://search.yahoo.com/mrss/"
             }
 
-            # Fetch top 2 updates per channel
-            entries = root.findall("atom:entry", ns)[:2]
-            print(f"[Channel] {name}: Successfully pulled {len(entries)} updates")
+            # Pull up to 4 most recent videos per channel
+            entries = root.findall("atom:entry", ns)[:4]
+            print(f"[Channel] {name}: Pulled {len(entries)} updates")
 
             for entry in entries:
                 v_id = entry.find("yt:videoId", ns).text
@@ -135,7 +135,7 @@ def fetch_rss_videos():
 
     with open("videos.json", "w", encoding="utf-8") as f:
         json.dump(all_videos, f, indent=2, ensure_ascii=False)
-    print(f"\n[Done] Successfully compiled {len(all_videos)} dossiers across channels into videos.json")
+    print(f"\n[Done] Successfully compiled {len(all_videos)} dossiers into videos.json")
 
 if __name__ == "__main__":
     fetch_rss_videos()
