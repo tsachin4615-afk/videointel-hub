@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VideoIntel Hub | Interactive AI Intelligence</title>
+  <title>VideoIntel Hub | Multi-Tier AI Intelligence</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { background-color: #0b0f19; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .card-glow { transition: all 0.25s ease; border: 1px solid #1e293b; }
     .card-glow:hover { border-color: #38bdf8; transform: translateY(-2px); }
+    .pill-btn { transition: all 0.15s ease; }
+    .pill-btn:active { transform: scale(0.96); }
   </style>
 </head>
-<body class="min-h-screen pb-16">
+<body class="min-h-screen pb-20">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 sm:px-8">
+  <header class="sticky top-0 z-40 bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 sm:px-8">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
@@ -24,31 +26,74 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             VideoIntel Hub
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">Gemini Engine</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">Master AI Engine</span>
           </h1>
           <p class="text-xs text-slate-400">Current Affairs & Competitive Exam Intelligence</p>
         </div>
       </div>
 
-      <!-- Local API Key Setup -->
+      <!-- Key Manager & Counter -->
       <div class="flex items-center gap-2">
         <button onclick="promptApiKey()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
           <i class="fa-solid fa-key text-amber-400"></i>
           <span id="keyStatusLabel">Set Gemini Key</span>
         </button>
-        <span id="countBadge" class="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800/80 px-2.5 py-1 rounded-full font-medium">Loading...</span>
+        <span id="countBadge" class="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2.5 py-1 rounded-full font-medium">Loading...</span>
       </div>
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Master AI Engine (Global Command Center) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-6">
+    <div class="bg-gradient-to-r from-[#11192e] via-[#151f38] to-[#11192e] border border-indigo-900/60 rounded-2xl p-4 sm:p-5 shadow-xl relative overflow-hidden">
+      <div class="flex items-center gap-2 text-indigo-300 text-sm font-semibold mb-2">
+        <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
+        <span>Master Gemini Engine — Cross-Feed Intelligence</span>
+      </div>
+      <p class="text-xs text-slate-400 mb-3">Query across all loaded intelligence briefings simultaneously or run pre-synthesized briefs:</p>
+      
+      <!-- Master Preload Buttons -->
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button onclick="runMasterQuery('Provide a master layman synthesis of all major developments across the dashboard today.')" 
+          class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
+          <i class="fa-solid fa-user-group text-amber-400"></i> Dashboard Layman Digest
+        </button>
+        <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points (Prelims facts + Mains GS2/GS3) across all current videos.')" 
+          class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-indigo-400"></i> Top 5 UPSC Pointers Across All Feeds
+        </button>
+        <button onclick="runMasterQuery('Identify the single most critical geopolitical strategic conflict across these updates and simplify its core implications.')" 
+          class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
+          <i class="fa-solid fa-compass text-emerald-400"></i> Major Strategic Conflict Breakdown
+        </button>
+      </div>
+
+      <!-- Master Query Input -->
+      <div class="flex items-center gap-2">
+        <div class="relative flex-1">
+          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (e.g. 'Compare relations with Iran across reports')..." 
+            onkeydown="if(event.key==='Enter') submitMasterQuery()"
+            class="w-full bg-[#0d1424] text-xs text-slate-200 placeholder-slate-500 rounded-xl pl-3.5 pr-9 py-2.5 border border-slate-700 focus:outline-none focus:border-indigo-500 shadow-inner" />
+          <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-400 hover:text-indigo-400">
+            <i class="fa-solid fa-paper-plane text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Master Output -->
+      <div id="masterOutput" class="hidden mt-4 p-4 rounded-xl bg-[#0d1424]/95 border border-indigo-800/60 text-xs text-slate-200 space-y-2 shadow-inner">
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content & Per-Video Engine -->
   <main class="max-w-7xl mx-auto px-4 sm:px-8 pt-6">
     <!-- Channel Filter Tabs -->
     <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar">
       <button onclick="filterByChannel('ALL')" class="channel-pill active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white whitespace-nowrap">All Channels</button>
     </div>
 
-    <!-- Video Feed Grid -->
+    <!-- Video Grid -->
     <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-2">
       <div class="col-span-full py-16 text-center text-slate-500">
         <i class="fa-solid fa-circle-notch fa-spin text-2xl text-indigo-400 mb-2"></i>
@@ -67,7 +112,7 @@
 
     function promptApiKey() {
       const existing = getApiKey();
-      const entered = prompt("Enter your Gemini API Key to enable on-card summaries & custom prompts:", existing);
+      const entered = prompt("Enter your Gemini API Key to activate all intelligence engines:", existing);
       if (entered !== null) {
         localStorage.setItem('GEMINI_FRONTEND_KEY', entered.trim());
         updateKeyStatus();
@@ -99,7 +144,7 @@
           <div class="col-span-full text-center py-12 text-slate-400">
             <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-3"></i>
             <p class="font-medium">Failed to load feed data.</p>
-            <p class="text-xs text-slate-500 mt-1">Ensure the update workflow has completed.</p>
+            <p class="text-xs text-slate-500 mt-1">Ensure the workflow has fetched data into videos.json.</p>
           </div>`;
       }
     }
@@ -121,6 +166,96 @@
       renderGrid();
     }
 
+    // Direct Gemini API Request Helper with High-Capacity Model Priority
+    async function callGemini(promptText) {
+      const key = getApiKey();
+      if (!key) throw new Error("GEMINI_KEY_REQUIRED");
+
+      const models = ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-2.5-flash"];
+      let lastErr = null;
+
+      for (const m of models) {
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+          });
+          const data = await res.json();
+          if (data.error) throw new Error(data.error.message);
+          const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!reply) throw new Error("Empty candidate output");
+          return reply;
+        } catch (e) {
+          lastErr = e;
+        }
+      }
+      throw lastErr;
+    }
+
+    function formatMarkdown(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+        .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
+        .replace(/\n\n/g, '<p class="mt-2"></p>')
+        .replace(/\n/g, '<br/>');
+    }
+
+    // MASTER ENGINE HANDLERS
+    function submitMasterQuery() {
+      const input = document.getElementById('masterInput');
+      const q = input.value.trim();
+      if (q) runMasterQuery(q);
+    }
+
+    async function runMasterQuery(query) {
+      const box = document.getElementById('masterOutput');
+      box.classList.remove('hidden');
+      box.innerHTML = `
+        <div class="flex items-center gap-2 text-indigo-400">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>Master Gemini synthesizing across all briefings...</span>
+        </div>`;
+
+      // Build context from all loaded video titles and descriptions
+      const contextSummary = allVideos.slice(0, 12).map((v, i) => 
+        `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description.slice(0, 250)}`
+      ).join('\n');
+
+      const masterPrompt = `
+You are the Master Geopolitical & Current Affairs AI Engine.
+Context from active dashboard video reports:
+${contextSummary}
+
+User Request: "${query}"
+
+Provide an authoritative, well-structured intelligence report. Use bold headings and concise bullet points. No conversational filler.
+      `;
+
+      try {
+        const text = await callGemini(masterPrompt);
+        box.innerHTML = `
+          <div class="flex items-center justify-between pb-2 border-b border-indigo-800/60 mb-2">
+            <span class="font-semibold text-indigo-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-brain text-amber-400"></i> ${query}
+            </span>
+            <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-400 hover:text-white">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="prose-slate text-xs space-y-1.5 leading-relaxed">${formatMarkdown(text)}</div>
+        `;
+      } catch (err) {
+        if (err.message === "GEMINI_KEY_REQUIRED") {
+          promptApiKey();
+          box.classList.add('hidden');
+        } else {
+          box.innerHTML = `<div class="text-rose-400 text-xs"><i class="fa-solid fa-triangle-exclamation"></i> Master Analysis Error: ${err.message}</div>`;
+        }
+      }
+    }
+
+    // PER-VIDEO RENDER & HANDLERS
     function renderGrid() {
       const filtered = currentFilter === 'ALL' ? allVideos : allVideos.filter(v => v.channel_title === currentFilter);
       const grid = document.getElementById('videoGrid');
@@ -135,7 +270,7 @@
           <div>
             <div class="relative aspect-video w-full bg-slate-950 overflow-hidden">
               <img src="${item.thumbnail_url}" alt="${item.title}" class="w-full h-full object-cover" loading="lazy" />
-              <div class="absolute top-2 left-2 px-2 py-0.5 rounded text-[11px] font-semibold bg-black/70 backdrop-blur-md text-slate-200 border border-white/10">
+              <div class="absolute top-2 left-2 px-2 py-0.5 rounded text-[11px] font-semibold bg-black/75 backdrop-blur-md text-slate-200 border border-white/10">
                 ${item.channel_title}
               </div>
             </div>
@@ -148,35 +283,48 @@
             </div>
           </div>
 
+          <!-- Video Gemini Engine -->
           <div class="border-t border-slate-800/80 bg-[#0d1424] p-3.5 rounded-b-xl">
-            <div class="flex items-center gap-1.5 text-xs font-medium text-indigo-400 mb-2">
-              <i class="fa-solid fa-sparkles text-amber-400"></i>
-              <span>Gemini Video Intelligence</span>
-            </div>
-
-            <!-- Preloaded Quick Questions -->
-            <div class="flex flex-wrap gap-1.5 mb-2.5">
-              <button onclick="askGemini('${item.id}', 'Summarize key points in 3 clear bullet points.')" 
-                class="px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700/60 transition flex items-center gap-1">
-                <i class="fa-solid fa-bolt text-indigo-400 text-[9px]"></i> 3 Key Points
-              </button>
-              <button onclick="askGemini('${item.id}', 'Explain exam & policy relevance for competitive exams.')" 
-                class="px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700/60 transition flex items-center gap-1">
-                <i class="fa-solid fa-graduation-cap text-indigo-400 text-[9px]"></i> Exam & Policy Impact
-              </button>
-              <button onclick="askGemini('${item.id}', 'Give a 2-sentence executive summary of the strategic background.')" 
-                class="px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700/60 transition flex items-center gap-1">
-                <i class="fa-solid fa-compass text-indigo-400 text-[9px]"></i> Strategic Overview
+            <div class="flex items-center justify-between text-xs font-medium mb-2.5">
+              <span class="text-indigo-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-sparkles text-amber-400"></i> Video AI Engine
+              </span>
+              <!-- Own Thinking Engine Trigger -->
+              <button onclick="generateVideoQuestions('${item.id}')" 
+                class="pill-btn text-[11px] px-2.5 py-1 rounded-md bg-purple-950/80 hover:bg-purple-900 border border-purple-800/80 text-purple-200 flex items-center gap-1">
+                <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> AI Smart Questions
               </button>
             </div>
 
-            <!-- Search / Custom Question Bar -->
+            <!-- Preloaded Questions (The 3 Core Frameworks) -->
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              <button onclick="askVideoGemini('${item.id}', 'Layman\'s Extract: Explain this entire event in simple everyday language with zero jargon, as if explaining to a beginner.')" 
+                class="pill-btn px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-200 border border-slate-700/80 flex items-center gap-1">
+                <i class="fa-solid fa-comment-dots text-teal-400 text-[10px]"></i> Layman's Extract
+              </button>
+
+              <button onclick="askVideoGemini('${item.id}', 'Specific Knowledge Simplified: Break down the exact institutional mechanisms, strategic treaties, legal/economic facts, and data points in a crystal-clear simplified format.')" 
+                class="pill-btn px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-200 border border-slate-700/80 flex items-center gap-1">
+                <i class="fa-solid fa-layer-group text-sky-400 text-[10px]"></i> Specific Knowledge Simplified
+              </button>
+
+              <button onclick="askVideoGemini('${item.id}', 'UPSC Curated Analysis: Provide Prelims high-yield factual points, Mains GS-II/GS-III syllabus mapping, constitutional/international relations dimensions, and a 2-point conclusion.')" 
+                class="pill-btn px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-amber-200 border border-amber-900/60 bg-amber-950/30 flex items-center gap-1">
+                <i class="fa-solid fa-landmark text-amber-400 text-[10px]"></i> UPSC Curated
+              </button>
+            </div>
+
+            <!-- Dynamic AI-Generated Questions Container (Populated on tap) -->
+            <div id="aiQuestions-${item.id}" class="hidden flex flex-wrap gap-1.5 mb-2.5 p-2 rounded-lg bg-[#141d33] border border-purple-900/50">
+            </div>
+
+            <!-- Custom Question Input Bar -->
             <div class="flex items-center gap-1.5">
               <div class="relative flex-1">
-                <input id="input-${item.id}" type="text" placeholder="Ask Gemini about this video..." 
-                  onkeydown="if(event.key==='Enter') submitCustomPrompt('${item.id}')"
+                <input id="input-${item.id}" type="text" placeholder="Ask specific questions on this video..." 
+                  onkeydown="if(event.key==='Enter') submitCardPrompt('${item.id}')"
                   class="w-full bg-[#162035] text-xs text-slate-200 placeholder-slate-500 rounded-lg pl-3 pr-8 py-2 border border-slate-700/70 focus:outline-none focus:border-indigo-500" />
-                <button onclick="submitCustomPrompt('${item.id}')" class="absolute right-2 top-2 text-slate-400 hover:text-indigo-400">
+                <button onclick="submitCardPrompt('${item.id}')" class="absolute right-2 top-2 text-slate-400 hover:text-indigo-400">
                   <i class="fa-solid fa-arrow-turn-down fa-rotate-90 text-xs"></i>
                 </button>
               </div>
@@ -186,113 +334,112 @@
               </a>
             </div>
 
-            <!-- Real-time Response Output Box -->
-            <div id="output-${item.id}" class="hidden mt-3 p-3 rounded-lg bg-[#162035] border border-indigo-900/50 text-xs text-slate-300 leading-relaxed space-y-1.5">
+            <!-- Response Output Box -->
+            <div id="output-${item.id}" class="hidden mt-3 p-3.5 rounded-lg bg-[#162035] border border-indigo-900/50 text-xs text-slate-300 leading-relaxed space-y-1.5">
             </div>
           </div>
         </div>
       `).join('');
     }
 
-    function submitCustomPrompt(videoId) {
-      const input = document.getElementById(`input-${videoId}`);
-      const query = input.value.trim();
-      if (!query) return;
-      askGemini(videoId, query);
+    function submitCardPrompt(id) {
+      const input = document.getElementById(`input-${id}`);
+      const val = input.value.trim();
+      if (val) askVideoGemini(id, val);
     }
 
-    // Direct Gemini API execution with multiple model fallbacks
-    async function askGemini(videoId, question) {
-      const key = getApiKey();
-      if (!key) {
-        promptApiKey();
-        return;
-      }
-
+    // Preloaded Self-Thinking Questions Generator
+    async function generateVideoQuestions(videoId) {
       const video = allVideos.find(v => v.id === videoId);
       if (!video) return;
 
-      const outputBox = document.getElementById(`output-${videoId}`);
-      outputBox.classList.remove('hidden');
-      outputBox.innerHTML = `
+      const container = document.getElementById(`aiQuestions-${videoId}`);
+      container.classList.remove('hidden');
+      container.innerHTML = `<span class="text-[11px] text-purple-300 flex items-center gap-1"><i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> AI thinking of tailored investigative questions...</span>`;
+
+      const prompt = `
+Based on this video briefing:
+Title: "${video.title}"
+Context: "${video.description.slice(0, 1500)}"
+
+Formulate 3 concise, high-value, probing analytical questions uniquely suited for this specific briefing. 
+Return ONLY valid JSON array with 3 short strings. Example: ["Question 1?", "Question 2?", "Question 3?"]
+`;
+
+      try {
+        const raw = await callGemini(prompt);
+        const match = raw.match(/\[.*\]/s);
+        const questions = JSON.parse(match ? match[0] : raw);
+
+        container.innerHTML = `
+          <div class="w-full text-[10px] uppercase font-semibold tracking-wider text-purple-400 mb-1 flex items-center gap-1">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Suggested Inquiries:
+          </div>
+          ${questions.map(q => `
+            <button onclick="askVideoGemini('${videoId}', '${q.replace(/'/g, "\\'")}')" 
+              class="pill-btn text-left px-2 py-1 rounded bg-purple-950/60 hover:bg-purple-900 border border-purple-800 text-[11px] text-purple-200">
+              ⚡ ${q}
+            </button>
+          `).join('')}
+        `;
+      } catch (e) {
+        container.innerHTML = `<span class="text-[11px] text-rose-400">Could not generate questions: ${e.message}</span>`;
+      }
+    }
+
+    // Video-Specific Analysis Runner
+    async function askVideoGemini(videoId, question) {
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      const box = document.getElementById(`output-${videoId}`);
+      box.classList.remove('hidden');
+      box.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Gemini analyzing: "<em>${question}</em>"...</span>
+          <span>Gemini analyzing: "<em>${question.slice(0, 45)}...</em>"...</span>
         </div>`;
 
-      const promptText = `
-You are an expert geopolitical intelligence and competitive exam current affairs analyst.
+      const prompt = `
+You are a senior intelligence analyst and competitive exam mentor.
 Video Title: "${video.title}"
 Channel: "${video.channel_title}"
-Video Context / Description:
-${video.description.slice(0, 2000)}
+Video Context: ${video.description.slice(0, 2000)}
 
-User Query: "${question}"
+Specific User Inquiry:
+"${question}"
 
-Provide a direct, concise, high-yield analysis tailored strictly to the user query. Format with bold headers and clean bullet points if needed. No robotic filler.
-      `;
+Provide a crisp, clear, high-yield briefing tailored precisely to this instruction. Use bold headers and clean bullet points.
+`;
 
-      // Models to attempt in order of priority
-      const candidateModels = [
-        "gemini-2.5-flash",
-        "gemini-1.5-flash",
-        "gemini-flash-latest"
-      ];
-
-      let lastError = null;
-
-      for (const model of candidateModels) {
-        try {
-          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: promptText }] }]
-            })
-          });
-
-          const data = await response.json();
-          if (data.error) {
-            throw new Error(data.error.message || `Error calling ${model}`);
-          }
-
-          const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!reply) throw new Error("Empty candidate response");
-
-          // Formatted output
-          const formatted = reply
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
-            .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
-            .replace(/\n\n/g, '<p class="mt-1.5"></p>')
-            .replace(/\n/g, '<br/>');
-
-          outputBox.innerHTML = `
-            <div class="flex items-center justify-between pb-1.5 border-b border-slate-700/60 mb-2">
-              <span class="text-[11px] font-semibold text-indigo-400 flex items-center gap-1">
-                <i class="fa-solid fa-sparkles text-amber-400"></i> ${question}
-              </span>
-              <button onclick="document.getElementById('output-${videoId}').classList.add('hidden')" class="text-slate-500 hover:text-slate-300 text-xs">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-            <div class="prose-slate text-xs space-y-1">${formatted}</div>
-          `;
-          return; // Success! Exit function.
-        } catch (err) {
-          console.warn(`Model ${model} failed:`, err);
-          lastError = err;
+      try {
+        const text = await callGemini(prompt);
+        box.innerHTML = `
+          <div class="flex items-center justify-between pb-1.5 border-b border-slate-700/60 mb-2">
+            <span class="text-[11px] font-semibold text-indigo-300 flex items-center gap-1">
+              <i class="fa-solid fa-sparkles text-amber-400"></i> ${question.slice(0, 50)}...
+            </span>
+            <button onclick="document.getElementById('output-${videoId}').classList.add('hidden')" class="text-slate-500 hover:text-slate-300 text-xs">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="prose-slate text-xs space-y-1">${formatMarkdown(text)}</div>
+        `;
+      } catch (err) {
+        if (err.message === "GEMINI_KEY_REQUIRED") {
+          promptApiKey();
+          box.classList.add('hidden');
+        } else {
+          box.innerHTML = `
+            <div class="text-rose-400 text-xs flex items-start gap-1.5">
+              <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+              <div>
+                <p class="font-medium">Analysis failed: ${err.message}</p>
+                <p class="text-[11px] text-slate-400 mt-0.5">Tap "Set Gemini Key" at top if you need to update your key.</p>
+              </div>
+            </div>`;
         }
       }
-
-      // If all fallbacks failed
-      outputBox.innerHTML = `
-        <div class="text-rose-400 text-xs flex items-start gap-1.5">
-          <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
-          <div>
-            <p class="font-medium">Analysis failed: ${lastError ? lastError.message : 'Unknown API error'}</p>
-            <p class="text-[11px] text-slate-400 mt-0.5">Tap "Set Gemini Key" at top to re-enter your key or verify quotas.</p>
-          </div>
-        </div>`;
     }
 
     loadFeed();
