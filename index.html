@@ -201,6 +201,7 @@
       askGemini(videoId, query);
     }
 
+    // Direct Gemini API execution with multiple model fallbacks
     async function askGemini(videoId, question) {
       const key = getApiKey();
       if (!key) {
@@ -231,47 +232,67 @@ User Query: "${question}"
 Provide a direct, concise, high-yield analysis tailored strictly to the user query. Format with bold headers and clean bullet points if needed. No robotic filler.
       `;
 
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: promptText }] }]
-          })
-        });
+      // Models to attempt in order of priority
+      const candidateModels = [
+        "gemini-2.5-flash",
+        "gemini-1.5-flash",
+        "gemini-flash-latest"
+      ];
 
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message || "Gemini API error");
+      let lastError = null;
 
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
-        
-        const formatted = reply
-          .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
-          .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
-          .replace(/\n\n/g, '<p class="mt-1.5"></p>')
-          .replace(/\n/g, '<br/>');
+      for (const model of candidateModels) {
+        try {
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: promptText }] }]
+            })
+          });
 
-        outputBox.innerHTML = `
-          <div class="flex items-center justify-between pb-1.5 border-b border-slate-700/60 mb-2">
-            <span class="text-[11px] font-semibold text-indigo-400 flex items-center gap-1">
-              <i class="fa-solid fa-sparkles text-amber-400"></i> ${question}
-            </span>
-            <button onclick="document.getElementById('output-${videoId}').classList.add('hidden')" class="text-slate-500 hover:text-slate-300 text-xs">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </div>
-          <div class="prose-slate text-xs space-y-1">${formatted}</div>
-        `;
-      } catch (err) {
-        outputBox.innerHTML = `
-          <div class="text-rose-400 text-xs flex items-start gap-1.5">
-            <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
-            <div>
-              <p class="font-medium">Analysis failed: ${err.message}</p>
-              <p class="text-[11px] text-slate-400 mt-0.5">Tap "Set Gemini Key" at top to re-enter your key.</p>
+          const data = await response.json();
+          if (data.error) {
+            throw new Error(data.error.message || `Error calling ${model}`);
+          }
+
+          const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!reply) throw new Error("Empty candidate response");
+
+          // Formatted output
+          const formatted = reply
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+            .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
+            .replace(/\n\n/g, '<p class="mt-1.5"></p>')
+            .replace(/\n/g, '<br/>');
+
+          outputBox.innerHTML = `
+            <div class="flex items-center justify-between pb-1.5 border-b border-slate-700/60 mb-2">
+              <span class="text-[11px] font-semibold text-indigo-400 flex items-center gap-1">
+                <i class="fa-solid fa-sparkles text-amber-400"></i> ${question}
+              </span>
+              <button onclick="document.getElementById('output-${videoId}').classList.add('hidden')" class="text-slate-500 hover:text-slate-300 text-xs">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
-          </div>`;
+            <div class="prose-slate text-xs space-y-1">${formatted}</div>
+          `;
+          return; // Success! Exit function.
+        } catch (err) {
+          console.warn(`Model ${model} failed:`, err);
+          lastError = err;
+        }
       }
+
+      // If all fallbacks failed
+      outputBox.innerHTML = `
+        <div class="text-rose-400 text-xs flex items-start gap-1.5">
+          <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+          <div>
+            <p class="font-medium">Analysis failed: ${lastError ? lastError.message : 'Unknown API error'}</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Tap "Set Gemini Key" at top to re-enter your key or verify quotas.</p>
+          </div>
+        </div>`;
     }
 
     loadFeed();
