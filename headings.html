@@ -27,9 +27,9 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             Headings Intelligence
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">Auto-Preparing News</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">Quick Navigation</span>
           </h1>
-          <p class="text-xs text-slate-400">Tap Any Headline to Read Layman's News Instantly</p>
+          <p class="text-xs text-slate-400">Zero Wait • Tap Any Headline to Read Instantly</p>
         </div>
       </div>
 
@@ -41,12 +41,6 @@
       </div>
     </div>
   </header>
-
-  <!-- Auto-Prep Live Notification Bar -->
-  <div id="prepStatusBar" class="bg-sky-950/40 border-b border-sky-900/40 px-4 py-1.5 text-center text-xs text-sky-300 flex items-center justify-center gap-2">
-    <i class="fa-solid fa-circle-notch fa-spin text-sky-400 text-[10px]"></i>
-    <span id="prepStatusText">Connecting to Gemini auto-reader queue...</span>
-  </div>
 
   <!-- Filter Toolbar -->
   <main class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
@@ -87,26 +81,6 @@
     let allVideos = [];
     let currentFilter = 'ALL';
     let onlyLast24Hours = false;
-    let isPrepping = false;
-
-    // Shared persistent cache with main page
-    function getStoredLaymanCache() {
-      try {
-        return JSON.parse(localStorage.getItem('LAYMAN_PREPARED_CACHE') || '{}');
-      } catch (e) {
-        return {};
-      }
-    }
-
-    function saveLaymanToCache(videoId, text) {
-      try {
-        const cache = getStoredLaymanCache();
-        cache[videoId] = text;
-        localStorage.setItem('LAYMAN_PREPARED_CACHE', JSON.stringify(cache));
-      } catch (e) {
-        console.warn("Storage full or error caching layman news:", e);
-      }
-    }
 
     function getReadSet() {
       try {
@@ -153,70 +127,19 @@
 
     async function loadFeed() {
       try {
-        const res = await fetch(`videos.json?t=${new Date().getTime()}`); if (!res.ok) throw new Error("Could not load feed"); const rawVideos = await res.json();  // STRICT CHRONOLOGICAL ORDERING (Newest First) allVideos = rawVideos.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));  document.getElementById('countBadge').innerText = `${allVideos.length} Headlines`;
+        const res = await fetch(`videos.json?t=${new Date().getTime()}`);
+        if (!res.ok) throw new Error("Could not load feed");
+        const rawVideos = await res.json();
+
+        // Strict Date & Time Sort (Newest First)
+        allVideos = rawVideos.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+
+        document.getElementById('countBadge').innerText = `${allVideos.length} Headlines`;
         renderFilters();
         renderHeadings();
-
-        // Start background preparation immediately after load
-        startBackgroundPreparation();
-
       } catch (err) {
         document.getElementById('headingsList').innerHTML = `<div class="p-8 text-center text-rose-400 text-xs">Failed to load feed data.</div>`;
       }
-    }
-
-    // BACKGROUND AUTO-PREPARATION ENGINE
-    async function startBackgroundPreparation() {
-      if (isPrepping || !getApiKey() || allVideos.length === 0) return;
-      isPrepping = true;
-
-      const statusBar = document.getElementById('prepStatusBar');
-      const statusText = document.getElementById('prepStatusText');
-      statusBar.classList.remove('hidden');
-
-      const cache = getStoredLaymanCache();
-      let preparedCount = 0;
-      const queue = allVideos.slice(0, 15);
-
-      for (let i = 0; i < queue.length; i++) {
-        const video = queue[i];
-        if (cache[video.id]) {
-          preparedCount++;
-          continue;
-        }
-
-        statusText.innerHTML = `Preparing Layman's News: <span class="text-white font-medium">"${video.title.slice(0, 42)}..."</span> (${i + 1}/${queue.length})`;
-
-        try {
-          const prompt = `
-Rewrite this video event as a simple, engaging news story for a regular person:
-Format exactly like this:
-## [Catchy Clear News Headline]
-**The Story in Brief:** 2-3 short, clear sentences explaining what just happened in simple everyday words (no complex political or technical jargon).
-**Why It Matters to You:** 1-2 simple sentences explaining the real-world impact on everyday citizens or the general public.
-
-Video Title: "${video.title}"
-Channel: "${video.channel_title}"
-Context / Description: ${video.description.slice(0, 2000)}
-          `;
-
-          const result = await callGeminiApi(prompt);
-          saveLaymanToCache(video.id, result);
-          preparedCount++;
-
-          const badge = document.getElementById(`prepBadge-${video.id}`);
-          if (badge) badge.classList.remove('hidden');
-
-          await new Promise(r => setTimeout(r, 1200));
-
-        } catch (e) {
-          await new Promise(r => setTimeout(r, 2000));
-        }
-      }
-
-      statusText.innerText = `Layman's News ready for ${preparedCount} briefings. Tap any headline to view.`;
-      setTimeout(() => { statusBar.classList.add('hidden'); }, 3000);
-      isPrepping = false;
     }
 
     function renderFilters() {
@@ -236,17 +159,22 @@ Context / Description: ${video.description.slice(0, 2000)}
       renderHeadings();
     }
 
-    // ON-CLICK HEADLINE: Prevents YouTube navigation, expands drawer, presents Layman's summary
+    // ON-CLICK HEADLINE: Direct instant open & auto-mark read
     function onHeadlineClick(videoId) {
       markAsRead(videoId);
-      const drawer = document.getElementById(`drawer-${videoId}`); drawer.classList.remove('hidden'); runInlineAI(videoId, 'layman'); }  function toggleDrawer(videoId) { const drawer = document.getElementById(`drawer-${videoId}`);
+      const drawer = document.getElementById(`drawer-${videoId}`);
+      drawer.classList.remove('hidden');
+      runInlineAI(videoId, 'layman');
+    }
+
+    function toggleDrawer(videoId) {
+      const drawer = document.getElementById(`drawer-${videoId}`);
       drawer.classList.toggle('hidden');
     }
 
     function renderHeadings() {
       const readSet = getReadSet();
       const cutoff24 = new Date(Date.now() - 24 * 60 * 60 * 1000);
-      const cache = getStoredLaymanCache();
 
       let filtered = allVideos;
       if (currentFilter !== 'ALL') filtered = filtered.filter(v => v.channel_title === currentFilter);
@@ -264,7 +192,7 @@ Context / Description: ${video.description.slice(0, 2000)}
       list.innerHTML = filtered.map((item) => {
         const isRead = readSet.has(item.id);
         const timeAgo = formatTimeAgo(item.published_at);
-        const isPrepped = Boolean(cache[item.id]);
+        const hasServerSummary = Boolean(item.layman_news && item.layman_news.trim().length > 0);
 
         return `
         <div class="heading-row ${isRead ? 'opacity-70 bg-slate-950/40' : ''}">
@@ -275,4 +203,207 @@ Context / Description: ${video.description.slice(0, 2000)}
               </span>
               <div class="min-w-0">
                 <!-- Tapping headline directly opens Layman's News Read -->
-                <button onclick="
+                <button onclick="onHeadlineClick('${item.id}')" class="text-left text-xs sm:text-sm font-medium text-slate-100 hover:text-sky-400 transition leading-snug line-clamp-2">
+                  ${item.title}
+                </button>
+                <div class="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-400">
+                  <span class="font-semibold text-slate-300">${item.channel_title}</span>
+                  <span>•</span>
+                  <span>${timeAgo}</span>
+                  ${hasServerSummary ? `
+                    <span class="text-[10px] text-emerald-400 font-medium">
+                      • Layman Ready
+                    </span>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Deck -->
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="onHeadlineClick('${item.id}')" class="pill-btn px-2.5 py-1.5 rounded-lg text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 flex items-center gap-1">
+                <i class="fa-solid fa-newspaper text-amber-400 text-[10px]"></i> Layman Read
+              </button>
+              <button onclick="toggleRead('${item.id}')" title="Toggle read" class="pill-btn p-1.5 rounded-lg text-xs bg-slate-900 border border-slate-800 hover:border-slate-700 ${isRead ? 'text-emerald-400' : 'text-slate-500'}">
+                <i class="fa-solid ${isRead ? 'fa-check' : 'fa-circle'}"></i>
+              </button>
+              <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="pill-btn p-1.5 rounded-lg text-xs bg-red-950/40 text-red-400 border border-red-900/40 hover:bg-red-900/60 transition" title="Watch Original on YouTube">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Expandable AI Drawer -->
+          <div id="drawer-${item.id}" class="hidden p-3.5 bg-[#090d16] border-t border-slate-800/80">
+            <div class="flex flex-wrap gap-1.5 mb-2.5">
+              <button onclick="runInlineAI('${item.id}', 'layman')" class="pill-btn px-2.5 py-1 rounded bg-teal-950/40 hover:bg-teal-900 text-[11px] text-teal-300 border border-teal-800/60">
+                <i class="fa-solid fa-newspaper text-[10px]"></i> Layman's News Read
+              </button>
+              <button onclick="runInlineAI('${item.id}', 'specific')" class="pill-btn px-2.5 py-1 rounded bg-sky-950/40 hover:bg-sky-900 text-[11px] text-sky-300 border border-sky-800/60">
+                <i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge
+              </button>
+              <button onclick="runInlineAI('${item.id}', 'upsc')" class="pill-btn px-2.5 py-1 rounded bg-amber-950/40 hover:bg-amber-900 text-[11px] text-amber-300 border border-amber-800/60">
+                <i class="fa-solid fa-landmark text-[10px]"></i> UPSC Curated
+              </button>
+              <button onclick="generateInlineQuestions('${item.id}')" class="pill-btn px-2.5 py-1 rounded bg-purple-950/40 hover:bg-purple-900 text-[11px] text-purple-300 border border-purple-800/60">
+                <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions
+              </button>
+            </div>
+
+            <div id="smartQuestionsBox-${item.id}" class="hidden flex flex-wrap gap-1.5 mb-2 p-2 rounded-lg bg-[#111827] border border-purple-900/50"></div>
+
+            <div class="flex items-center gap-1.5">
+              <input id="customInput-${item.id}" type="text" placeholder="Ask Gemini about this headline..." 
+                onkeydown="if(event.key==='Enter') submitInlineCustom('${item.id}')"
+                class="flex-1 bg-[#162035] text-xs text-slate-200 placeholder-slate-500 rounded-lg px-3 py-1.5 border border-slate-700 focus:outline-none focus:border-sky-500" />
+              <button onclick="submitInlineCustom('${item.id}')" class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-medium">
+                Ask
+              </button>
+            </div>
+
+            <div id="inlineOutput-${item.id}" class="hidden mt-2.5 p-3 rounded-lg bg-[#111827] border border-slate-800 text-xs text-slate-300 leading-relaxed space-y-1"></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function formatTimeAgo(isoString) {
+      try {
+        const diff = (Date.now() - new Date(isoString).getTime()) / 1000;
+        if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+        return `${Math.floor(diff / 86400)}d ago`;
+      } catch (e) {
+        return "";
+      }
+    }
+
+    async function callGeminiApi(promptText) {
+      const key = getApiKey();
+      if (!key) throw new Error("GEMINI_KEY_REQUIRED");
+
+      const models = [
+        "gemini-3.8-flash",
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-pro",
+        "gemini-4-argon",
+        "gemini-1.5-flash",
+        "gemini-1.5-flash-8b"
+      ];
+
+      for (const m of models) {
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+          });
+          const data = await res.json();
+          if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+            return data.candidates[0].content.parts[0].text;
+          }
+        } catch (e) {
+          continue;
+        }
+      }
+      throw new Error("Engines temporarily busy. Retrying in a moment.");
+    }
+
+    function formatMarkdown(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+        .replace(/^###\s(.*)$/gm, '<h3 class="text-sky-300 font-semibold text-xs mt-2 mb-1">$1</h3>')
+        .replace(/^##\s(.*)$/gm, '<h2 class="text-amber-300 font-bold text-xs mt-2.5 mb-1">$1</h2>')
+        .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
+        .replace(/\n\n/g, '<p class="mt-1.5"></p>')
+        .replace(/\n/g, '<br/>');
+    }
+
+    async function runInlineAI(videoId, type) {
+      markAsRead(videoId);
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      const box = document.getElementById(`inlineOutput-${videoId}`);
+      box.classList.remove('hidden');
+
+      // 1. Instant Render if Pre-compiled by GitHub Server
+      if (type === 'layman' && video.layman_news && video.layman_news.trim().length > 0) {
+        box.innerHTML = formatMarkdown(video.layman_news);
+        return;
+      }
+
+      // 2. Client-Side Fallback
+      box.innerHTML = `<span class="text-sky-400 flex items-center gap-1.5"><i class="fa-solid fa-circle-notch fa-spin"></i> Preparing briefing...</span>`;
+
+      let prompt = "";
+      if (type === 'layman') {
+        prompt = `Video Title: "${video.title}"\nContext: ${video.description.slice(0, 1500)}\nRewrite as simple news:\n## [Catchy Headline]\n**The Story in Brief:** 2-3 sentences.\n**Why It Matters to You:** 1-2 sentences.`;
+      } else if (type === 'specific') {
+        prompt = `Video Title: "${video.title}"\nContext: ${video.description.slice(0, 1500)}\nBreak down institutions, data points, and mechanics with bold points.`;
+      } else if (type === 'upsc') {
+        prompt = `Video Title: "${video.title}"\nContext: ${video.description.slice(0, 1500)}\nProvide Prelims facts, Mains syllabus link, and 2-point conclusion.`;
+      }
+
+      try {
+        const text = await callGeminiApi(prompt);
+        if (type === 'layman') video.layman_news = text;
+        box.innerHTML = formatMarkdown(text);
+      } catch (e) {
+        box.innerHTML = `<span class="text-rose-400">${e.message}</span>`;
+      }
+    }
+
+    async function generateInlineQuestions(videoId) {
+      markAsRead(videoId);
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      const qBox = document.getElementById(`smartQuestionsBox-${videoId}`);
+      qBox.classList.remove('hidden');
+      qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Formulating questions...</span>`;
+
+      const prompt = `Based on: "${video.title}" and context: "${video.description.slice(0, 1200)}", write 3 sharp analytical questions. Return ONLY JSON array of strings: ["Q1?", "Q2?", "Q3?"]`;
+
+      try {
+        const raw = await callGeminiApi(prompt);
+        const match = raw.match(/\[.*\]/s);
+        const questions = JSON.parse(match ? match[0] : raw);
+        qBox.innerHTML = questions.map(q => `
+          <button onclick="executeDirectPrompt('${videoId}', ${JSON.stringify(q)})" class="text-left px-2 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-[11px] text-purple-200">
+            ⚡ ${q}
+          </button>
+        `).join('');
+      } catch (e) {
+        qBox.innerHTML = `<span class="text-rose-400 text-[11px]">Could not generate inquiries.</span>`;
+      }
+    }
+
+    function submitInlineCustom(videoId) {
+      const input = document.getElementById(`customInput-${videoId}`);
+      const val = input.value.trim();
+      if (val) executeDirectPrompt(videoId, val);
+    }
+
+    async function executeDirectPrompt(videoId, query) {
+      markAsRead(videoId);
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      const box = document.getElementById(`inlineOutput-${videoId}`);
+      box.classList.remove('hidden');
+      box.innerHTML = `<span class="text-sky-400 flex items-center gap-1.5"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing...</span>`;
+
+      const prompt = `Video Title: "${video.title}"\nDescription: ${video.description.slice(0, 1500)}\nUser Question: "${query}"\nProvide a direct, high-yield answer.`;
+
+      try {
+        const text = await callGeminiApi(prompt);
+        box.innerHTML = formatMarkdown(text);
+      } catch (e) {
+        box.innerHTML = `<span class="text-rose-400">${e.message}</span>`;
+      }
+    }
+
+    loadFeed();
+  </script>
+</body>
+</html>
