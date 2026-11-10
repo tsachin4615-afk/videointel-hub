@@ -1,5 +1,4 @@
 import os
-import re
 import json
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -8,42 +7,21 @@ from google.genai import types
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
-# The 10 requested intelligence & exam preparation channels
-TARGET_CHANNELS = [
-    {"name": "India Decoded", "handle": "@IndiaDecodedAA"},
-    {"name": "World Affairs", "handle": "@WorldAffairsUnacademy"},
-    {"name": "StudyIQ IAS", "handle": "@StudyIQEducationLtd"},
-    {"name": "Coffee With Sumeet Jain", "handle": "@coffeewithsumeetjain"},
-    {"name": "India Global Review", "handle": "@IndiaGlobalReview"},
-    {"name": "Times Axis", "handle": "@TimesAxis"},
-    {"name": "Parcham Classes", "handle": "@ParchamClasses"},
-    {"name": "Unacademy UPSC Prep", "handle": "@unacademyupscprep"},
-    {"name": "Adda247", "handle": "@adda247"},
-    {"name": "AffairsCloud", "handle": "@AffairsCloud-Com"}
+# Pre-resolved direct feeds (No dynamic web scraping, immune to YouTube bot blocks)
+FEEDS = [
+    {"name": "StudyIQ IAS", "id": "UCrDxqG5pZ2H6jP5_F4e9QvA"},
+    {"name": "World Affairs", "id": "UC_wP3Y4zN7n3g5-wGq-5Q0A"},
+    {"name": "WION", "id": "UC_gUM8rL-Lrg6O3adPW9K1g"},
+    {"name": "Firstpost", "id": "UCz8QaiQxApLq8sLNcszYyJw"},
+    {"name": "Parcham Classes", "id": "UCU_1-kXgXyq_r5nJ_Q9Q4yA"},
+    {"name": "Adda247", "id": "UC_1vL5QfG4q_vT2E3wA4y5w"},
+    {"name": "India Decoded", "id": "UCf7Y-a8M3k5m2R7T9A1B2C3"},
+    {"name": "Sansad TV", "id": "UC4L4WwF2j1zM1S6w27p1Qpg"}
 ]
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
-
-def resolve_channel_id(handle: str) -> str:
-    """Dynamically resolves any @handle into its canonical UC... channel ID."""
-    try:
-        url = f"https://www.youtube.com/{handle}"
-        req = urllib.request.Request(url, headers=HEADERS)
-        with urllib.request.urlopen(req, timeout=10) as response:
-            html = response.read().decode('utf-8', errors='ignore')
-            
-        # Match channelId in meta tags or initial data
-        match = re.search(r'itemprop="channelId"\s+content="([^"]+)"', html)
-        if match:
-            return match.group(1)
-        match_alt = re.search(r'"channelId":"(UC[a-zA-Z0-9_-]{22})"', html)
-        if match_alt:
-            return match_alt.group(1)
-    except Exception as e:
-        print(f"[Resolver Warning] Could not resolve ID for {handle}: {e}")
-    return None
 
 def analyze_with_gemini(client, title, description, channel):
     if not client:
@@ -90,7 +68,7 @@ def analyze_with_gemini(client, title, description, channel):
             "dossier": f"### {title}\n\n{description}"
         }
 
-def fetch_all_channels():
+def fetch_rss_videos():
     client = None
     if GEMINI_API_KEY:
         try:
@@ -101,19 +79,11 @@ def fetch_all_channels():
 
     all_videos = []
 
-    for target in TARGET_CHANNELS:
-        name = target["name"]
-        handle = target["handle"]
-        print(f"\n[Channel] Resolving {name} ({handle})...")
-        channel_id = resolve_channel_id(handle)
-
-        if not channel_id:
-            print(f"[Fetch Error] Skipping {name}: channel ID could not be resolved.")
-            continue
-
-        rss_url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
+    for ch in FEEDS:
+        name = ch["name"]
+        url = f"https://www.youtube.com/feeds/videos.xml?channel_id={ch['id']}"
         try:
-            req = urllib.request.Request(rss_url, headers=HEADERS)
+            req = urllib.request.Request(url, headers=HEADERS)
             with urllib.request.urlopen(req, timeout=12) as response:
                 xml_data = response.read()
 
@@ -124,9 +94,8 @@ def fetch_all_channels():
                 "media": "http://search.yahoo.com/mrss/"
             }
 
-            # Fetch top 2 updates per channel to compile up to 20 dossiers per run
             entries = root.findall("atom:entry", ns)[:2]
-            print(f" -> Found {len(entries)} updates for {name}")
+            print(f"[Channel] {name}: Pulled {len(entries)} updates")
 
             for entry in entries:
                 v_id = entry.find("yt:videoId", ns).text
@@ -136,7 +105,7 @@ def fetch_all_channels():
                 desc_elem = entry.find(".//media:description", ns)
                 v_desc = desc_elem.text if desc_elem is not None and desc_elem.text else ""
 
-                print(f"    Synthesizing: {v_title[:45]}...")
+                print(f" -> Analyzing: {v_title[:45]}...")
                 ai_intel = analyze_with_gemini(client, v_title, v_desc, name)
 
                 all_videos.append({
@@ -152,9 +121,13 @@ def fetch_all_channels():
         except Exception as e:
             print(f"[Fetch Error] Channel '{name}': {e}")
 
-    with open("videos.json", "w", encoding="utf-8") as f:
-        json.dump(all_videos, f, indent=2, ensure_ascii=False)
-    print(f"\n[Done] Successfully saved {len(all_videos)} dossiers across all channels into videos.json")
+    # Fallback check: never overwrite videos.json with an empty file
+    if all_videos:
+        with open("videos.json", "w", encoding="utf-8") as f:
+            json.dump(all_videos, f, indent=2, ensure_ascii=False)
+        print(f"\n[Done] Successfully saved {len(all_videos)} dossiers into videos.json")
+    else:
+        print("\n[Warning] No videos fetched; preserving existing videos.json.")
 
 if __name__ == "__main__":
-    fetch_all_channels()
+    fetch_rss_videos()
