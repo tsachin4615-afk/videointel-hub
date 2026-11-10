@@ -3,146 +3,278 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VideoIntel Hub | Current Affairs Intelligence</title>
-  <link rel="manifest" href="manifest.json">
+  <title>VideoIntel Hub | Interactive AI Intelligence</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
-    .card-glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    body { background-color: #0b0f19; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .card-glow { transition: all 0.25s ease; border: 1px solid #1e293b; }
+    .card-glow:hover { border-color: #38bdf8; transform: translateY(-2px); }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen pb-16">
 
   <!-- Header -->
-  <header class="sticky top-0 z-50 card-glass border-b border-slate-700 px-4 py-3">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <i class="fa-solid fa-brain text-indigo-400 text-2xl"></i>
+  <header class="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+          <i class="fa-solid fa-brain text-lg"></i>
+        </div>
         <div>
-          <h1 class="text-lg font-bold leading-none tracking-tight">VideoIntel Hub</h1>
-          <p class="text-xs text-slate-400">Automated Intelligence & Current Affairs</p>
+          <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+            VideoIntel Hub
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">Gemini Engine</span>
+          </h1>
+          <p class="text-xs text-slate-400">Current Affairs & Competitive Exam Intelligence</p>
         </div>
       </div>
-      <div class="flex items-center space-x-2">
-        <span id="video-count" class="text-xs bg-indigo-900/60 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-full font-mono">Loading...</span>
+
+      <!-- Local API Key Setup -->
+      <div class="flex items-center gap-2">
+        <button onclick="promptApiKey()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-key text-amber-400"></i>
+          <span id="keyStatusLabel">Set Gemini Key</span>
+        </button>
+        <span id="countBadge" class="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800/80 px-2.5 py-1 rounded-full font-medium">Loading...</span>
       </div>
     </div>
   </header>
 
-  <!-- Filter & Search Bar -->
-  <div class="max-w-6xl mx-auto w-full px-4 pt-4 pb-2">
-    <div class="relative">
-      <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
-      <input type="text" id="search-input" placeholder="Search topics, entities, analysis..." 
-        class="w-full bg-slate-800/80 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-8 pt-6">
+    <!-- Channel Filter Tabs -->
+    <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar">
+      <button onclick="filterByChannel('ALL')" class="channel-pill active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white whitespace-nowrap">All Channels</button>
     </div>
-  </div>
 
-  <!-- Main Feed -->
-  <main class="max-w-6xl mx-auto w-full px-4 py-4 flex-1">
-    <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div class="col-span-full text-center py-12 text-slate-400 text-sm">Loading intelligence reports...</div>
+    <!-- Video Feed Grid -->
+    <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-2">
+      <div class="col-span-full py-16 text-center text-slate-500">
+        <i class="fa-solid fa-circle-notch fa-spin text-2xl text-indigo-400 mb-2"></i>
+        <p class="text-sm">Loading intelligence updates...</p>
+      </div>
     </div>
   </main>
 
-  <!-- Dossier Modal -->
-  <div id="dossier-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3">
-    <div class="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl">
-      <div class="flex items-center justify-between p-4 border-b border-slate-800">
-        <h3 id="modal-title" class="font-bold text-base text-slate-100 truncate pr-4"></h3>
-        <button onclick="closeModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div id="modal-body" class="p-5 overflow-y-auto space-y-4 text-sm text-slate-300 leading-relaxed prose prose-invert max-w-none">
-      </div>
-    </div>
-  </div>
-
   <script>
-    let allArticles = [];
+    let allVideos = [];
+    let currentFilter = 'ALL';
 
-    async function loadData() {
-      try {
-        const res = await fetch('videos.json?t=' + Date.now());
-        const data = await res.json();
-        allArticles = Array.isArray(data) ? data : (data.videos || []);
-        document.getElementById('video-count').textContent = `${allArticles.length} Dossiers`;
-        renderFeed(allArticles);
-      } catch (err) {
-        document.getElementById('articles-container').innerHTML = 
-          `<div class="col-span-full p-6 text-center text-rose-400">Failed to load data feed. Ensure workflow has committed videos.json.</div>`;
+    function getApiKey() {
+      return localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
+    }
+
+    function promptApiKey() {
+      const existing = getApiKey();
+      const entered = prompt("Enter your Gemini API Key to enable on-card summaries & custom prompts:", existing);
+      if (entered !== null) {
+        localStorage.setItem('GEMINI_FRONTEND_KEY', entered.trim());
+        updateKeyStatus();
       }
     }
 
-    function renderFeed(items) {
-      const container = document.getElementById('articles-container');
-      if (!items || items.length === 0) {
-        container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">No intelligence dossiers found.</div>`;
+    function updateKeyStatus() {
+      const label = document.getElementById('keyStatusLabel');
+      if (getApiKey()) {
+        label.innerText = "Gemini Key Active";
+        label.classList.add("text-emerald-400");
+      } else {
+        label.innerText = "Set Gemini Key";
+        label.classList.remove("text-emerald-400");
+      }
+    }
+
+    async function loadFeed() {
+      updateKeyStatus();
+      try {
+        const res = await fetch(`videos.json?t=${new Date().getTime()}`);
+        if (!res.ok) throw new Error("Could not load videos.json");
+        allVideos = await res.json();
+        document.getElementById('countBadge').innerText = `${allVideos.length} Updates`;
+        renderFilters();
+        renderGrid();
+      } catch (err) {
+        document.getElementById('videoGrid').innerHTML = `
+          <div class="col-span-full text-center py-12 text-slate-400">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-3"></i>
+            <p class="font-medium">Failed to load feed data.</p>
+            <p class="text-xs text-slate-500 mt-1">Ensure the update workflow has completed.</p>
+          </div>`;
+      }
+    }
+
+    function renderFilters() {
+      const channels = ['ALL', ...new Set(allVideos.map(v => v.channel_title))];
+      const bar = document.getElementById('filterBar');
+      bar.innerHTML = channels.map(ch => `
+        <button onclick="filterByChannel('${ch}')" 
+          class="channel-pill px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition ${currentFilter === ch ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-slate-800'}">
+          ${ch === 'ALL' ? 'All Channels' : ch}
+        </button>
+      `).join('');
+    }
+
+    function filterByChannel(channel) {
+      currentFilter = channel;
+      renderFilters();
+      renderGrid();
+    }
+
+    function renderGrid() {
+      const filtered = currentFilter === 'ALL' ? allVideos : allVideos.filter(v => v.channel_title === currentFilter);
+      const grid = document.getElementById('videoGrid');
+
+      if (!filtered.length) {
+        grid.innerHTML = `<div class="col-span-full text-center text-slate-500 py-12 text-sm">No updates found for this channel.</div>`;
         return;
       }
 
-      container.innerHTML = items.map((item, idx) => {
-        const title = item.title || "Untitled Video";
-        const channel = item.channel_title || item.channel || "Source Channel";
-        const thumb = item.thumbnail_url || item.thumbnail || `https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`;
-        const summary = item.executive_summary || item.summary || item.description || "Analysis pending...";
-        const takeaways = (item.key_takeaways || []).slice(0, 2);
-
-        return `
-          <div class="card-glass rounded-xl overflow-hidden flex flex-col border border-slate-800 hover:border-indigo-500/50 transition">
-            <div class="relative">
-              <img src="${thumb}" alt="${title}" class="w-full h-44 object-cover" onerror="this.src='https://via.placeholder.com/640x360?text=No+Preview'">
-              <span class="absolute bottom-2 left-2 bg-black/70 text-indigo-300 text-[11px] px-2 py-0.5 rounded font-medium">${channel}</span>
-            </div>
-            <div class="p-4 flex flex-col flex-1">
-              <h2 class="font-semibold text-sm line-clamp-2 text-slate-100 mb-2">${title}</h2>
-              <p class="text-xs text-slate-400 line-clamp-3 mb-3 leading-relaxed">${summary}</p>
-              
-              ${takeaways.length ? `
-                <div class="bg-slate-900/70 p-2.5 rounded-lg border border-slate-800/80 mb-3 text-[11px] text-slate-300 space-y-1">
-                  <span class="font-bold text-indigo-400 block text-[10px] uppercase tracking-wider">Key Takeaways</span>
-                  ${takeaways.map(t => `<p class="truncate">• ${t}</p>`).join('')}
-                </div>
-              ` : ''}
-
-              <div class="mt-auto pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" class="text-xs text-rose-400 hover:underline flex items-center gap-1">
-                  <i class="fa-brands fa-youtube"></i> Watch
-                </a>
-                <button onclick="openModal(${idx})" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-md font-medium transition">
-                  Deep Dossier
-                </button>
+      grid.innerHTML = filtered.map(item => `
+        <div class="card-glow bg-[#131b2e] rounded-xl overflow-hidden flex flex-col justify-between shadow-lg">
+          <div>
+            <div class="relative aspect-video w-full bg-slate-950 overflow-hidden">
+              <img src="${item.thumbnail_url}" alt="${item.title}" class="w-full h-full object-cover" loading="lazy" />
+              <div class="absolute top-2 left-2 px-2 py-0.5 rounded text-[11px] font-semibold bg-black/70 backdrop-blur-md text-slate-200 border border-white/10">
+                ${item.channel_title}
               </div>
             </div>
+
+            <div class="p-4">
+              <h2 class="text-sm font-semibold text-slate-100 line-clamp-2 leading-snug hover:text-indigo-400 transition">
+                <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+              </h2>
+              <p class="text-xs text-slate-400 line-clamp-2 mt-1.5 leading-relaxed">${item.description || 'No description provided.'}</p>
+            </div>
           </div>
+
+          <div class="border-t border-slate-800/80 bg-[#0d1424] p-3.5 rounded-b-xl">
+            <div class="flex items-center gap-1.5 text-xs font-medium text-indigo-400 mb-2">
+              <i class="fa-solid fa-sparkles text-amber-400"></i>
+              <span>Gemini Video Intelligence</span>
+            </div>
+
+            <!-- Preloaded Quick Questions -->
+            <div class="flex flex-wrap gap-1.5 mb-2.5">
+              <button onclick="askGemini('${item.id}', 'Summarize key points in 3 clear bullet points.')" 
+                class="px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700/60 transition flex items-center gap-1">
+                <i class="fa-solid fa-bolt text-indigo-400 text-[9px]"></i> 3 Key Points
+              </button>
+              <button onclick="askGemini('${item.id}', 'Explain exam & policy relevance for competitive exams.')" 
+                class="px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700/60 transition flex items-center gap-1">
+                <i class="fa-solid fa-graduation-cap text-indigo-400 text-[9px]"></i> Exam & Policy Impact
+              </button>
+              <button onclick="askGemini('${item.id}', 'Give a 2-sentence executive summary of the strategic background.')" 
+                class="px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-300 border border-slate-700/60 transition flex items-center gap-1">
+                <i class="fa-solid fa-compass text-indigo-400 text-[9px]"></i> Strategic Overview
+              </button>
+            </div>
+
+            <!-- Search / Custom Question Bar -->
+            <div class="flex items-center gap-1.5">
+              <div class="relative flex-1">
+                <input id="input-${item.id}" type="text" placeholder="Ask Gemini about this video..." 
+                  onkeydown="if(event.key==='Enter') submitCustomPrompt('${item.id}')"
+                  class="w-full bg-[#162035] text-xs text-slate-200 placeholder-slate-500 rounded-lg pl-3 pr-8 py-2 border border-slate-700/70 focus:outline-none focus:border-indigo-500" />
+                <button onclick="submitCustomPrompt('${item.id}')" class="absolute right-2 top-2 text-slate-400 hover:text-indigo-400">
+                  <i class="fa-solid fa-arrow-turn-down fa-rotate-90 text-xs"></i>
+                </button>
+              </div>
+              <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" 
+                class="px-3 py-2 rounded-lg bg-red-600/90 hover:bg-red-600 text-white text-xs font-medium flex items-center gap-1 shrink-0 transition">
+                <i class="fa-brands fa-youtube"></i> Watch
+              </a>
+            </div>
+
+            <!-- Real-time Response Output Box -->
+            <div id="output-${item.id}" class="hidden mt-3 p-3 rounded-lg bg-[#162035] border border-indigo-900/50 text-xs text-slate-300 leading-relaxed space-y-1.5">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function submitCustomPrompt(videoId) {
+      const input = document.getElementById(`input-${videoId}`);
+      const query = input.value.trim();
+      if (!query) return;
+      askGemini(videoId, query);
+    }
+
+    async function askGemini(videoId, question) {
+      const key = getApiKey();
+      if (!key) {
+        promptApiKey();
+        return;
+      }
+
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      const outputBox = document.getElementById(`output-${videoId}`);
+      outputBox.classList.remove('hidden');
+      outputBox.innerHTML = `
+        <div class="flex items-center gap-2 text-indigo-400">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>Gemini analyzing: "<em>${question}</em>"...</span>
+        </div>`;
+
+      const promptText = `
+You are an expert geopolitical intelligence and competitive exam current affairs analyst.
+Video Title: "${video.title}"
+Channel: "${video.channel_title}"
+Video Context / Description:
+${video.description.slice(0, 2000)}
+
+User Query: "${question}"
+
+Provide a direct, concise, high-yield analysis tailored strictly to the user query. Format with bold headers and clean bullet points if needed. No robotic filler.
+      `;
+
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: promptText }] }]
+          })
+        });
+
+        const data = await response.json();
+        if (data.error) throw new Error(data.error.message || "Gemini API error");
+
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
+        
+        const formatted = reply
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+          .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
+          .replace(/\n\n/g, '<p class="mt-1.5"></p>')
+          .replace(/\n/g, '<br/>');
+
+        outputBox.innerHTML = `
+          <div class="flex items-center justify-between pb-1.5 border-b border-slate-700/60 mb-2">
+            <span class="text-[11px] font-semibold text-indigo-400 flex items-center gap-1">
+              <i class="fa-solid fa-sparkles text-amber-400"></i> ${question}
+            </span>
+            <button onclick="document.getElementById('output-${videoId}').classList.add('hidden')" class="text-slate-500 hover:text-slate-300 text-xs">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="prose-slate text-xs space-y-1">${formatted}</div>
         `;
-      }).join('');
+      } catch (err) {
+        outputBox.innerHTML = `
+          <div class="text-rose-400 text-xs flex items-start gap-1.5">
+            <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+            <div>
+              <p class="font-medium">Analysis failed: ${err.message}</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">Tap "Set Gemini Key" at top to re-enter your key.</p>
+            </div>
+          </div>`;
+      }
     }
 
-    function openModal(idx) {
-      const item = allArticles[idx];
-      document.getElementById('modal-title').textContent = item.title;
-      const content = item.deep_dossier_markdown || item.markdown || item.executive_summary || "Full dossier content pending analysis.";
-      document.getElementById('modal-body').innerHTML = marked.parse(content);
-      document.getElementById('dossier-modal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('dossier-modal').classList.add('hidden');
-    }
-
-    document.getElementById('search-input').addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase();
-      const filtered = allArticles.filter(a => 
-        (a.title && a.title.toLowerCase().includes(q)) ||
-        (a.executive_summary && a.executive_summary.toLowerCase().includes(q)) ||
-        (a.channel_title && a.channel_title.toLowerCase().includes(q))
-      );
-      renderFeed(filtered);
-    });
-
-    loadData();
+    loadFeed();
   </script>
 </body>
 </html>
