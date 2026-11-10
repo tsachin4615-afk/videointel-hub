@@ -1,426 +1,148 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080e1b">
-<title>VideoIntel Hub | Intelligence OS</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<style>
-:root{
---bg:#080e1b;--panel:#101a2b;--panel2:#152238;
---border:#25344c;--text:#edf3ff;--muted:#8fa1bb;
---blue:#58a6ff;--cyan:#42d6df;--green:#37d69a;
---orange:#ffb454;--red:#ff7185;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;font-size:14px}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-.topbar{height:64px;position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:#0b1424ee;border-bottom:1px solid var(--border);backdrop-filter:blur(15px)}
-.brand{display:flex;align-items:center;gap:11px}
-.logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#1687ff,#42d6df);color:#06111f;font-size:18px}
-.brand h1{font-size:16px;margin:0;font-weight:800}
-.brand small{color:var(--muted);font-size:9px;letter-spacing:1px}
-.top-actions{display:flex;align-items:center;gap:10px}
-.status{color:var(--green);border:1px solid #23634e;background:#142f2a;padding:6px 10px;border-radius:20px;font-size:10px}
-.icon-btn,.secondary-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:9px;padding:9px 12px}
-.layout{display:flex;min-height:calc(100vh - 64px)}
-.sidebar{width:225px;flex-shrink:0;border-right:1px solid var(--border);padding:18px 12px;background:#0b1422}
-.nav-label{color:#60738f;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:14px 12px 8px}
-.nav-item{width:100%;display:flex;align-items:center;gap:12px;padding:12px;border:0;border-radius:9px;background:transparent;color:var(--muted);text-align:left;margin-bottom:4px}
-.nav-item i{width:18px;text-align:center}
-.nav-item.active,.nav-item:hover{background:#172a45;color:var(--blue)}
-.sidebar-note{margin:22px 5px;padding:12px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:11px;line-height:1.6}
-.main{flex:1;min-width:0;padding:24px;max-width:1500px;margin:0 auto;width:100%}
-.page{display:none}.page.active{display:block}
-.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.page-head h2{font-size:23px;margin:0 0 7px}
-.page-head p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
-.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}
-.metric,.panel,.video-card,.side-card{background:var(--panel);border:1px solid var(--border);border-radius:13px}
-.metric{padding:16px}
-.metric-top{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
-.metric-value{font-size:25px;font-weight:800;margin:12px 0 5px}
-.metric-foot{font-size:10px;color:var(--muted)}
-.section-title{font-size:14px;font-weight:700;margin:22px 0 13px;display:flex;justify-content:space-between;gap:10px;align-items:center}
-.section-title small{color:var(--muted);font-weight:400;font-size:10px}
-.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}
-.search{flex:1;min-width:180px}
-.search input,.select{width:100%;padding:11px 12px;background:var(--panel);border:1px solid var(--border);border-radius:9px;color:var(--text);outline:none}
-.select{width:auto;min-width:150px}
-.primary-btn{border:0;background:var(--blue);color:#071322;padding:10px 14px;border-radius:9px;font-weight:700}
-.video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.video-card{overflow:hidden;min-width:0}
-.thumb{width:100%;aspect-ratio:16/9;object-fit:cover;background:#172238;display:block}
-.video-info{padding:14px}
-.video-info h3{font-size:14px;line-height:1.5;margin:9px 0}
-.video-meta{font-size:10px;color:var(--muted);line-height:1.7}
-.video-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.video-actions a,.video-actions button{display:inline-block;text-decoration:none;border:1px solid var(--border);background:#142238;color:var(--text);padding:8px 10px;border-radius:7px;font-size:10px}
-.tag{display:inline-block;border-radius:5px;padding:5px 8px;font-size:10px;background:#17304e;color:#83bdff}
-.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:12px;line-height:1.7}
-.panel{padding:18px;margin-bottom:14px}
-.row-item{padding:13px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px;align-items:center}
-.row-item:last-child{border:0}
-.row-item strong{font-size:12px}
-.row-item small{display:block;color:var(--muted);margin-top:5px;font-size:10px}
-.badge{padding:5px 8px;border-radius:6px;background:#173b34;color:var(--green);font-size:10px}
-.article-body{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px}
-.article-body h3{color:var(--cyan)}
-.article-body p{color:var(--muted);line-height:1.8}
-.mobile-nav{display:none}
-.footer{color:#60738f;font-size:10px;text-align:center;padding:25px 0 12px}
-.light-mode{--bg:#edf2f9;--panel:#fff;--panel2:#edf2fa;--border:#d7e0ec;--text:#17253b;--muted:#63748c}
-.light-mode .topbar,.light-mode .sidebar{background:#f8fbff}
-.light-mode .nav-item.active{background:#e4efff}
-@media(max-width:900px){.sidebar{width:190px}.metrics{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:650px){
-.topbar{height:58px;padding:0 11px}.brand h1{font-size:14px}.brand small{font-size:8px}
-.logo{width:34px;height:34px}.status{font-size:9px;padding:5px 7px}
-.sidebar{display:none}.main{padding:17px 12px 90px}
-.page-head h2{font-size:20px}.metrics{gap:8px}.metric{padding:12px}
-.metric-value{font-size:22px}.video-grid{grid-template-columns:1fr}
-.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:30;background:#0b1424f5;border-top:1px solid var(--border);justify-content:space-around;padding:9px 3px max(9px,env(safe-area-inset-bottom))}
-.mobile-nav button{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:5px;font-size:9px;min-width:54px}
-.mobile-nav button i{font-size:17px}.mobile-nav button.active{color:var(--blue)}
-.toolbar .select{flex:1}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VideoIntel Hub | Current Affairs Intelligence</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+    .card-glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-<header class="topbar">
- <div class="brand">
-  <div class="logo"><i class="fa-solid fa-eye"></i></div>
-  <div><h1>VideoIntel Hub</h1><small>INTELLIGENCE & KNOWLEDGE OS</small></div>
- </div>
- <div class="top-actions">
-  <span class="status" id="connectionStatus"><i class="fa-solid fa-circle"></i> CONNECTING</span>
-  <button class="icon-btn" onclick="toggleTheme()" title="Change theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
- </div>
-</header>
+  <!-- Header -->
+  <header class="sticky top-0 z-50 card-glass border-b border-slate-700 px-4 py-3">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <i class="fa-solid fa-brain text-indigo-400 text-2xl"></i>
+        <div>
+          <h1 class="text-lg font-bold leading-none tracking-tight">VideoIntel Hub</h1>
+          <p class="text-xs text-slate-400">Automated Intelligence & Current Affairs</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span id="video-count" class="text-xs bg-indigo-900/60 text-indigo-300 border border-indigo-500/30 px-2.5 py-1 rounded-full font-mono">Loading...</span>
+      </div>
+    </div>
+  </header>
 
-<div class="layout">
-<aside class="sidebar">
- <div class="nav-label">INTELLIGENCE</div>
- <button class="nav-item active" data-page="home"><i class="fa-solid fa-house"></i> Daily Intelligence</button>
- <button class="nav-item" data-page="deep"><i class="fa-solid fa-newspaper"></i> Deep News</button>
- <button class="nav-item" data-page="world"><i class="fa-solid fa-earth-asia"></i> National & International</button>
- <button class="nav-item" data-page="economy"><i class="fa-solid fa-chart-line"></i> Economy & Business</button>
- <button class="nav-item" data-page="science"><i class="fa-solid fa-microchip"></i> Science & Technology</button>
- <div class="nav-label">VIDEO INTELLIGENCE</div>
- <button class="nav-item" data-page="videos"><i class="fa-brands fa-youtube"></i> Video Intelligence</button>
- <button class="nav-item" data-page="channels"><i class="fa-solid fa-tower-broadcast"></i> Channel Engines</button>
- <div class="nav-label">KNOWLEDGE</div>
- <button class="nav-item" data-page="library"><i class="fa-solid fa-book-open"></i> Knowledge Library</button>
- <button class="nav-item" data-page="assistant"><i class="fa-solid fa-robot"></i> AI Research Assistant</button>
- <button class="nav-item" data-page="saved"><i class="fa-solid fa-bookmark"></i> Saved Videos</button>
- <button class="nav-item" data-page="upsc"><i class="fa-solid fa-graduation-cap"></i> UPSC Mode</button>
- <div class="sidebar-note"><i class="fa-solid fa-circle-info"></i> YouTube discovery is connected. AI analysis and research features are still under development.</div>
-</aside>
-
-<main class="main">
-
-<section class="page active" id="page-home">
- <div class="page-head">
-  <div><h2>Daily Intelligence</h2><p>Your knowledge command centre · General news first, UPSC optional</p></div>
-  <span class="tag">LIVE VIDEO FEED</span>
- </div>
- <div class="metrics">
-  <div class="metric"><div class="metric-top">Videos discovered <i class="fa-brands fa-youtube"></i></div><div class="metric-value" id="videoCount">—</div><div class="metric-foot">Collected from monitored channels</div></div>
-  <div class="metric"><div class="metric-top">Channels scanned <i class="fa-solid fa-tower-broadcast"></i></div><div class="metric-value" id="channelCount">—</div><div class="metric-foot">Channels represented in feed</div></div>
-  <div class="metric"><div class="metric-top">Topics analysed <i class="fa-solid fa-brain"></i></div><div class="metric-value">0</div><div class="metric-foot">AI analysis not connected yet</div></div>
-  <div class="metric"><div class="metric-top">Last feed update <i class="fa-solid fa-clock"></i></div><div class="metric-value" id="lastSync" style="font-size:16px">Loading</div><div class="metric-foot">Time reported by scanner</div></div>
- </div>
- <div class="section-title">Latest YouTube discoveries <small id="homeFeedCount">Loading...</small></div>
- <div class="toolbar">
-  <div class="search"><input id="homeSearch" placeholder="Search video titles or channels..." oninput="renderVideos('home')"></div>
-  <select class="select" id="homeChannel" onchange="renderVideos('home')"><option value="all">All channels</option></select>
- </div>
- <div class="video-grid" id="homeVideos"><div class="empty">Loading your YouTube feed...</div></div>
- <div class="section-title">System status</div>
- <div class="panel">
-  <div class="row-item"><strong>YouTube discovery</strong><span class="badge">Connected</span></div>
-  <div class="row-item"><strong>Automatic hourly scanner</strong><span class="badge">Configured</span></div>
-  <div class="row-item"><strong>Gemini topic analysis</strong><span class="badge" style="background:#3c2d19;color:#ffb454">Not connected</span></div>
-  <div class="row-item"><strong>Cloud research database</strong><span class="badge" style="background:#3c2d19;color:#ffb454">Not connected</span></div>
- </div>
-</section>
-
-<section class="page" id="page-videos">
- <div class="page-head"><div><h2>Video Intelligence</h2><p>Videos automatically collected from your selected YouTube sources.</p></div><button class="primary-btn" onclick="loadVideos()"><i class="fa-solid fa-rotate"></i> Refresh feed</button></div>
- <div class="toolbar">
-  <div class="search"><input id="videoSearch" placeholder="Search videos, topics or channels..." oninput="renderVideos('videos')"></div>
-  <select class="select" id="videoChannel" onchange="renderVideos('videos')"><option value="all">All channels</option></select>
- </div>
- <div class="section-title">Collected videos <small id="videoFeedCount">Loading...</small></div>
- <div class="video-grid" id="allVideos"><div class="empty">Loading your YouTube feed...</div></div>
-</section>
-
-<section class="page" id="page-deep">
- <div class="page-head"><div><h2>Deep News Reader</h2><p>Detailed research and explanations based on discovered YouTube topics.</p></div></div>
- <div class="article-body">
-  <h3>AI research engine – next development stage</h3>
-  <p>Your YouTube discovery engine is working. The next stage will retrieve available video transcripts, identify key claims, add relevant external research, verify important facts and create detailed topic reports.</p>
-  <p><strong>Current status:</strong> No AI-generated reports are being presented as verified analysis yet.</p>
- </div>
-</section>
-
-<section class="page" id="page-world">
- <div class="page-head"><div><h2>National & International</h2><p>Find relevant topics in your collected YouTube videos.</p></div></div>
- <div class="video-grid" id="worldVideos"></div>
-</section>
-
-<section class="page" id="page-economy">
- <div class="page-head"><div><h2>Economy & Business</h2><p>Search collected videos for economic and business topics.</p></div></div>
- <div class="video-grid" id="economyVideos"></div>
-</section>
-
-<section class="page" id="page-science">
- <div class="page-head"><div><h2>Science & Technology</h2><p>Explore technology, science, AI and research videos.</p></div></div>
- <div class="video-grid" id="scienceVideos"></div>
-</section>
-
-<section class="page" id="page-channels">
- <div class="page-head"><div><h2>Channel Engines</h2><p>Channels currently represented in your automated feed.</p></div></div>
- <div class="panel" id="channelList">Loading channel information...</div>
- <p style="color:var(--muted);font-size:11px;line-height:1.7">Channel changes must currently be made in the Python scanner configuration. This page displays discovered channel data only.</p>
-</section>
-
-<section class="page" id="page-library">
- <div class="page-head"><div><h2>Knowledge Library</h2><p>Search your collected YouTube video catalogue.</p></div></div>
- <div class="toolbar"><div class="search"><input id="librarySearch" placeholder="Search the video catalogue..." oninput="renderLibrary()"></div></div>
- <div class="video-grid" id="libraryVideos"></div>
-</section>
-
-<section class="page" id="page-assistant">
- <div class="page-head"><div><h2>AI Research Assistant</h2><p>Gemini research integration will be added in a later stage.</p></div></div>
- <div class="panel">
-  <h3>Research workspace</h3>
-  <p style="color:var(--muted);line-height:1.7">The secure AI backend is not connected yet. No API key is stored in this website.</p>
-  <textarea id="assistantQuestion" placeholder="Enter a topic or research question..." style="width:100%;min-height:110px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:12px"></textarea>
-  <button class="primary-btn" onclick="alert('AI research will be enabled after secure backend integration.')">Prepare research question</button>
- </div>
-</section>
-
-<section class="page" id="page-saved">
- <div class="page-head"><div><h2>Saved Videos</h2><p>Your locally bookmarked YouTube videos.</p></div></div>
- <div class="video-grid" id="savedVideos"></div>
-</section>
-
-<section class="page" id="page-upsc">
- <div class="page-head"><div><h2>UPSC Mode</h2><p>Optional exam-focused learning layer.</p></div></div>
- <div class="panel">
-  <div class="row-item"><strong>Prelims facts and MCQs</strong><span class="badge" style="background:#3c2d19;color:#ffb454">Coming later</span></div>
-  <div class="row-item"><strong>GS syllabus mapping</strong><span class="badge" style="background:#3c2d19;color:#ffb454">Coming later</span></div>
-  <div class="row-item"><strong>Mains answer frameworks</strong><span class="badge" style="background:#3c2d19;color:#ffb454">Coming later</span></div>
-  <p style="color:var(--muted);line-height:1.7">UPSC will remain optional. General news and detailed topic research are the primary purpose of this platform.</p>
- </div>
-</section>
-
-<div class="footer">VIDEOINTEL HUB · YOUTUBE DISCOVERY CONNECTED · AI ANALYSIS IN DEVELOPMENT</div>
-</main>
-</div>
-
-<nav class="mobile-nav">
- <button class="active" data-page="home"><i class="fa-solid fa-house"></i>Home</button>
- <button data-page="deep"><i class="fa-solid fa-newspaper"></i>Deep News</button>
- <button data-page="videos"><i class="fa-brands fa-youtube"></i>Videos</button>
- <button data-page="assistant"><i class="fa-solid fa-robot"></i>AI</button>
- <button data-page="saved"><i class="fa-solid fa-bookmark"></i>Saved</button>
-</nav>
-
-<script>
-const DATA_URL = "./videos.json";
-let videos = [];
-let lastUpdated = null;
-let saved = JSON.parse(localStorage.getItem("vhub_saved_videos") || "[]");
-
-function escapeHTML(value){
- return String(value ?? "").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
-
-function safeVideoURL(value){
- try{
-  const u = new URL(value);
-  if(["youtube.com","www.youtube.com","m.youtube.com","youtu.be"].includes(u.hostname)) return u.href;
- }catch(e){}
- return "";
-}
-
-function formatDate(value){
- if(!value) return "Date unavailable";
- const d = new Date(value);
- if(Number.isNaN(d.getTime())) return "Date unavailable";
- return d.toLocaleString([],{
-  day:"numeric",month:"short",year:"numeric",
-  hour:"2-digit",minute:"2-digit"
- });
-}
-
-function videoCard(v,index){
- const link = safeVideoURL(v.link);
- const title = escapeHTML(v.title || "Untitled video");
- const channel = escapeHTML(v.channel || "Unknown channel");
- const date = formatDate(v.published);
- const thumb = typeof v.thumbnail === "string" &&
-  /^https:\/\/i\.ytimg\.com\//.test(v.thumbnail)
-  ? escapeHTML(v.thumbnail) : "";
- const key = String(index);
- const isSaved = saved.includes(v.link);
- return `
- <article class="video-card">
-  ${thumb ? `<img class="thumb" src="${thumb}" alt="Video thumbnail" loading="lazy" onerror="this.style.display='none'">` : ""}
-  <div class="video-info">
-   <span class="tag">${channel}</span>
-   <h3>${title}</h3>
-   <div class="video-meta"><i class="fa-regular fa-clock"></i> ${escapeHTML(date)}</div>
-   <div class="video-actions">
-    ${link ? `<a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i> Watch video</a>` : ""}
-    <button onclick="toggleSave('${encodeURIComponent(v.link || "")}')"><i class="fa-${isSaved?"solid":"regular"} fa-bookmark"></i> ${isSaved?"Saved":"Save"}</button>
-   </div>
+  <!-- Filter & Search Bar -->
+  <div class="max-w-6xl mx-auto w-full px-4 pt-4 pb-2">
+    <div class="relative">
+      <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
+      <input type="text" id="search-input" placeholder="Search topics, entities, analysis..." 
+        class="w-full bg-slate-800/80 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+    </div>
   </div>
- </article>`;
-}
 
-function toggleSave(encodedLink){
- const link = decodeURIComponent(encodedLink);
- if(!link) return;
- saved = saved.includes(link) ? saved.filter(x=>x!==link) : [...saved,link];
- localStorage.setItem("vhub_saved_videos",JSON.stringify(saved));
- renderAll();
-}
+  <!-- Main Feed -->
+  <main class="max-w-6xl mx-auto w-full px-4 py-4 flex-1">
+    <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="col-span-full text-center py-12 text-slate-400 text-sm">Loading intelligence reports...</div>
+    </div>
+  </main>
 
-function renderVideos(section){
- const isHome = section === "home";
- const search = document.getElementById(isHome?"homeSearch":"videoSearch");
- const channel = document.getElementById(isHome?"homeChannel":"videoChannel");
- const query = (search?.value || "").toLowerCase();
- const selected = channel?.value || "all";
- const list = videos.map((v,i)=>({v,i})).filter(({v})=>{
-  const text = `${v.title||""} ${v.channel||""} ${v.description||""}`.toLowerCase();
-  return text.includes(query) && (selected==="all" || v.channel===selected);
- });
- const html = list.length ? list.map(({v,i})=>videoCard(v,i)).join("") :
-  '<div class="empty">No matching videos found.</div>';
- document.getElementById(isHome?"homeVideos":"allVideos").innerHTML=html;
- document.getElementById(isHome?"homeFeedCount":"videoFeedCount").textContent=list.length+" videos";
-}
+  <!-- Dossier Modal -->
+  <div id="dossier-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl">
+      <div class="flex items-center justify-between p-4 border-b border-slate-800">
+        <h3 id="modal-title" class="font-bold text-base text-slate-100 truncate pr-4"></h3>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="modal-body" class="p-5 overflow-y-auto space-y-4 text-sm text-slate-300 leading-relaxed prose prose-invert max-w-none">
+      </div>
+    </div>
+  </div>
 
-function renderSaved(){
- const list = videos.map((v,i)=>({v,i})).filter(({v})=>saved.includes(v.link));
- document.getElementById("savedVideos").innerHTML = list.length ?
-  list.map(({v,i})=>videoCard(v,i)).join("") :
-  '<div class="empty">No saved videos yet. Use Save on a video to bookmark it.</div>';
-}
+  <script>
+    let allArticles = [];
 
-function renderLibrary(){
- const q=(document.getElementById("librarySearch")?.value||"").toLowerCase();
- const list=videos.map((v,i)=>({v,i})).filter(({v})=>
-  `${v.title||""} ${v.channel||""}`.toLowerCase().includes(q)
- );
- document.getElementById("libraryVideos").innerHTML=list.length?
-  list.map(({v,i})=>videoCard(v,i)).join("") :
-  '<div class="empty">No matching videos.</div>';
-}
+    async function loadData() {
+      try {
+        const res = await fetch('videos.json?t=' + Date.now());
+        const data = await res.json();
+        allArticles = Array.isArray(data) ? data : (data.videos || []);
+        document.getElementById('video-count').textContent = `${allArticles.length} Dossiers`;
+        renderFeed(allArticles);
+      } catch (err) {
+        document.getElementById('articles-container').innerHTML = 
+          `<div class="col-span-full p-6 text-center text-rose-400">Failed to load data feed. Ensure workflow has committed videos.json.</div>`;
+      }
+    }
 
-function renderChannels(){
- const names=[...new Set(videos.map(v=>v.channel).filter(Boolean))].sort();
- const options='<option value="all">All channels</option>'+
-  names.map(n=>`<option value="${escapeHTML(n)}">${escapeHTML(n)}</option>`).join("");
- ["homeChannel","videoChannel"].forEach(id=>{
-  const el=document.getElementById(id);
-  const previous=el.value;
-  el.innerHTML=options;
-  if(names.includes(previous)) el.value=previous;
- });
- document.getElementById("channelCount").textContent=names.length;
- document.getElementById("channelList").innerHTML=names.length?
-  names.map(n=>`<div class="row-item"><strong><i class="fa-brands fa-youtube" style="color:var(--red)"></i> ${escapeHTML(n)}</strong><span class="badge">In feed</span></div>`).join("") :
-  '<div class="empty">No channel data found.</div>';
-}
+    function renderFeed(items) {
+      const container = document.getElementById('articles-container');
+      if (!items || items.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">No intelligence dossiers found.</div>`;
+        return;
+      }
 
-function renderCategories(){
- const terms={
-  world:["india","world","international","politics","government","diplomacy","geopolitics","china","pakistan","usa"],
-  economy:["economy","business","bank","finance","market","inflation","trade","budget","rupee","tax"],
-  science:["science","technology","tech","artificial intelligence"," AI ","space","research","computer","digital"]
- };
- Object.entries(terms).forEach(([category,words])=>{
-  const list=videos.map((v,i)=>({v,i})).filter(({v})=>{
-   const text=` ${v.title||""} ${v.description||""} `.toLowerCase();
-   return words.some(w=>text.includes(w));
-  });
-  document.getElementById(category+"Videos").innerHTML=list.length?
-   list.map(({v,i})=>videoCard(v,i)).join("") :
-   '<div class="empty">No matching videos in the current feed. This is a basic keyword filter, not AI classification.</div>';
- });
-}
+      container.innerHTML = items.map((item, idx) => {
+        const title = item.title || "Untitled Video";
+        const channel = item.channel_title || item.channel || "Source Channel";
+        const thumb = item.thumbnail_url || item.thumbnail || `https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`;
+        const summary = item.executive_summary || item.summary || item.description || "Analysis pending...";
+        const takeaways = (item.key_takeaways || []).slice(0, 2);
 
-async function loadVideos(){
- const status=document.getElementById("connectionStatus");
- status.innerHTML='<i class="fa-solid fa-circle"></i> SYNCING';
- try{
-  const response=await fetch(DATA_URL+"?t="+Date.now(),{cache:"no-store"});
-  if(!response.ok) throw new Error("Could not load videos.json (HTTP "+response.status+")");
-  const data=await response.json();
-  if(!data || !Array.isArray(data.videos)) throw new Error("The videos.json format was not recognised.");
-  videos=data.videos;
-  lastUpdated=data.last_updated || null;
-  document.getElementById("videoCount").textContent=videos.length;
-  document.getElementById("lastSync").textContent=lastUpdated?
-   new Date(lastUpdated).toLocaleString([],{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}) :
-   "Not available";
-  status.innerHTML='<i class="fa-solid fa-circle"></i> LIVE FEED';
-  renderChannels();
-  renderAll();
- }catch(error){
-  status.innerHTML='<i class="fa-solid fa-circle"></i> FEED ERROR';
-  document.getElementById("homeVideos").innerHTML=
-   `<div class="empty">Unable to load the YouTube feed.<br>${escapeHTML(error.message)}<br><br>Check that videos.json exists in your GitHub repository.</div>`;
-  document.getElementById("allVideos").innerHTML=
-   `<div class="empty">Feed unavailable: ${escapeHTML(error.message)}</div>`;
-  document.getElementById("videoCount").textContent="—";
- }
-}
+        return `
+          <div class="card-glass rounded-xl overflow-hidden flex flex-col border border-slate-800 hover:border-indigo-500/50 transition">
+            <div class="relative">
+              <img src="${thumb}" alt="${title}" class="w-full h-44 object-cover" onerror="this.src='https://via.placeholder.com/640x360?text=No+Preview'">
+              <span class="absolute bottom-2 left-2 bg-black/70 text-indigo-300 text-[11px] px-2 py-0.5 rounded font-medium">${channel}</span>
+            </div>
+            <div class="p-4 flex flex-col flex-1">
+              <h2 class="font-semibold text-sm line-clamp-2 text-slate-100 mb-2">${title}</h2>
+              <p class="text-xs text-slate-400 line-clamp-3 mb-3 leading-relaxed">${summary}</p>
+              
+              ${takeaways.length ? `
+                <div class="bg-slate-900/70 p-2.5 rounded-lg border border-slate-800/80 mb-3 text-[11px] text-slate-300 space-y-1">
+                  <span class="font-bold text-indigo-400 block text-[10px] uppercase tracking-wider">Key Takeaways</span>
+                  ${takeaways.map(t => `<p class="truncate">• ${t}</p>`).join('')}
+                </div>
+              ` : ''}
 
-function renderAll(){
- renderVideos("home");
- renderVideos("videos");
- renderSaved();
- renderLibrary();
- renderCategories();
-}
+              <div class="mt-auto pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" class="text-xs text-rose-400 hover:underline flex items-center gap-1">
+                  <i class="fa-brands fa-youtube"></i> Watch
+                </a>
+                <button onclick="openModal(${idx})" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-md font-medium transition">
+                  Deep Dossier
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
-function go(page){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.querySelectorAll("[data-page]").forEach(b=>b.classList.remove("active"));
- document.getElementById("page-"+page)?.classList.add("active");
- document.querySelectorAll('[data-page="'+page+'"]').forEach(b=>b.classList.add("active"));
- window.scrollTo({top:0,behavior:"smooth"});
- if(page==="saved") renderSaved();
- if(page==="library") renderLibrary();
- if(page==="videos") renderVideos("videos");
-}
+    function openModal(idx) {
+      const item = allArticles[idx];
+      document.getElementById('modal-title').textContent = item.title;
+      const content = item.deep_dossier_markdown || item.markdown || item.executive_summary || "Full dossier content pending analysis.";
+      document.getElementById('modal-body').innerHTML = marked.parse(content);
+      document.getElementById('dossier-modal').classList.remove('hidden');
+    }
 
-document.querySelectorAll("[data-page]").forEach(b=>{
- b.addEventListener("click",()=>go(b.dataset.page));
-});
+    function closeModal() {
+      document.getElementById('dossier-modal').classList.add('hidden');
+    }
 
-function toggleTheme(){
- document.body.classList.toggle("light-mode");
- document.getElementById("themeIcon").className=
-  document.body.classList.contains("light-mode")?"fa-solid fa-sun":"fa-solid fa-moon";
-}
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = allArticles.filter(a => 
+        (a.title && a.title.toLowerCase().includes(q)) ||
+        (a.executive_summary && a.executive_summary.toLowerCase().includes(q)) ||
+        (a.channel_title && a.channel_title.toLowerCase().includes(q))
+      );
+      renderFeed(filtered);
+    });
 
-loadVideos();
-setInterval(loadVideos,15*60*1000);
-</script>
+    loadData();
+  </script>
 </body>
 </html>
