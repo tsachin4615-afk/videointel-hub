@@ -12,6 +12,7 @@
     .card-glow:hover { border-color: #38bdf8; transform: translateY(-2px); }
     .pill-btn { transition: all 0.15s ease; }
     .pill-btn:active { transform: scale(0.96); }
+    select { appearance: none; -webkit-appearance: none; }
   </style>
 </head>
 <body class="min-h-screen pb-20">
@@ -26,18 +27,41 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             VideoIntel Hub
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">Fault-Tolerant Engine</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">Advanced Engine Suite</span>
           </h1>
           <p class="text-xs text-slate-400">Current Affairs & Competitive Exam Intelligence</p>
         </div>
       </div>
 
-      <!-- Key Manager & Counter -->
-      <div class="flex items-center gap-2">
+      <!-- Controls: Engine Selector, Thinking Level & API Key -->
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- Engine Selection -->
+        <div class="relative">
+          <select id="engineSelector" onchange="saveEnginePreference()" class="text-xs bg-slate-900 border border-slate-700 text-indigo-300 pl-3 pr-7 py-1.5 rounded-lg focus:outline-none focus:border-indigo-500">
+            <option value="gemini-3.8-flash" selected>3.8 Flash (All-around help)</option>
+            <option value="gemini-3.5-flash-lite">3.5 Flash-Lite (Quick answers)</option>
+            <option value="gemini-3.1-pro">3.1 Pro (Detailed research)</option>
+            <option value="gemini-4-argon">4 Argon (Code & analysis)</option>
+          </select>
+          <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-500 pointer-events-none"></i>
+        </div>
+
+        <!-- Thinking Level Selection -->
+        <div class="relative">
+          <select id="thinkingLevel" onchange="saveThinkingPreference()" class="text-xs bg-slate-900 border border-slate-700 text-emerald-400 pl-3 pr-7 py-1.5 rounded-lg focus:outline-none focus:border-indigo-500">
+            <option value="low" selected>Low (Fast & efficient)</option>
+            <option value="medium">Medium (Balanced depth)</option>
+            <option value="high">High (Extra thorough)</option>
+          </select>
+          <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-500 pointer-events-none"></i>
+        </div>
+
+        <!-- API Key Manager -->
         <button onclick="promptApiKey()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
           <i class="fa-solid fa-key text-amber-400"></i>
           <span id="keyStatusLabel">Set Gemini Key</span>
         </button>
+
         <span id="countBadge" class="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2.5 py-1 rounded-full font-medium">Loading...</span>
       </div>
     </div>
@@ -50,7 +74,7 @@
         <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
         <span>Master Gemini Engine — Cross-Feed Intelligence</span>
       </div>
-      <p class="text-xs text-slate-400 mb-3">Query across all loaded intelligence briefings simultaneously with automatic fallback:</p>
+      <p class="text-xs text-slate-400 mb-3">Query across all loaded intelligence briefings simultaneously using your chosen engine:</p>
       
       <!-- Master Preload Buttons -->
       <div class="flex flex-wrap gap-2 mb-3">
@@ -130,8 +154,26 @@
       }
     }
 
+    function saveEnginePreference() {
+      const val = document.getElementById('engineSelector').value;
+      localStorage.setItem('GEMINI_SELECTED_ENGINE', val);
+    }
+
+    function saveThinkingPreference() {
+      const val = document.getElementById('thinkingLevel').value;
+      localStorage.setItem('GEMINI_THINKING_LEVEL', val);
+    }
+
+    function restorePreferences() {
+      const savedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE');
+      if (savedEngine) document.getElementById('engineSelector').value = savedEngine;
+      const savedThinking = localStorage.getItem('GEMINI_THINKING_LEVEL');
+      if (savedThinking) document.getElementById('thinkingLevel').value = savedThinking;
+    }
+
     async function loadFeed() {
       updateKeyStatus();
+      restorePreferences();
       try {
         const res = await fetch(`videos.json?t=${new Date().getTime()}`);
         if (!res.ok) throw new Error("Could not load videos.json");
@@ -166,21 +208,36 @@
       renderGrid();
     }
 
-    // AUTOMATIC CASCADE FALLBACK MATRIX:
-    // If one engine is busy, over capacity, deprecated, or unavailable, it silently hops to the next best engine.
+    // MULTI-ENGINE CALL FUNCTION WITH CASCADE FALLBACK
     async function callGeminiWithAutoFallback(promptText, statusCallback) {
       const key = getApiKey();
       if (!key) throw new Error("GEMINI_KEY_REQUIRED");
 
-      // Ranked priority of fast flash endpoints
+      const chosenEngine = document.getElementById('engineSelector').value;
+      const thinkingMode = document.getElementById('thinkingLevel').value;
+
+      // Thinking level mapped to token thinking budget
+      let thinkingConfig = {};
+      if (thinkingMode === 'low') {
+        thinkingConfig = { thinkingConfig: { thinkingBudget: 1024 } };
+      } else if (thinkingMode === 'medium') {
+        thinkingConfig = { thinkingConfig: { thinkingBudget: 4096 } };
+      } else if (thinkingMode === 'high') {
+        thinkingConfig = { thinkingConfig: { thinkingBudget: 8192 } };
+      }
+
+      // Priority list: user-selected engine first, then the remaining 3.8/3.5/3.1/4 engines, followed by fallback models
       let candidatePool = [
+        chosenEngine,
         "gemini-3.8-flash",
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-pro",
+        "gemini-4-argon",
         "gemini-1.5-flash",
         "gemini-1.5-flash-8b",
-        "gemini-2.5-flash",
-        "gemini-2.0-flash",
         "gemini-flash-latest"
       ];
+      candidatePool = [...new Set(candidatePool)];
 
       for (let i = 0; i < candidatePool.length; i++) {
         const modelName = candidatePool[i];
@@ -189,37 +246,39 @@
             statusCallback(`Engine busy; routing to next best (${modelName})...`);
           }
 
+          const requestBody = {
+            contents: [{ parts: [{ text: promptText }] }],
+            generationConfig: thinkingConfig
+          };
+
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${key}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+            body: JSON.stringify(requestBody)
           });
 
           const data = await res.json();
 
-          // Check if response contains API error
           if (data.error) {
             const errorMsg = data.error.message || "";
-            // Check if Google returned a new suggested model name in the error text
+            // Intercept and auto-add any model suggestion from Google's API response
             const match = errorMsg.match(/models\/([a-zA-Z0-9\.\-_]+)/);
             if (match && match[1] && !candidatePool.includes(match[1])) {
-              candidatePool.splice(i + 1, 0, match[1]); // insert suggested model next
+              candidatePool.splice(i + 1, 0, match[1]);
             }
-            // Move to next candidate in loop without showing errors to user
-            continue;
+            continue; // Silently fallback
           }
 
           const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
           if (reply && reply.trim().length > 0) {
-            return reply; // Successful response!
+            return reply;
           }
         } catch (netErr) {
-          // Network hiccup on this endpoint; try next
-          continue;
+          continue; // Network or format error; try next candidate
         }
       }
 
-      throw new Error("All AI engines are temporarily over-capacity. Please retry in 10 seconds.");
+      throw new Error("All AI engines are temporarily over capacity. Please retry in 10 seconds.");
     }
 
     function formatMarkdown(text) {
