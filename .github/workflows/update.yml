@@ -2,8 +2,8 @@ name: Update Video Feed
 
 on:
   schedule:
-    # Runs automatically every 6 hours
-    - cron: '0 */6 * * *'
+    # Runs automatically every 4 hours
+    - cron: '0 */4 * * *'
   workflow_dispatch:
 
 jobs:
