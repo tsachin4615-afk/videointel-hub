@@ -1,5 +1,49 @@
 [
   {
+    "timestamp": "2026-11-10T22:48:28.600495+00:00",
+    "total_new_videos": 16,
+    "active_channels_count": 3,
+    "channels": [
+      {
+        "channel_name": "India Global Review",
+        "handle": "@IndiaGlobalReview",
+        "video_count": 1,
+        "topics": [
+          "LIVE: Israel's New Parliament Takes Shape as Lawmakers Arrive at Knesset | IGR | India Global Review"
+        ]
+      },
+      {
+        "channel_name": "Vikas Divyakirti",
+        "handle": "@DrishtiIASEnglish",
+        "video_count": 4,
+        "topics": [
+          "Job Vs Startup: Which Way to Go? Dr. Vikas Divyakirti",
+          "Mystery of Deja Vu | Is it possible to see the future? Q & A with Vikas Divyakirti",
+          "Self Confidence vs Narcissism । Dr. Vikas Divyakirti",
+          "Ep : 4 I Charwak Philosophy : An Introduction I Dr. Vikas Divyakirti"
+        ]
+      },
+      {
+        "channel_name": "Amit Sengupta Hindi",
+        "handle": "@amitsengupta01",
+        "video_count": 11,
+        "topics": [
+          "क्यों मनाते है होली? Holika Dahan | Why Holi is celebrated? इसके पीछे की पौराणिक कथाएं और मान्यता",
+          "Ukraine ने Crimea पुल को विस्फोट से उड़ाया | Russia ने लिया बदला..दागी 75 missiles | Geopolitics",
+          "Why Assam floods every year | क्यों आती है हर साल बाढ़ और इतनी बारिश? Geography, Current Affairs",
+          "What is Agneepath scheme, kya hai agnipath yojna? Advantages & Disadvantages । Current Affairs",
+          "Turkey lied & rejected Indian wheat | तुर्की ने भारत के गेहूं के बारे में झूट क्यों बोला Geopolitics",
+          "How Geysers are formed in Hindi | Geography terms in Hindi UPSC, IAS, SSC, CDS, NDA",
+          "How Glaciers are formed in Hindi | ग्लेशियर कैसे बनते हैं? | Geography terms भूगोल",
+          "What is Swamp in Hindi | Difference between Swamp & Marsh | Geography terms भूगोल",
+          "How is a beach is formed in Hindi | समुद्र तट कैसे बनते हैं? | Geography terms भूगोल",
+          "How plains are formed in Hindi | मैदान कैसे बनते है ? | Geography terms भूगोल",
+          "How hills are formed in Hindi | पहाड़ कैसे बनते है ह? | Geography Terms | भूगोल"
+        ]
+      }
+    ]
+  },
+  {
     "timestamp": "2026-11-10T21:28:56.566078+00:00",
     "total_new_videos": 16,
     "active_channels_count": 4,
