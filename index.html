@@ -37,10 +37,14 @@
         </div>
       </div>
 
-      <!-- Controls & Quick Navigation Link -->
+      <!-- Controls & Navigation Links -->
       <div class="flex flex-wrap items-center gap-2">
         <a href="headings.html" class="text-xs bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 border border-indigo-700/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition shadow-sm">
-          <i class="fa-solid fa-list-ul text-sky-400"></i> Headings Quick View
+          <i class="fa-solid fa-list-ul text-sky-400"></i> Headings View
+        </a>
+
+        <a href="monitoring.html" class="text-xs bg-teal-950/80 hover:bg-teal-900 text-teal-300 border border-teal-700/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition shadow-sm">
+          <i class="fa-solid fa-tower-broadcast text-teal-400"></i> Monitor
         </a>
 
         <!-- Engine Selector -->
@@ -64,13 +68,26 @@
     </div>
   </header>
 
-  <!-- Master AI Engine (Global Synthesis) -->
+  <!-- Master AI Engine (Global Synthesis) with Channel Monitoring Button Beside It -->
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="bg-gradient-to-r from-[#0e1628] via-[#131d36] to-[#0e1628] border border-indigo-900/60 rounded-2xl p-4 sm:p-5 shadow-xl relative overflow-hidden">
-      <div class="flex items-center gap-2 text-indigo-300 text-sm font-semibold mb-2">
-        <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
-        <span>Master Gemini Engine — Cross-Feed Intelligence</span>
+      
+      <!-- Top Title Bar with Channel Monitoring Button placed smartly beside it -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
+        <div class="flex items-center gap-2 text-indigo-300 text-sm font-semibold">
+          <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
+          <span>Master Gemini Engine — Cross-Feed Intelligence</span>
+        </div>
+
+        <!-- One-Tap Channel Monitoring Telemetry Button -->
+        <a href="monitoring.html" class="pill-btn text-xs bg-teal-950 hover:bg-teal-900 text-teal-300 border border-teal-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 font-semibold shadow-md transition">
+          <span class="h-2 w-2 rounded-full bg-teal-400 animate-pulse"></span>
+          <i class="fa-solid fa-tower-broadcast text-teal-400"></i>
+          <span>Channel Monitoring (2h Cycles)</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-teal-400 ml-0.5"></i>
+        </a>
       </div>
+
       <p class="text-xs text-slate-400 mb-3">Synthesizes across all active intelligence briefings:</p>
       
       <div class="flex flex-wrap gap-2 mb-3">
@@ -311,7 +328,6 @@
       if (!video) return;
 
       const outputBox = document.getElementById(`output-${videoId}`);
-      // Toggle if already visible
       if (!outputBox.classList.contains('hidden') && outputBox.dataset.loaded === "true") {
         outputBox.classList.add('hidden');
         outputBox.dataset.loaded = "false";
@@ -462,7 +478,7 @@ Context / Description: ${video.description.slice(0, 1800)}`;
             </div>
           </div>
 
-          <!-- Bottom Micro-Deck (Discreet original watch link) -->
+          <!-- Bottom Micro-Deck -->
           <div class="px-4 py-2 border-t border-slate-800/60 bg-[#0a0f1d] flex items-center justify-between">
             <span onclick="onMediaClick(event, '${item.id}')" class="text-[11px] text-teal-400/90 hover:text-teal-300 cursor-pointer font-medium flex items-center gap-1">
               <i class="fa-solid fa-newspaper text-[10px]"></i> Tap to read story
