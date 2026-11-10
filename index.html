@@ -78,7 +78,7 @@
       
       <!-- Master Preload Buttons -->
       <div class="flex flex-wrap gap-2 mb-3">
-        <button onclick="runMasterQuery('Provide a master layman synthesis of all major developments across the dashboard today.')" 
+        <button onclick="runMasterQuery('Provide a master layman synthesis of all major developments across the dashboard today in simple readable news format.')" 
           class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
           <i class="fa-solid fa-user-group text-amber-400"></i> Dashboard Layman Digest
         </button>
@@ -216,13 +216,11 @@
       const chosenEngine = document.getElementById('engineSelector').value;
       const thinkingMode = document.getElementById('thinkingLevel').value;
 
-      // Safe generation configuration
       let genConfig = { temperature: 0.2 };
       if (thinkingMode === 'low') genConfig.thinkingConfig = { thinkingBudget: 1024 };
       if (thinkingMode === 'medium') genConfig.thinkingConfig = { thinkingBudget: 4096 };
       if (thinkingMode === 'high') genConfig.thinkingConfig = { thinkingBudget: 8192 };
 
-      // Candidate cascade pool
       let candidatePool = [
         chosenEngine,
         "gemini-3.8-flash",
@@ -257,7 +255,6 @@
 
           if (data.error) {
             const errorMsg = data.error.message || "";
-            // If thinking budget is rejected on a specific model, retry that same model cleanly once
             if (errorMsg.includes("thinkingConfig") || errorMsg.includes("generationConfig")) {
               const retryRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${key}`, {
                 method: 'POST',
@@ -270,12 +267,11 @@
               }
             }
 
-            // Capture any model recommended by the API error string
             const match = errorMsg.match(/models\/([a-zA-Z0-9\.\-_]+)/);
             if (match && match[1] && !candidatePool.includes(match[1])) {
               candidatePool.splice(i + 1, 0, match[1]);
             }
-            continue; // Fallback to next candidate
+            continue;
           }
 
           const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -293,6 +289,8 @@
     function formatMarkdown(text) {
       return text
         .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+        .replace(/^###\s(.*)$/gm, '<h3 class="text-indigo-300 font-semibold text-xs mt-2 mb-1">$1</h3>')
+        .replace(/^##\s(.*)$/gm, '<h2 class="text-amber-300 font-bold text-xs mt-2.5 mb-1">$1</h2>')
         .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
         .replace(/\n\n/g, '<p class="mt-2"></p>')
         .replace(/\n/g, '<br/>');
@@ -355,14 +353,30 @@ Provide an authoritative, well-structured intelligence report. Use bold headings
       }
     }
 
-    // SAFE ROUTING HANDLERS FOR 3 PRESET FRAMEWORKS
+    // TYPED DISPATCHER: Renders Layman's News Read with a Clean Headline + Explanation
     function triggerPreloadQuestion(videoId, type) {
       if (type === 'layman') {
-        askVideoGemini(videoId, 'Layman Extract: Explain this event in simple everyday language with zero jargon, as if explaining to a beginner.');
+        const prompt = `
+Rewrite this video event as a simple, engaging news story for a regular person:
+Format exactly like this:
+## [Catchy Clear News Headline]
+**The Story in Brief:** 2-3 short, clear sentences explaining what just happened in simple everyday words (no complex political or technical jargon).
+**Why It Matters to You:** 1-2 simple sentences explaining the real-world impact on everyday citizens or the general public.
+        `;
+        askVideoGemini(videoId, prompt, "Layman's News Read");
       } else if (type === 'specific') {
-        askVideoGemini(videoId, 'Specific Knowledge Simplified: Break down the exact institutional mechanisms, strategic treaties, legal and economic facts, and data points in a crystal-clear simplified format.');
+        const prompt = `
+Break down the exact institutional mechanisms, strategic treaties, legal and economic facts, and technical data points in a crystal-clear, structured format with bold terms and concise bullet points.
+        `;
+        askVideoGemini(videoId, prompt, "Specific Knowledge Simplified");
       } else if (type === 'upsc') {
-        askVideoGemini(videoId, 'UPSC Curated Analysis: Provide Prelims high-yield factual points, Mains GS-II and GS-III syllabus mapping, constitutional and international relations dimensions, and a 2-point conclusion.');
+        const prompt = `
+Provide an exam-curated briefing:
+1. Prelims Quick Facts (organizations, treaties, places in news).
+2. Mains Dimensions (linkage to GS-II / GS-III syllabus).
+3. 2-Point Balanced Conclusion.
+        `;
+        askVideoGemini(videoId, prompt, "UPSC Curated Analysis");
       }
     }
 
@@ -400,18 +414,17 @@ Provide an authoritative, well-structured intelligence report. Use bold headings
               <span class="text-indigo-400 flex items-center gap-1.5">
                 <i class="fa-solid fa-sparkles text-amber-400"></i> Video AI Engine
               </span>
-              <!-- Own Thinking Engine Trigger -->
               <button onclick="generateVideoQuestions('${item.id}')" 
                 class="pill-btn text-[11px] px-2.5 py-1 rounded-md bg-purple-950/80 hover:bg-purple-900 border border-purple-800/80 text-purple-200 flex items-center gap-1">
                 <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> AI Smart Questions
               </button>
             </div>
 
-            <!-- The 3 Preloaded Framework Questions (Safe Handler Calls) -->
+            <!-- The 3 Preloaded Framework Questions -->
             <div class="flex flex-wrap gap-1.5 mb-2">
               <button onclick="triggerPreloadQuestion('${item.id}', 'layman')" 
-                class="pill-btn px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-200 border border-slate-700/80 flex items-center gap-1">
-                <i class="fa-solid fa-comment-dots text-teal-400 text-[10px]"></i> Layman's Extract
+                class="pill-btn px-2.5 py-1 rounded bg-slate-800/90 hover:bg-slate-700 text-[11px] text-teal-300 border border-teal-900/60 bg-teal-950/20 flex items-center gap-1">
+                <i class="fa-solid fa-newspaper text-teal-400 text-[10px]"></i> Layman's News Read
               </button>
 
               <button onclick="triggerPreloadQuestion('${item.id}', 'specific')" 
@@ -456,7 +469,7 @@ Provide an authoritative, well-structured intelligence report. Use bold headings
     function submitCardPrompt(id) {
       const input = document.getElementById(`input-${id}`);
       const val = input.value.trim();
-      if (val) askVideoGemini(id, val);
+      if (val) askVideoGemini(id, val, val);
     }
 
     // Dynamic Self-Thinking Questions Generator
@@ -487,7 +500,7 @@ Return ONLY valid JSON array with 3 short strings. Example: ["Question 1?", "Que
             <i class="fa-solid fa-wand-magic-sparkles"></i> AI Suggested Inquiries:
           </div>
           ${questions.map(q => `
-            <button onclick="askVideoGemini('${videoId}', ${JSON.stringify(q)})" 
+            <button onclick="askVideoGemini('${videoId}', ${JSON.stringify(q)}, ${JSON.stringify(q)})" 
               class="pill-btn text-left px-2 py-1 rounded bg-purple-950/60 hover:bg-purple-900 border border-purple-800 text-[11px] text-purple-200">
               ⚡ ${q}
             </button>
@@ -499,28 +512,26 @@ Return ONLY valid JSON array with 3 short strings. Example: ["Question 1?", "Que
     }
 
     // Video-Specific Analysis Runner
-    async function askVideoGemini(videoId, question) {
+    async function askVideoGemini(videoId, queryText, displayTitle) {
       const video = allVideos.find(v => v.id === videoId);
       if (!video) return;
 
+      const label = displayTitle || queryText;
       const box = document.getElementById(`output-${videoId}`);
       box.classList.remove('hidden');
       box.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span id="cardStatusText-${videoId}">Gemini analyzing: "<em>${question.slice(0, 45)}...</em>"...</span>
+          <span id="cardStatusText-${videoId}">Gemini reading & preparing: "<em>${label.slice(0, 45)}...</em>"...</span>
         </div>`;
 
       const prompt = `
-You are a senior intelligence analyst and competitive exam mentor.
 Video Title: "${video.title}"
 Channel: "${video.channel_title}"
-Video Context: ${video.description.slice(0, 2000)}
+Context / Description: ${video.description.slice(0, 2000)}
 
-Specific User Inquiry:
-"${question}"
-
-Provide a crisp, clear, high-yield briefing tailored precisely to this instruction. Use bold headers and clean bullet points.
+Instruction / User Query:
+${queryText}
 `;
 
       try {
@@ -532,13 +543,13 @@ Provide a crisp, clear, high-yield briefing tailored precisely to this instructi
         box.innerHTML = `
           <div class="flex items-center justify-between pb-1.5 border-b border-slate-700/60 mb-2">
             <span class="text-[11px] font-semibold text-indigo-300 flex items-center gap-1">
-              <i class="fa-solid fa-sparkles text-amber-400"></i> ${question.slice(0, 50)}...
+              <i class="fa-solid fa-sparkles text-amber-400"></i> ${label.slice(0, 50)}
             </span>
             <button onclick="document.getElementById('output-${videoId}').classList.add('hidden')" class="text-slate-500 hover:text-slate-300 text-xs">
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
-          <div class="prose-slate text-xs space-y-1">${formatMarkdown(text)}</div>
+          <div class="prose-slate text-xs space-y-1.5">${formatMarkdown(text)}</div>
         `;
       } catch (err) {
         if (err.message === "GEMINI_KEY_REQUIRED") {
