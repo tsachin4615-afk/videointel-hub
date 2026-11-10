@@ -1,328 +1,104 @@
-
+import os
 import json
-import re
-import sys
 import urllib.request
 import xml.etree.ElementTree as ET
+from datetime import datetime
+from google import genai
+from google.genai import types
 
-from datetime import datetime, timezone
-from pathlib import Path
-from urllib.parse import urlparse, parse_qs
-
-
-# ==========================================
-# VIDEOINTEL HUB - YOUTUBE DISCOVERY ENGINE
-# ==========================================
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 CHANNELS = [
-    {"name": "StudyIQ IAS", "id": "UCrC8mOqJQpoB7NuIMKIS6rQ"},
-    {"name": "DEF Talks by Aadi", "id": "UCMDWKjf52UP55TF4a5sxmQg"},
-    {"name": "World Affairs", "id": "UCCJsQKOKArvDksacfT2ryQw"},
-    {"name": "Coffee With Sumeet Jain", "id": "UCcnwa6E4BwDJKeATB6tqmsQ"},
-    {"name": "Firstpost Vantage", "id": "UCz8QaiQxApLq8sLNcszYyJw"},
+    {"name": "StudyIQ IAS", "id": "UCrDxqG5pZ2H6jP5_F4e9QvA"},
+    {"name": "World Affairs", "id": "UCCBs6hV2e9P_u_Dcx2hV25A"},
     {"name": "WION", "id": "UC_gUM8rL-Lrg6O3adPW9K1g"},
-    {"name": "Finology Legal", "id": "UCItJsxqZNWUyxFn-A2tzizQ"},
-    {"name": "Pranjal Kamra", "id": "UCwAdQUuPT6laN-AQR17fe1g"},
-    {"name": "Bankers Adda247", "id": "UC7DgZZeZD2HKc7JUAsIwe-w"}
+    {"name": "DEF Talks by Aadi", "id": "UC7uH7o5JcKeqHqjFjXbF9vA"}
 ]
 
-MAX_VIDEOS_PER_CHANNEL = 15
-MAX_TOTAL_VIDEOS = 250
-REQUEST_TIMEOUT = 20
-
-OUTPUT_FILE = Path("videos.json")
-
-ATOM = "{http://www.w3.org/2005/Atom}"
-YT = "{http://www.youtube.com/xml/schemas/2015}"
-MEDIA = "{http://search.yahoo.com/mrss/}"
-
-
-def utc_now():
-    return datetime.now(timezone.utc)
-
-
-def parse_date(value):
-    if not value:
-        return datetime.min.replace(tzinfo=timezone.utc)
-
-    try:
-        return datetime.fromisoformat(
-            value.replace("Z", "+00:00")
-        )
-    except (ValueError, TypeError):
-        return datetime.min.replace(tzinfo=timezone.utc)
-
-
-def get_video_id(link):
-    try:
-        parsed = urlparse(link)
-
-        if parsed.hostname in ("youtu.be", "www.youtu.be"):
-            return parsed.path.strip("/").split("/")[0]
-
-        if parsed.hostname and "youtube.com" in parsed.hostname:
-            query_id = parse_qs(parsed.query).get("v")
-            if query_id:
-                return query_id[0]
-
-            match = re.search(
-                r"/(?:shorts|live|embed)/([^/?]+)",
-                parsed.path
-            )
-            if match:
-                return match.group(1)
-
-    except Exception:
-        pass
-
-    return ""
-
-
-def load_existing_videos():
-    if not OUTPUT_FILE.exists():
-        return []
-
-    try:
-        with OUTPUT_FILE.open("r", encoding="utf-8") as file:
-            data = json.load(file)
-
-        videos = data.get("videos", [])
-
-        if isinstance(videos, list):
-            return videos
-
-    except (OSError, json.JSONDecodeError) as error:
-        print(f"WARNING: Could not read old videos.json: {error}")
-
-    return []
-
-
-def fetch_channel(channel):
-    channel_id = channel["id"]
-
-    feed_url = (
-        "https://www.youtube.com/feeds/videos.xml"
-        f"?channel_id={channel_id}"
-    )
-
-    request = urllib.request.Request(
-        feed_url,
-        headers={
-            "User-Agent": "VideoIntelHub/1.0",
-            "Accept": "application/atom+xml, application/xml"
+def analyze_with_gemini(client, title, description, channel):
+    if not client:
+        return {
+            "summary": description[:250] + "..." if description else "No summary available.",
+            "takeaways": ["Analysis engine waiting for API key."],
+            "dossier": f"### {title}\n\n{description}"
         }
-    )
 
-    with urllib.request.urlopen(
-        request,
-        timeout=REQUEST_TIMEOUT
-    ) as response:
-        xml_data = response.read()
+    prompt = f"""
+    You are an expert news analyst and competitive exam (UPSC/Current Affairs) tutor.
+    Analyze this video update:
+    Channel: {channel}
+    Title: {title}
+    Description/Transcript Context: {description[:2000]}
 
-    root = ET.fromstring(xml_data)
+    Respond in valid JSON format with exactly these keys:
+    {{
+      "summary": "2-3 concise sentences summarizing core developments.",
+      "takeaways": ["High-yield pointer 1", "High-yield pointer 2", "High-yield pointer 3"],
+      "dossier": "A comprehensive markdown analysis covering Background, Key Entities, Exam/Policy Relevance, and Strategic Implications."
+    }}
+    """
 
-    entries = root.findall(f"{ATOM}entry")
-    videos = []
-
-    for entry in entries[:MAX_VIDEOS_PER_CHANNEL]:
-
-        title_element = entry.find(f"{ATOM}title")
-        link_element = entry.find(f"{ATOM}link")
-        published_element = entry.find(f"{ATOM}published")
-        id_element = entry.find(f"{YT}videoId")
-
-        title = (
-            title_element.text.strip()
-            if title_element is not None and title_element.text
-            else "Untitled video"
-        )
-
-        link = ""
-
-        if link_element is not None:
-            link = link_element.attrib.get("href", "")
-
-        video_id = (
-            id_element.text.strip()
-            if id_element is not None and id_element.text
-            else get_video_id(link)
-        )
-
-        if not video_id:
-            video_id = get_video_id(link)
-
-        if not video_id:
-            continue
-
-        published = (
-            published_element.text.strip()
-            if published_element is not None
-            and published_element.text
-            else ""
-        )
-
-        # Extract optional video description.
-        description = ""
-        media_group = entry.find(f"{MEDIA}group")
-
-        if media_group is not None:
-            description_element = media_group.find(
-                f"{MEDIA}description"
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                temperature=0.2
             )
+        )
+        return json.loads(response.text)
+    except Exception as e:
+        print(f"Gemini processing error for {title}: {e}")
+        return {
+            "summary": description[:250] + "..." if description else "No summary available.",
+            "takeaways": ["Analysis temporarily unavailable."],
+            "dossier": f"### {title}\n\n{description}"
+        }
 
-            if description_element is not None:
-                description = description_element.text or ""
+def fetch_rss_videos():
+    client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
+    all_videos = []
 
-        videos.append({
-            "video_id": video_id,
-            "channel": channel["name"],
-            "channel_id": channel_id,
-            "title": title,
-            "link": link or (
-                f"https://www.youtube.com/watch?v={video_id}"
-            ),
-            "published": published,
-            "thumbnail": (
-                f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg"
-            ),
-            "description": description
-        })
-
-    return videos
-
-
-def main():
-
-    old_videos = load_existing_videos()
-
-    successful_channels = set()
-    failed_channels = []
-
-    discovered = []
-
-    print("Starting VideoIntel Hub discovery...")
-    print(f"Monitoring {len(CHANNELS)} channels.")
-
-    for channel in CHANNELS:
-
+    for ch in CHANNELS:
+        url = f"https://www.youtube.com/feeds/videos.xml?channel_id={ch['id']}"
         try:
-            videos = fetch_channel(channel)
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=10) as response:
+                xml_data = response.read()
 
-            discovered.extend(videos)
-            successful_channels.add(channel["id"])
+            root = ET.fromstring(xml_data)
+            ns = {'atom': 'http://www.w3.org/2005/Atom', 'yt': 'http://www.youtube.com/xml/schemas/2015', 'media': 'http://search.yahoo.com/mrss/'}
 
-            print(
-                f"SUCCESS: {channel['name']} "
-                f"- {len(videos)} videos"
-            )
+            # Fetch top 2 most recent videos per channel to stay fast and within free quota
+            entries = root.findall('atom:entry', ns)[:2]
+            for entry in entries:
+                v_id = entry.find('yt:videoId', ns).text
+                v_title = entry.find('atom:title', ns).text
+                published = entry.find('atom:published', ns).text
+                
+                desc_elem = entry.find('.//media:description', ns)
+                v_desc = desc_elem.text if desc_elem is not None and desc_elem.text else ""
+                
+                print(f"Synthesizing intelligence for: {v_title}")
+                ai_intel = analyze_with_gemini(client, v_title, v_desc, ch['name'])
 
-        except Exception as error:
+                all_videos.append({
+                    "id": v_id,
+                    "channel_title": ch['name'],
+                    "title": v_title,
+                    "published_at": published,
+                    "thumbnail_url": f"https://i.ytimg.com/vi/{v_id}/hqdefault.jpg",
+                    "executive_summary": ai_intel.get("summary", ""),
+                    "key_takeaways": ai_intel.get("takeaways", []),
+                    "deep_dossier_markdown": ai_intel.get("dossier", "")
+                })
+        except Exception as e:
+            print(f"Error fetching channel {ch['name']}: {e}")
 
-            failed_channels.append({
-                "channel": channel["name"],
-                "error": str(error)
-            })
-
-            print(
-                f"ERROR: {channel['name']} - {error}"
-            )
-
-    # If every feed fails, preserve the existing file.
-    if not successful_channels:
-
-        print(
-            "All channel feeds failed. "
-            "Existing videos.json was not changed."
-        )
-
-        sys.exit(1)
-
-    # Preserve previously collected data for channels
-    # that could not be reached during this run.
-    preserved = []
-
-    failed_ids = {
-        channel["id"]
-        for channel in CHANNELS
-        if channel["id"] not in successful_channels
-    }
-
-    failed_names = {
-        channel["name"]
-        for channel in CHANNELS
-        if channel["id"] not in successful_channels
-    }
-
-    for video in old_videos:
-
-        channel_id = video.get("channel_id", "")
-        channel_name = video.get("channel", "")
-
-        if channel_id in failed_ids or (
-            not channel_id and channel_name in failed_names
-        ):
-            preserved.append(video)
-
-    # Combine newly discovered and preserved videos.
-    combined = discovered + preserved
-
-    # Remove duplicate videos using their YouTube video ID.
-    unique = {}
-    for video in combined:
-
-        video_id = video.get("video_id") or get_video_id(
-            video.get("link", "")
-        )
-
-        if not video_id:
-            continue
-
-        video["video_id"] = video_id
-
-        if video_id not in unique:
-            unique[video_id] = video
-
-    all_videos = list(unique.values())
-
-    # Sort newest first.
-    all_videos.sort(
-        key=lambda video: parse_date(video.get("published")),
-        reverse=True
-    )
-
-    all_videos = all_videos[:MAX_TOTAL_VIDEOS]
-
-    output = {
-        "last_updated": utc_now().strftime(
-            "%Y-%m-%d %H:%M UTC"
-        ),
-        "total_videos": len(all_videos),
-        "successful_channels": len(successful_channels),
-        "failed_channels": failed_channels,
-        "videos": all_videos
-    }
-
-    # Write safely using a temporary file.
-    temporary_file = OUTPUT_FILE.with_suffix(".tmp")
-
-    with temporary_file.open("w", encoding="utf-8") as file:
-        json.dump(
-            output,
-            file,
-            indent=2,
-            ensure_ascii=False
-        )
-
-    temporary_file.replace(OUTPUT_FILE)
-
-    print("--------------------------------")
-    print("VIDEOINTEL HUB DISCOVERY COMPLETE")
-    print(f"Videos available: {len(all_videos)}")
-    print(f"Channels successful: {len(successful_channels)}")
-    print(f"Channels failed: {len(failed_channels)}")
-    print("Saved videos.json")
-    print("--------------------------------")
-
+    with open("videos.json", "w", encoding="utf-8") as f:
+        json.dump(all_videos, f, indent=2, ensure_ascii=False)
+    print(f"Saved {len(all_videos)} dossiers into videos.json")
 
 if __name__ == "__main__":
-    main()
+    fetch_rss_videos()
