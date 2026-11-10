@@ -1,8 +1,8 @@
-name: Update Video Feed
+name: Update Video Feed & AI Summaries
 
 on:
   schedule:
-    # Runs every 2 hours: at minute 15 of every even hour (UTC)
+    # Runs automatically every 2 hours
     - cron: '15 */2 * * *'
   workflow_dispatch:
 
@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  fetch_and_update:
+  fetch_and_summarize:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -25,15 +25,16 @@ jobs:
         run: |
           pip install requests python-dateutil
 
-      - name: Fetch Channel Intelligence
+      - name: Harvest Videos & Generate Layman Summaries
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python fetch_videos.py
 
-      - name: Commit and Push Updated Feed
+      - name: Commit and Push Any Updates
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
           git add videos.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update intelligence feed [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update feed and AI summaries [skip ci]" && git push)
