@@ -40,8 +40,10 @@ CHANNELS = [
 ]
 
 FEED_FILE = "videos.json"
+CYCLES_FILE = "cycles.json"
 NOW_UTC = datetime.now(timezone.utc)
 TIME_WINDOW_START = NOW_UTC - timedelta(hours=36)
+CYCLE_WINDOW_START = NOW_UTC - timedelta(hours=2, minutes=20)  # Covers current 2-hour window
 
 SESSION = requests.Session()
 SESSION.headers.update({
@@ -165,7 +167,6 @@ def fetch_videos_api_playlist(channel_id, handle):
         log(f"API playlist error for {uploads_id}: {e}")
     return videos
 
-# BACKEND GEMINI SUMMARIZER WITH CASCADE
 def generate_layman_summary(title, description, channel_title):
     if not GEMINI_API_KEY:
         return None
@@ -191,7 +192,7 @@ Context / Description: {description[:1800]}"""
                 parts = data["candidates"][0].get("content", {}).get("parts", [])
                 if parts and "text" in parts[0]:
                     return parts[0]["text"].strip()
-        except Exception as e:
+        except Exception:
             continue
     return None
 
@@ -203,6 +204,29 @@ def save_feed(feed_map):
     )
     with open(FEED_FILE, "w", encoding="utf-8") as f:
         json.dump(sorted_feed[:300], f, indent=2, ensure_ascii=False)
+
+def log_cycle_data(cycle_channels_data, total_new_in_cycle):
+    cycles_history = []
+    if os.path.exists(CYCLES_FILE):
+        try:
+            with open(CYCLES_FILE, "r", encoding="utf-8") as f:
+                cycles_history = json.load(f)
+        except Exception:
+            cycles_history = []
+
+    current_cycle_record = {
+        "timestamp": NOW_UTC.isoformat(),
+        "total_new_videos": total_new_in_cycle,
+        "active_channels_count": len(cycle_channels_data),
+        "channels": cycle_channels_data
+    }
+
+    # Prepend new cycle and preserve the latest 6 cycles
+    updated_history = [current_cycle_record] + cycles_history[:5]
+
+    with open(CYCLES_FILE, "w", encoding="utf-8") as f:
+        json.dump(updated_history, f, indent=2, ensure_ascii=False)
+    log(f"Cycle activity logged to {CYCLES_FILE}. Active channels this run: {len(cycle_channels_data)}")
 
 def main():
     existing_videos = []
@@ -216,8 +240,8 @@ def main():
     feed_map = {v["id"]: v for v in existing_videos}
     log(f"Feed loaded. Total existing records: {len(feed_map)}")
 
-    newly_added_count = 0
-    summarized_count = 0
+    cycle_channel_map = {}
+    total_cycle_videos = 0
 
     for index, handle in enumerate(CHANNELS, start=1):
         log(f"[{index}/{len(CHANNELS)}] Inspecting {handle}...")
@@ -238,36 +262,51 @@ def main():
             v_id = vid["id"]
             try:
                 dt = parser.parse(vid["published_at"])
-                is_fresh = dt >= TIME_WINDOW_START
+                is_fresh_36h = dt >= TIME_WINDOW_START
+                is_in_current_2h_cycle = dt >= CYCLE_WINDOW_START or (v_id not in feed_map)
             except Exception:
-                is_fresh = True
+                is_fresh_36h = True
+                is_in_current_2h_cycle = False
 
-            # If brand new video or missing layman news in existing video
+            # Track for the 2-hour monitoring log
+            if is_in_current_2h_cycle:
+                ch_title = vid.get("channel_title", handle)
+                if ch_title not in cycle_channel_map:
+                    cycle_channel_map[ch_title] = {
+                        "channel_name": ch_title,
+                        "handle": handle,
+                        "video_count": 0,
+                        "topics": []
+                    }
+                if vid["title"] not in cycle_channel_map[ch_title]["topics"]:
+                    cycle_channel_map[ch_title]["video_count"] += 1
+                    cycle_channel_map[ch_title]["topics"].append(vid["title"])
+                    total_cycle_videos += 1
+
+            # Update feed map
             if v_id not in feed_map:
                 feed_map[v_id] = vid
-                newly_added_count += 1
             else:
-                # Update basic info but preserve existing summary
                 for k in ["title", "description", "thumbnail_url"]:
                     if k in vid:
                         feed_map[v_id][k] = vid[k]
 
-            # PREPARE LAYMAN SUMMARY ONE-BY-ONE IF MISSING
-            if is_fresh and not feed_map[v_id].get("layman_news"):
+            # Prepare Layman summary if missing
+            if is_fresh_36h and not feed_map[v_id].get("layman_news"):
                 log(f"--> Generating Layman summary for: {vid['title'][:45]}...")
                 summary = generate_layman_summary(vid["title"], vid.get("description", ""), vid.get("channel_title", ""))
                 if summary:
                     feed_map[v_id]["layman_news"] = summary
-                    summarized_count += 1
-                    # Save immediately so progress is preserved
                     save_feed(feed_map)
-                    # Safe spacing between Gemini AI calls to stay under rate limits
                     time.sleep(3.5)
 
         time.sleep(0.8)
 
     save_feed(feed_map)
-    log(f"Complete. New videos added: {newly_added_count}, Summaries pre-compiled: {summarized_count}")
+    
+    # Save the 2-hour monitoring cycle log
+    log_cycle_data(list(cycle_channel_map.values()), total_cycle_videos)
+    log(f"Cycle completed successfully.")
 
 if __name__ == "__main__":
     main()
