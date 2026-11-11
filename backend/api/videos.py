@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,7 +14,11 @@ gemini_service = GeminiIntelligenceService()
 
 
 @router.get("/")
-async def list_videos(category: str | None = None, limit: int = 50, db: AsyncSession = Depends(get_db)):
+async def list_videos(
+    category: str | None = None,
+    limit: int = Query(50, ge=1, le=100),
+    db: AsyncSession = Depends(get_db),
+):
     stmt = select(Video).order_by(Video.published_at.desc()).limit(limit)
     if category:
         stmt = stmt.where(Video.category == category)

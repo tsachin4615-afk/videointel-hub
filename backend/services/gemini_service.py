@@ -11,6 +11,16 @@ from config import settings
 
 logger = logging.getLogger(__name__)
 
+_REQUIRED_ANALYSIS_KEYS = {
+    "executive_summary",
+    "key_takeaways",
+    "topics_covered",
+    "entities",
+    "fact_check_notes",
+    "upsc_relevance",
+    "deep_dossier_markdown",
+}
+
 
 class GeminiIntelligenceService:
     def __init__(self):
@@ -77,6 +87,11 @@ class GeminiIntelligenceService:
                 ),
             )
             parsed = self._parse_json_response(response.text)
+            if not isinstance(parsed, dict):
+                raise TypeError("Gemini response was not a JSON object.")
+            missing = sorted(key for key in _REQUIRED_ANALYSIS_KEYS if key not in parsed)
+            if missing:
+                raise ValueError(f"Gemini response missing keys: {missing}")
             return parsed
         except Exception as exc:
             logger.error(f"Gemini analysis failure: {exc}")
@@ -96,7 +111,10 @@ class GeminiIntelligenceService:
         if match:
             cleaned = match.group(0)
 
-        return json.loads(cleaned)
+        parsed = json.loads(cleaned)
+        if isinstance(parsed, list):
+            raise TypeError("Gemini returned a JSON list instead of an object")
+        return parsed
 
     def _build_empty_response(self, title: str, reason: str) -> dict:
         return {

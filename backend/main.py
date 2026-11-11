@@ -5,6 +5,7 @@ from config import settings
 from database import init_db
 from api import articles, assistant, search, videos
 
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
