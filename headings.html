@@ -11,16 +11,16 @@
     .heading-row { transition: all 0.2s ease; }
     .row-unread { background-color: #0f172a; border-bottom: 1px solid #1e293b; opacity: 1; }
     .row-unread:hover { background-color: #131f36; }
-    .row-duplicate { background-color: #0d1322; border-bottom: 1px dashed #334155; opacity: 0.80; }
+    .row-duplicate { background-color: #0d1322; border-bottom: 1px dashed #334155; opacity: 0.82; }
     .row-duplicate:hover { background-color: #162035; }
-    .row-read { background-color: #090d16; border-bottom: 1px solid #141b29; opacity: 0.60; }
+    .row-read { background-color: #090d16; border-bottom: 1px solid #141b29; opacity: 0.58; filter: grayscale(20%); }
     .row-read:hover { opacity: 0.85; background-color: #0d1322; }
     .pill-btn { transition: all 0.15s ease; }
     .pill-btn:active { transform: scale(0.96); }
     select { appearance: none; -webkit-appearance: none; }
     .unread-indicator { width: 7px; height: 7px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
     .clickable-desc { cursor: pointer; user-select: none; }
-    #pullIndicator { transition: all 0.2s ease; transform: translateY(-100%); }
+    #pullIndicator { transition: transform 0.2s ease; transform: translateY(-100%); }
     #pullIndicator.visible { transform: translateY(0); }
   </style>
 </head>
@@ -29,7 +29,7 @@
   <!-- Pull-to-Refresh Banner -->
   <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 bg-sky-950/95 border-b border-sky-700 text-sky-200 text-xs py-2 text-center flex items-center justify-center gap-2 backdrop-blur-md">
     <i class="fa-solid fa-arrows-rotate fa-spin text-sky-400"></i>
-    <span>Refreshing feed: surfacing top 100 unique news and moving read items to bottom...</span>
+    <span>Refreshing feed: surfacing top unique news & moving read headlines to bottom...</span>
   </div>
 
   <!-- Header -->
@@ -44,7 +44,7 @@
             Headings Intelligence
             <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">Argon Engine</span>
           </h1>
-          <p class="text-xs text-slate-400">Tap to Read • Empty Space to Close • Read Moves on Refresh</p>
+          <p class="text-xs text-slate-400">Tap to Read • Tap Empty Space to Close • Read Moves on Refresh</p>
         </div>
       </div>
 
@@ -56,7 +56,7 @@
           <i class="fa-solid fa-tower-broadcast text-teal-400"></i> Monitor
         </a>
 
-        <!-- Engine Selector defaulting to Gemini 4 Argon -->
+        <!-- Engine Selector prioritizing Gemini 4 Argon -->
         <div class="relative">
           <select id="engineSelector" onchange="saveEnginePreference()" class="text-xs bg-slate-900 border border-slate-700 text-indigo-300 pl-3 pr-7 py-1.5 rounded-lg focus:outline-none focus:border-indigo-500">
             <option value="gemini-4-argon" selected>4 Argon (High-Speed & Deep)</option>
@@ -190,12 +190,14 @@
       }
     }
 
-    // MARKS ROW AS READ AND DIMS IT VISUALLY IN-PLACE WITHOUT RE-ORDERING
+    // MARKS ROW AS READ IN-PLACE AND DIMS VISUALLY (NO IMMEDIATE RE-ORDER)
     function markAsRead(videoId) {
       const readSet = getReadSet();
       if (!readSet.has(videoId)) {
         readSet.add(videoId);
-        localStorage.setItem('VIDEO_INTEL_READ_SET', JSON.stringify(Array.from(readSet)));
+        try {
+          localStorage.setItem('VIDEO_INTEL_READ_SET', JSON.stringify(Array.from(readSet)));
+        } catch (e) {}
         updateRowVisualState(videoId, true);
         updateReadStatsDisplay();
       }
@@ -225,7 +227,7 @@
     }
 
     function resetReadState() {
-      if (confirm("Reset all read history? Read news will return to the active top section.")) {
+      if (confirm("Reset read history? All headlines will return to the active top tier.")) {
         localStorage.removeItem('VIDEO_INTEL_READ_SET');
         renderHeadings();
       }
@@ -281,7 +283,10 @@
 
     function restorePreferences() {
       const savedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE');
-      if (savedEngine) document.getElementById('engineSelector').value = savedEngine;
+      if (savedEngine) {
+        const sel = document.getElementById('engineSelector');
+        if (sel) sel.value = savedEngine;
+      }
     }
 
     async function loadFeed() {
@@ -302,12 +307,12 @@
       }
     }
 
-    // REFRESH: ONLY AT THIS MOMENT ARE READ ROWS MOVED TO THE BOTTOM ARCHIVE
+    // MANUAL OR PULL REFRESH: READ ROWS MOVE DOWN TO BOTTOM ARCHIVE HERE ONLY
     async function triggerManualRefresh() {
       const ind = document.getElementById('pullIndicator');
-      ind.classList.add('visible');
+      if (ind) ind.classList.add('visible');
       await loadFeed();
-      setTimeout(() => ind.classList.remove('visible'), 500);
+      if (ind) setTimeout(() => ind.classList.remove('visible'), 500);
     }
 
     // Mobile pull-to-refresh
@@ -344,7 +349,8 @@
       const stopWords = new Set([
         "the", "a", "an", "in", "to", "for", "of", "and", "on", "with", "by", "is", "at", 
         "from", "video", "news", "breaking", "update", "explained", "full", "analysis", 
-        "why", "how", "what", "watch", "live", "about", "this", "that", "over", "into"
+        "why", "how", "what", "watch", "live", "about", "this", "that", "over", "into",
+        "vs", "new", "top", "latest", "after", "will"
       ]);
       return title
         .toLowerCase()
@@ -587,7 +593,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       closeDrawer(videoId);
     }
 
-    // CLOSES DRAWER IN-PLACE (DOES NOT CALL renderHeadings; ROW REMAINS IN PLACE UNTIL REFRESH)
+    // CLOSES DRAWER IN-PLACE (ROW REMAINS IN PLACE UNTIL REFRESH)
     function closeDrawer(videoId) {
       const drawer = document.getElementById(`drawer-${videoId}`);
       if (drawer) {
