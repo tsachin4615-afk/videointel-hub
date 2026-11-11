@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import json
+import re
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 import requests
@@ -43,7 +44,7 @@ FEED_FILE = "videos.json"
 CYCLES_FILE = "cycles.json"
 NOW_UTC = datetime.now(timezone.utc)
 TIME_WINDOW_START = NOW_UTC - timedelta(hours=36)
-CYCLE_WINDOW_START = NOW_UTC - timedelta(hours=2, minutes=20)  # Covers current 2-hour window
+CYCLE_WINDOW_START = NOW_UTC - timedelta(hours=2, minutes=20)
 
 SESSION = requests.Session()
 SESSION.headers.update({
@@ -59,7 +60,6 @@ def resolve_channel_id_scraping(handle):
     try:
         res = SESSION.get(url, timeout=10)
         if res.status_code == 200:
-            import re
             match = re.search(r'itemprop="channelId"\s+content="([a-zA-Z0-9_-]{24})"', res.text)
             if match:
                 return match.group(1)
@@ -174,8 +174,8 @@ def generate_layman_summary(title, description, channel_title):
     prompt = f"""Rewrite this video event as a simple, engaging news story for a regular person:
 Format exactly like this:
 ## [Catchy Clear News Headline]
-**The Story in Brief:** 2-3 short, clear sentences explaining what just happened in simple everyday words (no complex political or technical jargon).
-**Why It Matters to You:** 1-2 simple sentences explaining the real-world impact on everyday citizens or the general public.
+**The Story in Brief:** 2-3 short, clear sentences explaining what just happened in simple everyday words.
+**Why It Matters to You:** 1-2 simple sentences explaining the real-world impact on everyday citizens.
 
 Video Title: "{title}"
 Channel: "{channel_title}"
@@ -195,6 +195,33 @@ Context / Description: {description[:1800]}"""
         except Exception:
             continue
     return None
+
+# KEYWORD TOPIC CLUSTERING (Prunes excess duplicate topics in the 2h run to preserve space)
+STOPWORDS = set([
+    "the", "a", "an", "in", "to", "for", "of", "and", "on", "with", "by", "is", "at", 
+    "from", "video", "news", "breaking", "update", "explained", "full", "analysis", 
+    "why", "how", "what", "watch", "live", "about", "this", "that", "over", "into"
+])
+
+def extract_keywords(title):
+    words = re.sub(r'[^a-zA-Z0-9\s]', ' ', title.lower()).split()
+    return set(w for w in words if len(w) > 2 and w not in STOPWORDS)
+
+def is_heavily_duplicated(candidate_vid, existing_vids):
+    c_words = extract_keywords(candidate_vid["title"])
+    if len(c_words) < 2:
+        return False
+
+    similar_count = 0
+    for v in existing_vids:
+        v_words = extract_keywords(v.get("title", ""))
+        overlap = len(c_words.intersection(v_words))
+        if overlap >= 3 or (overlap >= 2 and len(c_words) <= 3):
+            similar_count += 1
+            # If 2 other channels have already covered this exact topic, don't flood the feed
+            if similar_count >= 2:
+                return True
+    return False
 
 def save_feed(feed_map):
     sorted_feed = sorted(
@@ -221,12 +248,9 @@ def log_cycle_data(cycle_channels_data, total_new_in_cycle):
         "channels": cycle_channels_data
     }
 
-    # Prepend new cycle and preserve the latest 6 cycles
     updated_history = [current_cycle_record] + cycles_history[:5]
-
     with open(CYCLES_FILE, "w", encoding="utf-8") as f:
         json.dump(updated_history, f, indent=2, ensure_ascii=False)
-    log(f"Cycle activity logged to {CYCLES_FILE}. Active channels this run: {len(cycle_channels_data)}")
 
 def main():
     existing_videos = []
@@ -242,6 +266,7 @@ def main():
 
     cycle_channel_map = {}
     total_cycle_videos = 0
+    pruned_duplicates_count = 0
 
     for index, handle in enumerate(CHANNELS, start=1):
         log(f"[{index}/{len(CHANNELS)}] Inspecting {handle}...")
@@ -251,7 +276,6 @@ def main():
             channel_id = resolve_channel_id_api(handle)
 
         if not channel_id:
-            log(f"⚠️ Channel ID not resolved for {handle}. Skipping.")
             continue
 
         videos = fetch_videos_rss(channel_id, handle)
@@ -268,7 +292,20 @@ def main():
                 is_fresh_36h = True
                 is_in_current_2h_cycle = False
 
-            # Track for the 2-hour monitoring log
+            # If brand new video in feed, check if topic is oversaturated (3+ identical coverages)
+            if v_id not in feed_map:
+                if is_heavily_duplicated(vid, list(feed_map.values())[:60]):
+                    pruned_duplicates_count += 1
+                    log(f"Pruned oversaturated duplicate topic to make space for fresh news: {vid['title'][:40]}")
+                    continue
+
+                feed_map[v_id] = vid
+            else:
+                for k in ["title", "description", "thumbnail_url"]:
+                    if k in vid:
+                        feed_map[v_id][k] = vid[k]
+
+            # Track 2-hour monitoring log
             if is_in_current_2h_cycle:
                 ch_title = vid.get("channel_title", handle)
                 if ch_title not in cycle_channel_map:
@@ -283,14 +320,6 @@ def main():
                     cycle_channel_map[ch_title]["topics"].append(vid["title"])
                     total_cycle_videos += 1
 
-            # Update feed map
-            if v_id not in feed_map:
-                feed_map[v_id] = vid
-            else:
-                for k in ["title", "description", "thumbnail_url"]:
-                    if k in vid:
-                        feed_map[v_id][k] = vid[k]
-
             # Prepare Layman summary if missing
             if is_fresh_36h and not feed_map[v_id].get("layman_news"):
                 log(f"--> Generating Layman summary for: {vid['title'][:45]}...")
@@ -303,10 +332,8 @@ def main():
         time.sleep(0.8)
 
     save_feed(feed_map)
-    
-    # Save the 2-hour monitoring cycle log
     log_cycle_data(list(cycle_channel_map.values()), total_cycle_videos)
-    log(f"Cycle completed successfully.")
+    log(f"Cycle completed. Pruned redundant duplicate news: {pruned_duplicates_count}")
 
 if __name__ == "__main__":
     main()
