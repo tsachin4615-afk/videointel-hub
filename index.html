@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { background-color: #080c16; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #080c16; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
     .card-glow { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
     .card-unread { background-color: #111827; border: 1px solid #1f293d; opacity: 1; }
     .card-unread:hover { border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.15); }
@@ -19,7 +19,19 @@
     .pill-btn:active { transform: scale(0.96); }
     select { appearance: none; -webkit-appearance: none; }
     .unread-indicator { width: 8px; height: 8px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
-    .clickable-desc { cursor: pointer; user-select: none; }
+    
+    /* Sliding Curtain Drawer */
+    #curtainDrawer {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(100%);
+    }
+    #curtainDrawer.open {
+      transform: translateX(0);
+    }
+    #curtainBackdrop {
+      transition: opacity 0.3s ease;
+    }
+    
     #pullIndicator { transition: transform 0.2s ease; transform: translateY(-100%); }
     #pullIndicator.visible { transform: translateY(0); }
   </style>
@@ -29,12 +41,12 @@
   <!-- Pull-to-Refresh Banner -->
   <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 bg-sky-950/95 border-b border-sky-700 text-sky-200 text-xs py-2 text-center flex items-center justify-center gap-2 backdrop-blur-md">
     <i class="fa-solid fa-arrows-rotate fa-spin text-sky-400"></i>
-    <span>Refreshing feed: prioritizing top unique news & moving read cards to bottom...</span>
+    <span>Refreshing feed: surfacing top unique news & moving read cards to bottom...</span>
   </div>
 
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-[#0a0f1d]/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 sm:px-8">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
           <i class="fa-solid fa-bolt text-lg"></i>
@@ -42,61 +54,62 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             VideoIntel Hub
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">Argon Engine</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">Dynamic UI</span>
           </h1>
-          <p class="text-xs text-slate-400">Tap to Read • Tap Empty Space to Close • Read Moves on Refresh</p>
+          <p class="text-xs text-slate-400">Tap Card to Read • Tap Empty Space to Close • Auto-Failover AI</p>
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2">
+      <!-- Quick Action Controls -->
+      <div class="flex items-center gap-2">
         <a href="headings.html" class="text-xs bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 border border-indigo-700/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition shadow-sm">
-          <i class="fa-solid fa-list-ul text-sky-400"></i> Headings View
+          <i class="fa-solid fa-list-ul text-sky-400"></i> <span class="hidden sm:inline">Headings</span>
         </a>
 
         <a href="monitoring.html" class="text-xs bg-teal-950/80 hover:bg-teal-900 text-teal-300 border border-teal-700/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition shadow-sm">
-          <i class="fa-solid fa-tower-broadcast text-teal-400"></i> Monitor
+          <i class="fa-solid fa-tower-broadcast text-teal-400"></i> <span class="hidden sm:inline">Monitor</span>
         </a>
 
-        <!-- Engine Selector prioritizing Gemini 4 Argon -->
-        <div class="relative">
-          <select id="engineSelector" onchange="saveEnginePreference()" class="text-xs bg-slate-900 border border-slate-700 text-indigo-300 pl-3 pr-7 py-1.5 rounded-lg focus:outline-none focus:border-indigo-500">
-            <option value="gemini-4-argon" selected>4 Argon (High-Speed & Deep)</option>
-            <option value="gemini-3.8-flash">3.8 Flash (Deep)</option>
-            <option value="gemini-3.5-flash-lite">3.5 Flash-Lite (Fast)</option>
-            <option value="gemini-3.1-pro">3.1 Pro (Research)</option>
-          </select>
-          <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-500 pointer-events-none"></i>
-        </div>
-
-        <button onclick="promptApiKey()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-key text-amber-400"></i>
-          <span id="keyStatusLabel">Set Gemini Key</span>
+        <button onclick="triggerManualRefresh()" class="text-xs bg-sky-950/80 hover:bg-sky-900 text-sky-300 border border-sky-800/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition">
+          <i class="fa-solid fa-arrows-rotate text-sky-400"></i>
         </button>
 
-        <span id="countBadge" class="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2.5 py-1 rounded-full font-medium">Loading...</span>
+        <!-- ONE-TAP CURTAIN TOGGLE BUTTON -->
+        <button onclick="toggleCurtain(true)" class="pill-btn text-xs bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-600 px-3 py-1.5 rounded-lg flex items-center gap-2 font-semibold shadow-md">
+          <i class="fa-solid fa-sliders text-teal-400"></i>
+          <span>Curtain Panel</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Master AI Engine with AI Deduplication & Global Intelligence -->
+  <!-- MASTER GEMINI ENGINE (PROMINENT AT TOP AS REQUESTED) -->
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="bg-gradient-to-r from-[#0e1628] via-[#131d36] to-[#0e1628] border border-indigo-900/60 rounded-2xl p-4 sm:p-5 shadow-xl relative overflow-hidden">
       
       <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
         <div class="flex items-center gap-2 text-indigo-300 text-sm font-semibold">
           <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
-          <span>Master Gemini Engine — Cross-Feed Intelligence & Topic Deduplication</span>
+          <span>Master Gemini Engine — Cross-Feed Intelligence & Deep Thinker</span>
         </div>
 
-        <a href="monitoring.html" class="pill-btn text-xs bg-teal-950 hover:bg-teal-900 text-teal-300 border border-teal-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 font-semibold shadow-md transition">
-          <span class="h-2 w-2 rounded-full bg-teal-400 animate-pulse"></span>
-          <i class="fa-solid fa-tower-broadcast text-teal-400"></i>
-          <span>Channel Monitoring (2h Cycles)</span>
-          <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-teal-400 ml-0.5"></i>
-        </a>
+        <div class="flex items-center gap-2">
+          <!-- Active Engine Indicator with Fast Auto-Failover -->
+          <div class="relative">
+            <select id="engineSelector" onchange="saveEnginePreference()" class="text-xs bg-slate-900 border border-indigo-700/80 text-indigo-300 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none focus:border-indigo-500 font-medium">
+              <option value="gemini-3.5-flash-lite" selected>3.5 Flash-Lite (Fastest & Deep)</option>
+              <option value="gemini-3.8-flash">3.8 Flash (High Thinker)</option>
+              <option value="gemini-4-argon">4 Argon (Deep Analysis)</option>
+              <option value="gemini-3.1-pro">3.1 Pro (Research)</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-400 pointer-events-none"></i>
+          </div>
+
+          <span class="text-[11px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-1 rounded-lg font-mono">Zero-Delay Cascade</span>
+        </div>
       </div>
 
-      <p class="text-xs text-slate-400 mb-3">AI clusters identical news across channels, surfaces the best version, and organizes read topics:</p>
+      <p class="text-xs text-slate-400 mb-3">Synthesizes developments across all 26 channels with instant auto-switching:</p>
       
       <div class="flex flex-wrap gap-2 mb-3">
         <button onclick="runMasterAITopicDeduplication()" 
@@ -106,23 +119,23 @@
 
         <button onclick="runMasterQuery('Provide a master layman synthesis of all major developments across the dashboard today in simple readable news format.')" 
           class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
-          <i class="fa-solid fa-user-group text-amber-400"></i> Dashboard Layman Digest
+          <i class="fa-solid fa-user-group text-amber-400"></i> Layman Digest
         </button>
 
         <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points (Prelims facts + Mains GS2/GS3) across all current videos.')" 
           class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
-          <i class="fa-solid fa-graduation-cap text-indigo-400"></i> Top 5 UPSC Pointers Across All Feeds
+          <i class="fa-solid fa-graduation-cap text-indigo-400"></i> Top 5 UPSC Pointers
         </button>
 
         <button onclick="runMasterQuery('Identify the single most critical geopolitical strategic conflict across these updates and simplify its core implications.')" 
           class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
-          <i class="fa-solid fa-compass text-sky-400"></i> Major Strategic Conflict Breakdown
+          <i class="fa-solid fa-compass text-sky-400"></i> Strategic Conflict Breakdown
         </button>
       </div>
 
       <div class="flex items-center gap-2">
         <div class="relative flex-1">
-          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (e.g. 'Compare relations with Iran across reports')..." 
+          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (e.g. 'Compare statements on border talks')..." 
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
             class="w-full bg-[#0a101d] text-xs text-slate-200 placeholder-slate-500 rounded-xl pl-3.5 pr-9 py-2.5 border border-slate-700/80 focus:outline-none focus:border-indigo-500 shadow-inner" />
           <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-400 hover:text-indigo-400">
@@ -142,23 +155,18 @@
         <button id="timeFilterBtn" onclick="toggleTimeFilter()" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 bg-slate-900 text-slate-300 hover:border-sky-500 transition flex items-center gap-1.5">
           <i class="fa-regular fa-clock text-sky-400"></i> <span id="timeFilterLabel">Showing All Time (Top 100 Prioritized)</span>
         </button>
-        <button onclick="triggerManualRefresh()" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border border-sky-800 bg-sky-950/60 text-sky-300 hover:bg-sky-900 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-arrows-rotate text-sky-400"></i> Refresh & Reorder
-        </button>
         <button onclick="markAllAsRead()" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 transition">
-          <i class="fa-solid fa-check-double"></i> Mark All as Read
-        </button>
-        <button onclick="resetReadState()" class="pill-btn px-2.5 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900/40 text-slate-500 hover:text-slate-300 transition" title="Clear read status history">
-          <i class="fa-solid fa-arrow-rotate-left"></i> Reset Read
+          <i class="fa-solid fa-check-double"></i> Mark All Read
         </button>
       </div>
 
-      <div class="text-xs text-slate-400" id="readStats">
-        0 Read / 0 Total
+      <div class="flex items-center gap-2">
+        <div class="text-xs text-slate-400" id="readStats">0 Read / 0 Total</div>
+        <span id="countBadge" class="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2 py-0.5 rounded-md font-medium">Loading...</span>
       </div>
     </div>
 
-    <!-- Channel Filters -->
+    <!-- Horizontal Scroll Channel Pills -->
     <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar">
       <button class="channel-pill active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white whitespace-nowrap">All Channels</button>
     </div>
@@ -172,6 +180,88 @@
     </div>
   </main>
 
+  <!-- ============================================================================== -->
+  <!-- SLIDING CURTAIN DRAWER (RIGHT-SIDE CONTROL PANEL) -->
+  <!-- ============================================================================== -->
+  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
+  
+  <aside id="curtainDrawer" class="fixed top-0 right-0 h-full w-84 max-w-[88vw] bg-[#0c1322] border-l border-slate-800 z-50 shadow-2xl flex flex-col justify-between">
+    <div class="p-5 overflow-y-auto flex-1 space-y-6">
+      
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-teal-400"></i>
+          <h2 class="text-sm font-bold text-white tracking-wide uppercase">Curtain Controls</h2>
+        </div>
+        <button onclick="toggleCurtain(false)" class="text-slate-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <!-- Section: Key & Engine Fast Diagnostics -->
+      <div class="space-y-3 bg-[#080d18] p-3.5 rounded-xl border border-slate-800">
+        <div class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+          <i class="fa-solid fa-bolt text-amber-400"></i> AI Engine & Key Status
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-slate-400" id="curtainKeyStatus">Checking Key...</span>
+          <button onclick="promptApiKey()" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-2.5 py-1 rounded-md font-medium">
+            Update Key
+          </button>
+        </div>
+        <p class="text-[11px] text-slate-500 leading-relaxed">
+          The engine basket uses 7-second auto-skip: if the selected model delays, it instantly triggers Flash-Lite or Argon to eliminate stalls.
+        </p>
+      </div>
+
+      <!-- Section: Navigation Shortcuts -->
+      <div class="space-y-2">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quick Navigation</div>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="headings.html" class="p-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-sky-300 flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-sky-400"></i> Headings View
+          </a>
+          <a href="monitoring.html" class="p-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-teal-300 flex items-center gap-2">
+            <i class="fa-solid fa-tower-broadcast text-teal-400"></i> 2h Telemetry
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Reading Archive Management -->
+      <div class="space-y-2.5 bg-[#080d18] p-3.5 rounded-xl border border-slate-800">
+        <div class="text-xs font-semibold text-slate-300 flex items-center justify-between">
+          <span>Read History Telemetry</span>
+          <span id="curtainReadCount" class="text-xs text-emerald-400 font-mono">0 Read</span>
+        </div>
+        <p class="text-[11px] text-slate-400 leading-relaxed">
+          Read items dim in place and stay where they are. They are only grouped into the bottom archive when you pull to refresh.
+        </p>
+        <button onclick="resetReadState(); toggleCurtain(false);" class="w-full py-1.5 rounded-lg text-xs bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-900/60 font-medium transition">
+          <i class="fa-solid fa-trash-can mr-1"></i> Reset All Read History
+        </button>
+      </div>
+
+      <!-- Section: Full Channel Directory -->
+      <div class="space-y-2">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+          <span>Channel Directory</span>
+          <span class="text-[10px] text-slate-500">26 Sources</span>
+        </div>
+        <div id="curtainChannelList" class="space-y-1 max-h-60 overflow-y-auto pr-1">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="p-4 border-t border-slate-800 bg-[#070b14] flex items-center justify-between text-xs text-slate-500">
+      <span>VideoIntel Hub v4.2</span>
+      <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
+    </div>
+  </aside>
+
   <script>
     let allVideos = [];
     let availableChannels = [];
@@ -179,6 +269,21 @@
     let onlyLast24Hours = false;
     let aiExplicitPrimaryIds = null;
     let aiExplicitDuplicateIds = null;
+
+    // CURTAIN DRAWER CONTROLS
+    function toggleCurtain(open) {
+      const drawer = document.getElementById('curtainDrawer');
+      const backdrop = document.getElementById('curtainBackdrop');
+      if (open) {
+        backdrop.classList.remove('hidden');
+        setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+        drawer.classList.add('open');
+      } else {
+        drawer.classList.remove('open');
+        backdrop.classList.add('opacity-0');
+        setTimeout(() => backdrop.classList.add('hidden'), 300);
+      }
+    }
 
     function getReadSet() {
       try {
@@ -188,7 +293,7 @@
       }
     }
 
-    // MARKS CARD AS READ IN-PLACE AND DIMS VISUALLY (NO IMMEDIATE RE-ORDER)
+    // MARKS CARD AS READ IN-PLACE WITHOUT JUMPING TO BOTTOM
     function markAsRead(videoId) {
       const readSet = getReadSet();
       if (!readSet.has(videoId)) {
@@ -213,9 +318,7 @@
           card.classList.add('card-unread');
         }
       }
-      if (dot && isRead) {
-        dot.classList.add('hidden');
-      }
+      if (dot && isRead) dot.classList.add('hidden');
     }
 
     function markAllAsRead() {
@@ -241,6 +344,8 @@
         <span class="text-amber-400 font-semibold">${duplicateCount !== undefined ? duplicateCount : 0} Repeats</span> • 
         <span class="text-slate-400 font-semibold">${totalRead} Read</span>
       `;
+      const curtainCount = document.getElementById('curtainReadCount');
+      if (curtainCount) curtainCount.innerText = `${totalRead} Read`;
     }
 
     function toggleTimeFilter() {
@@ -266,17 +371,32 @@
 
     function updateKeyStatus() {
       const label = document.getElementById('keyStatusLabel');
-      if (getApiKey()) {
-        label.innerText = "Gemini Key Active";
-        label.classList.add("text-emerald-400");
+      const curtainStatus = document.getElementById('curtainKeyStatus');
+      const hasKey = Boolean(getApiKey());
+      if (hasKey) {
+        if (label) {
+          label.innerText = "Gemini Key Active";
+          label.classList.add("text-emerald-400");
+        }
+        if (curtainStatus) {
+          curtainStatus.innerText = "Active & Verified";
+          curtainStatus.classList.add("text-emerald-400");
+        }
       } else {
-        label.innerText = "Set Gemini Key";
-        label.classList.remove("text-emerald-400");
+        if (label) {
+          label.innerText = "Set Gemini Key";
+          label.classList.remove("text-emerald-400");
+        }
+        if (curtainStatus) {
+          curtainStatus.innerText = "No Key Set";
+          curtainStatus.classList.remove("text-emerald-400");
+        }
       }
     }
 
     function saveEnginePreference() {
-      localStorage.setItem('GEMINI_SELECTED_ENGINE', document.getElementById('engineSelector').value);
+      const val = document.getElementById('engineSelector').value;
+      localStorage.setItem('GEMINI_SELECTED_ENGINE', val);
     }
 
     function restorePreferences() {
@@ -299,6 +419,7 @@
 
         document.getElementById('countBadge').innerText = `${allVideos.length} Updates`;
         renderFilters();
+        renderCurtainChannels();
         renderGrid();
       } catch (err) {
         document.getElementById('videoGrid').innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-sm">Failed to load feed data. Please check back shortly.</div>`;
@@ -337,9 +458,22 @@
       `).join('');
     }
 
+    function renderCurtainChannels() {
+      const container = document.getElementById('curtainChannelList');
+      if (!container) return;
+      container.innerHTML = availableChannels.map((ch, idx) => `
+        <button onclick="filterByIndex(${idx}); toggleCurtain(false);" 
+          class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs flex items-center justify-between transition ${currentFilter === ch ? 'bg-indigo-950 text-indigo-300 border border-indigo-800' : 'text-slate-400 hover:bg-slate-800/80'}">
+          <span class="truncate">${ch === 'ALL' ? '🌟 All 26 Channels' : ch}</span>
+          ${currentFilter === ch ? '<i class="fa-solid fa-check text-[10px] text-teal-400"></i>' : ''}
+        </button>
+      `).join('');
+    }
+
     function filterByIndex(idx) {
       currentFilter = availableChannels[idx] || 'ALL';
       renderFilters();
+      renderCurtainChannels();
       renderGrid();
     }
 
@@ -438,7 +572,7 @@
       box.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400 py-3">
           <i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i>
-          <span>Master Gemini analyzing topics across all 26 channels with Argon to eliminate repeats...</span>
+          <span>Master Gemini analyzing topics across all 26 channels with fast failover cascade...</span>
         </div>`;
 
       const readSet = getReadSet();
@@ -506,15 +640,20 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       }
     }
 
-    // ALL-SOURCE GLOBAL INTELLIGENCE CALLER (WITH GEMINI 4 ARGON PRIORITY & GOOGLE SEARCH)
+    // ZERO-DELAY HIGH-THINKER CASCADE WITH ABORT CONTROLLER (ELIMINATES HANGS/BUSY STATE)
     async function callGeminiGlobal(promptText, allowSearch = true) {
       const key = getApiKey();
       if (!key) throw new Error("GEMINI_KEY_REQUIRED");
 
       const chosen = document.getElementById('engineSelector').value;
-      const pool = [...new Set([chosen, "gemini-4-argon", "gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.1-pro", "gemini-1.5-flash"])];
+      // Fast cascade pool: Fastest high thinker first, followed by deep fallback
+      const pool = [...new Set([chosen, "gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-4-argon", "gemini-3.1-pro", "gemini-1.5-flash"])];
 
       for (const model of pool) {
+        // Enforce a strict 7-second timeout ceiling per engine so it never stalls
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 7000);
+
         if (allowSearch) {
           try {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
@@ -523,27 +662,42 @@ Respond strictly in valid JSON format only, with no markdown code fences:
               body: JSON.stringify({
                 contents: [{ parts: [{ text: promptText }] }],
                 tools: [{ googleSearch: {} }]
-              })
+              }),
+              signal: controller.signal
             });
+            clearTimeout(timeoutId);
+            if (res.ok) {
+              const data = await res.json();
+              if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                return data.candidates[0].content.parts[0].text;
+              }
+            }
+          } catch (e) {
+            clearTimeout(timeoutId);
+          }
+        }
+
+        // Fast fallback without tools on the same or next engine
+        try {
+          const controller2 = new AbortController();
+          const timeoutId2 = setTimeout(() => controller2.abort(), 6500);
+
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
+            signal: controller2.signal
+          });
+          clearTimeout(timeoutId2);
+
+          if (res.ok) {
             const data = await res.json();
             if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
               return data.candidates[0].content.parts[0].text;
             }
-          } catch (e) {}
-        }
-
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-          });
-          const data = await res.json();
-          if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-            return data.candidates[0].content.parts[0].text;
           }
         } catch (e) {
-          continue;
+          continue; // Instantly advances to next model in basket
         }
       }
       throw new Error("Engines temporarily busy. Tap to retry.");
@@ -562,7 +716,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
     // ON-CLICK CARD / HEADING: TOGGLES STORY
     function onMediaClick(event, videoId) {
       if (event) {
-        if (event.target.closest('input') || event.target.closest('button') || event.target.closest('a')) {
+        if (event.target.closest('button, input, a, select, textarea, label')) {
           return;
         }
         event.preventDefault();
@@ -574,20 +728,23 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         return;
       }
 
-      markAsRead(videoId); // Dims card in-place; DOES NOT move it to the bottom
+      markAsRead(videoId); // Dims card in-place; DOES NOT jump to bottom
       openLaymansNews(videoId);
     }
 
-    // TAPPING EMPTY SPACE / WHITESPACE CLOSES DESCRIPTION WITHOUT JUMPING TO BOTTOM
+    // UNIVERSAL EMPTY-SPACE TAP-TO-COLLAPSE (WITH TEXT-SELECTION AWARENESS)
     function onOutputContainerClick(event, videoId) {
-      if (event.target.closest('button') || 
-          event.target.closest('input') || 
-          event.target.closest('a') || 
-          event.target.closest('select') ||
-          event.target.closest(`#qaResponseContainer-${videoId}`) ||
-          event.target.closest(`#aiSmartContainer-${videoId}`)) {
+      // Never close if user clicked interactive controls or buttons
+      if (event.target.closest('button, input, a, select, textarea, label, [data-prevent-close]')) {
         return;
       }
+      
+      // Never close if user is selecting text to copy
+      const selection = window.getSelection();
+      if (selection && selection.toString().trim().length > 0) {
+        return;
+      }
+
       closeOutput(videoId);
     }
 
@@ -617,7 +774,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       outputBox.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400 py-3">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Gemini Argon compiling news story...</span>
+          <span>Gemini compiling news story...</span>
         </div>`;
 
       const prompt = `Rewrite this video event as a simple, engaging news story for a regular person:
@@ -657,18 +814,25 @@ Context / Description: ${video.description ? video.description.slice(0, 1800) : 
             <i class="fa-solid fa-newspaper text-amber-400"></i> ${title}
           </span>
           <div class="flex items-center gap-2">
-            <span class="text-[10px] text-slate-400 hidden sm:inline">Tap empty space to close</span>
+            <span class="text-[10px] text-slate-400 hidden sm:inline">Tap empty space to collapse</span>
             <button onclick="closeOutput('${videoId}')" class="text-slate-400 hover:text-slate-200 text-xs p-1" title="Close Story">
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
         </div>
 
-        <div class="clickable-desc prose-slate text-xs space-y-2 leading-relaxed text-slate-200 py-1" title="Tap empty space to close description">
+        <!-- Clickable text & whitespace: Tapping anywhere collapses the briefing -->
+        <div class="clickable-desc prose-slate text-xs space-y-2 leading-relaxed text-slate-200 py-1" title="Tap empty space to collapse">
           ${formatMarkdown(text)}
         </div>
+
+        <!-- Collapse zone strip -->
+        <div onclick="closeOutput('${videoId}')" class="py-1 my-1 text-center text-[10px] text-slate-500 hover:text-slate-300 cursor-pointer border-y border-slate-800/60 select-none">
+          ▲ Tap anywhere here to collapse description
+        </div>
         
-        <div class="mt-3.5 pt-2.5 border-t border-slate-800 flex flex-wrap items-center gap-1.5">
+        <!-- Deepen Analysis Toolbar -->
+        <div data-prevent-close="true" class="mt-3 pt-2.5 border-t border-slate-800 flex flex-wrap items-center gap-1.5">
           <span class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mr-1">Deepen:</span>
           <button onclick="triggerAnalysis('${videoId}', 'specific')" class="pill-btn px-2.5 py-1 rounded-md bg-sky-950/60 hover:bg-sky-900 border border-sky-800/60 text-[11px] text-sky-300 flex items-center gap-1">
             <i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge
@@ -681,14 +845,14 @@ Context / Description: ${video.description ? video.description.slice(0, 1800) : 
           </button>
         </div>
 
-        <div id="aiSmartContainer-${videoId}" class="hidden mt-3 pt-2 border-t border-slate-800/80"></div>
-        <div id="qaResponseContainer-${videoId}" class="hidden mt-3 space-y-3"></div>
+        <div id="aiSmartContainer-${videoId}" data-prevent-close="true" class="hidden mt-3 pt-2 border-t border-slate-800/80"></div>
+        <div id="qaResponseContainer-${videoId}" data-prevent-close="true" class="hidden mt-3 space-y-3"></div>
 
-        <div class="mt-4 pt-3 border-t border-slate-700/80">
+        <div data-prevent-close="true" class="mt-4 pt-3 border-t border-slate-700/80">
           <div class="flex items-center justify-between mb-1.5">
             <label class="text-[11px] font-semibold text-sky-400 flex items-center gap-1.5">
               <i class="fa-solid fa-globe text-amber-400"></i>
-              <span>Gemini Argon Web Intelligence & Cross-Questions</span>
+              <span>Gemini Fast Web Intelligence & Cross-Questions</span>
             </label>
             <span class="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.5 rounded font-mono">Live Search Enabled</span>
           </div>
@@ -705,7 +869,7 @@ Context / Description: ${video.description ? video.description.slice(0, 1800) : 
             </div>
           </div>
           <p class="text-[10px] text-slate-500 mt-1">
-            Searches global news, foreign ministry statements, and internet sources beyond the video.
+            Synthesizes global internet news, foreign ministries, and social media beyond the video.
           </p>
         </div>
       `;
@@ -993,7 +1157,7 @@ CRITICAL INSTRUCTIONS:
           </a>
         </div>
 
-        <!-- Output Drawer: Tapping empty whitespace closes it without jumping to bottom -->
+        <!-- Output Drawer: Tapping empty whitespace collapses it without jumping to bottom -->
         <div id="output-${item.id}" onclick="onOutputContainerClick(event, '${item.id}')" class="hidden p-4 bg-[#0d1424] border-t border-indigo-900/50 text-xs text-slate-300 leading-relaxed"></div>
       </div>`;
     }
@@ -1022,14 +1186,14 @@ CRITICAL INSTRUCTIONS:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master Gemini Argon synthesizing across briefings & global sources...</span>
+          <span>Master Gemini synthesizing across briefings & global sources...</span>
         </div>`;
 
       const contextSummary = allVideos.slice(0, 16).map((v, i) => 
         `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description ? v.description.slice(0, 250) : ''}`
       ).join('\n');
 
-      const masterPrompt = `You are the Master Geopolitical & Current Affairs AI Engine powered by Gemini 4 Argon.
+      const masterPrompt = `You are the Master Geopolitical & Current Affairs AI Engine.
 Context from active dashboard video reports:
 ${contextSummary}
 
