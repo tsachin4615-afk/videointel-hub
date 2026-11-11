@@ -1,27 +1,28 @@
-from google import genai
-from google.genai import types
+from __future__ import annotations
+
 import json
 import logging
+import re
+
+from google import genai
+from google.genai import types
+
 from config import settings
 
 logger = logging.getLogger(__name__)
+
 
 class GeminiIntelligenceService:
     def __init__(self):
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY) if settings.GEMINI_API_KEY else None
 
     async def analyze_video_content(self, title: str, channel: str, transcript: str | None, description: str = "") -> dict:
-        """
-        Analyzes video transcript (or description if transcript is absent) using Gemini.
-        Returns structured synthesis covering summary, key points, UPSC relevance, and entities.
-        """
         if not self.client:
             logger.warning("Gemini API key not configured. Returning fallback skeleton.")
             return self._build_empty_response(title, "API key not configured.")
 
-        # If transcript is missing, clearly state it in the analysis
         content_source = "Transcript" if transcript else "Video Description (Transcript Unavailable)"
-        input_body = transcript[:15000] if transcript else description[:3000]
+        input_body = (transcript or description or "")[:15000]
 
         if not input_body.strip():
             return self._build_empty_response(title, "No text or transcript available for analysis.")
@@ -29,7 +30,7 @@ class GeminiIntelligenceService:
         prompt = f"""
         You are a current affairs intelligence and analytical engine.
         Analyze the following video content thoroughly for competitive exams (UPSC/civil services) and serious news intelligence.
-        
+
         Video Title: {title}
         Source Channel: {channel}
         Source Content Type: {content_source}
@@ -72,13 +73,30 @@ class GeminiIntelligenceService:
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
-                    temperature=0.2
-                )
+                    temperature=0.2,
+                ),
             )
-            return json.loads(response.text)
-        except Exception as e:
-            logger.error(f"Gemini analysis failure: {e}")
-            return self._build_empty_response(title, f"Analysis failed: {str(e)}")
+            parsed = self._parse_json_response(response.text)
+            return parsed
+        except Exception as exc:
+            logger.error(f"Gemini analysis failure: {exc}")
+            return self._build_empty_response(title, f"Analysis failed: {exc}")
+
+    @staticmethod
+    def _parse_json_response(raw_text: str | None) -> dict:
+        if not raw_text:
+            raise ValueError("Empty Gemini response")
+
+        cleaned = raw_text.strip()
+        if cleaned.startswith("```"):
+            cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned, flags=re.IGNORECASE)
+            cleaned = re.sub(r"\s*```$", "", cleaned, flags=re.IGNORECASE)
+
+        match = re.search(r"\{.*\}", cleaned, flags=re.DOTALL)
+        if match:
+            cleaned = match.group(0)
+
+        return json.loads(cleaned)
 
     def _build_empty_response(self, title: str, reason: str) -> dict:
         return {
@@ -90,7 +108,7 @@ class GeminiIntelligenceService:
             "upsc_relevance": {
                 "syllabus_mapping": "General Studies",
                 "prelims_pointers": [],
-                "mains_pointers": []
+                "mains_pointers": [],
             },
-            "deep_dossier_markdown": f"### {title}\n\n*Notice: {reason}*"
+            "deep_dossier_markdown": f"### {title}\n\n*Notice: {reason}*",
         }
