@@ -33,7 +33,7 @@
             Headings Intelligence
             <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800">Quick Navigation</span>
           </h1>
-          <p class="text-xs text-slate-400">Tap Any Headline to Read Layman's News Instantly</p>
+          <p class="text-xs text-slate-400">Tap Any Row or Empty Space to Read Instantly</p>
         </div>
       </div>
 
@@ -57,7 +57,6 @@
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="bg-gradient-to-r from-[#0e1628] via-[#131d36] to-[#0e1628] border border-indigo-900/60 rounded-2xl p-4 sm:p-5 shadow-xl relative overflow-hidden">
       
-      <!-- Top Title Bar with Channel Monitoring Button placed beside it -->
       <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
         <div class="flex items-center gap-2 text-indigo-300 text-sm font-semibold">
           <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
@@ -104,7 +103,7 @@
     </div>
   </section>
 
-  <!-- Filter Toolbar -->
+  <!-- Filter Toolbar with Index-Safe Channel Select -->
   <main class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
       <div class="flex items-center gap-2">
@@ -121,13 +120,13 @@
 
     <!-- Channel Pills -->
     <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-3 no-scrollbar">
-      <button onclick="filterByChannel('ALL')" class="channel-pill active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-sky-600 text-white whitespace-nowrap">All Channels</button>
+      <button class="channel-pill active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-sky-600 text-white whitespace-nowrap">All Channels</button>
     </div>
 
     <!-- Quick Headlines List Table -->
     <div class="bg-[#0f172a] rounded-xl border border-slate-800 overflow-hidden shadow-xl mt-2">
       <div class="px-4 py-2.5 bg-slate-900/80 border-b border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
-        <span>Headline & Source (Tap Headline to Read)</span>
+        <span>Headline & Source (Tap Anywhere on Row to Read)</span>
         <span class="pr-2">Original</span>
       </div>
       <div id="headingsList" class="divide-y divide-slate-800/60">
@@ -141,6 +140,7 @@
 
   <script>
     let allVideos = [];
+    let availableChannels = [];
     let currentFilter = 'ALL';
     let onlyLast24Hours = false;
 
@@ -206,7 +206,7 @@
 
     function promptApiKey() {
       const existing = getApiKey();
-      const entered = prompt("Enter your Gemini API Key for deeper queries:", existing);
+      const entered = prompt("Enter your Gemini API Key for deep inquiries & web intelligence:", existing);
       if (entered !== null) {
         localStorage.setItem('GEMINI_FRONTEND_KEY', entered.trim());
         updateKeyStatus();
@@ -243,24 +243,81 @@
     }
 
     function renderFilters() {
-      const channels = ['ALL', ...new Set(allVideos.map(v => v.channel_title))];
+      availableChannels = ['ALL', ...new Set(allVideos.map(v => v.channel_title).filter(Boolean))];
       const bar = document.getElementById('filterBar');
-      bar.innerHTML = channels.map(ch => `
-        <button onclick="filterByChannel('${ch.replace(/'/g, "\\'")}')" 
+      bar.innerHTML = availableChannels.map((ch, idx) => `
+        <button onclick="filterByIndex(${idx})" 
           class="channel-pill px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition ${currentFilter === ch ? 'bg-sky-600 text-white' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-slate-800'}">
           ${ch === 'ALL' ? 'All Channels' : ch}
         </button>
       `).join('');
     }
 
-    function filterByChannel(channel) {
-      currentFilter = channel;
+    function filterByIndex(idx) {
+      currentFilter = availableChannels[idx] || 'ALL';
       renderFilters();
       renderHeadings();
     }
 
-    // ON-CLICK HEADLINE: Direct instant open & auto-mark read
-    function onHeadlineClick(videoId) {
+    // ALL-SOURCE GLOBAL INTELLIGENCE CALLER (Google Search Grounding + Global Web Synthesis)
+    async function callGeminiGlobal(promptText, allowSearch = true) {
+      const key = getApiKey();
+      if (!key) throw new Error("GEMINI_KEY_REQUIRED");
+
+      const models = ["gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.1-pro", "gemini-4-argon", "gemini-1.5-flash", "gemini-1.5-flash-8b"];
+
+      for (const m of models) {
+        if (allowSearch) {
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: promptText }] }],
+                tools: [{ googleSearch: {} }]
+              })
+            });
+            const data = await res.json();
+            if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+              return data.candidates[0].content.parts[0].text;
+            }
+          } catch (e) {}
+        }
+
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+          });
+          const data = await res.json();
+          if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+            return data.candidates[0].content.parts[0].text;
+          }
+        } catch (e) {
+          continue;
+        }
+      }
+      throw new Error("Engines temporarily busy. Retrying in a moment.");
+    }
+
+    function formatMarkdown(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+        .replace(/^###\s(.*)$/gm, '<h3 class="text-sky-300 font-semibold text-xs mt-2 mb-1">$1</h3>')
+        .replace(/^##\s(.*)$/gm, '<h2 class="text-amber-300 font-bold text-xs mt-2.5 mb-1">$1</h2>')
+        .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
+        .replace(/\n\n/g, '<p class="mt-1.5"></p>')
+        .replace(/\n/g, '<br/>');
+    }
+
+    // ON-CLICK ROW OR EMPTY SPACE: MARKS AS READ AND OPENS DRAWER
+    function onRowClick(event, videoId) {
+      if (event) {
+        if (event.target.closest('input') || event.target.closest('button') || event.target.closest('a')) {
+          return;
+        }
+      }
       markAsRead(videoId);
       const drawer = document.getElementById(`drawer-${videoId}`);
       if (!drawer.classList.contains('hidden') && drawer.dataset.loaded === "true") {
@@ -295,16 +352,16 @@
 
         return `
         <div id="row-${item.id}" class="heading-row ${isRead ? 'row-read' : 'row-unread'}">
-          <div class="p-3.5 sm:px-4 flex items-center justify-between gap-3">
-            <div class="flex items-start gap-2.5 min-w-0 flex-1">
+          <!-- Entire Row & White Space Is Clickable -->
+          <div onclick="onRowClick(event, '${item.id}')" class="p-3.5 sm:px-4 flex items-center justify-between gap-3 cursor-pointer select-none">
+            <div class="flex items-start gap-2.5 min-w-0 flex-1 pointer-events-none">
               <span id="readDot-${item.id}" class="mt-1.5 shrink-0 ${isRead ? 'hidden' : ''}">
                 <div class="unread-indicator"></div>
               </span>
               <div class="min-w-0 flex-1">
-                <!-- Tapping headline directly opens Layman's News Read & marks read -->
-                <button onclick="onHeadlineClick('${item.id}')" class="text-left text-xs sm:text-sm font-medium text-slate-100 hover:text-sky-400 transition leading-snug line-clamp-2">
+                <h3 class="text-left text-xs sm:text-sm font-medium text-slate-100 hover:text-sky-400 transition leading-snug line-clamp-2">
                   ${item.title}
-                </button>
+                </h3>
                 <div class="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-400">
                   <span class="font-semibold text-slate-300">${item.channel_title}</span>
                   <span>•</span>
@@ -317,7 +374,6 @@
               </div>
             </div>
 
-            <!-- Discreet Action Deck: Single tap original video link -->
             <div class="flex items-center gap-2 shrink-0">
               <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-500 hover:text-red-400 transition text-sm" title="Watch Original Video on YouTube">
                 <i class="fa-brands fa-youtube"></i>
@@ -342,15 +398,36 @@
               </button>
             </div>
 
-            <div id="smartQuestionsBox-${item.id}" class="hidden flex flex-wrap gap-1.5 mb-2 p-2 rounded-lg bg-[#111827] border border-purple-900/50"></div>
+            <!-- Dynamic Smart Questions Container -->
+            <div id="smartQuestionsBox-${item.id}" class="hidden flex flex-wrap gap-1.5 mb-3 p-2 rounded-lg bg-[#111827] border border-purple-900/50"></div>
 
-            <div class="flex items-center gap-1.5">
-              <input id="customInput-${item.id}" type="text" placeholder="Ask Gemini about this headline..." 
-                onkeydown="if(event.key==='Enter') submitInlineCustom('${item.id}')"
-                class="flex-1 bg-[#162035] text-xs text-slate-200 placeholder-slate-500 rounded-lg px-3 py-1.5 border border-slate-700 focus:outline-none focus:border-sky-500" />
-              <button onclick="submitInlineCustom('${item.id}')" class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-medium">
-                Ask
-              </button>
+            <!-- Dynamic Q&A Responses Container -->
+            <div id="qaResponseContainer-${item.id}" class="hidden space-y-2.5 mb-3"></div>
+
+            <!-- PERMANENT GEMINI SEARCH & CROSS-QUESTION ENGINE (WITH GLOBAL WEB INTELLIGENCE) -->
+            <div class="mt-3 pt-3 border-t border-slate-800">
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-[11px] font-semibold text-sky-400 flex items-center gap-1.5">
+                  <i class="fa-solid fa-globe text-amber-400"></i>
+                  <span>Gemini Web Intelligence & Cross-Questions</span>
+                </label>
+                <span class="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.5 rounded font-mono">Live Search Enabled</span>
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <div class="relative flex-1">
+                  <input id="customInput-${item.id}" type="text" 
+                    placeholder="Ask anything (e.g., 'What was Iran's official statement?', 'Social media reactions')..." 
+                    onkeydown="if(event.key==='Enter') submitInlineCustom('${item.id}')"
+                    class="w-full bg-[#162035] text-xs text-slate-100 placeholder-slate-500 rounded-lg pl-3 pr-8 py-2 border border-slate-700 focus:outline-none focus:border-sky-500 shadow-inner" />
+                  <button onclick="submitInlineCustom('${item.id}')" class="absolute right-2.5 top-2.5 text-slate-400 hover:text-sky-400">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                  </button>
+                </div>
+              </div>
+              <p class="text-[10px] text-slate-500 mt-1">
+                Searches global internet news, foreign ministries, and social media beyond the headline.
+              </p>
             </div>
           </div>
         </div>`;
@@ -366,40 +443,6 @@
       } catch (e) {
         return "";
       }
-    }
-
-    async function callGeminiApi(promptText) {
-      const key = getApiKey();
-      if (!key) throw new Error("GEMINI_KEY_REQUIRED");
-
-      const models = ["gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.1-pro", "gemini-4-argon", "gemini-1.5-flash", "gemini-1.5-flash-8b"];
-
-      for (const m of models) {
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-          });
-          const data = await res.json();
-          if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-            return data.candidates[0].content.parts[0].text;
-          }
-        } catch (e) {
-          continue;
-        }
-      }
-      throw new Error("Engines temporarily busy. Retrying in a moment.");
-    }
-
-    function formatMarkdown(text) {
-      return text
-        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
-        .replace(/^###\s(.*)$/gm, '<h3 class="text-sky-300 font-semibold text-xs mt-2 mb-1">$1</h3>')
-        .replace(/^##\s(.*)$/gm, '<h2 class="text-amber-300 font-bold text-xs mt-2.5 mb-1">$1</h2>')
-        .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
-        .replace(/\n\n/g, '<p class="mt-1.5"></p>')
-        .replace(/\n/g, '<br/>');
     }
 
     async function runInlineAI(videoId, type) {
@@ -422,20 +465,87 @@
 
       let prompt = "";
       if (type === 'layman') {
-        prompt = `Video Title: "${video.title}"\nContext: ${video.description.slice(0, 1500)}\nRewrite as simple news:\n## [Catchy Headline]\n**The Story in Brief:** 2-3 sentences.\n**Why It Matters to You:** 1-2 sentences.`;
+        prompt = `Video Title: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}\nRewrite as simple news:\n## [Catchy Headline]\n**The Story in Brief:** 2-3 sentences.\n**Why It Matters to You:** 1-2 sentences.`;
       } else if (type === 'specific') {
-        prompt = `Video Title: "${video.title}"\nContext: ${video.description.slice(0, 1500)}\nBreak down institutions, data points, and mechanics with bold points.`;
+        prompt = `Video Title: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}\nBreak down institutions, data points, and mechanics with bold points.`;
       } else if (type === 'upsc') {
-        prompt = `Video Title: "${video.title}"\nContext: ${video.description.slice(0, 1500)}\nProvide Prelims facts, Mains syllabus link, and 2-point conclusion.`;
+        prompt = `Video Title: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}\nProvide Prelims facts, Mains syllabus link, and 2-point conclusion.`;
       }
 
       try {
-        const text = await callGeminiApi(prompt);
+        const text = await callGeminiGlobal(prompt, false);
         if (type === 'layman') video.layman_news = text;
         box.innerHTML = formatMarkdown(text);
         drawer.dataset.loaded = "true";
       } catch (e) {
         box.innerHTML = `<span class="text-rose-400">${e.message}</span>`;
+      }
+    }
+
+    // SUBMIT CUSTOM QUESTION WITH GLOBAL WEB & ALL-SOURCE KNOWLEDGE
+    async function submitInlineCustom(videoId) {
+      const input = document.getElementById(`customInput-${videoId}`);
+      const query = input.value.trim();
+      if (!query) return;
+
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      const container = document.getElementById(`qaResponseContainer-${videoId}`);
+      container.classList.remove('hidden');
+
+      const tempId = 'qa-heading-' + Date.now();
+      container.insertAdjacentHTML('beforeend', `
+        <div id="${tempId}" class="p-3 rounded-lg bg-[#0e1628] border border-sky-900/60 text-xs text-slate-200 space-y-1.5">
+          <div class="font-semibold text-sky-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question text-amber-400"></i> ${query}
+          </div>
+          <div class="text-slate-400 flex items-center gap-2 py-1 text-[11px]">
+            <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
+            <span>Searching internet sources, official statements & geopolitics...</span>
+          </div>
+        </div>
+      `);
+      input.value = '';
+
+      const prompt = `
+You are a real-time Global Intelligence & Current Affairs AI Assistant (with the capabilities of the Gemini mobile app).
+
+Headline / Intelligence Reference:
+- Title: "${video.title}"
+- Channel: "${video.channel_title}"
+- Description/Summary: "${(video.description || video.layman_news || '').slice(0, 1800)}"
+
+User Inquiry / Knowledge Deficit Area:
+"${query}"
+
+CRITICAL INSTRUCTIONS:
+1. NEVER say "this is not covered in the video", "the video does not mention this", or "I cannot answer based on the provided text". The user is asking you as an authoritative global intelligence engine to expand far beyond the video.
+2. Search and synthesize all available global information: international news agencies, foreign ministry press releases (e.g. Iran, USA, Russia, China, India, Israel, UN), official diplomatic communiqués, social media/X reports from verified sources, and historical/treaty context.
+3. If the user asks about official reactions (such as Iran's official statement, US diplomatic position, European stances, or battlefield realities), give the exact official government stance, diplomatic nuance, and strategic implications factually.
+4. Provide structured, bullet-pointed, clear intelligence. Use bold keywords. Zero conversational filler.
+      `;
+
+      try {
+        const reply = await callGeminiGlobal(prompt, true);
+        const cardEl = document.getElementById(tempId);
+        if (cardEl) {
+          cardEl.innerHTML = `
+            <div class="flex items-center justify-between font-semibold text-sky-300 pb-1 border-b border-slate-800">
+              <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-amber-400"></i> ${query}</span>
+              <span class="text-[10px] text-teal-400 font-mono">Global Intel Verified</span>
+            </div>
+            <div class="prose-slate text-xs space-y-1.5 pt-1 text-slate-200 leading-relaxed">${formatMarkdown(reply)}</div>
+          `;
+        }
+      } catch (err) {
+        const cardEl = document.getElementById(tempId);
+        if (cardEl) {
+          cardEl.innerHTML = `
+            <div class="font-semibold text-sky-300 mb-1">${query}</div>
+            <div class="text-rose-400 text-xs">${err.message}</div>
+          `;
+        }
       }
     }
 
@@ -448,43 +558,20 @@
       qBox.classList.remove('hidden');
       qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Formulating questions...</span>`;
 
-      const prompt = `Based on: "${video.title}" and context: "${video.description.slice(0, 1200)}", write 3 sharp analytical questions. Return ONLY JSON array of strings: ["Q1?", "Q2?", "Q3?"]`;
+      const prompt = `Based on: "${video.title}" and context: "${video.description ? video.description.slice(0, 1200) : ''}", write 3 sharp analytical questions. Return ONLY JSON array of strings: ["Q1?", "Q2?", "Q3?"]`;
 
       try {
-        const raw = await callGeminiApi(prompt);
+        const raw = await callGeminiGlobal(prompt, false);
         const match = raw.match(/\[.*\]/s);
         const questions = JSON.parse(match ? match[0] : raw);
         qBox.innerHTML = questions.map(q => `
-          <button onclick="executeDirectPrompt('${videoId}', ${JSON.stringify(q)})" class="text-left px-2 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-[11px] text-purple-200">
+          <button onclick="document.getElementById('customInput-${videoId}').value = ${JSON.stringify(q)}; submitInlineCustom('${videoId}')" 
+            class="text-left px-2 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-[11px] text-purple-200">
             ⚡ ${q}
           </button>
         `).join('');
       } catch (e) {
         qBox.innerHTML = `<span class="text-rose-400 text-[11px]">Could not generate inquiries.</span>`;
-      }
-    }
-
-    function submitInlineCustom(videoId) {
-      const input = document.getElementById(`customInput-${videoId}`);
-      const val = input.value.trim();
-      if (val) executeDirectPrompt(videoId, val);
-    }
-
-    async function executeDirectPrompt(videoId, query) {
-      markAsRead(videoId);
-      const video = allVideos.find(v => v.id === videoId);
-      if (!video) return;
-
-      const box = document.getElementById(`inlineOutput-${videoId}`);
-      box.innerHTML = `<span class="text-sky-400 flex items-center gap-1.5 py-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing...</span>`;
-
-      const prompt = `Video Title: "${video.title}"\nDescription: ${video.description.slice(0, 1500)}\nUser Question: "${query}"\nProvide a direct, high-yield answer.`;
-
-      try {
-        const text = await callGeminiApi(prompt);
-        box.innerHTML = formatMarkdown(text);
-      } catch (e) {
-        box.innerHTML = `<span class="text-rose-400">${e.message}</span>`;
       }
     }
 
@@ -501,11 +588,11 @@
       box.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master Gemini synthesizing across briefings...</span>
+          <span>Master Gemini synthesizing across briefings & global sources...</span>
         </div>`;
 
       const contextSummary = allVideos.slice(0, 16).map((v, i) => 
-        `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description.slice(0, 250)}`
+        `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description ? v.description.slice(0, 250) : ''}`
       ).join('\n');
 
       const masterPrompt = `You are the Master Geopolitical & Current Affairs AI Engine.
@@ -514,10 +601,10 @@ ${contextSummary}
 
 User Request: "${query}"
 
-Provide an authoritative, well-structured intelligence report with bold headings and concise bullet points.`;
+Provide an authoritative, well-structured intelligence report with bold headings and concise bullet points. Synthesize internet geopolitical news and official positions if needed.`;
 
       try {
-        const text = await callGeminiApi(masterPrompt);
+        const text = await callGeminiGlobal(masterPrompt, true);
         box.innerHTML = `
           <div class="flex items-center justify-between pb-2 border-b border-indigo-800/60 mb-2">
             <span class="font-semibold text-indigo-300 flex items-center gap-1.5">
