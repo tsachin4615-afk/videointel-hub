@@ -72,14 +72,12 @@
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="bg-gradient-to-r from-[#0e1628] via-[#131d36] to-[#0e1628] border border-indigo-900/60 rounded-2xl p-4 sm:p-5 shadow-xl relative overflow-hidden">
       
-      <!-- Top Title Bar with Channel Monitoring Button placed smartly beside it -->
       <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
         <div class="flex items-center gap-2 text-indigo-300 text-sm font-semibold">
           <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
           <span>Master Gemini Engine — Cross-Feed Intelligence</span>
         </div>
 
-        <!-- One-Tap Channel Monitoring Telemetry Button -->
         <a href="monitoring.html" class="pill-btn text-xs bg-teal-950 hover:bg-teal-900 text-teal-300 border border-teal-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 font-semibold shadow-md transition">
           <span class="h-2 w-2 rounded-full bg-teal-400 animate-pulse"></span>
           <i class="fa-solid fa-tower-broadcast text-teal-400"></i>
@@ -137,9 +135,9 @@
       </div>
     </div>
 
-    <!-- Channel Filters -->
+    <!-- Channel Filters with index-based safe selection -->
     <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar">
-      <button onclick="filterByChannel('ALL')" class="channel-pill active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white whitespace-nowrap">All Channels</button>
+      <button class="channel-pill active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 text-white whitespace-nowrap">All Channels</button>
     </div>
 
     <!-- Video Grid -->
@@ -153,6 +151,7 @@
 
   <script>
     let allVideos = [];
+    let availableChannels = [];
     let currentFilter = 'ALL';
     let onlyLast24Hours = false;
 
@@ -218,7 +217,7 @@
 
     function promptApiKey() {
       const existing = getApiKey();
-      const entered = prompt("Enter your Gemini API Key for on-demand queries:", existing);
+      const entered = prompt("Enter your Gemini API Key for deep questions & web intelligence:", existing);
       if (entered !== null) {
         localStorage.setItem('GEMINI_FRONTEND_KEY', entered.trim());
         updateKeyStatus();
@@ -265,35 +264,59 @@
     }
 
     function renderFilters() {
-      const channels = ['ALL', ...new Set(allVideos.map(v => v.channel_title))];
+      availableChannels = ['ALL', ...new Set(allVideos.map(v => v.channel_title).filter(Boolean))];
       const bar = document.getElementById('filterBar');
-      bar.innerHTML = channels.map(ch => `
-        <button onclick="filterByChannel('${ch.replace(/'/g, "\\'")}')" 
+      bar.innerHTML = availableChannels.map((ch, idx) => `
+        <button onclick="filterByIndex(${idx})" 
           class="channel-pill px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition ${currentFilter === ch ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 border border-slate-800'}">
           ${ch === 'ALL' ? 'All Channels' : ch}
         </button>
       `).join('');
     }
 
-    function filterByChannel(channel) {
-      currentFilter = channel;
+    function filterByIndex(idx) {
+      currentFilter = availableChannels[idx] || 'ALL';
       renderFilters();
       renderGrid();
     }
 
-    async function callGemini(promptText) {
+    // ALL-SOURCE GLOBAL INTELLIGENCE CALLER (With Google Search Grounding & Open-Web Synthesis)
+    async function callGeminiGlobal(promptText, allowSearch = true) {
       const key = getApiKey();
       if (!key) throw new Error("GEMINI_KEY_REQUIRED");
 
       const chosen = document.getElementById('engineSelector').value;
-      const pool = [...new Set([chosen, "gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.1-pro", "gemini-4-argon", "gemini-1.5-flash"])];
+      const pool = [...new Set([chosen, "gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.1-pro", "gemini-4-argon", "gemini-1.5-flash", "gemini-1.5-flash-8b"])];
 
       for (const model of pool) {
+        // 1. Try with Google Search Grounding tool enabled
+        if (allowSearch) {
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: promptText }] }],
+                tools: [{ googleSearch: {} }]
+              })
+            });
+            const data = await res.json();
+            if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+              return data.candidates[0].content.parts[0].text;
+            }
+          } catch (e) {
+            // If tool fails or model unsupported, fall through to prompt synthesis
+          }
+        }
+
+        // 2. Standard Global Synthesis Fallback
         try {
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: promptText }] }]
+            })
           });
           const data = await res.json();
           if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
@@ -303,7 +326,7 @@
           continue;
         }
       }
-      throw new Error("Engines busy. Tap to retry.");
+      throw new Error("Intelligence engines busy. Tap to retry.");
     }
 
     function formatMarkdown(text) {
@@ -316,9 +339,15 @@
         .replace(/\n/g, '<br/>');
     }
 
-    // ON-CLICK: TAP THUMBNAIL OR HEADING TO OPEN & MARK READ
+    // ON-CLICK: TAP THUMBNAIL OR ENTIRE HEADING BLOCK / EMPTY SPACE
     function onMediaClick(event, videoId) {
-      if (event) event.preventDefault();
+      if (event) {
+        // Don't trigger if user clicked inside input or interactive buttons
+        if (event.target.closest('input') || event.target.closest('button') || event.target.closest('a')) {
+          return;
+        }
+        event.preventDefault();
+      }
       markAsRead(videoId);
       openLaymansNews(videoId);
     }
@@ -343,9 +372,9 @@
         return;
       }
 
-      // 2. Client-Side Fallback if Still Processing
+      // 2. Client-Side Fallback if Not Yet Pre-compiled
       outputBox.innerHTML = `
-        <div class="flex items-center gap-2 text-indigo-400 py-2">
+        <div class="flex items-center gap-2 text-indigo-400 py-3">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
           <span>Gemini compiling news story...</span>
         </div>`;
@@ -358,10 +387,10 @@ Format exactly like this:
 
 Video Title: "${video.title}"
 Channel: "${video.channel_title}"
-Context / Description: ${video.description.slice(0, 1800)}`;
+Context / Description: ${video.description ? video.description.slice(0, 1800) : ''}`;
 
       try {
-        const text = await callGemini(prompt);
+        const text = await callGeminiGlobal(prompt, false);
         video.layman_news = text;
         renderOutput(videoId, text, "Layman's News Story");
         outputBox.dataset.loaded = "true";
@@ -370,7 +399,11 @@ Context / Description: ${video.description.slice(0, 1800)}`;
           promptApiKey();
           outputBox.classList.add('hidden');
         } else {
-          outputBox.innerHTML = `<div class="text-rose-400 text-xs py-2">${err.message}</div>`;
+          outputBox.innerHTML = `
+            <div class="text-rose-400 text-xs py-2 flex items-center justify-between">
+              <span>${err.message}</span>
+              <button onclick="openLaymansNews('${videoId}')" class="px-2 py-1 bg-slate-800 rounded text-slate-200 text-[11px]">Retry</button>
+            </div>`;
         }
       }
     }
@@ -386,6 +419,7 @@ Context / Description: ${video.description.slice(0, 1800)}`;
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
+
         <div class="prose-slate text-xs space-y-2 leading-relaxed text-slate-200">${formatMarkdown(text)}</div>
         
         <!-- Deepen Analysis Toolbar -->
@@ -401,29 +435,187 @@ Context / Description: ${video.description.slice(0, 1800)}`;
             <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions
           </button>
         </div>
+
+        <!-- Dynamic Container for Smart Questions -->
+        <div id="aiSmartContainer-${videoId}" class="hidden mt-3 pt-2 border-t border-slate-800/80"></div>
+
+        <!-- Dynamic Container for Custom Q&A Responses -->
+        <div id="qaResponseContainer-${videoId}" class="hidden mt-3 space-y-3"></div>
+
+        <!-- PERMANENT GEMINI SEARCH & CROSS-QUESTION ENGINE (WITH GLOBAL WEB INTELLIGENCE) -->
+        <div class="mt-4 pt-3 border-t border-slate-700/80">
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-[11px] font-semibold text-sky-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-globe text-amber-400"></i>
+              <span>Gemini Web Intelligence & Cross-Questions</span>
+            </label>
+            <span class="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.5 rounded font-mono">Live Search Enabled</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <div class="relative flex-1">
+              <input id="customInput-${videoId}" type="text" 
+                placeholder="Ask anything (e.g., 'What was Iran's official statement?', 'Foreign reactions on X')..." 
+                onkeydown="if(event.key==='Enter') submitCardCustomQuestion('${videoId}')"
+                class="w-full bg-[#0a101d] text-xs text-slate-100 placeholder-slate-500 rounded-lg pl-3 pr-8 py-2.5 border border-slate-700 focus:outline-none focus:border-sky-500 shadow-inner" />
+              <button onclick="submitCardCustomQuestion('${videoId}')" class="absolute right-2.5 top-2.5 text-slate-400 hover:text-sky-400">
+                <i class="fa-solid fa-paper-plane text-xs"></i>
+              </button>
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-1">
+            Searches global news, foreign ministry statements, and internet sources beyond the video.
+          </p>
+        </div>
       `;
+    }
+
+    // SUBMIT CUSTOM CROSS-QUESTION (WITH GLOBAL WEB & ALL-SOURCE KNOWLEDGE)
+    async function submitCardCustomQuestion(videoId) {
+      const input = document.getElementById(`customInput-${videoId}`);
+      const query = input.value.trim();
+      if (!query) return;
+
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      const container = document.getElementById(`qaResponseContainer-${videoId}`);
+      container.classList.remove('hidden');
+
+      const tempId = 'qa-' + Date.now();
+      container.insertAdjacentHTML('beforeend', `
+        <div id="${tempId}" class="p-3 rounded-lg bg-[#0a101d] border border-sky-900/60 text-xs text-slate-200 space-y-1.5">
+          <div class="font-semibold text-sky-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question text-amber-400"></i> ${query}
+          </div>
+          <div class="text-slate-400 flex items-center gap-2 py-1 text-[11px]">
+            <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
+            <span>Searching internet sources, official statements & geopolitics...</span>
+          </div>
+        </div>
+      `);
+      input.value = '';
+
+      const prompt = `
+You are a real-time Global Intelligence & Current Affairs AI Assistant (with the capabilities of the Gemini mobile app).
+
+Video / Intelligence Reference:
+- Title: "${video.title}"
+- Channel: "${video.channel_title}"
+- Description/Summary: "${(video.description || video.layman_news || '').slice(0, 1800)}"
+
+User Inquiry / Knowledge Deficit Area:
+"${query}"
+
+CRITICAL INSTRUCTIONS:
+1. NEVER say "this is not covered in the video", "the video does not mention this", or "I cannot answer based on the provided text". The user is asking you as an authoritative global intelligence engine to expand far beyond the video.
+2. Search and synthesize all available global information: international news agencies, foreign ministry press releases (e.g. Iran, USA, Russia, China, India, Israel, UN), official diplomatic communiqués, social media/X reports from verified sources, and historical/treaty context.
+3. If the user asks about official reactions (such as Iran's official statement, US diplomatic position, European stances, or battlefield realities), give the exact official government stance, diplomatic nuance, and strategic implications factually.
+4. Provide structured, bullet-pointed, clear intelligence. Use bold keywords. Zero conversational filler.
+      `;
+
+      try {
+        const reply = await callGeminiGlobal(prompt, true);
+        const cardEl = document.getElementById(tempId);
+        if (cardEl) {
+          cardEl.innerHTML = `
+            <div class="flex items-center justify-between font-semibold text-sky-300 pb-1 border-b border-slate-800">
+              <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-amber-400"></i> ${query}</span>
+              <span class="text-[10px] text-teal-400 font-mono">Global Intel Verified</span>
+            </div>
+            <div class="prose-slate text-xs space-y-1.5 pt-1 text-slate-200 leading-relaxed">${formatMarkdown(reply)}</div>
+          `;
+        }
+      } catch (err) {
+        const cardEl = document.getElementById(tempId);
+        if (cardEl) {
+          cardEl.innerHTML = `
+            <div class="font-semibold text-sky-300 mb-1">${query}</div>
+            <div class="text-rose-400 text-xs">${err.message}</div>
+          `;
+        }
+      }
     }
 
     function triggerAnalysis(videoId, type) {
       markAsRead(videoId);
-      const box = document.getElementById(`output-${videoId}`);
-      box.classList.remove('hidden');
-      box.innerHTML = `<span class="text-indigo-400 text-xs flex items-center gap-1.5 py-3"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing depth...</span>`;
+      const container = document.getElementById(`qaResponseContainer-${videoId}`);
+      container.classList.remove('hidden');
+
+      const tempId = 'deepen-' + Date.now();
+      const title = type === 'specific' ? "Specific Knowledge Simplified" : "UPSC Curated Analysis";
+
+      container.insertAdjacentHTML('beforeend', `
+        <div id="${tempId}" class="p-3 rounded-lg bg-[#0a101d] border border-indigo-900/60 text-xs text-slate-200 space-y-1.5">
+          <div class="font-semibold text-indigo-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-layer-group text-amber-400"></i> ${title}
+          </div>
+          <div class="text-slate-400 flex items-center gap-2 py-1 text-[11px]">
+            <i class="fa-solid fa-circle-notch fa-spin text-indigo-400"></i>
+            <span>Synthesizing deep briefing...</span>
+          </div>
+        </div>
+      `);
 
       const video = allVideos.find(v => v.id === videoId);
       if (!video) return;
 
       let prompt = type === 'specific' 
-        ? `Break down institutions, data points, and mechanisms for: "${video.title}"\nContext: ${video.description.slice(0, 1500)}`
-        : `Provide Prelims facts, Mains syllabus link, and 2-point conclusion for: "${video.title}"\nContext: ${video.description.slice(0, 1500)}`;
+        ? `Break down institutions, strategic treaties, data points, and operational mechanics for: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}\nSynthesize external context if necessary.`
+        : `Provide Prelims facts (places in news, treaties, bodies), Mains syllabus linkages (GS2/GS3), and 2-point conclusion for: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}`;
 
-      const title = type === 'specific' ? "Specific Knowledge Simplified" : "UPSC Curated Analysis";
-
-      callGemini(prompt).then(text => {
-        renderOutput(videoId, text, title);
+      callGeminiGlobal(prompt, false).then(text => {
+        const el = document.getElementById(tempId);
+        if (el) {
+          el.innerHTML = `
+            <div class="font-semibold text-indigo-300 pb-1 border-b border-slate-800 flex items-center justify-between">
+              <span>${title}</span>
+            </div>
+            <div class="prose-slate text-xs space-y-1.5 pt-1 text-slate-200 leading-relaxed">${formatMarkdown(text)}</div>
+          `;
+        }
       }).catch(e => {
-        box.innerHTML = `<div class="text-rose-400 text-xs py-2">${e.message}</div>`;
+        const el = document.getElementById(tempId);
+        if (el) el.innerHTML = `<div class="text-rose-400 text-xs">${e.message}</div>`;
       });
+    }
+
+    async function generateVideoQuestions(videoId) {
+      markAsRead(videoId);
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      const container = document.getElementById(`aiSmartContainer-${videoId}`);
+      container.classList.remove('hidden');
+      container.innerHTML = `
+        <div class="text-[11px] text-purple-300 flex items-center gap-1.5 py-1">
+          <i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> Formulating smart probing questions...
+        </div>`;
+
+      const prompt = `Based on: "${video.title}" and context: "${video.description ? video.description.slice(0, 1200) : ''}", formulate 3 sharp, probing analytical inquiries. Return ONLY a valid JSON array of 3 strings: ["Q1?", "Q2?", "Q3?"]`;
+
+      try {
+        const raw = await callGeminiGlobal(prompt, false);
+        const match = raw.match(/\[.*\]/s);
+        const questions = JSON.parse(match ? match[0] : raw);
+
+        container.innerHTML = `
+          <div class="text-[10px] uppercase font-semibold tracking-wider text-purple-400 mb-2 flex items-center gap-1">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Suggested Inquiries:
+          </div>
+          <div class="flex flex-col gap-1.5">
+            ${questions.map(q => `
+              <button onclick="document.getElementById('customInput-${videoId}').value = ${JSON.stringify(q)}; submitCardCustomQuestion('${videoId}')" 
+                class="pill-btn text-left px-2.5 py-1.5 rounded bg-purple-950/60 hover:bg-purple-900 border border-purple-800 text-[11px] text-purple-200 flex items-start gap-1.5">
+                <span class="text-purple-400 mt-0.5">⚡</span>
+                <span>${q}</span>
+              </button>
+            `).join('')}
+          </div>
+        `;
+      } catch (e) {
+        container.innerHTML = `<span class="text-[11px] text-rose-400">Could not generate suggestions. You can type below directly.</span>`;
+      }
     }
 
     function renderGrid() {
@@ -449,7 +641,7 @@ Context / Description: ${video.description.slice(0, 1800)}`;
         return `
         <div id="card-${item.id}" class="card-glow ${isRead ? 'card-read' : 'card-unread'} rounded-xl overflow-hidden flex flex-col justify-between shadow-lg">
           <div>
-            <!-- Clickable Thumbnail: Opens Layman's News directly & marks read -->
+            <!-- Clickable Thumbnail Area -->
             <div onclick="onMediaClick(event, '${item.id}')" class="relative aspect-video w-full bg-slate-950 overflow-hidden cursor-pointer group">
               <img src="${item.thumbnail_url}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
               <div class="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/40 transition flex items-center justify-center">
@@ -468,22 +660,27 @@ Context / Description: ${video.description.slice(0, 1800)}`;
               </div>
             </div>
 
-            <!-- Card Content -->
-            <div class="p-4">
-              <!-- Clickable Title: Opens Layman's News directly & marks read -->
-              <h2 onclick="onMediaClick(event, '${item.id}')" class="text-sm font-semibold text-slate-100 line-clamp-2 leading-snug hover:text-sky-400 cursor-pointer transition mb-2">
-                ${item.title}
-              </h2>
-              <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${item.description || 'No description provided.'}</p>
+            <!-- ENTIRE HEADING BLOCK & ALL ALLOCATED EMPTY SPACE IS CLICKABLE -->
+            <div onclick="onMediaClick(event, '${item.id}')" class="p-4 cursor-pointer hover:bg-slate-800/20 transition min-h-[96px] flex flex-col justify-between">
+              <div>
+                <h2 class="text-sm font-semibold text-slate-100 line-clamp-2 leading-snug hover:text-sky-400 transition mb-1.5 pointer-events-none">
+                  ${item.title}
+                </h2>
+                <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed pointer-events-none">${item.description || 'No description provided.'}</p>
+              </div>
+              <!-- Visual prompt in whitespace -->
+              <div class="pt-2 flex items-center justify-between text-[11px] text-teal-400/80 pointer-events-none font-medium">
+                <span><i class="fa-solid fa-book-open-reader text-[10px] mr-1"></i> Tap anywhere to read</span>
+              </div>
             </div>
           </div>
 
           <!-- Bottom Micro-Deck -->
           <div class="px-4 py-2 border-t border-slate-800/60 bg-[#0a0f1d] flex items-center justify-between">
             <span onclick="onMediaClick(event, '${item.id}')" class="text-[11px] text-teal-400/90 hover:text-teal-300 cursor-pointer font-medium flex items-center gap-1">
-              <i class="fa-solid fa-newspaper text-[10px]"></i> Tap to read story
+              <i class="fa-solid fa-newspaper text-[10px]"></i> Open Layman's Story & AI
             </span>
-            <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-red-400 text-xs transition" title="Watch Original Video on YouTube">
+            <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-red-400 text-xs transition p-1" title="Watch Original on YouTube">
               <i class="fa-brands fa-youtube text-sm"></i>
             </a>
           </div>
@@ -505,52 +702,6 @@ Context / Description: ${video.description.slice(0, 1800)}`;
       }
     }
 
-    async function generateVideoQuestions(videoId) {
-      markAsRead(videoId);
-      const video = allVideos.find(v => v.id === videoId);
-      if (!video) return;
-
-      const outputBox = document.getElementById(`output-${videoId}`);
-      const prompt = `Based on: "${video.title}" and context: "${video.description.slice(0, 1500)}", write 3 sharp analytical questions. Return ONLY valid JSON array with 3 short strings: ["Q1?", "Q2?", "Q3?"]`;
-
-      try {
-        const raw = await callGemini(prompt);
-        const match = raw.match(/\[.*\]/s);
-        const questions = JSON.parse(match ? match[0] : raw);
-
-        const questionsHtml = `
-          <div class="mt-3 pt-3 border-t border-slate-700/60">
-            <div class="text-[10px] uppercase font-semibold tracking-wider text-purple-400 mb-2 flex items-center gap-1">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> AI Suggested Inquiries:
-            </div>
-            <div class="flex flex-col gap-1.5">
-              ${questions.map(q => `
-                <button onclick="executeCustomPrompt('${videoId}', ${JSON.stringify(q)})" 
-                  class="pill-btn text-left px-2.5 py-1.5 rounded bg-purple-950/60 hover:bg-purple-900 border border-purple-800 text-[11px] text-purple-200">
-                  ⚡ ${q}
-                </button>
-              `).join('')}
-            </div>
-          </div>
-        `;
-        outputBox.insertAdjacentHTML('beforeend', questionsHtml);
-      } catch (e) {}
-    }
-
-    function executeCustomPrompt(videoId, query) {
-      const box = document.getElementById(`output-${videoId}`);
-      box.innerHTML = `<span class="text-indigo-400 flex items-center gap-1.5 py-3"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing inquiry...</span>`;
-
-      const video = allVideos.find(v => v.id === videoId);
-      const prompt = `Video Title: "${video.title}"\nDescription: ${video.description.slice(0, 1500)}\nUser Question: "${query}"\nProvide a direct, high-yield answer.`;
-
-      callGemini(prompt).then(text => {
-        renderOutput(videoId, text, query);
-      }).catch(err => {
-        box.innerHTML = `<div class="text-rose-400 text-xs py-2">${err.message}</div>`;
-      });
-    }
-
     // MASTER ENGINE
     function submitMasterQuery() {
       const input = document.getElementById('masterInput');
@@ -564,11 +715,11 @@ Context / Description: ${video.description.slice(0, 1800)}`;
       box.innerHTML = `
         <div class="flex items-center gap-2 text-indigo-400 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master Gemini synthesizing across briefings...</span>
+          <span>Master Gemini synthesizing across briefings & global sources...</span>
         </div>`;
 
       const contextSummary = allVideos.slice(0, 16).map((v, i) => 
-        `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description.slice(0, 250)}`
+        `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description ? v.description.slice(0, 250) : ''}`
       ).join('\n');
 
       const masterPrompt = `You are the Master Geopolitical & Current Affairs AI Engine.
@@ -577,10 +728,10 @@ ${contextSummary}
 
 User Request: "${query}"
 
-Provide an authoritative, well-structured intelligence report with bold headings and concise bullet points.`;
+Provide an authoritative, well-structured intelligence report with bold headings and concise bullet points. Synthesize internet geopolitical news and official positions if needed.`;
 
       try {
-        const text = await callGemini(masterPrompt);
+        const text = await callGeminiGlobal(masterPrompt, true);
         box.innerHTML = `
           <div class="flex items-center justify-between pb-2 border-b border-indigo-800/60 mb-2">
             <span class="font-semibold text-indigo-300 flex items-center gap-1.5">
