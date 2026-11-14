@@ -6,12 +6,23 @@
   <title>VideoIntel Hub | Quick Headings Navigation</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Kalam:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --app-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      --app-scale: 1;
+    }
+    html {
+      font-size: calc(16px * var(--app-scale));
+    }
     body {
       background-color: #040508;
       color: #f1f5f9;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      font-family: var(--app-font);
       overflow-x: hidden;
+      transition: font-family 0.2s ease;
     }
     
     /* iOS / iPadOS Control Center Ambient Color Layer Behind the Frosted Glass */
@@ -81,7 +92,7 @@
     #curtainDrawer {
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateX(100%);
-      background: rgba(18, 20, 28, 0.72);
+      background: rgba(18, 20, 28, 0.75);
       backdrop-filter: blur(40px) saturate(200%);
       -webkit-backdrop-filter: blur(40px) saturate(200%);
       border-left: 1px solid rgba(255, 255, 255, 0.16);
@@ -273,6 +284,57 @@
         </button>
       </div>
 
+      <!-- Section: Typography & Font Selector (Includes Handwritten & Regional) -->
+      <div class="space-y-3 glass-pill p-3.5 rounded-2xl">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-font text-sky-400"></i> Font & Typography
+          </span>
+          <span class="text-[10px] text-slate-300 font-mono">7 Styles</span>
+        </div>
+
+        <div class="grid grid-cols-1 gap-1.5">
+          <button onclick="setAppFont('sf')" id="fontBtn-sf" style="font-family: -apple-system, BlinkMacSystemFont, sans-serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition">
+            <span>SF Pro / System (Apple)</span>
+            <span class="text-[10px] opacity-75">Default</span>
+          </button>
+          <button onclick="setAppFont('handwritten')" id="fontBtn-handwritten" style="font-family: 'Kalam', cursive;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition">
+            <span>Kalam (Handwritten Notes)</span>
+            <span class="text-[10px] text-amber-300">Notebook</span>
+          </button>
+          <button onclick="setAppFont('regional')" id="fontBtn-regional" style="font-family: 'Noto Sans Kannada', 'Noto Sans Devanagari', sans-serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition">
+            <span>Noto Regional (ಕನ್ನಡ / हिंदी / EN)</span>
+            <span class="text-[10px] text-emerald-300">Multi-Script</span>
+          </button>
+          <button onclick="setAppFont('inter')" id="fontBtn-inter" style="font-family: 'Inter', sans-serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition">
+            <span>Inter (Clean Modern UI)</span>
+            <span class="text-[10px] opacity-75">Sans</span>
+          </button>
+          <button onclick="setAppFont('jakarta')" id="fontBtn-jakarta" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition">
+            <span>Plus Jakarta (Sharp Display)</span>
+            <span class="text-[10px] opacity-75">Editorial</span>
+          </button>
+          <button onclick="setAppFont('serif')" id="fontBtn-serif" style="font-family: 'Merriweather', serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition">
+            <span>Merriweather (Book Reader)</span>
+            <span class="text-[10px] opacity-75">Serif</span>
+          </button>
+          <button onclick="setAppFont('mono')" id="fontBtn-mono" style="font-family: 'JetBrains Mono', monospace;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition">
+            <span>JetBrains Mono (Tactical)</span>
+            <span class="text-[10px] opacity-75">Code</span>
+          </button>
+        </div>
+
+        <!-- Text Size Scaling -->
+        <div class="pt-1">
+          <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Reading Text Size</label>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button onclick="setAppScale('0.95')" id="scaleBtn-0.95" class="py-1 rounded-xl text-[11px] font-medium border text-center transition">Compact</button>
+            <button onclick="setAppScale('1')" id="scaleBtn-1" class="py-1 rounded-xl text-[11px] font-medium border text-center transition">Normal</button>
+            <button onclick="setAppScale('1.08')" id="scaleBtn-1.08" class="py-1 rounded-xl text-[11px] font-medium border text-center transition">Large</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Section: Frosted Glass Backdrop Tint Selector -->
       <div class="space-y-3 glass-pill p-3.5 rounded-2xl">
         <div class="flex items-center justify-between">
@@ -351,14 +413,70 @@
 
     <!-- Drawer Footer -->
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v5.0 (Glass)</span>
+      <span>VideoIntel Hub v5.2</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
 
   <script>
     // ============================================================================
-    // FROSTED GLASS AMBIENT TINT ENGINE (ZERO BATTERY DRAIN)
+    // TYPOGRAPHY & FONT ENGINE (INCLUDES HANDWRITTEN & REGIONAL)
+    // ============================================================================
+    let currentAppFont = localStorage.getItem('APP_FONT') || 'sf';
+    let currentAppScale = localStorage.getItem('APP_SCALE') || '1';
+
+    const FONT_MAP = {
+      sf: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif',
+      handwritten: '"Kalam", "Noto Sans Kannada", "Noto Sans Devanagari", cursive, sans-serif',
+      regional: '"Noto Sans Kannada", "Noto Sans Devanagari", "Inter", sans-serif',
+      inter: '"Inter", "Noto Sans Kannada", "Noto Sans Devanagari", sans-serif',
+      jakarta: '"Plus Jakarta Sans", "Noto Sans Kannada", "Noto Sans Devanagari", sans-serif',
+      serif: '"Merriweather", "Noto Sans Kannada", "Noto Sans Devanagari", Georgia, serif',
+      mono: '"JetBrains Mono", "Noto Sans Kannada", monospace'
+    };
+
+    function setAppFont(fontKey) {
+      if (!FONT_MAP[fontKey]) return;
+      currentAppFont = fontKey;
+      localStorage.setItem('APP_FONT', fontKey);
+      document.documentElement.style.setProperty('--app-font', FONT_MAP[fontKey]);
+      updateFontUI();
+    }
+
+    function setAppScale(scaleVal) {
+      currentAppScale = scaleVal;
+      localStorage.setItem('APP_SCALE', scaleVal);
+      document.documentElement.style.setProperty('--app-scale', scaleVal);
+      updateFontUI();
+    }
+
+    function updateFontUI() {
+      ['sf', 'handwritten', 'regional', 'inter', 'jakarta', 'serif', 'mono'].forEach(f => {
+        const btn = document.getElementById(`fontBtn-${f}`);
+        if (!btn) return;
+        if (currentAppFont === f) {
+          btn.className = "px-3 py-2 rounded-xl text-xs font-semibold border border-sky-400 bg-sky-500/20 text-white flex items-center justify-between transition shadow-sm";
+        } else {
+          btn.className = "px-3 py-2 rounded-xl text-xs font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white flex items-center justify-between transition";
+        }
+      });
+
+      ['0.95', '1', '1.08'].forEach(s => {
+        const btn = document.getElementById(`scaleBtn-${s}`);
+        if (!btn) return;
+        if (String(currentAppScale) === s) {
+          btn.className = "py-1 rounded-xl text-[11px] font-semibold border border-sky-400 bg-sky-500/20 text-white text-center transition";
+        } else {
+          btn.className = "py-1 rounded-xl text-[11px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white text-center transition";
+        }
+      });
+    }
+
+    setAppFont(currentAppFont);
+    setAppScale(currentAppScale);
+
+    // ============================================================================
+    // FROSTED GLASS AMBIENT TINT ENGINE
     // ============================================================================
     let currentGlassTint = localStorage.getItem('GLASS_TINT') || 'control';
 
