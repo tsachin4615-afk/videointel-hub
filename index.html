@@ -3,57 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VideoIntel Hub | Quick Headings Navigation</title>
+  <title>VideoIntel Hub | Master Grid</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { background-color: #050811; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
-    
-    /* Moving Wallpaper Canvas & Ambient Cyber Orbs */
-    #bgCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -2;
-      pointer-events: none;
+    body {
+      background-color: #040508;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
     }
-    .ambient-glow {
+    
+    /* iOS / iPadOS Control Center Ambient Color Layer Behind the Frosted Glass */
+    .ios-ambient-backdrop {
       position: fixed;
       inset: 0;
-      z-index: -1;
+      z-index: -2;
       pointer-events: none;
-      transition: background 0.8s ease;
-      background: 
-        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.10) 0%, transparent 45%),
-        radial-gradient(circle at 85% 75%, rgba(99, 102, 241, 0.10) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.05) 0%, transparent 60%);
-      animation: pulseAurora 14s ease-in-out infinite alternate;
+      background-color: #030407;
+      overflow: hidden;
     }
-    @keyframes pulseAurora {
-      0% { transform: scale(1) translate(0px, 0px); opacity: 0.8; }
-      50% { transform: scale(1.08) translate(15px, -15px); opacity: 1; }
-      100% { transform: scale(1) translate(-15px, 15px); opacity: 0.85; }
+    .ambient-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(95px);
+      opacity: 0.65;
+      transition: all 1.2s ease;
+      animation: floatOrbs 22s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 420px; height: 420px; top: 4%; left: 8%; background: radial-gradient(circle, #9333ea 0%, #4f46e5 70%, transparent 100%); }
+    .orb-2 { width: 380px; height: 380px; top: 38%; right: 6%; background: radial-gradient(circle, #0ea5e9 0%, #2563eb 70%, transparent 100%); animation-delay: -7s; }
+    .orb-3 { width: 340px; height: 340px; bottom: 5%; left: 18%; background: radial-gradient(circle, #ea580c 0%, #e11d48 70%, transparent 100%); animation-delay: -13s; opacity: 0.45; }
+    .orb-4 { width: 290px; height: 290px; top: 15%; right: 32%; background: radial-gradient(circle, #10b981 0%, #0d9488 70%, transparent 100%); animation-delay: -4s; opacity: 0.40; }
+
+    @keyframes floatOrbs {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(30px, -25px) scale(1.07); }
+      100% { transform: translate(-25px, 20px) scale(0.96); }
     }
 
-    .heading-row { transition: all 0.2s ease; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-    .row-unread { background-color: rgba(15, 23, 42, 0.78); border-bottom: 1px solid rgba(30, 41, 59, 0.85); opacity: 1; }
-    .row-unread:hover { background-color: rgba(19, 31, 54, 0.90); }
-    .row-duplicate { background-color: rgba(13, 19, 34, 0.72); border-bottom: 1px dashed #334155; opacity: 0.82; }
-    .row-duplicate:hover { background-color: rgba(22, 32, 53, 0.88); }
-    .row-read { background-color: rgba(9, 13, 22, 0.55); border-bottom: 1px solid rgba(20, 27, 41, 0.75); opacity: 0.58; filter: grayscale(20%); }
-    .row-read:hover { opacity: 0.85; background-color: rgba(13, 19, 34, 0.75); }
-    .pill-btn { transition: all 0.15s ease; }
-    .pill-btn:active { transform: scale(0.96); }
+    /* Frosted Glassmorphism Surface (Matches Control Center Widgets) */
+    .glass-surface {
+      background: rgba(22, 24, 32, 0.58);
+      backdrop-filter: blur(32px) saturate(190%);
+      -webkit-backdrop-filter: blur(32px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .card-glow {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(30px) saturate(190%);
+      -webkit-backdrop-filter: blur(30px) saturate(190%);
+      border-radius: 1.35rem;
+    }
+    .card-unread {
+      background: rgba(24, 27, 36, 0.56);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+      opacity: 1;
+    }
+    .card-unread:hover {
+      border-color: rgba(255, 255, 255, 0.34);
+      transform: translateY(-2px);
+      background: rgba(30, 34, 46, 0.66);
+      box-shadow: 0 14px 36px -5px rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+    }
+    .card-duplicate {
+      background: rgba(18, 20, 28, 0.48);
+      border: 1px dashed rgba(245, 158, 11, 0.35);
+      opacity: 0.86;
+    }
+    .card-duplicate:hover { border-color: rgba(245, 158, 11, 0.65); opacity: 1; }
+    .card-read {
+      background: rgba(12, 14, 20, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      opacity: 0.56;
+      filter: grayscale(25%);
+    }
+    .card-read:hover { opacity: 0.85; border-color: rgba(255, 255, 255, 0.18); }
+    
+    .glass-pill {
+      background: rgba(32, 35, 48, 0.62);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.15s ease;
+    }
+    .glass-pill:hover {
+      background: rgba(45, 50, 68, 0.75);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+    .glass-pill:active { transform: scale(0.96); }
+
     select { appearance: none; -webkit-appearance: none; }
-    .unread-indicator { width: 7px; height: 7px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
+    .unread-indicator { width: 8px; height: 8px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
     .clickable-desc { cursor: pointer; user-select: none; }
-
+    
     /* Sliding Curtain Drawer */
     #curtainDrawer {
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateX(100%);
+      background: rgba(18, 20, 28, 0.72);
+      backdrop-filter: blur(40px) saturate(200%);
+      -webkit-backdrop-filter: blur(40px) saturate(200%);
+      border-left: 1px solid rgba(255, 255, 255, 0.16);
     }
     #curtainDrawer.open {
       transform: translateX(0);
@@ -61,56 +116,60 @@
     #curtainBackdrop {
       transition: opacity 0.3s ease;
     }
-
+    
     #pullIndicator { transition: transform 0.2s ease; transform: translateY(-100%); }
     #pullIndicator.visible { transform: translateY(0); }
   </style>
 </head>
 <body class="min-h-screen pb-20 relative">
 
-  <!-- LIVE MOVING WALLPAPER ENGINE -->
-  <canvas id="bgCanvas"></canvas>
-  <div id="ambientGlow" class="ambient-glow"></div>
+  <!-- TRANSLUCENT FROSTED GLASS AMBIENT BACKDROP -->
+  <div class="ios-ambient-backdrop">
+    <div id="orb1" class="ambient-orb orb-1"></div>
+    <div id="orb2" class="ambient-orb orb-2"></div>
+    <div id="orb3" class="ambient-orb orb-3"></div>
+    <div id="orb4" class="ambient-orb orb-4"></div>
+  </div>
 
   <!-- Pull-to-Refresh Banner -->
-  <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 bg-sky-950/95 border-b border-sky-700 text-sky-200 text-xs py-2 text-center flex items-center justify-center gap-2 backdrop-blur-md">
+  <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 glass-surface border-b border-white/20 text-sky-200 text-xs py-2.5 text-center flex items-center justify-center gap-2">
     <i class="fa-solid fa-arrows-rotate fa-spin text-sky-400"></i>
-    <span>Refreshing feed: prioritizing top unique news & moving read headlines to bottom...</span>
+    <span>Refreshing feed: surfacing top unique news & moving read cards to bottom...</span>
   </div>
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-[#0a0f1d]/85 backdrop-blur-xl border-b border-slate-800/80 px-4 py-3 sm:px-8">
+  <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0 px-4 py-3 sm:px-8">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <div class="h-9 w-9 rounded-lg bg-sky-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/30">
-          <i class="fa-solid fa-list-check text-lg"></i>
+        <div class="h-9 w-9 rounded-2xl bg-sky-500/90 border border-white/25 flex items-center justify-center text-white shadow-lg shadow-sky-500/30">
+          <i class="fa-solid fa-bolt text-lg"></i>
         </div>
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-            Headings Intelligence
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-950/90 text-sky-400 border border-sky-800">Live Matrix</span>
+            VideoIntel Hub
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-sky-300">Frosted Glass</span>
           </h1>
-          <p class="text-xs text-slate-400">Tap Row to Read • Tap Empty Space to Close • Auto-Failover AI</p>
+          <p class="text-xs text-slate-300/80">Tap Card to Read • Tap Empty Space to Close • Auto-Failover AI</p>
         </div>
       </div>
 
       <!-- Quick Action Controls -->
       <div class="flex items-center gap-2">
-        <a href="index.html" class="text-xs bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition shadow-sm">
-          <i class="fa-solid fa-table-cells-large text-indigo-400"></i> <span class="hidden sm:inline">Master Grid</span>
+        <a href="headings.html" class="glass-pill text-xs text-slate-100 px-3 py-1.5 rounded-xl flex items-center gap-1.5 font-medium">
+          <i class="fa-solid fa-list-ul text-sky-400"></i> <span class="hidden sm:inline">Headings</span>
         </a>
 
-        <a href="monitoring.html" class="text-xs bg-teal-950/80 hover:bg-teal-900 text-teal-300 border border-teal-700/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition shadow-sm">
+        <a href="monitoring.html" class="glass-pill text-xs text-teal-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5 font-medium">
           <i class="fa-solid fa-tower-broadcast text-teal-400"></i> <span class="hidden sm:inline">Monitor</span>
         </a>
 
-        <button onclick="triggerManualRefresh()" class="text-xs bg-sky-950/80 hover:bg-sky-900 text-sky-300 border border-sky-800/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition" title="Refresh & Reorder">
+        <button onclick="triggerManualRefresh()" class="glass-pill text-xs text-sky-300 px-3 py-1.5 rounded-xl flex items-center gap-1.5 font-medium" title="Refresh & Reorder">
           <i class="fa-solid fa-arrows-rotate text-sky-400"></i>
         </button>
 
         <!-- ONE-TAP CURTAIN TOGGLE BUTTON -->
-        <button onclick="toggleCurtain(true)" class="pill-btn text-xs bg-slate-800/90 hover:bg-slate-700 text-slate-100 border border-slate-600 px-3 py-1.5 rounded-lg flex items-center gap-2 font-semibold shadow-md">
-          <i class="fa-solid fa-sliders text-teal-400"></i>
+        <button onclick="toggleCurtain(true)" class="glass-pill text-xs text-white px-3.5 py-1.5 rounded-xl flex items-center gap-2 font-semibold">
+          <i class="fa-solid fa-sliders text-purple-400"></i>
           <span>Curtain Panel</span>
         </button>
       </div>
@@ -119,49 +178,49 @@
 
   <!-- MASTER GEMINI ENGINE (PROMINENT AT TOP) -->
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
-    <div class="bg-gradient-to-r from-[#0e1628]/90 via-[#131d36]/90 to-[#0e1628]/90 backdrop-blur-xl border border-indigo-900/60 rounded-2xl p-4 sm:p-5 shadow-xl relative overflow-hidden">
+    <div class="glass-surface rounded-3xl p-4 sm:p-5 relative overflow-hidden">
       
       <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
-        <div class="flex items-center gap-2 text-indigo-300 text-sm font-semibold">
-          <i class="fa-solid fa-microchip text-indigo-400 text-base"></i>
+        <div class="flex items-center gap-2 text-white text-sm font-semibold">
+          <i class="fa-solid fa-microchip text-purple-400 text-base"></i>
           <span>Master Gemini Engine — Cross-Feed Intelligence & Deep Thinker</span>
         </div>
 
         <div class="flex items-center gap-2">
           <div class="relative">
-            <select id="engineSelector" onchange="saveEnginePreference()" class="text-xs bg-slate-900/90 border border-indigo-700/80 text-indigo-300 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none focus:border-indigo-500 font-medium">
-              <option value="gemini-3.5-flash-lite" selected>3.5 Flash-Lite (Fastest & Deep)</option>
-              <option value="gemini-3.8-flash">3.8 Flash (High Thinker)</option>
-              <option value="gemini-4-argon">4 Argon (Deep Analysis)</option>
-              <option value="gemini-3.1-pro">3.1 Pro (Research)</option>
+            <select id="engineSelector" onchange="saveEnginePreference()" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium">
+              <option value="gemini-3.5-flash-lite" class="bg-slate-900" selected>3.5 Flash-Lite (Fastest & Deep)</option>
+              <option value="gemini-3.8-flash" class="bg-slate-900">3.8 Flash (High Thinker)</option>
+              <option value="gemini-4-argon" class="bg-slate-900">4 Argon (Deep Analysis)</option>
+              <option value="gemini-3.1-pro" class="bg-slate-900">3.1 Pro (Research)</option>
             </select>
-            <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-400 pointer-events-none"></i>
+            <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
           </div>
 
-          <span class="text-[11px] bg-emerald-950/90 text-emerald-400 border border-emerald-800 px-2 py-1 rounded-lg font-mono">Zero-Delay Cascade</span>
+          <span class="text-[11px] glass-pill text-emerald-300 px-2.5 py-1 rounded-xl font-mono">Zero-Delay Cascade</span>
         </div>
       </div>
 
-      <p class="text-xs text-slate-400 mb-3">Synthesizes developments across all 26 channels with instant auto-switching:</p>
+      <p class="text-xs text-slate-300/80 mb-3">Synthesizes developments across all 26 channels with instant auto-switching:</p>
       
       <div class="flex flex-wrap gap-2 mb-3">
         <button onclick="runMasterAITopicDeduplication()" 
-          class="pill-btn px-3 py-1.5 rounded-lg bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-700 text-xs text-emerald-200 flex items-center gap-1.5 font-medium shadow-sm">
+          class="glass-pill px-3 py-1.5 rounded-xl text-xs text-emerald-200 flex items-center gap-1.5 font-medium">
           <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Deduplicate & Surface Best Topics
         </button>
 
         <button onclick="runMasterQuery('Provide a master layman synthesis of all major developments across the dashboard today in simple readable news format.')" 
-          class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
+          class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
           <i class="fa-solid fa-user-group text-amber-400"></i> Layman Digest
         </button>
 
         <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points (Prelims facts + Mains GS2/GS3) across all current videos.')" 
-          class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
-          <i class="fa-solid fa-graduation-cap text-indigo-400"></i> Top 5 UPSC Pointers
+          class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-purple-400"></i> Top 5 UPSC Pointers
         </button>
 
         <button onclick="runMasterQuery('Identify the single most critical geopolitical strategic conflict across these updates and simplify its core implications.')" 
-          class="pill-btn px-3 py-1.5 rounded-lg bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-800 text-xs text-indigo-200 flex items-center gap-1.5">
+          class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
           <i class="fa-solid fa-compass text-sky-400"></i> Strategic Conflict Breakdown
         </button>
       </div>
@@ -170,14 +229,14 @@
         <div class="relative flex-1">
           <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (e.g. 'Compare statements on border talks')..." 
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
-            class="w-full bg-[#0a101d]/90 text-xs text-slate-200 placeholder-slate-500 rounded-xl pl-3.5 pr-9 py-2.5 border border-slate-700/80 focus:outline-none focus:border-indigo-500 shadow-inner" />
-          <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-400 hover:text-indigo-400">
+            class="w-full bg-black/40 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
+          <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400">
             <i class="fa-solid fa-paper-plane text-xs"></i>
           </button>
         </div>
       </div>
 
-      <div id="masterOutput" class="hidden mt-4 p-4 rounded-xl bg-[#090e1a]/95 border border-indigo-800/60 text-xs text-slate-200 space-y-2 shadow-inner"></div>
+      <div id="masterOutput" class="hidden mt-4 p-4 rounded-2xl bg-black/50 border border-white/15 text-xs text-slate-100 space-y-2 shadow-inner"></div>
     </div>
   </section>
 
@@ -185,151 +244,123 @@
   <main class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
       <div class="flex items-center gap-2">
-        <button id="timeFilterBtn" onclick="toggleTimeFilter()" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 bg-slate-900/80 backdrop-blur-md text-slate-300 hover:border-sky-500 transition flex items-center gap-1.5">
+        <button id="timeFilterBtn" onclick="toggleTimeFilter()" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-200 flex items-center gap-1.5">
           <i class="fa-regular fa-clock text-sky-400"></i> <span id="timeFilterLabel">Showing All Time (Top 100 Prioritized)</span>
         </button>
-        <button onclick="markAllAsRead()" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-900/60 backdrop-blur-md text-slate-400 hover:text-slate-200 transition">
+        <button onclick="markAllAsRead()" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white">
           <i class="fa-solid fa-check-double"></i> Mark All Read
         </button>
       </div>
 
       <div class="flex items-center gap-2">
-        <div class="text-xs text-slate-400" id="readStats">0 Read / 0 Total</div>
-        <span id="countBadge" class="text-xs bg-slate-900/90 text-slate-300 border border-slate-800 px-2 py-0.5 rounded-md font-medium">Loading...</span>
+        <div class="text-xs text-slate-300" id="readStats">0 Read / 0 Total</div>
+        <span id="countBadge" class="text-xs glass-pill text-sky-300 px-2.5 py-0.5 rounded-full font-medium">Loading...</span>
       </div>
     </div>
 
     <!-- Horizontal Scroll Channel Pills -->
-    <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-3 no-scrollbar">
-      <button class="channel-pill active px-3.5 py-1.5 rounded-lg text-xs font-medium bg-sky-600 text-white whitespace-nowrap">All Channels</button>
+    <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar">
+      <button class="channel-pill active px-3.5 py-1.5 rounded-xl text-xs font-medium bg-sky-500 text-white whitespace-nowrap">All Channels</button>
     </div>
 
-    <!-- Quick Headlines List Table -->
-    <div class="bg-[#0f172a]/70 backdrop-blur-xl rounded-xl border border-slate-800/90 overflow-hidden shadow-xl mt-2">
-      <div class="px-4 py-2.5 bg-slate-900/85 border-b border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
-        <span>Headline & Source (Tap Row to Read • Tap Empty Space to Collapse)</span>
-        <span class="pr-2">Original</span>
-      </div>
-      <div id="headingsList" class="divide-y divide-slate-800/60">
-        <div class="py-16 text-center text-slate-500 text-xs">
-          <i class="fa-solid fa-circle-notch fa-spin text-xl text-sky-400 mb-2"></i>
-          <p>Compiling high-density intelligence briefing...</p>
-        </div>
+    <!-- Video Grid -->
+    <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-2">
+      <div class="col-span-full py-16 text-center text-slate-400">
+        <i class="fa-solid fa-circle-notch fa-spin text-2xl text-sky-400 mb-2"></i>
+        <p class="text-sm">Loading intelligence updates...</p>
       </div>
     </div>
   </main>
 
   <!-- ============================================================================== -->
-  <!-- SLIDING CURTAIN DRAWER (RIGHT-SIDE CONTROL PANEL) -->
+  <!-- SLIDING CURTAIN DRAWER (RIGHT-SIDE FROSTED CONTROL CENTER) -->
   <!-- ============================================================================== -->
-  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
+  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
   
-  <aside id="curtainDrawer" class="fixed top-0 right-0 h-full w-84 max-w-[88vw] bg-[#0c1322]/95 backdrop-blur-2xl border-l border-slate-800 z-50 shadow-2xl flex flex-col justify-between">
+  <aside id="curtainDrawer" class="fixed top-0 right-0 h-full w-84 max-w-[88vw] z-50 shadow-2xl flex flex-col justify-between">
     <div class="p-5 overflow-y-auto flex-1 space-y-5">
       
       <!-- Drawer Header -->
-      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div class="flex items-center justify-between pb-3 border-b border-white/15">
         <div class="flex items-center gap-2">
-          <i class="fa-solid fa-sliders text-teal-400"></i>
-          <h2 class="text-sm font-bold text-white tracking-wide uppercase">Curtain Controls</h2>
+          <i class="fa-solid fa-sliders text-sky-400"></i>
+          <h2 class="text-sm font-bold text-white tracking-wide uppercase">Control Center</h2>
         </div>
-        <button onclick="toggleCurtain(false)" class="text-slate-400 hover:text-white p-1">
+        <button onclick="toggleCurtain(false)" class="text-slate-300 hover:text-white p-1">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
 
-      <!-- Section: Moving Wallpaper Customizer (Theme & Speed) -->
-      <div class="space-y-3 bg-[#080d18]/90 p-3.5 rounded-xl border border-slate-800">
+      <!-- Section: Frosted Glass Backdrop Tint Selector -->
+      <div class="space-y-3 glass-pill p-3.5 rounded-2xl">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
-            <i class="fa-solid fa-wand-magic-sparkles text-sky-400"></i> Moving Live Wallpaper
+          <span class="text-xs font-semibold text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-palette text-purple-400"></i> Frosted Glass Tint
           </span>
-          <button id="wallpaperToggleBtn" onclick="toggleWallpaper()" class="text-[11px] bg-emerald-950 text-emerald-300 border border-emerald-700 px-2.5 py-1 rounded-md font-semibold">
-            Active
+          <span class="text-[10px] text-slate-300 font-mono">Zero Battery Drain</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-1.5">
+          <button onclick="setGlassTint('control')" id="tintBtn-control" class="px-2.5 py-2 rounded-xl text-[11px] font-medium border flex items-center gap-1.5 transition">
+            <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Control Center
           </button>
-        </div>
-
-        <!-- Color Theme Picker -->
-        <div>
-          <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block mb-1.5">Color Mood</label>
-          <div class="grid grid-cols-2 gap-1.5">
-            <button onclick="setWallpaperTheme('cyber')" id="themeBtn-cyber" class="theme-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium border flex items-center gap-1.5 transition">
-              <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Cyber Blue
-            </button>
-            <button onclick="setWallpaperTheme('amber')" id="themeBtn-amber" class="theme-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium border flex items-center gap-1.5 transition">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Warm Amber
-            </button>
-            <button onclick="setWallpaperTheme('emerald')" id="themeBtn-emerald" class="theme-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium border flex items-center gap-1.5 transition">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Emerald Radar
-            </button>
-            <button onclick="setWallpaperTheme('crimson')" id="themeBtn-crimson" class="theme-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium border flex items-center gap-1.5 transition">
-              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Crimson Alert
-            </button>
-          </div>
-        </div>
-
-        <!-- Speed Picker -->
-        <div>
-          <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block mb-1.5">Motion Speed</label>
-          <div class="grid grid-cols-3 gap-1.5">
-            <button onclick="setWallpaperSpeed(0.35)" id="speedBtn-0.35" class="speed-btn py-1 rounded-lg text-[11px] font-medium border text-center transition">
-              Calm
-            </button>
-            <button onclick="setWallpaperSpeed(1)" id="speedBtn-1" class="speed-btn py-1 rounded-lg text-[11px] font-medium border text-center transition">
-              Normal
-            </button>
-            <button onclick="setWallpaperSpeed(2.2)" id="speedBtn-2.2" class="speed-btn py-1 rounded-lg text-[11px] font-medium border text-center transition">
-              Matrix
-            </button>
-          </div>
+          <button onclick="setGlassTint('warm')" id="tintBtn-warm" class="px-2.5 py-2 rounded-xl text-[11px] font-medium border flex items-center gap-1.5 transition">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Warm Amber
+          </button>
+          <button onclick="setGlassTint('emerald')" id="tintBtn-emerald" class="px-2.5 py-2 rounded-xl text-[11px] font-medium border flex items-center gap-1.5 transition">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Emerald Glow
+          </button>
+          <button onclick="setGlassTint('midnight')" id="tintBtn-midnight" class="px-2.5 py-2 rounded-xl text-[11px] font-medium border flex items-center gap-1.5 transition">
+            <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span> Pure Midnight
+          </button>
         </div>
       </div>
 
       <!-- Section: Key & Engine Fast Diagnostics -->
-      <div class="space-y-3 bg-[#080d18]/90 p-3.5 rounded-xl border border-slate-800">
-        <div class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+      <div class="space-y-3 glass-pill p-3.5 rounded-2xl">
+        <div class="text-xs font-semibold text-white flex items-center gap-1.5">
           <i class="fa-solid fa-bolt text-amber-400"></i> AI Engine & Key Status
         </div>
         <div class="flex items-center justify-between">
-          <span class="text-xs text-slate-400" id="curtainKeyStatus">Checking Key...</span>
-          <button onclick="promptApiKey()" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-2.5 py-1 rounded-md font-medium">
+          <span class="text-xs text-slate-300" id="curtainKeyStatus">Checking Key...</span>
+          <button onclick="promptApiKey()" class="text-[11px] glass-pill text-sky-300 px-2.5 py-1 rounded-lg font-medium">
             Update Key
           </button>
         </div>
-        <p class="text-[11px] text-slate-500 leading-relaxed">
+        <p class="text-[11px] text-slate-300/75 leading-relaxed">
           7-second auto-skip cascade across Flash-Lite, 3.8 Flash, and 4 Argon eliminates delays.
         </p>
       </div>
 
       <!-- Section: Navigation Shortcuts -->
       <div class="space-y-2">
-        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quick Navigation</div>
+        <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Quick Navigation</div>
         <div class="grid grid-cols-2 gap-2">
-          <a href="index.html" class="p-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-indigo-300 flex items-center gap-2">
-            <i class="fa-solid fa-table-cells-large text-indigo-400"></i> Master Grid
+          <a href="headings.html" class="p-2.5 rounded-2xl glass-pill text-xs text-sky-300 flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-sky-400"></i> Headings View
           </a>
-          <a href="monitoring.html" class="p-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-teal-300 flex items-center gap-2">
+          <a href="monitoring.html" class="p-2.5 rounded-2xl glass-pill text-xs text-teal-300 flex items-center gap-2">
             <i class="fa-solid fa-tower-broadcast text-teal-400"></i> 2h Telemetry
           </a>
         </div>
       </div>
 
       <!-- Section: Reading Archive Management -->
-      <div class="space-y-2.5 bg-[#080d18]/90 p-3.5 rounded-xl border border-slate-800">
-        <div class="text-xs font-semibold text-slate-300 flex items-center justify-between">
+      <div class="space-y-2.5 glass-pill p-3.5 rounded-2xl">
+        <div class="text-xs font-semibold text-white flex items-center justify-between">
           <span>Read History Telemetry</span>
           <span id="curtainReadCount" class="text-xs text-emerald-400 font-mono">0 Read</span>
         </div>
-        <button onclick="resetReadState(); toggleCurtain(false);" class="w-full py-1.5 rounded-lg text-xs bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-900/60 font-medium transition">
+        <button onclick="resetReadState(); toggleCurtain(false);" class="w-full py-1.5 rounded-xl text-xs bg-rose-500/20 hover:bg-rose-500/35 text-rose-200 border border-rose-400/30 font-medium transition">
           <i class="fa-solid fa-trash-can mr-1"></i> Reset All Read History
         </button>
       </div>
 
       <!-- Section: Full Channel Directory -->
       <div class="space-y-2">
-        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+        <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center justify-between">
           <span>Channel Directory</span>
-          <span class="text-[10px] text-slate-500">26 Sources</span>
+          <span class="text-[10px] text-slate-400">26 Sources</span>
         </div>
         <div id="curtainChannelList" class="space-y-1 max-h-56 overflow-y-auto pr-1"></div>
       </div>
@@ -337,192 +368,73 @@
     </div>
 
     <!-- Drawer Footer -->
-    <div class="p-4 border-t border-slate-800 bg-[#070b14] flex items-center justify-between text-xs text-slate-500">
-      <span>VideoIntel Hub v4.6</span>
+    <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
+      <span>VideoIntel Hub v5.0 (Glass)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
 
   <script>
     // ============================================================================
-    // INTERACTIVE MOVING WALLPAPER ENGINE WITH THEME & SPEED CONTROLS
+    // FROSTED GLASS AMBIENT TINT ENGINE (ZERO BATTERY DRAIN)
     // ============================================================================
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let wallpaperActive = localStorage.getItem('WALLPAPER_ACTIVE') !== 'false';
-    let wallpaperTheme = localStorage.getItem('WALLPAPER_THEME') || 'cyber';
-    let wallpaperSpeed = parseFloat(localStorage.getItem('WALLPAPER_SPEED') || '1');
-    let animFrameId = null;
+    let currentGlassTint = localStorage.getItem('GLASS_TINT') || 'control';
 
-    const WALLPAPER_THEMES = {
-      cyber: {
-        dots: ['#38bdf8', '#818cf8', '#2dd4bf'],
-        lineRgb: '56, 189, 248',
-        glow: `radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.11) 0%, transparent 45%),
-               radial-gradient(circle at 85% 75%, rgba(99, 102, 241, 0.11) 0%, transparent 45%),
-               radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.05) 0%, transparent 60%)`
-      },
-      amber: {
-        dots: ['#f59e0b', '#fbbf24', '#ea580c'],
-        lineRgb: '245, 158, 11',
-        glow: `radial-gradient(circle at 15% 20%, rgba(245, 158, 11, 0.10) 0%, transparent 45%),
-               radial-gradient(circle at 85% 75%, rgba(234, 88, 12, 0.10) 0%, transparent 45%),
-               radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.05) 0%, transparent 60%)`
-      },
-      emerald: {
-        dots: ['#10b981', '#34d399', '#059669'],
-        lineRgb: '16, 185, 129',
-        glow: `radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.10) 0%, transparent 45%),
-               radial-gradient(circle at 85% 75%, rgba(5, 150, 105, 0.10) 0%, transparent 45%),
-               radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.05) 0%, transparent 60%)`
-      },
-      crimson: {
-        dots: ['#f43f5e', '#fb7185', '#e11d48'],
-        lineRgb: '244, 63, 94',
-        glow: `radial-gradient(circle at 15% 20%, rgba(244, 63, 94, 0.10) 0%, transparent 45%),
-               radial-gradient(circle at 85% 75%, rgba(225, 29, 72, 0.10) 0%, transparent 45%),
-               radial-gradient(circle at 50% 50%, rgba(251, 113, 133, 0.05) 0%, transparent 60%)`
-      }
+    const GLASS_TINTS = {
+      control: [
+        'radial-gradient(circle, #9333ea 0%, #4f46e5 70%, transparent 100%)',
+        'radial-gradient(circle, #0ea5e9 0%, #2563eb 70%, transparent 100%)',
+        'radial-gradient(circle, #ea580c 0%, #e11d48 70%, transparent 100%)',
+        'radial-gradient(circle, #10b981 0%, #0d9488 70%, transparent 100%)'
+      ],
+      warm: [
+        'radial-gradient(circle, #f59e0b 0%, #b45309 70%, transparent 100%)',
+        'radial-gradient(circle, #ea580c 0%, #9a3412 70%, transparent 100%)',
+        'radial-gradient(circle, #d97706 0%, #78350f 70%, transparent 100%)',
+        'radial-gradient(circle, #fbbf24 0%, #b45309 70%, transparent 100%)'
+      ],
+      emerald: [
+        'radial-gradient(circle, #10b981 0%, #047857 70%, transparent 100%)',
+        'radial-gradient(circle, #0d9488 0%, #115e59 70%, transparent 100%)',
+        'radial-gradient(circle, #0ea5e9 0%, #0369a1 70%, transparent 100%)',
+        'radial-gradient(circle, #34d399 0%, #065f46 70%, transparent 100%)'
+      ],
+      midnight: [
+        'radial-gradient(circle, #1e293b 0%, #0f172a 70%, transparent 100%)',
+        'radial-gradient(circle, #334155 0%, #0f172a 70%, transparent 100%)',
+        'radial-gradient(circle, #1e1b4b 0%, #090d16 70%, transparent 100%)',
+        'radial-gradient(circle, #0f172a 0%, #020617 70%, transparent 100%)'
+      ]
     };
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function initParticles() {
-      particles = [];
-      const palette = (WALLPAPER_THEMES[wallpaperTheme] || WALLPAPER_THEMES.cyber).dots;
-      const count = window.innerWidth < 768 ? 38 : 75;
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          baseVx: (Math.random() - 0.5) * 0.65,
-          baseVy: (Math.random() - 0.5) * 0.65,
-          radius: Math.random() * 1.8 + 0.8,
-          colorIndex: i % 3,
-          color: palette[i % 3]
-        });
+    function setGlassTint(tintKey) {
+      if (!GLASS_TINTS[tintKey]) return;
+      currentGlassTint = tintKey;
+      localStorage.setItem('GLASS_TINT', tintKey);
+      const orbs = GLASS_TINTS[tintKey];
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById(`orb${i}`);
+        if (el) el.style.background = orbs[i - 1];
       }
-      applyAmbientGlow();
+      updateTintButtonsUI();
     }
 
-    function applyAmbientGlow() {
-      const glowEl = document.getElementById('ambientGlow');
-      const themeObj = WALLPAPER_THEMES[wallpaperTheme] || WALLPAPER_THEMES.cyber;
-      if (glowEl) glowEl.style.background = themeObj.glow;
-    }
-
-    function setWallpaperTheme(themeKey) {
-      if (!WALLPAPER_THEMES[themeKey]) return;
-      wallpaperTheme = themeKey;
-      localStorage.setItem('WALLPAPER_THEME', themeKey);
-      const palette = WALLPAPER_THEMES[themeKey].dots;
-      particles.forEach(p => { p.color = palette[p.colorIndex]; });
-      applyAmbientGlow();
-      updateWallpaperControlsUI();
-    }
-
-    function setWallpaperSpeed(mult) {
-      wallpaperSpeed = mult;
-      localStorage.setItem('WALLPAPER_SPEED', String(mult));
-      updateWallpaperControlsUI();
-    }
-
-    function animateWallpaper() {
-      if (!wallpaperActive) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        return;
-      }
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const lineRgb = (WALLPAPER_THEMES[wallpaperTheme] || WALLPAPER_THEMES.cyber).lineRgb;
-
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.baseVx * wallpaperSpeed;
-        p.y += p.baseVy * wallpaperSpeed;
-
-        if (p.x < 0 || p.x > canvas.width) p.baseVx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.baseVy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const maxDist = 135;
-
-          if (dist < maxDist) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(${lineRgb}, ${(1 - dist / maxDist) * 0.22})`;
-            ctx.lineWidth = 0.7;
-            ctx.stroke();
-          }
-        }
-      }
-      animFrameId = requestAnimationFrame(animateWallpaper);
-    }
-
-    function toggleWallpaper() {
-      wallpaperActive = !wallpaperActive;
-      localStorage.setItem('WALLPAPER_ACTIVE', wallpaperActive);
-      updateWallpaperControlsUI();
-      if (wallpaperActive) animateWallpaper();
-      else if (animFrameId) cancelAnimationFrame(animFrameId);
-    }
-
-    function updateWallpaperControlsUI() {
-      const btn = document.getElementById('wallpaperToggleBtn');
-      if (btn) {
-        if (wallpaperActive) {
-          btn.innerText = "Active";
-          btn.className = "text-[11px] bg-emerald-950 text-emerald-300 border border-emerald-700 px-2.5 py-1 rounded-md font-semibold";
+    function updateTintButtonsUI() {
+      ['control', 'warm', 'emerald', 'midnight'].forEach(t => {
+        const btn = document.getElementById(`tintBtn-${t}`);
+        if (!btn) return;
+        if (currentGlassTint === t) {
+          btn.className = "px-2.5 py-2 rounded-xl text-[11px] font-semibold border border-white/40 bg-white/15 text-white flex items-center gap-1.5 transition shadow-sm";
         } else {
-          btn.innerText = "Paused";
-          btn.className = "text-[11px] bg-slate-800 text-slate-400 border border-slate-700 px-2.5 py-1 rounded-md font-semibold";
-        }
-      }
-
-      ['cyber', 'amber', 'emerald', 'crimson'].forEach(t => {
-        const el = document.getElementById(`themeBtn-${t}`);
-        if (el) {
-          if (wallpaperTheme === t) {
-            el.className = "theme-btn px-2.5 py-1.5 rounded-lg text-[11px] font-semibold border border-sky-500 bg-sky-950/70 text-white flex items-center gap-1.5 transition";
-          } else {
-            el.className = "theme-btn px-2.5 py-1.5 rounded-lg text-[11px] font-medium border border-slate-800 bg-slate-900/70 text-slate-400 hover:text-slate-200 flex items-center gap-1.5 transition";
-          }
-        }
-      });
-
-      ['0.35', '1', '2.2'].forEach(s => {
-        const el = document.getElementById(`speedBtn-${s}`);
-        if (el) {
-          if (String(wallpaperSpeed) === s) {
-            el.className = "speed-btn py-1 rounded-lg text-[11px] font-semibold border border-sky-500 bg-sky-950/70 text-white text-center transition";
-          } else {
-            el.className = "speed-btn py-1 rounded-lg text-[11px] font-medium border border-slate-800 bg-slate-900/70 text-slate-400 hover:text-slate-200 text-center transition";
-          }
+          btn.className = "px-2.5 py-2 rounded-xl text-[11px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white flex items-center gap-1.5 transition";
         }
       });
     }
 
-    initParticles();
-    updateWallpaperControlsUI();
-    if (wallpaperActive) animateWallpaper();
+    setGlassTint(currentGlassTint);
 
     // ============================================================================
-    // CORE HEADINGS LOGIC
+    // CORE DASHBOARD LOGIC
     // ============================================================================
     let allVideos = [];
     let availableChannels = [];
@@ -560,21 +472,21 @@
         try {
           localStorage.setItem('VIDEO_INTEL_READ_SET', JSON.stringify(Array.from(readSet)));
         } catch (e) {}
-        updateRowVisualState(videoId, true);
+        updateCardVisualState(videoId, true);
         updateReadStatsDisplay();
       }
     }
 
-    function updateRowVisualState(videoId, isRead) {
-      const row = document.getElementById(`row-${videoId}`);
+    function updateCardVisualState(videoId, isRead) {
+      const card = document.getElementById(`card-${videoId}`);
       const dot = document.getElementById(`readDot-${videoId}`);
-      if (row) {
+      if (card) {
         if (isRead) {
-          row.classList.remove('row-unread');
-          row.classList.add('row-read');
+          card.classList.remove('card-unread');
+          card.classList.add('card-read');
         } else {
-          row.classList.remove('row-read');
-          row.classList.add('row-unread');
+          card.classList.remove('card-read');
+          card.classList.add('card-unread');
         }
       }
       if (dot && isRead) dot.classList.add('hidden');
@@ -583,13 +495,13 @@
     function markAllAsRead() {
       const readSet = new Set(allVideos.map(v => v.id));
       localStorage.setItem('VIDEO_INTEL_READ_SET', JSON.stringify(Array.from(readSet)));
-      renderHeadings();
+      renderGrid();
     }
 
     function resetReadState() {
-      if (confirm("Reset read history? All headlines will return to the active top tier.")) {
+      if (confirm("Reset read history? All cards will return to the active top tier.")) {
         localStorage.removeItem('VIDEO_INTEL_READ_SET');
-        renderHeadings();
+        renderGrid();
       }
     }
 
@@ -601,7 +513,7 @@
       document.getElementById('readStats').innerHTML = `
         <span class="text-emerald-400 font-semibold">${primaryCount !== undefined ? primaryCount : totalUnread} Top</span> • 
         <span class="text-amber-400 font-semibold">${duplicateCount !== undefined ? duplicateCount : 0} Repeats</span> • 
-        <span class="text-slate-400 font-semibold">${totalRead} Read</span>
+        <span class="text-slate-300 font-semibold">${totalRead} Read</span>
       `;
       const curtainCount = document.getElementById('curtainReadCount');
       if (curtainCount) curtainCount.innerText = `${totalRead} Read`;
@@ -610,9 +522,8 @@
     function toggleTimeFilter() {
       onlyLast24Hours = !onlyLast24Hours;
       document.getElementById('timeFilterLabel').innerText = onlyLast24Hours ? "Last 24 Hours Only" : "Showing All Time (Top 100 Prioritized)";
-      document.getElementById('timeFilterBtn').classList.toggle('border-sky-500', onlyLast24Hours);
-      document.getElementById('timeFilterBtn').classList.toggle('bg-sky-950/40', onlyLast24Hours);
-      renderHeadings();
+      document.getElementById('timeFilterBtn').classList.toggle('border-sky-400', onlyLast24Hours);
+      renderGrid();
     }
 
     function getApiKey() {
@@ -621,7 +532,7 @@
 
     function promptApiKey() {
       const existing = getApiKey();
-      const entered = prompt("Enter your Gemini API Key for deep inquiries & web intelligence:", existing);
+      const entered = prompt("Enter your Gemini API Key for on-demand deep inquiries & web intelligence:", existing);
       if (entered !== null) {
         localStorage.setItem('GEMINI_FRONTEND_KEY', entered.trim());
         updateKeyStatus();
@@ -660,12 +571,12 @@
 
         allVideos = rawVideos.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
 
-        document.getElementById('countBadge').innerText = `${allVideos.length} Headlines`;
+        document.getElementById('countBadge').innerText = `${allVideos.length} Updates`;
         renderFilters();
         renderCurtainChannels();
-        renderHeadings();
+        renderGrid();
       } catch (err) {
-        document.getElementById('headingsList').innerHTML = `<div class="p-8 text-center text-rose-400 text-xs">Failed to load feed data.</div>`;
+        document.getElementById('videoGrid').innerHTML = `<div class="col-span-full text-center py-12 text-slate-300 text-sm">Failed to load feed data. Please check back shortly.</div>`;
       }
     }
 
@@ -693,7 +604,7 @@
       const bar = document.getElementById('filterBar');
       bar.innerHTML = availableChannels.map((ch, idx) => `
         <button onclick="filterByIndex(${idx})" 
-          class="channel-pill px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition ${currentFilter === ch ? 'bg-sky-600 text-white shadow-md' : 'bg-slate-900/80 backdrop-blur-md text-slate-400 hover:bg-slate-800 border border-slate-800'}">
+          class="channel-pill px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition ${currentFilter === ch ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/30 border border-white/30' : 'glass-pill text-slate-300 hover:text-white'}">
           ${ch === 'ALL' ? 'All Channels' : ch}
         </button>
       `).join('');
@@ -704,9 +615,9 @@
       if (!container) return;
       container.innerHTML = availableChannels.map((ch, idx) => `
         <button onclick="filterByIndex(${idx}); toggleCurtain(false);" 
-          class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs flex items-center justify-between transition ${currentFilter === ch ? 'bg-sky-950 text-sky-300 border border-sky-800' : 'text-slate-400 hover:bg-slate-800/80'}">
+          class="w-full text-left px-2.5 py-1.5 rounded-xl text-xs flex items-center justify-between transition ${currentFilter === ch ? 'bg-white/15 text-white border border-white/25' : 'text-slate-300 hover:bg-white/10'}">
           <span class="truncate">${ch === 'ALL' ? '🌟 All 26 Channels' : ch}</span>
-          ${currentFilter === ch ? '<i class="fa-solid fa-check text-[10px] text-teal-400"></i>' : ''}
+          ${currentFilter === ch ? '<i class="fa-solid fa-check text-[10px] text-sky-400"></i>' : ''}
         </button>
       `).join('');
     }
@@ -715,7 +626,7 @@
       currentFilter = availableChannels[idx] || 'ALL';
       renderFilters();
       renderCurtainChannels();
-      renderHeadings();
+      renderGrid();
     }
 
     function getNormalizedKeywords(title) {
@@ -811,7 +722,7 @@
       const box = document.getElementById('masterOutput');
       box.classList.remove('hidden');
       box.innerHTML = `
-        <div class="flex items-center gap-2 text-indigo-400 py-3">
+        <div class="flex items-center gap-2 text-sky-300 py-3">
           <i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i>
           <span>Master Gemini analyzing topics across all 26 channels with fast failover cascade...</span>
         </div>`;
@@ -856,21 +767,21 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         aiExplicitDuplicateIds = data.duplicateIds || [];
 
         box.innerHTML = `
-          <div class="flex items-center justify-between pb-2 border-b border-indigo-800/60 mb-2">
+          <div class="flex items-center justify-between pb-2 border-b border-white/15 mb-2">
             <span class="font-semibold text-emerald-400 flex items-center gap-1.5">
               <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Topic Deduplication Complete
             </span>
-            <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-400 hover:text-white">
+            <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white">
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
-          <div class="text-xs text-slate-200">
+          <div class="text-xs text-slate-100">
             <p class="mb-1">${data.summary || 'Feed re-indexed: duplicate topics pushed below top unique news.'}</p>
-            <p class="text-slate-400 text-[11px]">Primary unique stories surfaced on top: <strong class="text-emerald-300">${aiExplicitPrimaryIds.length}</strong> | Demoted repeated coverage: <strong class="text-amber-300">${aiExplicitDuplicateIds.length}</strong></p>
+            <p class="text-slate-300 text-[11px]">Primary unique stories surfaced on top: <strong class="text-emerald-300">${aiExplicitPrimaryIds.length}</strong> | Demoted repeated coverage: <strong class="text-amber-300">${aiExplicitDuplicateIds.length}</strong></p>
           </div>
         `;
 
-        renderHeadings();
+        renderGrid();
       } catch (err) {
         if (err.message === "GEMINI_KEY_REQUIRED") {
           promptApiKey();
@@ -945,30 +856,30 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
         .replace(/^###\s(.*)$/gm, '<h3 class="text-sky-300 font-semibold text-xs mt-2 mb-1">$1</h3>')
         .replace(/^##\s(.*)$/gm, '<h2 class="text-amber-300 font-bold text-xs mt-2.5 mb-1">$1</h2>')
-        .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
-        .replace(/\n\n/g, '<p class="mt-1.5"></p>')
+        .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-200">$1</li>')
+        .replace(/\n\n/g, '<p class="mt-2"></p>')
         .replace(/\n/g, '<br/>');
     }
 
-    function onRowClick(event, videoId) {
+    function onMediaClick(event, videoId) {
       if (event) {
         if (event.target.closest('button, input, a, select, textarea, label')) {
           return;
         }
+        event.preventDefault();
       }
 
-      const drawer = document.getElementById(`drawer-${videoId}`);
-      if (drawer && !drawer.classList.contains('hidden')) {
-        closeDrawer(videoId);
+      const outputBox = document.getElementById(`output-${videoId}`);
+      if (outputBox && !outputBox.classList.contains('hidden')) {
+        closeOutput(videoId);
         return;
       }
 
       markAsRead(videoId);
-      if (drawer) drawer.classList.remove('hidden');
-      runInlineAI(videoId, 'layman');
+      openLaymansNews(videoId);
     }
 
-    function onDrawerContainerClick(event, videoId) {
+    function onOutputContainerClick(event, videoId) {
       if (event.target.closest('button, input, a, select, textarea, label, [data-prevent-close]')) {
         return;
       }
@@ -976,217 +887,130 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       if (selection && selection.toString().trim().length > 0) {
         return;
       }
-      closeDrawer(videoId);
+      closeOutput(videoId);
     }
 
-    function closeDrawer(videoId) {
-      const drawer = document.getElementById(`drawer-${videoId}`);
-      if (drawer) {
-        drawer.classList.add('hidden');
-        drawer.dataset.loaded = "false";
+    function closeOutput(videoId) {
+      const outputBox = document.getElementById(`output-${videoId}`);
+      if (outputBox) {
+        outputBox.classList.add('hidden');
+        outputBox.dataset.loaded = "false";
       }
-      updateRowVisualState(videoId, true);
+      updateCardVisualState(videoId, true);
     }
 
-    function renderHeadings() {
-      const readSet = getReadSet();
-      const cutoff24 = new Date(Date.now() - 24 * 60 * 60 * 1000);
-
-      let filtered = allVideos;
-      if (currentFilter !== 'ALL') filtered = filtered.filter(v => v.channel_title === currentFilter);
-      if (onlyLast24Hours) filtered = filtered.filter(v => new Date(v.published_at) >= cutoff24);
-
-      const unreadPool = filtered.filter(v => !readSet.has(v.id));
-      const readPool = filtered.filter(v => readSet.has(v.id));
-
-      const { primary, duplicates } = clusterAndDeduplicate(unreadPool);
-
-      const top100Primary = primary.slice(0, 100);
-      const remainingPrimary = primary.slice(100);
-
-      updateReadStatsDisplay(primary.length, duplicates.length, readPool.length);
-
-      const list = document.getElementById('headingsList');
-      if (!filtered.length) {
-        list.innerHTML = `<div class="p-8 text-center text-slate-500 text-xs">No updates match your active filter.</div>`;
-        return;
-      }
-
-      let html = '';
-
-      html += top100Primary.map(item => renderHeadingRowHTML(item, false, false)).join('');
-
-      if (remainingPrimary.length > 0) {
-        html += remainingPrimary.map(item => renderHeadingRowHTML(item, false, false)).join('');
-      }
-
-      if (duplicates.length > 0) {
-        html += `
-          <div class="p-3.5 bg-[#0e1628]/85 border-y border-amber-900/60 flex items-center justify-between">
-            <span class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-clone text-amber-400"></i> Alternative / Repeated Channel Coverage (${duplicates.length} Headlines)
-            </span>
-            <span class="text-[11px] text-amber-400 font-mono">Demoted Repeats</span>
-          </div>
-        `;
-        html += duplicates.map(item => renderHeadingRowHTML(item, false, true)).join('');
-      }
-
-      if (readPool.length > 0) {
-        html += `
-          <div class="p-3.5 bg-[#090d16]/85 border-y border-slate-800 flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-check-double text-slate-400"></i> Already Read Headlines Archive (${readPool.length} Headlines)
-            </span>
-            <button onclick="resetReadState()" class="text-xs text-sky-400 hover:text-sky-300 border border-slate-700 bg-slate-900 px-2.5 py-1 rounded transition">
-              Unmark All as Read
-            </button>
-          </div>
-        `;
-        html += readPool.map(item => renderHeadingRowHTML(item, true, false)).join('');
-      }
-
-      list.innerHTML = html;
-    }
-
-    function renderHeadingRowHTML(item, isRead, isDuplicate) {
-      const timeAgo = formatTimeAgo(item.published_at);
-      const hasServerSummary = Boolean(item.layman_news && item.layman_news.trim().length > 0);
-      let rowClass = isRead ? 'row-read' : (isDuplicate ? 'row-duplicate' : 'row-unread');
-
-      return `
-      <div id="row-${item.id}" class="heading-row ${rowClass}">
-        <div onclick="onRowClick(event, '${item.id}')" class="p-3.5 sm:px-4 flex items-center justify-between gap-3 cursor-pointer select-none">
-          <div class="flex items-start gap-2.5 min-w-0 flex-1 pointer-events-none">
-            <span id="readDot-${item.id}" class="mt-1.5 shrink-0 ${isRead ? 'hidden' : ''}">
-              <div class="unread-indicator"></div>
-            </span>
-            <div class="min-w-0 flex-1">
-              <h3 class="text-left text-xs sm:text-sm font-medium text-slate-100 hover:text-sky-400 transition leading-snug line-clamp-2">
-                ${item.title}
-              </h3>
-              <div class="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-400">
-                <span class="font-semibold text-slate-300">${item.channel_title}</span>
-                <span>•</span>
-                <span>${timeAgo}</span>
-                ${hasServerSummary ? `
-                  <span class="text-[10px] text-emerald-400 font-medium">
-                    • Layman Ready
-                  </span>` : ''}
-                ${isDuplicate ? `
-                  <span class="text-[10px] text-amber-400 font-medium">
-                    • Similar to topic above
-                  </span>` : ''}
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-2 shrink-0">
-            <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-500 hover:text-red-400 transition text-sm" title="Watch Original on YouTube">
-              <i class="fa-brands fa-youtube"></i>
-            </a>
-          </div>
-        </div>
-
-        <div id="drawer-${item.id}" onclick="onDrawerContainerClick(event, '${item.id}')" class="hidden p-4 bg-[#070b14]/95 border-t border-slate-800/80">
-          <div class="flex items-center justify-between pb-1 mb-2 border-b border-slate-800 text-[11px] text-slate-400">
-            <span class="text-teal-300 font-semibold flex items-center gap-1"><i class="fa-solid fa-newspaper text-amber-400"></i> Layman Briefing</span>
-            <span class="text-[10px] text-slate-400">Tap empty space to collapse</span>
-          </div>
-
-          <div id="inlineOutput-${item.id}" class="clickable-desc p-3 rounded-lg bg-[#0e1628] border border-slate-800 text-xs text-slate-200 leading-relaxed space-y-1.5 mb-3" title="Tap empty space to collapse description"></div>
-
-          <div onclick="closeDrawer('${item.id}')" class="py-1 my-1 text-center text-[10px] text-slate-500 hover:text-slate-300 cursor-pointer border-y border-slate-800/60 select-none">
-            ▲ Tap anywhere here to collapse description
-          </div>
-
-          <div data-prevent-close="true" class="flex flex-wrap gap-1.5 mb-2.5 mt-2">
-            <button onclick="runInlineAI('${item.id}', 'specific')" class="pill-btn px-2.5 py-1 rounded bg-sky-950/60 hover:bg-sky-900 text-[11px] text-sky-300 border border-sky-800/60 flex items-center gap-1">
-              <i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge
-            </button>
-            <button onclick="runInlineAI('${item.id}', 'upsc')" class="pill-btn px-2.5 py-1 rounded bg-amber-950/60 hover:bg-amber-900 text-[11px] text-amber-300 border border-amber-800/60 flex items-center gap-1">
-              <i class="fa-solid fa-landmark text-[10px]"></i> UPSC Curated
-            </button>
-            <button onclick="generateInlineQuestions('${item.id}')" class="pill-btn px-2.5 py-1 rounded bg-purple-950/60 hover:bg-purple-900 text-[11px] text-purple-300 border border-purple-800/60 flex items-center gap-1">
-              <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions
-            </button>
-          </div>
-
-          <div id="smartQuestionsBox-${item.id}" data-prevent-close="true" class="hidden flex flex-wrap gap-1.5 mb-3 p-2 rounded-lg bg-[#111827] border border-purple-900/50"></div>
-          <div id="qaResponseContainer-${item.id}" data-prevent-close="true" class="hidden space-y-2.5 mb-3"></div>
-
-          <div data-prevent-close="true" class="mt-3 pt-3 border-t border-slate-800">
-            <div class="flex items-center justify-between mb-1.5">
-              <label class="text-[11px] font-semibold text-sky-400 flex items-center gap-1.5">
-                <i class="fa-solid fa-globe text-amber-400"></i>
-                <span>Gemini Fast Web Intelligence & Cross-Questions</span>
-              </label>
-              <span class="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.5 rounded font-mono">Live Search Enabled</span>
-            </div>
-
-            <div class="flex items-center gap-1.5">
-              <div class="relative flex-1">
-                <input id="customInput-${item.id}" type="text" 
-                  placeholder="Ask anything (e.g., 'What was Iran's official statement?', 'Social media reactions')..." 
-                  onkeydown="if(event.key==='Enter') submitInlineCustom('${item.id}')"
-                  class="w-full bg-[#162035] text-xs text-slate-100 placeholder-slate-500 rounded-lg pl-3 pr-8 py-2 border border-slate-700 focus:outline-none focus:border-sky-500 shadow-inner" />
-                <button onclick="submitInlineCustom('${item.id}')" class="absolute right-2.5 top-2.5 text-slate-400 hover:text-sky-400">
-                  <i class="fa-solid fa-paper-plane text-xs"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`;
-    }
-
-    function formatTimeAgo(isoString) {
-      try {
-        const diff = (Date.now() - new Date(isoString).getTime()) / 1000;
-        if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-        if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-        return `${Math.floor(diff / 86400)}d ago`;
-      } catch (e) {
-        return "";
-      }
-    }
-
-    async function runInlineAI(videoId, type) {
-      markAsRead(videoId);
+    async function openLaymansNews(videoId) {
       const video = allVideos.find(v => v.id === videoId);
       if (!video) return;
 
-      const box = document.getElementById(`inlineOutput-${videoId}`);
-      const drawer = document.getElementById(`drawer-${videoId}`);
+      const outputBox = document.getElementById(`output-${videoId}`);
+      outputBox.classList.remove('hidden');
 
-      if (type === 'layman' && video.layman_news && video.layman_news.trim().length > 0) {
-        box.innerHTML = formatMarkdown(video.layman_news);
-        drawer.dataset.loaded = "true";
+      if (video.layman_news && video.layman_news.trim().length > 0) {
+        renderOutput(videoId, video.layman_news, "Layman's News Story");
+        outputBox.dataset.loaded = "true";
         return;
       }
 
-      box.innerHTML = `<span class="text-sky-400 flex items-center gap-1.5 py-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Preparing briefing...</span>`;
+      outputBox.innerHTML = `
+        <div class="flex items-center gap-2 text-sky-400 py-3">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>Gemini compiling news story...</span>
+        </div>`;
 
-      let prompt = "";
-      if (type === 'layman') {
-        prompt = `Video Title: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}\nRewrite as simple news:\n## [Catchy Headline]\n**The Story in Brief:** 2-3 sentences.\n**Why It Matters to You:** 1-2 sentences.`;
-      } else if (type === 'specific') {
-        prompt = `Video Title: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}\nBreak down institutions, data points, and mechanics with bold points.`;
-      } else if (type === 'upsc') {
-        prompt = `Video Title: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}\nProvide Prelims facts, Mains syllabus link, and 2-point conclusion.`;
-      }
+      const prompt = `Rewrite this video event as a simple, engaging news story for a regular person:
+Format exactly like this:
+## [Catchy Clear News Headline]
+**The Story in Brief:** 2-3 short, clear sentences explaining what just happened in simple everyday words.
+**Why It Matters to You:** 1-2 simple sentences explaining the real-world impact on everyday citizens.
+
+Video Title: "${video.title}"
+Channel: "${video.channel_title}"
+Context / Description: ${video.description ? video.description.slice(0, 1800) : ''}`;
 
       try {
         const text = await callGeminiGlobal(prompt, false);
-        if (type === 'layman') video.layman_news = text;
-        box.innerHTML = formatMarkdown(text);
-        drawer.dataset.loaded = "true";
-      } catch (e) {
-        box.innerHTML = `<span class="text-rose-400">${e.message}</span>`;
+        video.layman_news = text;
+        renderOutput(videoId, text, "Layman's News Story");
+        outputBox.dataset.loaded = "true";
+      } catch (err) {
+        if (err.message === "GEMINI_KEY_REQUIRED") {
+          promptApiKey();
+          outputBox.classList.add('hidden');
+        } else {
+          outputBox.innerHTML = `
+            <div class="text-rose-400 text-xs py-2 flex items-center justify-between">
+              <span>${err.message}</span>
+              <button onclick="openLaymansNews('${videoId}')" class="px-2 py-1 glass-pill rounded text-slate-100 text-[11px]">Retry</button>
+            </div>`;
+        }
       }
     }
 
-    async function submitInlineCustom(videoId) {
+    function renderOutput(videoId, text, title) {
+      const box = document.getElementById(`output-${videoId}`);
+      box.innerHTML = `
+        <div class="flex items-center justify-between pb-1.5 border-b border-white/15 mb-2.5">
+          <span class="text-xs font-semibold text-teal-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-newspaper text-amber-400"></i> ${title}
+          </span>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-slate-300 hidden sm:inline">Tap empty space to collapse</span>
+            <button onclick="closeOutput('${videoId}')" class="text-slate-300 hover:text-white text-xs p-1" title="Close Story">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="clickable-desc prose-slate text-xs space-y-2 leading-relaxed text-slate-100 py-1" title="Tap empty space to collapse">
+          ${formatMarkdown(text)}
+        </div>
+
+        <div onclick="closeOutput('${videoId}')" class="py-1 my-1 text-center text-[10px] text-slate-400 hover:text-slate-200 cursor-pointer border-y border-white/10 select-none">
+          ▲ Tap anywhere here to collapse description
+        </div>
+        
+        <div data-prevent-close="true" class="mt-3 pt-2.5 border-t border-white/15 flex flex-wrap items-center gap-1.5">
+          <span class="text-[10px] text-slate-300 uppercase tracking-wider font-semibold mr-1">Deepen:</span>
+          <button onclick="triggerAnalysis('${videoId}', 'specific')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-sky-300 flex items-center gap-1">
+            <i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge
+          </button>
+          <button onclick="triggerAnalysis('${videoId}', 'upsc')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-amber-300 flex items-center gap-1">
+            <i class="fa-solid fa-landmark text-[10px]"></i> UPSC Curated
+          </button>
+          <button onclick="generateVideoQuestions('${videoId}')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-purple-300 flex items-center gap-1">
+            <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions
+          </button>
+        </div>
+
+        <div id="aiSmartContainer-${videoId}" data-prevent-close="true" class="hidden mt-3 pt-2 border-t border-white/15"></div>
+        <div id="qaResponseContainer-${videoId}" data-prevent-close="true" class="hidden mt-3 space-y-3"></div>
+
+        <div data-prevent-close="true" class="mt-4 pt-3 border-t border-white/15">
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-globe text-amber-400"></i>
+              <span>Gemini Fast Web Intelligence & Cross-Questions</span>
+            </label>
+            <span class="text-[10px] text-emerald-300 glass-pill px-1.5 py-0.5 rounded font-mono">Live Search Enabled</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <div class="relative flex-1">
+              <input id="customInput-${videoId}" type="text" 
+                placeholder="Ask anything (e.g., 'What was Iran's official statement?', 'Foreign reactions on X')..." 
+                onkeydown="if(event.key==='Enter') submitCardCustomQuestion('${videoId}')"
+                class="w-full bg-black/45 text-xs text-white placeholder-slate-400 rounded-xl pl-3 pr-8 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
+              <button onclick="submitCardCustomQuestion('${videoId}')" class="absolute right-2.5 top-2.5 text-slate-300 hover:text-sky-400">
+                <i class="fa-solid fa-paper-plane text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function submitCardCustomQuestion(videoId) {
       const input = document.getElementById(`customInput-${videoId}`);
       const query = input.value.trim();
       if (!query) return;
@@ -1197,13 +1021,13 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       const container = document.getElementById(`qaResponseContainer-${videoId}`);
       container.classList.remove('hidden');
 
-      const tempId = 'qa-heading-' + Date.now();
+      const tempId = 'qa-' + Date.now();
       container.insertAdjacentHTML('beforeend', `
-        <div id="${tempId}" class="p-3 rounded-lg bg-[#0e1628] border border-sky-900/60 text-xs text-slate-200 space-y-1.5">
+        <div id="${tempId}" class="p-3 rounded-xl bg-black/50 border border-white/15 text-xs text-slate-100 space-y-1.5">
           <div class="font-semibold text-sky-300 flex items-center gap-1.5">
             <i class="fa-solid fa-circle-question text-amber-400"></i> ${query}
           </div>
-          <div class="text-slate-400 flex items-center gap-2 py-1 text-[11px]">
+          <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
             <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
             <span>Searching internet sources, official statements & geopolitics...</span>
           </div>
@@ -1214,7 +1038,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       const prompt = `
 You are a real-time Global Intelligence & Current Affairs AI Assistant (with the capabilities of the Gemini mobile app).
 
-Headline / Intelligence Reference:
+Video / Intelligence Reference:
 - Title: "${video.title}"
 - Channel: "${video.channel_title}"
 - Description/Summary: "${(video.description || video.layman_news || '').slice(0, 1800)}"
@@ -1233,11 +1057,11 @@ CRITICAL INSTRUCTIONS:
         const cardEl = document.getElementById(tempId);
         if (cardEl) {
           cardEl.innerHTML = `
-            <div class="flex items-center justify-between font-semibold text-sky-300 pb-1 border-b border-slate-800">
+            <div class="flex items-center justify-between font-semibold text-sky-300 pb-1 border-b border-white/10">
               <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-amber-400"></i> ${query}</span>
-              <span class="text-[10px] text-teal-400 font-mono">Global Intel Verified</span>
+              <span class="text-[10px] text-teal-300 font-mono">Global Intel Verified</span>
             </div>
-            <div class="prose-slate text-xs space-y-1.5 pt-1 text-slate-200 leading-relaxed">${formatMarkdown(reply)}</div>
+            <div class="prose-slate text-xs space-y-1.5 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(reply)}</div>
           `;
         }
       } catch (err) {
@@ -1251,29 +1075,227 @@ CRITICAL INSTRUCTIONS:
       }
     }
 
-    async function generateInlineQuestions(videoId) {
+    function triggerAnalysis(videoId, type) {
+      markAsRead(videoId);
+      const container = document.getElementById(`qaResponseContainer-${videoId}`);
+      container.classList.remove('hidden');
+
+      const tempId = 'deepen-' + Date.now();
+      const title = type === 'specific' ? "Specific Knowledge Simplified" : "UPSC Curated Analysis";
+
+      container.insertAdjacentHTML('beforeend', `
+        <div id="${tempId}" class="p-3 rounded-xl bg-black/50 border border-white/15 text-xs text-slate-100 space-y-1.5">
+          <div class="font-semibold text-sky-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-layer-group text-amber-400"></i> ${title}
+          </div>
+          <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
+            <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
+            <span>Synthesizing deep briefing...</span>
+          </div>
+        </div>
+      `);
+
+      const video = allVideos.find(v => v.id === videoId);
+      if (!video) return;
+
+      let prompt = type === 'specific' 
+        ? `Break down institutions, strategic treaties, data points, and operational mechanics for: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}`
+        : `Provide Prelims facts, Mains syllabus linkages (GS2/GS3), and 2-point conclusion for: "${video.title}"\nContext: ${video.description ? video.description.slice(0, 1500) : ''}`;
+
+      callGeminiGlobal(prompt, false).then(text => {
+        const el = document.getElementById(tempId);
+        if (el) {
+          el.innerHTML = `
+            <div class="font-semibold text-sky-300 pb-1 border-b border-white/10 flex items-center justify-between">
+              <span>${title}</span>
+            </div>
+            <div class="prose-slate text-xs space-y-1.5 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(text)}</div>
+          `;
+        }
+      }).catch(e => {
+        const el = document.getElementById(tempId);
+        if (el) el.innerHTML = `<div class="text-rose-400 text-xs">${e.message}</div>`;
+      });
+    }
+
+    async function generateVideoQuestions(videoId) {
       markAsRead(videoId);
       const video = allVideos.find(v => v.id === videoId);
       if (!video) return;
 
-      const qBox = document.getElementById(`smartQuestionsBox-${videoId}`);
-      qBox.classList.remove('hidden');
-      qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Formulating questions...</span>`;
+      const container = document.getElementById(`aiSmartContainer-${videoId}`);
+      container.classList.remove('hidden');
+      container.innerHTML = `
+        <div class="text-[11px] text-purple-300 flex items-center gap-1.5 py-1">
+          <i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> Formulating smart probing questions...
+        </div>`;
 
-      const prompt = `Based on: "${video.title}" and context: "${video.description ? video.description.slice(0, 1200) : ''}", write 3 sharp analytical questions. Return ONLY JSON array of strings: ["Q1?", "Q2?", "Q3?"]`;
+      const prompt = `Based on: "${video.title}" and context: "${video.description ? video.description.slice(0, 1200) : ''}", formulate 3 sharp, probing analytical inquiries. Return ONLY a valid JSON array of 3 strings: ["Q1?", "Q2?", "Q3?"]`;
 
       try {
         const raw = await callGeminiGlobal(prompt, false);
         const match = raw.match(/\[.*\]/s);
         const questions = JSON.parse(match ? match[0] : raw);
-        qBox.innerHTML = questions.map(q => `
-          <button onclick="document.getElementById('customInput-${videoId}').value = ${JSON.stringify(q)}; submitInlineCustom('${videoId}')" 
-            class="text-left px-2 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-800 text-[11px] text-purple-200">
-            ⚡ ${q}
-          </button>
-        `).join('');
+
+        container.innerHTML = `
+          <div class="text-[10px] uppercase font-semibold tracking-wider text-purple-300 mb-2 flex items-center gap-1">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Suggested Inquiries:
+          </div>
+          <div class="flex flex-col gap-1.5">
+            ${questions.map(q => `
+              <button onclick="document.getElementById('customInput-${videoId}').value = ${JSON.stringify(q)}; submitCardCustomQuestion('${videoId}')" 
+                class="glass-pill text-left px-2.5 py-1.5 rounded-xl text-[11px] text-purple-200 flex items-start gap-1.5">
+                <span class="text-purple-400 mt-0.5">⚡</span>
+                <span>${q}</span>
+              </button>
+            `).join('')}
+          </div>
+        `;
       } catch (e) {
-        qBox.innerHTML = `<span class="text-rose-400 text-[11px]">Could not generate inquiries.</span>`;
+        container.innerHTML = `<span class="text-[11px] text-rose-400">Could not generate suggestions. You can type below directly.</span>`;
+      }
+    }
+
+    function renderGrid() {
+      const readSet = getReadSet();
+      const cutoff24 = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+      let filtered = allVideos;
+      if (currentFilter !== 'ALL') filtered = filtered.filter(v => v.channel_title === currentFilter);
+      if (onlyLast24Hours) filtered = filtered.filter(v => new Date(v.published_at) >= cutoff24);
+
+      const unreadPool = filtered.filter(v => !readSet.has(v.id));
+      const readPool = filtered.filter(v => readSet.has(v.id));
+
+      const { primary, duplicates } = clusterAndDeduplicate(unreadPool);
+
+      const top100Primary = primary.slice(0, 100);
+      const remainingPrimary = primary.slice(100);
+
+      updateReadStatsDisplay(primary.length, duplicates.length, readPool.length);
+
+      const grid = document.getElementById('videoGrid');
+      if (!filtered.length) {
+        grid.innerHTML = `<div class="col-span-full text-center text-slate-400 py-12 text-sm">No updates match this filter.</div>`;
+        return;
+      }
+
+      let html = '';
+
+      html += top100Primary.map(item => renderCardHTML(item, false, false)).join('');
+
+      if (remainingPrimary.length > 0) {
+        html += remainingPrimary.map(item => renderCardHTML(item, false, false)).join('');
+      }
+
+      if (duplicates.length > 0) {
+        html += `
+          <div class="col-span-full my-6 p-4 rounded-2xl glass-surface flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="p-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                <i class="fa-solid fa-clone text-sm"></i>
+              </span>
+              <div>
+                <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider">Alternative / Repeated Channel Coverage (${duplicates.length} Videos)</h3>
+                <p class="text-[11px] text-slate-300">These videos cover events already surfaced above.</p>
+              </div>
+            </div>
+            <span class="text-xs text-amber-300 font-mono font-semibold">Demoted Repeats</span>
+          </div>
+        `;
+        html += duplicates.map(item => renderCardHTML(item, false, true)).join('');
+      }
+
+      if (readPool.length > 0) {
+        html += `
+          <div class="col-span-full my-6 p-4 rounded-2xl glass-surface flex flex-wrap items-center justify-between gap-3 opacity-80">
+            <div class="flex items-center gap-2">
+              <span class="p-2 rounded-xl bg-white/10 text-slate-300 border border-white/15">
+                <i class="fa-solid fa-check-double text-sm"></i>
+              </span>
+              <div>
+                <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Already Read News Archive (${readPool.length} Videos)</h3>
+                <p class="text-[11px] text-slate-300">Pushed to the bottom on refresh.</p>
+              </div>
+            </div>
+            <button onclick="resetReadState()" class="text-xs text-sky-300 hover:text-white glass-pill px-3 py-1.5 rounded-xl transition">
+              Unmark All as Read
+            </button>
+          </div>
+        `;
+        html += readPool.map(item => renderCardHTML(item, true, false)).join('');
+      }
+
+      grid.innerHTML = html;
+    }
+
+    function renderCardHTML(item, isRead, isDuplicate) {
+      const timeAgo = formatTimeAgo(item.published_at);
+      let cardClass = isRead ? 'card-read' : (isDuplicate ? 'card-duplicate' : 'card-unread');
+
+      return `
+      <div id="card-${item.id}" class="card-glow ${cardClass} overflow-hidden flex flex-col justify-between">
+        <div>
+          <div onclick="onMediaClick(event, '${item.id}')" class="relative aspect-video w-full bg-black/50 overflow-hidden cursor-pointer group">
+            <img src="${item.thumbnail_url}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+            <div class="absolute inset-0 bg-black/15 group-hover:bg-black/35 transition flex items-center justify-center">
+              <span class="opacity-0 group-hover:opacity-100 transition glass-pill text-teal-200 text-xs px-3 py-1.5 rounded-xl font-medium">
+                <i class="fa-solid fa-newspaper text-teal-300 mr-1"></i> Read Story
+              </span>
+            </div>
+            
+            <div class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-black/65 backdrop-blur-md text-white border border-white/20 flex items-center gap-1.5">
+              ${!isRead ? `<span id="readDot-${item.id}" class="unread-indicator"></span>` : ''}
+              ${item.channel_title}
+            </div>
+
+            <div class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-black/70 backdrop-blur-md text-slate-200 border border-white/10">
+              ${timeAgo}
+            </div>
+
+            ${isDuplicate ? `
+              <div class="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-950/90 text-amber-300 border border-amber-700 backdrop-blur-md flex items-center gap-1">
+                <i class="fa-solid fa-clone text-[9px]"></i> Repeat Topic
+              </div>
+            ` : ''}
+          </div>
+
+          <div onclick="onMediaClick(event, '${item.id}')" class="p-4 cursor-pointer hover:bg-white/5 transition min-h-[96px] flex flex-col justify-between">
+            <div>
+              <h2 class="text-sm font-semibold text-white line-clamp-2 leading-snug hover:text-sky-300 transition mb-1.5 pointer-events-none">
+                ${item.title}
+              </h2>
+              <p class="text-xs text-slate-300/85 line-clamp-2 leading-relaxed pointer-events-none">${item.description || 'No description provided.'}</p>
+            </div>
+            
+            <div class="pt-2 flex items-center justify-between text-[11px] text-teal-300 pointer-events-none font-medium">
+              <span><i class="fa-solid fa-book-open-reader text-[10px] mr-1"></i> Tap anywhere to toggle story</span>
+              ${isDuplicate ? `<span class="text-amber-300 text-[10px] font-normal">Similar to topic above</span>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <div class="px-4 py-2.5 border-t border-white/10 bg-black/25 flex items-center justify-between">
+          <span onclick="onMediaClick(event, '${item.id}')" class="text-[11px] text-teal-300 hover:text-teal-200 cursor-pointer font-medium flex items-center gap-1">
+            <i class="fa-solid fa-newspaper text-[10px]"></i> Open Layman's Story & AI
+          </span>
+          <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-red-400 text-xs transition p-1" title="Watch Original on YouTube">
+            <i class="fa-brands fa-youtube text-sm"></i>
+          </a>
+        </div>
+
+        <div id="output-${item.id}" onclick="onOutputContainerClick(event, '${item.id}')" class="hidden p-4 bg-black/55 border-t border-white/15 text-xs text-slate-200 leading-relaxed"></div>
+      </div>`;
+    }
+
+    function formatTimeAgo(isoString) {
+      try {
+        const diff = (Date.now() - new Date(isoString).getTime()) / 1000;
+        if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+        return `${Math.floor(diff / 86400)}d ago`;
+      } catch (e) {
+        return "";
       }
     }
 
@@ -1287,7 +1309,7 @@ CRITICAL INSTRUCTIONS:
       const box = document.getElementById('masterOutput');
       box.classList.remove('hidden');
       box.innerHTML = `
-        <div class="flex items-center gap-2 text-indigo-400 py-2">
+        <div class="flex items-center gap-2 text-sky-300 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
           <span>Master Gemini synthesizing across briefings & global sources...</span>
         </div>`;
@@ -1307,11 +1329,11 @@ Provide an authoritative, well-structured intelligence report with bold headings
       try {
         const text = await callGeminiGlobal(masterPrompt, true);
         box.innerHTML = `
-          <div class="flex items-center justify-between pb-2 border-b border-indigo-800/60 mb-2">
-            <span class="font-semibold text-indigo-300 flex items-center gap-1.5">
+          <div class="flex items-center justify-between pb-2 border-b border-white/15 mb-2">
+            <span class="font-semibold text-sky-300 flex items-center gap-1.5">
               <i class="fa-solid fa-brain text-amber-400"></i> ${query}
             </span>
-            <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-400 hover:text-white">
+            <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white">
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
