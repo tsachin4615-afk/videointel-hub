@@ -53,7 +53,7 @@
       100% { transform: translate(-25px, 20px) scale(0.96); }
     }
 
-    /* Frosted Glassmorphism Surface (Matches Control Center Widgets) */
+    /* Frosted Glassmorphism Surface */
     .glass-surface {
       background: rgba(22, 24, 32, 0.58);
       backdrop-filter: blur(32px) saturate(190%);
@@ -116,10 +116,10 @@
     #curtainDrawer {
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateX(100%);
-      background: rgba(18, 20, 28, 0.75);
-      backdrop-filter: blur(40px) saturate(200%);
-      -webkit-backdrop-filter: blur(40px) saturate(200%);
-      border-left: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(18, 20, 28, 0.82);
+      backdrop-filter: blur(42px) saturate(200%);
+      -webkit-backdrop-filter: blur(42px) saturate(200%);
+      border-left: 1px solid rgba(255, 255, 255, 0.18);
     }
     #curtainDrawer.open {
       transform: translateX(0);
@@ -145,7 +145,7 @@
   <!-- Pull-to-Refresh Banner -->
   <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 glass-surface border-b border-white/20 text-sky-200 text-xs py-2.5 text-center flex items-center justify-center gap-2">
     <i class="fa-solid fa-arrows-rotate fa-spin text-sky-400"></i>
-    <span>Refreshing feed: surfacing top unique news & moving read cards to bottom...</span>
+    <span id="pullBannerText">Refreshing feed: surfacing top unique news & moving read cards to bottom...</span>
   </div>
 
   <!-- Header -->
@@ -158,7 +158,7 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             VideoIntel Hub
-            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-sky-300">Frosted Glass</span>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-sky-300">Dynamic Sync</span>
           </h1>
           <p class="text-xs text-slate-300/80">Tap Card to Read • Tap Empty Space to Close • Auto-Failover AI</p>
         </div>
@@ -212,7 +212,7 @@
         </div>
       </div>
 
-      <p class="text-xs text-slate-300/80 mb-3">Synthesizes developments across all 26 channels with instant auto-switching:</p>
+      <p class="text-xs text-slate-300/80 mb-3">Synthesizes developments across all active channels with instant auto-switching:</p>
       
       <div class="flex flex-wrap gap-2 mb-3">
         <button onclick="runMasterAITopicDeduplication()" 
@@ -261,6 +261,9 @@
         <button onclick="markAllAsRead()" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white">
           <i class="fa-solid fa-check-double"></i> Mark All Read
         </button>
+        <button onclick="toggleCurtain(true)" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-emerald-300 hover:text-white flex items-center gap-1.5">
+          <i class="fa-solid fa-plus-circle"></i> Add / Pause Channels
+        </button>
       </div>
 
       <div class="flex items-center gap-2">
@@ -286,9 +289,9 @@
   <!-- ============================================================================== -->
   <!-- SLIDING CURTAIN DRAWER (RIGHT-SIDE FROSTED CONTROL CENTER) -->
   <!-- ============================================================================== -->
-  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
+  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/55 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
   
-  <aside id="curtainDrawer" class="fixed top-0 right-0 h-full w-84 max-w-[88vw] z-50 shadow-2xl flex flex-col justify-between">
+  <aside id="curtainDrawer" class="fixed top-0 right-0 h-full w-96 max-w-[92vw] z-50 shadow-2xl flex flex-col justify-between">
     <div class="p-5 overflow-y-auto flex-1 space-y-5">
       
       <!-- Drawer Header -->
@@ -302,7 +305,61 @@
         </button>
       </div>
 
-      <!-- Section: Typography & Font Selector (Includes Handwritten & Regional) -->
+      <!-- ============================================================================ -->
+      <!-- NEW SECTION: PERMANENT CHANNEL & VIDEO LINK ADDER + PAUSE MANAGER -->
+      <!-- ============================================================================ -->
+      <div class="space-y-3 glass-pill p-3.5 rounded-2xl border border-emerald-400/30">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+            <i class="fa-brands fa-youtube text-red-400"></i> Add Channel or Video Link
+          </span>
+          <span id="channelSyncBadge" class="text-[10px] text-sky-300 font-mono">Auto-Detects Channel</span>
+        </div>
+
+        <p class="text-[11px] text-slate-300/85 leading-relaxed">
+          Paste a <strong>Channel Link</strong>, <strong>@Handle</strong>, or any <strong>Single Video Link</strong>. It detects the parent channel, fetches its videos immediately, and saves it permanently.
+        </p>
+
+        <div class="space-y-2">
+          <input id="newChannelInput" type="text" 
+            placeholder="Paste video URL, channel URL, or @handle..."
+            onkeydown="if(event.key==='Enter') addNewChannelFromInput()"
+            class="w-full bg-black/50 text-xs text-white placeholder-slate-400 rounded-xl px-3 py-2.5 border border-white/20 focus:outline-none focus:border-emerald-400" />
+          
+          <button onclick="addNewChannelFromInput()" id="addChannelBtn" class="w-full py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-1.5 transition">
+            <i class="fa-solid fa-plus-circle"></i> Detect, Fetch Videos & Save Permanently
+          </button>
+        </div>
+
+        <div id="channelAddStatus" class="hidden text-[11px] p-2.5 rounded-xl bg-black/50 border border-white/15 text-slate-200 leading-relaxed"></div>
+
+        <!-- GitHub Permanent Repo Sync Token Setup -->
+        <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[11px]">
+          <span id="ghTokenStatus" class="text-slate-300">GitHub Repo Sync: Local + Cloud</span>
+          <button onclick="promptGitHubToken()" class="text-sky-300 hover:text-white underline font-medium">
+            Set GitHub Token
+          </button>
+        </div>
+      </div>
+
+      <!-- Section: Channel Roster with Pause & Pause-Until Date Controls -->
+      <div class="space-y-2.5 glass-pill p-3.5 rounded-2xl">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-tower-Gui text-teal-400"></i> Manage & Pause Channels
+          </span>
+          <span id="rosterCountLabel" class="text-[10px] text-sky-300 font-mono">26 Channels</span>
+        </div>
+
+        <input id="channelSearchFilter" type="text" oninput="renderCurtainChannels()" placeholder="Search channels in roster..."
+          class="w-full bg-black/40 text-[11px] text-white placeholder-slate-400 rounded-xl px-2.5 py-1.5 border border-white/15 focus:outline-none" />
+
+        <div id="curtainChannelList" class="space-y-2 max-h-72 overflow-y-auto pr-1 pt-1">
+          <!-- Populated dynamically with Filter, Pause Toggle, and Pause Date Picker -->
+        </div>
+      </div>
+
+      <!-- Section: Typography & Font Selector -->
       <div class="space-y-3 glass-pill p-3.5 rounded-2xl">
         <div class="flex items-center justify-between">
           <span class="text-xs font-semibold text-white flex items-center gap-1.5">
@@ -342,7 +399,6 @@
           </button>
         </div>
 
-        <!-- Text Size Scaling -->
         <div class="pt-1">
           <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Reading Text Size</label>
           <div class="grid grid-cols-3 gap-1.5">
@@ -389,22 +445,6 @@
             Update Key
           </button>
         </div>
-        <p class="text-[11px] text-slate-300/75 leading-relaxed">
-          7-second auto-skip cascade across Flash-Lite, 3.8 Flash, and 4 Argon eliminates delays.
-        </p>
-      </div>
-
-      <!-- Section: Navigation Shortcuts -->
-      <div class="space-y-2">
-        <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Quick Navigation</div>
-        <div class="grid grid-cols-2 gap-2">
-          <a href="headings.html" class="p-2.5 rounded-2xl glass-pill text-xs text-sky-300 flex items-center gap-2">
-            <i class="fa-solid fa-list-check text-sky-400"></i> Headings View
-          </a>
-          <a href="monitoring.html" class="p-2.5 rounded-2xl glass-pill text-xs text-teal-300 flex items-center gap-2">
-            <i class="fa-solid fa-tower-broadcast text-teal-400"></i> 2h Telemetry
-          </a>
-        </div>
       </div>
 
       <!-- Section: Reading Archive Management -->
@@ -418,27 +458,42 @@
         </button>
       </div>
 
-      <!-- Section: Full Channel Directory -->
-      <div class="space-y-2">
-        <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center justify-between">
-          <span>Channel Directory</span>
-          <span class="text-[10px] text-slate-400">26 Sources</span>
-        </div>
-        <div id="curtainChannelList" class="space-y-1 max-h-56 overflow-y-auto pr-1"></div>
-      </div>
-
     </div>
 
     <!-- Drawer Footer -->
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v5.2</span>
+      <span>VideoIntel Hub v6.0 (Permanent Channel Sync)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
 
   <script>
     // ============================================================================
-    // TYPOGRAPHY & FONT ENGINE (INCLUDES HANDWRITTEN & REGIONAL)
+    // GITHUB REPOSITORY DETAILS FOR PERMANENT SYNC
+    // ============================================================================
+    const GITHUB_OWNER = "tsachin4615-afk";
+    const GITHUB_REPO = "videointel-hub";
+    const CHANNELS_FILE_PATH = "channels.json";
+
+    const DEFAULT_SEED_CHANNELS = [
+      "@deftalksbyaadi", "@IndiaDecodedAA", "@WorldAffairsUnacademy", "@StudyIQIAS",
+      "@coffeewithsumeetjain", "@IndiaGlobalReview", "@TimesAxis", "@LetsCrackUPSCCSE",
+      "@Adda247Bankers", "@ParchamClasses", "@AffairsCloud", "@alpha_defense",
+      "@DefenceDecode", "@GareebScientist", "@NEXTIAS", "@DrishtiIASEnglish",
+      "@SleepyClassesIAS", "@amitsengupta01", "@TheChanakyaDialoguesHindi", "@StratNewsGlobal",
+      "@ThirdEyekannada", "@rajshamani", "@inconnectnews", "@NarendraModi",
+      "@ReVIEWbySoukhyaGaonkar", "@MasthMagaa"
+    ];
+
+    let channelRoster = []; // Array of { handle, title, channel_id, paused, paused_until }
+    let allVideos = [];
+    let currentFilter = 'ALL';
+    let onlyLast24Hours = false;
+    let aiExplicitPrimaryIds = null;
+    let aiExplicitDuplicateIds = null;
+
+    // ============================================================================
+    // TYPOGRAPHY & FONT ENGINE
     // ============================================================================
     let currentAppFont = localStorage.getItem('APP_FONT') || 'sf';
     let currentAppScale = localStorage.getItem('APP_SCALE') || '1';
@@ -472,21 +527,17 @@
       ['sf', 'handwritten', 'regional', 'inter', 'jakarta', 'serif', 'mono'].forEach(f => {
         const btn = document.getElementById(`fontBtn-${f}`);
         if (!btn) return;
-        if (currentAppFont === f) {
-          btn.className = "px-3 py-2 rounded-xl text-xs font-semibold border border-sky-400 bg-sky-500/20 text-white flex items-center justify-between transition shadow-sm";
-        } else {
-          btn.className = "px-3 py-2 rounded-xl text-xs font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white flex items-center justify-between transition";
-        }
+        btn.className = currentAppFont === f
+          ? "px-3 py-2 rounded-xl text-xs font-semibold border border-sky-400 bg-sky-500/20 text-white flex items-center justify-between transition shadow-sm"
+          : "px-3 py-2 rounded-xl text-xs font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white flex items-center justify-between transition";
       });
 
       ['0.95', '1', '1.08'].forEach(s => {
         const btn = document.getElementById(`scaleBtn-${s}`);
         if (!btn) return;
-        if (String(currentAppScale) === s) {
-          btn.className = "py-1 rounded-xl text-[11px] font-semibold border border-sky-400 bg-sky-500/20 text-white text-center transition";
-        } else {
-          btn.className = "py-1 rounded-xl text-[11px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white text-center transition";
-        }
+        btn.className = String(currentAppScale) === s
+          ? "py-1 rounded-xl text-[11px] font-semibold border border-sky-400 bg-sky-500/20 text-white text-center transition"
+          : "py-1 rounded-xl text-[11px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white text-center transition";
       });
     }
 
@@ -534,33 +585,523 @@
         const el = document.getElementById(`orb${i}`);
         if (el) el.style.background = orbs[i - 1];
       }
-      updateTintButtonsUI();
-    }
-
-    function updateTintButtonsUI() {
       ['control', 'warm', 'emerald', 'midnight'].forEach(t => {
         const btn = document.getElementById(`tintBtn-${t}`);
         if (!btn) return;
-        if (currentGlassTint === t) {
-          btn.className = "px-2.5 py-2 rounded-xl text-[11px] font-semibold border border-white/40 bg-white/15 text-white flex items-center gap-1.5 transition shadow-sm";
-        } else {
-          btn.className = "px-2.5 py-2 rounded-xl text-[11px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white flex items-center gap-1.5 transition";
-        }
+        btn.className = currentGlassTint === t
+          ? "px-2.5 py-2 rounded-xl text-[11px] font-semibold border border-white/40 bg-white/15 text-white flex items-center gap-1.5 transition shadow-sm"
+          : "px-2.5 py-2 rounded-xl text-[11px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white flex items-center gap-1.5 transition";
       });
     }
 
     setGlassTint(currentGlassTint);
 
     // ============================================================================
+    // PERMANENT CHANNEL MANAGEMENT, VIDEO-TO-CHANNEL RESOLVER & PAUSE DATES
+    // ============================================================================
+    function getGitHubToken() {
+      return localStorage.getItem('GITHUB_REPO_PAT') || '';
+    }
+
+    function promptGitHubToken() {
+      const existing = getGitHubToken();
+      const entered = prompt(
+        "Optional: Enter a GitHub Personal Access Token (with 'repo' scope) to commit newly added channels & pause dates directly to channels.json in your GitHub repository (Even without it, channels are saved permanently on your device!):",
+        existing
+      );
+      if (entered !== null) {
+        localStorage.setItem('GITHUB_REPO_PAT', entered.trim());
+        updateGitHubTokenStatus();
+        if (entered.trim()) syncRosterToGitHubRepo(false);
+      }
+    }
+
+    function updateGitHubTokenStatus() {
+      const el = document.getElementById('ghTokenStatus');
+      if (!el) return;
+      if (getGitHubToken()) {
+        el.innerHTML = `<i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> GitHub Auto-Commit Active`;
+      } else {
+        el.innerHTML = `<i class="fa-solid fa-hard-drive text-sky-400"></i> Saved Permanently on Device`;
+      }
+    }
+
+    async function loadPermanentChannelRoster() {
+      updateGitHubTokenStatus();
+      let serverChannels = [];
+      try {
+        const res = await fetch(`channels.json?t=${Date.now()}`);
+        if (res.ok) {
+          serverChannels = await res.json();
+        }
+      } catch (e) {}
+
+      let localChannels = [];
+      try {
+        localChannels = JSON.parse(localStorage.getItem('PERMANENT_CHANNEL_ROSTER') || '[]');
+      } catch (e) {}
+
+      const mergedMap = new Map();
+
+      // 1. Seed defaults
+      DEFAULT_SEED_CHANNELS.forEach(h => {
+        mergedMap.set(h.toLowerCase(), {
+          handle: h,
+          title: h,
+          channel_id: null,
+          paused: false,
+          paused_until: null
+        });
+      });
+
+      // 2. Server channels.json
+      if (Array.isArray(serverChannels)) {
+        serverChannels.forEach(item => {
+          const obj = typeof item === 'string' ? { handle: item, title: item, paused: false, paused_until: null } : item;
+          if (obj && obj.handle) {
+            mergedMap.set(obj.handle.toLowerCase(), {
+              handle: obj.handle,
+              title: obj.title || obj.handle,
+              channel_id: obj.channel_id || null,
+              paused: Boolean(obj.paused),
+              paused_until: obj.paused_until || null
+            });
+          }
+        });
+      }
+
+      // 3. Local permanent overrides (Newly added channels & pause dates)
+      if (Array.isArray(localChannels)) {
+        localChannels.forEach(obj => {
+          if (obj && obj.handle) {
+            const key = obj.handle.toLowerCase();
+            const existing = mergedMap.get(key) || {};
+            mergedMap.set(key, {
+              handle: obj.handle,
+              title: obj.title || existing.title || obj.handle,
+              channel_id: obj.channel_id || existing.channel_id || null,
+              paused: obj.paused !== undefined ? Boolean(obj.paused) : Boolean(existing.paused),
+              paused_until: obj.paused_until !== undefined ? obj.paused_until : (existing.paused_until || null)
+            });
+          }
+        });
+      }
+
+      // Auto-expire past pause dates
+      const todayStr = new Date().toISOString().slice(0, 10);
+      channelRoster = Array.from(mergedMap.values()).map(ch => {
+        if (ch.paused_until && ch.paused_until < todayStr) {
+          ch.paused = false;
+          ch.paused_until = null;
+        }
+        return ch;
+      });
+
+      savePermanentChannelRosterLocally();
+    }
+
+    function savePermanentChannelRosterLocally() {
+      try {
+        localStorage.setItem('PERMANENT_CHANNEL_ROSTER', JSON.stringify(channelRoster));
+      } catch (e) {}
+      const countEl = document.getElementById('rosterCountLabel');
+      if (countEl) countEl.innerText = `${channelRoster.length} Channels`;
+    }
+
+    function isChannelPausedNow(chObj) {
+      if (!chObj) return false;
+      const todayStr = new Date().toISOString().slice(0, 10);
+      if (chObj.paused_until) {
+        if (chObj.paused_until >= todayStr) return true;
+        chObj.paused = false;
+        chObj.paused_until = null;
+        return false;
+      }
+      return Boolean(chObj.paused);
+    }
+
+    function isVideoChannelPaused(video) {
+      const handleKey = (video.handle || '').toLowerCase();
+      const titleKey = (video.channel_title || '').toLowerCase();
+      for (const ch of channelRoster) {
+        if (ch.handle.toLowerCase() === handleKey || (ch.title && ch.title.toLowerCase() === titleKey)) {
+          return isChannelPausedNow(ch);
+        }
+      }
+      return false;
+    }
+
+    // MULTI-TIER VIDEO LINK / CHANNEL LINK RESOLVER IN BROWSER
+    function extractVideoIdFromUrl(input) {
+      const m = input.trim().match(/(?:v=|\/live\/|\/shorts\/|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      if (m) return m[1];
+      if (/^[a-zA-Z0-9_-]{11}$/.test(input.trim())) return input.trim();
+      return null;
+    }
+
+    async function detectChannelFromInputMultiTier(rawInput) {
+      const input = rawInput.trim();
+      const videoId = extractVideoIdFromUrl(input);
+
+      // CASE A: User pasted a SINGLE VIDEO LINK -> Detect parent channel via 4 routes
+      if (videoId) {
+        // Route 1: Noembed / oEmbed JSON
+        try {
+          const res = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.author_name || data.author_url) {
+              let handle = null;
+              let channelId = null;
+              if (data.author_url && data.author_url.includes('/@')) {
+                handle = '@' + data.author_url.split('/@')[1].split('/')[0].trim();
+              } else if (data.author_url && data.author_url.includes('/channel/')) {
+                channelId = data.author_url.split('/channel/')[1].split('/')[0].trim();
+              }
+              return {
+                handle: handle || ('@' + (data.author_name || videoId).replace(/[^a-zA-Z0-9]/g, '')),
+                title: data.author_name || handle || videoId,
+                channel_id: channelId,
+                detectedFromVideo: videoId
+              };
+            }
+          }
+        } catch (e) {}
+
+        // Route 2: Piped API Video Metadata
+        const pipedHosts = ['https://pipedapi.kavin.rocks', 'https://pipedapi.tokhmi.xyz'];
+        for (const host of pipedHosts) {
+          try {
+            const res = await fetch(`${host}/streams/${videoId}`);
+            if (res.ok) {
+              const data = await res.json();
+              if (data.uploader || data.uploaderUrl) {
+                const h = data.uploaderUrl && data.uploaderUrl.includes('@')
+                  ? '@' + data.uploaderUrl.split('@')[1]
+                  : '@' + (data.uploader || '').replace(/[^a-zA-Z0-9]/g, '');
+                return {
+                  handle: h,
+                  title: data.uploader || h,
+                  channel_id: data.uploaderUrl?.startsWith('/channel/') ? data.uploaderUrl.split('/channel/')[1] : null,
+                  detectedFromVideo: videoId
+                };
+              }
+            }
+          } catch (e) {}
+        }
+
+        // Route 3: AllOrigins Watch Page Scrape
+        try {
+          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.youtube.com/watch?v=' + videoId)}`;
+          const res = await fetch(proxyUrl);
+          if (res.ok) {
+            const d = await res.json();
+            const html = d.contents || '';
+            const chIdMatch = html.match(/"channelId":"(UC[a-zA-Z0-9_-]{22})"/);
+            const handleMatch = html.match(/"ownerProfileUrl":"https:\/\/www\.youtube\.com\/@([^"\/]+)"/);
+            const authorMatch = html.match(/"author":"([^"]+)"/);
+            if (chIdMatch || handleMatch) {
+              return {
+                handle: handleMatch ? `@${handleMatch[1]}` : chIdMatch[1],
+                title: authorMatch ? authorMatch[1] : (handleMatch ? `@${handleMatch[1]}` : chIdMatch[1]),
+                channel_id: chIdMatch ? chIdMatch[1] : null,
+                detectedFromVideo: videoId
+              };
+            }
+          }
+        } catch (e) {}
+      }
+
+      // CASE B: User pasted a Channel Link or @Handle
+      let handle = input;
+      let channelId = null;
+
+      const chMatch = input.match(/youtube\.com\/channel\/(UC[a-zA-Z0-9_-]{22})/);
+      const hMatch = input.match(/youtube\.com\/@([a-zA-Z0-9_.-]+)/);
+
+      if (chMatch) {
+        channelId = chMatch[1];
+        handle = channelId;
+      } else if (hMatch) {
+        handle = '@' + hMatch[1];
+      } else if (!handle.startsWith('@') && !handle.startsWith('UC')) {
+        handle = '@' + handle.replace(/^https?:\/\/(www\.)?youtube\.com\//, '').split(/[/?#]/)[0];
+      }
+
+      return {
+        handle,
+        title: handle,
+        channel_id: channelId,
+        detectedFromVideo: null
+      };
+    }
+
+    // MULTI-TIER LIVE BROWSER VIDEO FETCHER FOR NEWLY ADDED CHANNELS
+    async function fetchLiveChannelVideosInBrowser(chObj) {
+      let channelId = chObj.channel_id;
+      const handle = chObj.handle;
+
+      // Tier A: Resolve channel_id if missing via proxy scrape
+      if (!channelId && handle.startsWith('@')) {
+        try {
+          const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.youtube.com/' + handle)}`;
+          const res = await fetch(proxy);
+          if (res.ok) {
+            const data = await res.json();
+            const html = data.contents || '';
+            const m = html.match(/"externalId":"(UC[a-zA-Z0-9_-]{22})"/) || html.match(/"channelId":"(UC[a-zA-Z0-9_-]{22})"/);
+            if (m) {
+              channelId = m[1];
+              chObj.channel_id = channelId;
+            }
+            const tMatch = html.match(/<meta property="og:title" content="([^"]+)">/);
+            if (tMatch && tMatch[1]) chObj.title = tMatch[1];
+          }
+        } catch (e) {}
+      }
+
+      // Method 1: RSS2JSON / AllOrigins XML Feed Parse
+      if (channelId) {
+        try {
+          const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+          const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+          const res = await fetch(proxy);
+          if (res.ok) {
+            const d = await res.json();
+            const xmlText = d.contents || '';
+            if (xmlText.includes('<entry>')) {
+              const parser = new DOMParser();
+              const xml = parser.parseFromString(xmlText, "text/xml");
+              const chTitle = xml.querySelector('feed > title')?.textContent || chObj.title || handle;
+              chObj.title = chTitle;
+              const entries = Array.from(xml.querySelectorAll('entry')).slice(0, 10);
+              const fetched = entries.map(ent => {
+                const vId = ent.getElementsByTagName('yt:videoId')[0]?.textContent || '';
+                const vTitle = ent.querySelector('title')?.textContent || '';
+                const pub = ent.querySelector('published')?.textContent || new Date().toISOString();
+                const desc = ent.getElementsByTagName('media:description')[0]?.textContent || '';
+                return {
+                  id: vId,
+                  title: vTitle,
+                  channel_title: chTitle,
+                  handle: handle,
+                  published_at: pub,
+                  description: desc,
+                  thumbnail_url: `https://i.ytimg.com/vi/${vId}/hqdefault.jpg`
+                };
+              }).filter(v => v.id);
+              if (fetched.length > 0) return fetched;
+            }
+          }
+        } catch (e) {}
+      }
+
+      // Method 2: Scrape /videos tab via AllOrigins
+      try {
+        const targetUrl = channelId ? `https://www.youtube.com/channel/${channelId}/videos` : `https://www.youtube.com/${handle}/videos`;
+        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+        const res = await fetch(proxy);
+        if (res.ok) {
+          const d = await res.json();
+          const html = d.contents || '';
+          const match = html.match(/var ytInitialData\s*=\s*(\{.+?\});<\/script>/);
+          if (match) {
+            const initData = JSON.parse(match[1]);
+            const chName = initData?.metadata?.channelMetadataRenderer?.title || chObj.title || handle;
+            chObj.title = chName;
+            const cId = initData?.metadata?.channelMetadataRenderer?.externalId;
+            if (cId) chObj.channel_id = cId;
+
+            const tabs = initData?.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
+            const vTab = tabs.find(t => t.tabRenderer?.selected) || tabs[0];
+            const items = vTab?.tabRenderer?.content?.richGridRenderer?.contents || [];
+            const vids = [];
+            for (const item of items.slice(0, 10)) {
+              const vr = item?.richItemRenderer?.content?.videoRenderer;
+              if (!vr || !vr.videoId) continue;
+              const titleText = vr.title?.runs?.[0]?.text || vr.title?.simpleText || '';
+              const descText = (vr.descriptionSnippet?.runs || []).map(r => r.text).join('');
+              vids.push({
+                id: vr.videoId,
+                title: titleText,
+                channel_title: chName,
+                handle: handle,
+                published_at: new Date().toISOString(),
+                description: descText,
+                thumbnail_url: `https://i.ytimg.com/vi/${vr.videoId}/hqdefault.jpg`
+              });
+            }
+            if (vids.length > 0) return vids;
+          }
+        }
+      } catch (e) {}
+
+      return [];
+    }
+
+    // PERMANENT GITHUB REPOSITORY COMMIT + WORKFLOW DISPATCH
+    async function syncRosterToGitHubRepo(triggerAction = true) {
+      const token = getGitHubToken();
+      if (!token) return false;
+
+      try {
+        const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CHANNELS_FILE_PATH}`;
+        let sha = null;
+
+        const getRes = await fetch(apiUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json'
+          }
+        });
+        if (getRes.ok) {
+          const fileData = await getRes.json();
+          sha = fileData.sha;
+        }
+
+        const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(channelRoster, null, 2))));
+        const bodyObj = {
+          message: `Sync permanent channel roster & pause dates (${channelRoster.length} channels)`,
+          content: contentBase64
+        };
+        if (sha) bodyObj.sha = sha;
+
+        const putRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bodyObj)
+        });
+
+        // Also trigger the GitHub Actions workflow so backend immediately processes new channels
+        if (putRes.ok && triggerAction) {
+          await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/main.yml/dispatches`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/vnd.github+json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ref: 'main' })
+          }).catch(() => {});
+        }
+        return putRes.ok;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    async function addNewChannelFromInput() {
+      const inputEl = document.getElementById('newChannelInput');
+      const statusEl = document.getElementById('channelAddStatus');
+      const btn = document.getElementById('addChannelBtn');
+      const raw = inputEl.value.trim();
+      if (!raw) return;
+
+      statusEl.classList.remove('hidden');
+      statusEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-sky-400 mr-1"></i> Detecting original channel & harvesting videos via multi-tier fallback...`;
+      btn.disabled = true;
+
+      try {
+        const detected = await detectChannelFromInputMultiTier(raw);
+        const existingIdx = channelRoster.findIndex(c => c.handle.toLowerCase() === detected.handle.toLowerCase());
+
+        let targetChannelObj;
+        if (existingIdx >= 0) {
+          channelRoster[existingIdx].paused = false;
+          channelRoster[existingIdx].paused_until = null;
+          targetChannelObj = channelRoster[existingIdx];
+        } else {
+          targetChannelObj = {
+            handle: detected.handle,
+            title: detected.title || detected.handle,
+            channel_id: detected.channel_id || null,
+            paused: false,
+            paused_until: null,
+            added_at: new Date().toISOString()
+          };
+          channelRoster.unshift(targetChannelObj);
+        }
+
+        // Immediately fetch live videos in browser so user sees them right away
+        const liveVids = await fetchLiveChannelVideosInBrowser(targetChannelObj);
+        if (liveVids.length > 0) {
+          const existingIds = new Set(allVideos.map(v => v.id));
+          for (const v of liveVids) {
+            if (!existingIds.has(v.id)) {
+              allVideos.unshift(v);
+              existingIds.add(v.id);
+            }
+          }
+          try {
+            localStorage.setItem('LOCAL_HARVESTED_VIDEOS', JSON.stringify(liveVids.slice(0, 30)));
+          } catch (e) {}
+        }
+
+        savePermanentChannelRosterLocally();
+        renderFilters();
+        renderCurtainChannels();
+        renderGrid();
+
+        const syncedCloud = await syncRosterToGitHubRepo(true);
+
+        statusEl.innerHTML = `
+          <div class="text-emerald-300 font-semibold flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-check"></i> Permanently Added: ${targetChannelObj.title} (${targetChannelObj.handle})
+          </div>
+          <div class="text-slate-300 text-[10px] mt-1">
+            ${detected.detectedFromVideo ? `Detected from video ID [${detected.detectedFromVideo}] • ` : ''}
+            Fetched ${liveVids.length} latest videos live • ${syncedCloud ? 'Synced to GitHub Repo & Actions!' : 'Saved permanently to your browser & ready!'}
+          </div>
+        `;
+        inputEl.value = '';
+      } catch (err) {
+        statusEl.innerHTML = `<span class="text-rose-400">Error detecting channel: ${err.message}</span>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function toggleChannelPause(idx) {
+      const ch = channelRoster[idx];
+      if (!ch) return;
+      if (isChannelPausedNow(ch)) {
+        ch.paused = false;
+        ch.paused_until = null;
+      } else {
+        ch.paused = true;
+        ch.paused_until = null;
+      }
+      savePermanentChannelRosterLocally();
+      syncRosterToGitHubRepo(false);
+      renderFilters();
+      renderCurtainChannels();
+      renderGrid();
+    }
+
+    function setChannelPauseDate(idx, dateStr) {
+      const ch = channelRoster[idx];
+      if (!ch) return;
+      if (!dateStr) {
+        ch.paused = false;
+        ch.paused_until = null;
+      } else {
+        ch.paused = true;
+        ch.paused_until = dateStr;
+      }
+      savePermanentChannelRosterLocally();
+      syncRosterToGitHubRepo(false);
+      renderFilters();
+      renderCurtainChannels();
+      renderGrid();
+    }
+
+    // ============================================================================
     // CORE DASHBOARD LOGIC
     // ============================================================================
-    let allVideos = [];
-    let availableChannels = [];
-    let currentFilter = 'ALL';
-    let onlyLast24Hours = false;
-    let aiExplicitPrimaryIds = null;
-    let aiExplicitDuplicateIds = null;
-
     function toggleCurtain(open) {
       const drawer = document.getElementById('curtainDrawer');
       const backdrop = document.getElementById('curtainBackdrop');
@@ -682,12 +1223,27 @@
     async function loadFeed() {
       updateKeyStatus();
       restorePreferences();
+      await loadPermanentChannelRoster();
+
       try {
         const res = await fetch(`videos.json?t=${new Date().getTime()}`);
         if (!res.ok) throw new Error("Could not load feed");
         const rawVideos = await res.json();
 
-        allVideos = rawVideos.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+        // Merge any locally harvested videos from newly added channels
+        let localVids = [];
+        try {
+          localVids = JSON.parse(localStorage.getItem('LOCAL_HARVESTED_VIDEOS') || '[]');
+        } catch (e) {}
+
+        const combinedMap = new Map();
+        [...localVids, ...rawVideos].forEach(v => {
+          if (v && v.id && !combinedMap.has(v.id)) {
+            combinedMap.set(v.id, v);
+          }
+        });
+
+        allVideos = Array.from(combinedMap.values()).sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
 
         document.getElementById('countBadge').innerText = `${allVideos.length} Updates`;
         renderFilters();
@@ -717,34 +1273,84 @@
       }
     }, { passive: true });
 
+    function getActiveVisibleChannelTitles() {
+      const activeVideos = allVideos.filter(v => !isVideoChannelPaused(v));
+      return ['ALL', ...new Set(activeVideos.map(v => v.channel_title).filter(Boolean))];
+    }
+
     function renderFilters() {
-      availableChannels = ['ALL', ...new Set(allVideos.map(v => v.channel_title).filter(Boolean))];
+      const availableChannels = getActiveVisibleChannelTitles();
       const bar = document.getElementById('filterBar');
       bar.innerHTML = availableChannels.map((ch, idx) => `
-        <button onclick="filterByIndex(${idx})" 
+        <button onclick="filterByChannelTitle(${idx})" 
           class="channel-pill px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition ${currentFilter === ch ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/30 border border-white/30' : 'glass-pill text-slate-300 hover:text-white'}">
-          ${ch === 'ALL' ? 'All Channels' : ch}
+          ${ch === 'ALL' ? 'All Active Channels' : ch}
         </button>
       `).join('');
+    }
+
+    function filterByChannelTitle(idx) {
+      const availableChannels = getActiveVisibleChannelTitles();
+      currentFilter = availableChannels[idx] || 'ALL';
+      renderFilters();
+      renderCurtainChannels();
+      renderGrid();
+    }
+
+    function selectChannelFromRoster(chTitleOrHandle) {
+      currentFilter = chTitleOrHandle;
+      renderFilters();
+      renderCurtainChannels();
+      renderGrid();
+      toggleCurtain(false);
     }
 
     function renderCurtainChannels() {
       const container = document.getElementById('curtainChannelList');
       if (!container) return;
-      container.innerHTML = availableChannels.map((ch, idx) => `
-        <button onclick="filterByIndex(${idx}); toggleCurtain(false);" 
-          class="w-full text-left px-2.5 py-1.5 rounded-xl text-xs flex items-center justify-between transition ${currentFilter === ch ? 'bg-white/15 text-white border border-white/25' : 'text-slate-300 hover:bg-white/10'}">
-          <span class="truncate">${ch === 'ALL' ? '🌟 All 26 Channels' : ch}</span>
-          ${currentFilter === ch ? '<i class="fa-solid fa-check text-[10px] text-sky-400"></i>' : ''}
-        </button>
-      `).join('');
-    }
+      const query = (document.getElementById('channelSearchFilter')?.value || '').toLowerCase().trim();
 
-    function filterByIndex(idx) {
-      currentFilter = availableChannels[idx] || 'ALL';
-      renderFilters();
-      renderCurtainChannels();
-      renderGrid();
+      let html = `
+        <button onclick="selectChannelFromRoster('ALL')" 
+          class="w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition ${currentFilter === 'ALL' ? 'bg-sky-500/25 text-white border border-sky-400/50' : 'bg-black/30 text-slate-300 hover:bg-white/10 border border-white/10'}">
+          <span class="font-semibold">🌟 Show All Active Channels</span>
+          ${currentFilter === 'ALL' ? '<i class="fa-solid fa-check text-[10px] text-sky-400"></i>' : ''}
+        </button>
+      `;
+
+      channelRoster.forEach((ch, idx) => {
+        const displayTitle = ch.title && ch.title !== ch.handle ? `${ch.title} (${ch.handle})` : ch.handle;
+        if (query && !displayTitle.toLowerCase().includes(query)) return;
+
+        const paused = isChannelPausedNow(ch);
+        const filterTarget = ch.title && ch.title !== ch.handle ? ch.title : ch.handle;
+
+        html += `
+          <div class="p-2.5 rounded-xl border transition ${paused ? 'bg-rose-950/25 border-rose-500/30 opacity-75' : 'bg-black/35 border-white/10 hover:border-white/25'} space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <button onclick="selectChannelFromRoster(${JSON.stringify(filterTarget)})" class="text-left text-xs font-medium truncate flex-1 ${paused ? 'line-through text-slate-400' : 'text-white hover:text-sky-300'}">
+                ${ch.title || ch.handle}
+                <span class="block text-[10px] text-slate-400 font-mono">${ch.handle}</span>
+              </button>
+
+              <button onclick="toggleChannelPause(${idx})" 
+                class="px-2.5 py-1 rounded-lg text-[10px] font-semibold border transition shrink-0 ${paused ? 'bg-emerald-600/30 border-emerald-400/50 text-emerald-200' : 'bg-amber-500/20 border-amber-400/40 text-amber-200 hover:bg-amber-500/30'}">
+                ${paused ? '<i class="fa-solid fa-play mr-1"></i>Resume' : '<i class="fa-solid fa-pause mr-1"></i>Pause'}
+              </button>
+            </div>
+
+            <!-- Pause Date Picker -->
+            <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/10 text-[10px] text-slate-300">
+              <span><i class="fa-regular fa-calendar-xmark text-amber-400 mr-1"></i>Pause Until Date:</span>
+              <input type="date" value="${ch.paused_until || ''}" 
+                onchange="setChannelPauseDate(${idx}, this.value)"
+                class="bg-black/60 text-white text-[10px] px-2 py-0.5 rounded border border-white/20 focus:outline-none focus:border-sky-400" />
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
     }
 
     function getNormalizedKeywords(title) {
@@ -842,11 +1448,11 @@
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-3">
           <i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i>
-          <span>Master Gemini analyzing topics across all 26 channels with fast failover cascade...</span>
+          <span>Master Gemini analyzing topics across all active channels with fast failover cascade...</span>
         </div>`;
 
       const readSet = getReadSet();
-      const unread = allVideos.filter(v => !readSet.has(v.id)).slice(0, 100);
+      const unread = allVideos.filter(v => !readSet.has(v.id) && !isVideoChannelPaused(v)).slice(0, 100);
 
       if (unread.length === 0) {
         box.innerHTML = `<div class="text-amber-400 text-xs py-2">No unread news to analyze. All items are currently marked read.</div>`;
@@ -1278,9 +1884,15 @@ CRITICAL INSTRUCTIONS:
       const readSet = getReadSet();
       const cutoff24 = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-      let filtered = allVideos;
-      if (currentFilter !== 'ALL') filtered = filtered.filter(v => v.channel_title === currentFilter);
-      if (onlyLast24Hours) filtered = filtered.filter(v => new Date(v.published_at) >= cutoff24);
+      // Exclude videos from paused channels
+      let filtered = allVideos.filter(v => !isVideoChannelPaused(v));
+
+      if (currentFilter !== 'ALL') {
+        filtered = filtered.filter(v => v.channel_title === currentFilter || v.handle === currentFilter);
+      }
+      if (onlyLast24Hours) {
+        filtered = filtered.filter(v => new Date(v.published_at) >= cutoff24);
+      }
 
       const unreadPool = filtered.filter(v => !readSet.has(v.id));
       const readPool = filtered.filter(v => readSet.has(v.id));
@@ -1294,7 +1906,7 @@ CRITICAL INSTRUCTIONS:
 
       const grid = document.getElementById('videoGrid');
       if (!filtered.length) {
-        grid.innerHTML = `<div class="col-span-full text-center text-slate-400 py-12 text-sm">No updates match this filter.</div>`;
+        grid.innerHTML = `<div class="col-span-full text-center text-slate-400 py-12 text-sm">No active updates match this filter (or channel is currently paused).</div>`;
         return;
       }
 
@@ -1432,7 +2044,7 @@ CRITICAL INSTRUCTIONS:
           <span>Master Gemini synthesizing across briefings & global sources...</span>
         </div>`;
 
-      const contextSummary = allVideos.slice(0, 16).map((v, i) => 
+      const contextSummary = allVideos.filter(v => !isVideoChannelPaused(v)).slice(0, 16).map((v, i) => 
         `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description ? v.description.slice(0, 250) : ''}`
       ).join('\n');
 
