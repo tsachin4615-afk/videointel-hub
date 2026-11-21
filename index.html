@@ -86,14 +86,18 @@
     .unread-indicator { width: 7px; height: 7px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
     .clickable-desc { cursor: pointer; user-select: none; }
 
-    details.curtain-section > summary {
+    /* Collapsible Curtain & Master Engine Details Styling */
+    details.curtain-section > summary,
+    details.master-collapsible > summary {
       list-style: none;
       cursor: pointer;
     }
-    details.curtain-section > summary::-webkit-details-marker {
+    details.curtain-section > summary::-webkit-details-marker,
+    details.master-collapsible > summary::-webkit-details-marker {
       display: none;
     }
-    details.curtain-section[open] .chevron-icon {
+    details.curtain-section[open] .chevron-icon,
+    details.master-collapsible[open] .chevron-icon {
       transform: rotate(180deg);
     }
     .chevron-icon {
@@ -172,61 +176,22 @@
     </div>
   </header>
 
-  <!-- MASTER GEMINI ENGINE (USES DEDICATED ACTIVE SEARCH ENGINE KEY) -->
+  <!-- COMPACT MASTER GEMINI ENGINE (ONLY ENGINE NAME + SEARCH BAR; ALL FEATURES COLLAPSIBLE BELOW) -->
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="glass-surface rounded-3xl p-4 sm:p-5 relative overflow-hidden">
       
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
+      <!-- Engine Name -->
+      <div class="flex items-center justify-between gap-2 mb-2.5">
         <div class="flex items-center gap-2 text-white text-sm font-semibold">
           <i class="fa-solid fa-microchip text-sky-400 text-base"></i>
-          <span>Master Gemini Engine — Active Search Engine</span>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <div class="relative">
-            <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium">
-              <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Gemini Free-Tier Cascade</option>
-              <option value="gemini-3.8-flash" class="bg-slate-900">Gemini 3.8 Flash (Primary)</option>
-              <option value="gemini-3.6-flash" class="bg-slate-900">Gemini 3.6 Flash (Balanced)</option>
-              <option value="gemini-3.5-flash-lite" class="bg-slate-900">Gemini 3.5 Flash-Lite (Fastest)</option>
-              <option value="gemini-3.1-flash-lite" class="bg-slate-900">Gemini 3.1 Flash-Lite (High RPM)</option>
-              <option value="gemma-4-31b-it" class="bg-slate-900">Gemma 4 31B (Separate Quota)</option>
-              <option value="gemma-4-26b-a4b-it" class="bg-slate-900">Gemma 4 26B (Fast Open)</option>
-            </select>
-            <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
-          </div>
-
-          <span id="laymanPrepBadge" class="text-[11px] glass-pill text-emerald-300 px-2.5 py-1 rounded-xl font-mono">Layman Ready</span>
+          <span>Master Gemini Engine</span>
         </div>
       </div>
 
-      <p class="text-xs text-slate-300/80 mb-3">Auto-spaced Gemini engines: Engine 1 prepares Layman briefings smoothly without hitting RPM limits while Engine 2 stays ready for your active searches:</p>
-      
-      <div class="flex flex-wrap gap-2 mb-3">
-        <button onclick="runMasterAITopicDeduplication()" 
-          class="glass-pill px-3 py-1.5 rounded-xl text-xs text-emerald-200 flex items-center gap-1.5 font-medium">
-          <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Deduplicate & Surface Best Topics
-        </button>
-
-        <button onclick="runMasterQuery('Provide an exhaustive, deeply detailed layman synthesis of all major developments across the dashboard today, covering exact facts, institutions, figures, stakeholders, and real-world impact.')" 
-          class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
-          <i class="fa-solid fa-user-group text-amber-400"></i> Layman Digest
-        </button>
-
-        <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points (Prelims static+current facts + Mains GS2/GS3 analytical dimensions) across all current videos with comprehensive details.')" 
-          class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
-          <i class="fa-solid fa-graduation-cap text-purple-400"></i> Top 5 UPSC Pointers
-        </button>
-
-        <button onclick="runMasterQuery('Identify the single most critical geopolitical strategic conflict across these updates and provide a comprehensive breakdown of actors, timelines, treaties, and strategic implications.')" 
-          class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
-          <i class="fa-solid fa-compass text-sky-400"></i> Strategic Conflict Breakdown
-        </button>
-      </div>
-
+      <!-- Search Bar -->
       <div class="flex items-center gap-2">
         <div class="relative flex-1">
-          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (Uses Active Search Engine)..." 
+          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels..." 
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
             class="w-full bg-black/40 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
           <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400">
@@ -234,6 +199,58 @@
           </button>
         </div>
       </div>
+
+      <!-- All Remaining Master Features in Collapsible Form Under Search Bar -->
+      <details class="master-collapsible mt-3 pt-2.5 border-t border-white/10">
+        <summary class="flex items-center justify-between text-[11px] text-slate-300 hover:text-white select-none">
+          <span class="flex items-center gap-1.5 font-medium">
+            <i class="fa-solid fa-wand-magic-sparkles text-sky-400 text-[10px]"></i>
+            <span>Quick Synthesis Tools, Deduplication & Engine Model</span>
+          </span>
+          <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
+        </summary>
+
+        <div class="pt-3 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="relative">
+              <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium">
+                <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Gemini Free-Tier Cascade</option>
+                <option value="gemini-3.8-flash" class="bg-slate-900">Gemini 3.8 Flash (Primary)</option>
+                <option value="gemini-3.6-flash" class="bg-slate-900">Gemini 3.6 Flash (Balanced)</option>
+                <option value="gemini-3.5-flash-lite" class="bg-slate-900">Gemini 3.5 Flash-Lite (Fastest)</option>
+                <option value="gemini-3.1-flash-lite" class="bg-slate-900">Gemini 3.1 Flash-Lite (High RPM)</option>
+                <option value="gemma-4-31b-it" class="bg-slate-900">Gemma 4 31B (Separate Quota)</option>
+                <option value="gemma-4-26b-a4b-it" class="bg-slate-900">Gemma 4 26B (Fast Open)</option>
+              </select>
+              <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
+            </div>
+
+            <span id="laymanPrepBadge" class="text-[11px] glass-pill text-emerald-300 px-2.5 py-1 rounded-xl font-mono">Layman Ready</span>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <button onclick="runMasterAITopicDeduplication()" 
+              class="glass-pill px-3 py-1.5 rounded-xl text-xs text-emerald-200 flex items-center gap-1.5 font-medium">
+              <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Deduplicate & Surface Best Topics
+            </button>
+
+            <button onclick="runMasterQuery('Provide an exhaustive, deeply detailed layman synthesis of all major developments across the dashboard today, covering exact facts, institutions, figures, stakeholders, and real-world impact.')" 
+              class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
+              <i class="fa-solid fa-user-group text-amber-400"></i> Layman Digest
+            </button>
+
+            <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points (Prelims static+current facts + Mains GS2/GS3 analytical dimensions) across all current videos with comprehensive details.')" 
+              class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
+              <i class="fa-solid fa-graduation-cap text-purple-400"></i> Top 5 UPSC Pointers
+            </button>
+
+            <button onclick="runMasterQuery('Identify the single most critical geopolitical strategic conflict across these updates and provide a comprehensive breakdown of actors, timelines, treaties, and strategic implications.')" 
+              class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
+              <i class="fa-solid fa-compass text-sky-400"></i> Strategic Conflict Breakdown
+            </button>
+          </div>
+        </div>
+      </details>
 
       <div id="masterOutput" class="hidden mt-4 p-4 rounded-2xl bg-black/50 border border-white/15 text-xs text-slate-100 space-y-2 shadow-inner"></div>
     </div>
@@ -487,7 +504,7 @@
 
     <!-- Drawer Footer -->
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v10.0 (Auto-Spaced Dual Gemini)</span>
+      <span>VideoIntel Hub v10.5 (Compact Master + Dual Spaced Gemini)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -507,7 +524,6 @@
       "@ReVIEWbySoukhyaGaonkar", "@MasthMagaa"
     ];
 
-    // November 2026 Free-Tier Gemini & Gemma 4 Models (Each model has its own independent RPM/RPD quota)
     const FREE_TIER_GEMINI_MODELS = [
       "gemini-3.8-flash",
       "gemini-3.6-flash",
@@ -525,7 +541,6 @@
     let aiExplicitDuplicateIds = null;
     let laymanQueueRunning = false;
 
-    // Auto-Spacing Timestamps per Engine so neither engine ever exceeds RPM limits
     let lastLaymanCallTimestamp = 0;
     let lastActiveSearchCallTimestamp = 0;
     let activeUserSearchLockUntil = 0;
@@ -636,11 +651,8 @@
 
     // ============================================================================
     // DUAL DEDICATED GEMINI ENGINES + TOKEN-BUCKET AUTO-SPACING
-    // Engine 1: Background Layman's Read Preparation (Strict Auto-Spacing)
-    // Engine 2: Active Search Engine (Specific Knowledge, UPSC, Master, Per-Video Search)
     // ============================================================================
     function loadDualEngineSettingsIntoUI() {
-      // Migrate any previously saved keys cleanly
       const legacy1 = localStorage.getItem('GEMINI_KEY_1') || localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
       const legacy2 = localStorage.getItem('GEMINI_KEY_4') || localStorage.getItem('GEMINI_KEY_2') || '';
 
@@ -754,7 +766,6 @@
       `;
     }
 
-    // AUTO-SPACING HELPER: Guarantees minimum delay between API calls so RPM limit is never exceeded
     async function enforceAutoSpacing(engineType) {
       const minGap = getAutoSpacingMs();
       const now = Date.now();
@@ -765,7 +776,6 @@
         }
         lastLaymanCallTimestamp = Date.now();
       } else {
-        // Active search uses a crisp 1.5s minimum gap so user taps feel instant while preventing double-tap floods
         const elapsed = now - lastActiveSearchCallTimestamp;
         if (elapsed < 1500) {
           await new Promise(r => setTimeout(r, 1500 - elapsed));
@@ -808,7 +818,6 @@
               };
             }
           } else if (res.status === 429) {
-            // Pause briefly before shifting to next model's separate RPM bucket
             await new Promise(r => setTimeout(r, 2500));
             continue;
           }
@@ -820,9 +829,8 @@
       throw new Error("Engine 1 (Layman Prep) cooling down to stay within free RPM limit.");
     }
 
-    // ENGINE 2 CALLER: DEDICATED ACTIVE SEARCH ENGINE (SPECIFIC KNOWLEDGE, UPSC, MASTER, PER-VIDEO SEARCH)
+    // ENGINE 2 CALLER: DEDICATED ACTIVE SEARCH ENGINE
     async function callGeminiActiveSearchEngine(promptText, rotateOffset = 0, overrideModel = null) {
-      // Immediately pause background Engine 1 for 20 seconds whenever user triggers an active search
       activeUserSearchLockUntil = Date.now() + 20000;
 
       const key = getActiveSearchEngineKey();
@@ -843,7 +851,6 @@
         const ctrl = new AbortController();
         const tid = setTimeout(() => ctrl.abort(), 9000);
         try {
-          // Uses direct free-tier generation (without paid-only googleSearch tool) so free-tier keys never fail with 400/429
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1395,7 +1402,6 @@
       const missing = allVideos.filter(v => !isVideoChannelPaused(v) && (!v.layman_news || v.layman_news.trim().length === 0));
 
       for (let i = 0; i < missing.length; i++) {
-        // Yield immediately if user is actively running a search
         while (Date.now() < activeUserSearchLockUntil) {
           if (statusLine) statusLine.innerText = "Paused: yielding priority to Active Search Engine...";
           await new Promise(r => setTimeout(r, 2000));
@@ -2192,7 +2198,6 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         return;
       }
 
-      // Specific Knowledge & UPSC Curated -> Routed exclusively to Engine 2 (Active Search Engine)
       const container = document.getElementById(`qaResponseContainer-${videoId}`);
       container.classList.remove('hidden');
 
