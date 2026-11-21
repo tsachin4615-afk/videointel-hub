@@ -168,9 +168,9 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             Master Visual Grid
-            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">5-Key Zero-429</span>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">Auto-Spaced Dual Gemini</span>
           </h1>
-          <p class="text-xs text-slate-300/80">Keys 1–3: Layman Prep • Keys 4–5: Active Live Search</p>
+          <p class="text-xs text-slate-300/80">Engine 1: Spaced Layman Prep • Engine 2: Active Live Search</p>
         </div>
       </div>
 
@@ -195,35 +195,35 @@
     </div>
   </header>
 
-  <!-- MASTER GEMINI ENGINE (USES KEYS 4 & 5 EXCLUSIVELY FOR ACTIVE SEARCH) -->
+  <!-- MASTER GEMINI ENGINE (USES DEDICATED ACTIVE SEARCH ENGINE KEY) -->
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="glass-surface rounded-3xl p-4 sm:p-5 relative overflow-hidden">
       
       <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
         <div class="flex items-center gap-2 text-white text-sm font-semibold">
           <i class="fa-solid fa-microchip text-sky-400 text-base"></i>
-          <span>Master Gemini Engine — Active Search Pool (Keys 4 & 5)</span>
+          <span>Master Gemini Engine — Active Search Engine</span>
         </div>
 
         <div class="flex items-center gap-2">
           <div class="relative">
             <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium">
-              <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Gemini Auto-Cascade (All Verified Models)</option>
-              <option value="gemini-2.5-flash" class="bg-slate-900">Gemini 2.5 Flash (Best All-Round)</option>
-              <option value="gemini-2.5-flash-lite" class="bg-slate-900">Gemini 2.5 Flash-Lite (Fastest)</option>
-              <option value="gemini-2.5-pro" class="bg-slate-900">Gemini 2.5 Pro (Deep Reasoning)</option>
-              <option value="gemini-2.0-flash" class="bg-slate-900">Gemini 2.0 Flash (High Quota)</option>
-              <option value="gemini-2.0-flash-lite" class="bg-slate-900">Gemini 2.0 Flash-Lite (Backup)</option>
-              <option value="gemma-3-27b-it" class="bg-slate-900">Gemma 3 27B (Separate Quota Bucket)</option>
+              <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Gemini Free-Tier Cascade</option>
+              <option value="gemini-3.8-flash" class="bg-slate-900">Gemini 3.8 Flash (Primary)</option>
+              <option value="gemini-3.6-flash" class="bg-slate-900">Gemini 3.6 Flash (Balanced)</option>
+              <option value="gemini-3.5-flash-lite" class="bg-slate-900">Gemini 3.5 Flash-Lite (Fastest)</option>
+              <option value="gemini-3.1-flash-lite" class="bg-slate-900">Gemini 3.1 Flash-Lite (High RPM)</option>
+              <option value="gemma-4-31b-it" class="bg-slate-900">Gemma 4 31B (Separate Quota)</option>
+              <option value="gemma-4-26b-a4b-it" class="bg-slate-900">Gemma 4 26B (Fast Open)</option>
             </select>
             <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
           </div>
 
-          <span id="laymanPrepBadge" class="text-[11px] glass-pill text-emerald-300 px-2.5 py-1 rounded-xl font-mono">Keys 1–3 Prep</span>
+          <span id="laymanPrepBadge" class="text-[11px] glass-pill text-emerald-300 px-2.5 py-1 rounded-xl font-mono">Layman Ready</span>
         </div>
       </div>
 
-      <p class="text-xs text-slate-300/80 mb-3">Keys 1–3 prepare Layman briefings in the background while Keys 4 & 5 stay 100% dedicated to your active searches:</p>
+      <p class="text-xs text-slate-300/80 mb-3">Auto-spaced Gemini engines: Engine 1 prepares Layman briefings smoothly without hitting RPM limits while Engine 2 stays ready for your active searches:</p>
       
       <div class="flex flex-wrap gap-2 mb-3">
         <button onclick="runMasterAITopicDeduplication()" 
@@ -249,7 +249,7 @@
 
       <div class="flex items-center gap-2">
         <div class="relative flex-1">
-          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (Uses Keys 4 & 5)..." 
+          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (Uses Active Search Engine)..." 
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
             class="w-full bg-black/40 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
           <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400">
@@ -273,7 +273,7 @@
           <i class="fa-solid fa-check-double"></i> Mark All Read
         </button>
         <button onclick="toggleCurtain(true)" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-sky-300 hover:text-white flex items-center gap-1.5">
-          <i class="fa-solid fa-key"></i> Configure 5 Keys
+          <i class="fa-solid fa-key"></i> Engine Keys & Spacing
         </button>
       </div>
 
@@ -298,7 +298,7 @@
   </main>
 
   <!-- ============================================================================== -->
-  <!-- COLLAPSIBLE SLIDING CURTAIN DRAWER (CONTROL CENTER WITH 5-KEY ARCHITECTURE) -->
+  <!-- COLLAPSIBLE SLIDING CURTAIN DRAWER (DUAL ENGINE + AUTO-SPACING CONTROLS) -->
   <!-- ============================================================================== -->
   <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/55 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
   
@@ -326,51 +326,57 @@
         </a>
       </div>
 
-      <!-- COLLAPSIBLE SECTION 1: 5-Key Dedicated Role Architecture -->
+      <!-- COLLAPSIBLE SECTION 1: Dual Engine Keys + Auto-Spacing Control -->
       <details open class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> 5 Gemini Keys (Separate Projects = 5x Quota)</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> Dual Gemini Engines & Auto-Spacing</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
         <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
           
-          <div class="p-2 rounded-xl bg-sky-500/10 border border-sky-400/20 text-[10px] text-sky-200 leading-relaxed">
-            <strong>Tip for 5x Speed:</strong> Create each key in a <strong>New Project</strong> in Google AI Studio. Keys inside the same project share one limit.
-          </div>
-
-          <!-- Pool A: Keys 1, 2, 3 -->
+          <!-- Engine 1: Background Layman's Read Preparation -->
           <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/25 space-y-2">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold text-amber-300">Pool A: Background Layman Prep (Keys 1–3)</span>
-              <span id="poolAStatus" class="text-[10px] font-mono text-amber-200">0/3 Active</span>
+              <span class="text-[11px] font-bold text-amber-300">Engine 1: Background Layman Prep</span>
+              <span id="laymanKeyStatus" class="text-[10px] font-mono text-amber-200">Not Set</span>
             </div>
-            <input id="geminiKey1" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #1 (Project 1 - Layman Prep)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
-            <input id="geminiKey2" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #2 (Project 2 - Layman Prep)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
-            <input id="geminiKey3" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #3 (Project 3 - Layman Prep)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
+            <p class="text-[10px] text-slate-300/80">Dedicated exclusively to preparing Layman's Read in the background with auto-spacing so it never hits RPM limits.</p>
+            <input id="laymanEngineKeyInput" type="password" onchange="saveDualEngineSettings()" placeholder="Paste Gemini API Key #1 (Layman Prep)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
           </div>
 
-          <!-- Pool B: Keys 4 & 5 -->
+          <!-- Engine 2: Active Search Engine -->
           <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-400/30 space-y-2">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold text-emerald-300">Pool B: Active Search Only (Keys 4 & 5)</span>
-              <span id="poolBStatus" class="text-[10px] font-mono text-emerald-200">0/2 Active</span>
+              <span class="text-[11px] font-bold text-emerald-300">Engine 2: Active Live Search</span>
+              <span id="activeKeyStatus" class="text-[10px] font-mono text-emerald-200">Not Set</span>
             </div>
-            <p class="text-[10px] text-slate-300/80">Reserved 100% for Specific Knowledge, UPSC Curated, Smart Questions & Per-Video Search.</p>
-            <input id="geminiKey4" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #4 (Project 4 - Active Search)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-emerald-400" />
-            <input id="geminiKey5" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #5 (Project 5 - Active Search)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-emerald-400" />
+            <p class="text-[10px] text-slate-300/80">Dedicated strictly to Specific Knowledge, UPSC Curated, Smart Questions, Master Engine & Per-Video Search.</p>
+            <input id="activeEngineKeyInput" type="password" onchange="saveDualEngineSettings()" placeholder="Paste Gemini API Key #2 (Active Search)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-emerald-400" />
           </div>
 
-          <button onclick="saveFiveGeminiKeys(true)" class="w-full py-1.5 rounded-xl text-xs bg-sky-600/40 hover:bg-sky-600/60 text-white border border-sky-400/40 font-semibold transition">
-            <i class="fa-solid fa-check-circle mr-1"></i> Save All 5 Keys & Start Layman Prep
+          <!-- Auto-Spacing Interval Control -->
+          <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-slate-200 font-semibold"><i class="fa-solid fa-stopwatch text-sky-400 mr-1"></i> Auto-Spacing Pace</span>
+              <span id="spacingStatusText" class="font-mono text-sky-300">5.5s / req (~11 RPM)</span>
+            </div>
+            <select id="autoSpacingSelector" onchange="saveDualEngineSettings()" class="w-full bg-black/60 text-xs text-sky-200 px-2.5 py-1.5 rounded-lg border border-white/15 focus:outline-none">
+              <option value="4500" class="bg-slate-900">4.5 Seconds Spacing (~13 RPM — Fast Safe)</option>
+              <option value="5500" class="bg-slate-900" selected>5.5 Seconds Spacing (~11 RPM — Zero-429 Default)</option>
+              <option value="7000" class="bg-slate-900">7.0 Seconds Spacing (~8 RPM — Ultra Safe)</option>
+              <option value="10000" class="bg-slate-900">10.0 Seconds Spacing (~6 RPM — Conservative)</option>
+            </select>
+          </div>
+
+          <button onclick="saveDualEngineSettings(true)" class="w-full py-1.5 rounded-xl text-xs bg-sky-600/40 hover:bg-sky-600/60 text-white border border-sky-400/40 font-semibold transition">
+            <i class="fa-solid fa-check-circle mr-1"></i> Save Keys & Start Spaced Layman Prep
           </button>
 
           <div class="flex items-center justify-between text-xs text-slate-300 pt-1 border-t border-white/10">
             <span>Layman Summaries Ready:</span>
             <span id="laymanProgressCounter" class="font-mono text-emerald-400 font-semibold">0 / 0</span>
           </div>
-          <button onclick="startBackgroundLaymanQueue(true)" class="w-full py-1.5 rounded-xl text-xs bg-emerald-600/25 hover:bg-emerald-600/45 text-emerald-200 border border-emerald-400/35 font-medium transition">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Run Background Layman Queue (Keys 1–3)
-          </button>
+          <div id="laymanQueueStatusLine" class="text-[10px] text-slate-400 font-mono text-center">Idle</div>
         </div>
       </details>
 
@@ -498,7 +504,7 @@
 
     <!-- Drawer Footer -->
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v9.5 (Verified Gemini Endpoints)</span>
+      <span>VideoIntel Hub v10.0 (Auto-Spaced Dual Gemini)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -518,22 +524,13 @@
       "@ReVIEWbySoukhyaGaonkar", "@MasthMagaa"
     ];
 
-    const LAYMAN_POOL_MODELS = [
-      "gemini-2.5-flash-lite",
-      "gemini-2.5-flash",
-      "gemini-2.0-flash-lite",
-      "gemini-2.0-flash",
-      "gemma-3-27b-it"
-    ];
-
-    const ACTIVE_SEARCH_MODELS = [
-      "gemini-2.5-flash",
-      "gemini-2.5-flash-lite",
-      "gemini-2.5-pro",
-      "gemini-2.0-flash",
-      "gemini-2.0-flash-lite",
-      "gemma-3-27b-it",
-      "gemma-3-12b-it"
+    const FREE_TIER_GEMINI_MODELS = [
+      "gemini-3.8-flash",
+      "gemini-3.6-flash",
+      "gemini-3.5-flash-lite",
+      "gemini-3.1-flash-lite",
+      "gemma-4-31b-it",
+      "gemma-4-26b-a4b-it"
     ];
 
     let channelRoster = [];
@@ -543,6 +540,10 @@
     let aiExplicitPrimaryIds = null;
     let aiExplicitDuplicateIds = null;
     let laymanQueueRunning = false;
+
+    let lastLaymanCallTimestamp = 0;
+    let lastActiveSearchCallTimestamp = 0;
+    let activeUserSearchLockUntil = 0;
 
     // ============================================================================
     // TYPOGRAPHY & FONT ENGINE
@@ -649,81 +650,79 @@
     setGlassTint(currentGlassTint);
 
     // ============================================================================
-    // 5-KEY ROLE-SEPARATED GEMINI ARCHITECTURE WITH EMERGENCY OVERFLOW
+    // DUAL DEDICATED GEMINI ENGINES + TOKEN-BUCKET AUTO-SPACING
     // ============================================================================
-    function loadFiveGeminiKeysIntoUI() {
-      const legacy = localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
-      if (legacy && !localStorage.getItem('GEMINI_KEY_1')) {
-        const parts = legacy.split(/[\s,;]+/).map(k => k.trim()).filter(k => k.length > 10);
-        if (parts[0]) localStorage.setItem('GEMINI_KEY_1', parts[0]);
-        if (parts[1]) localStorage.setItem('GEMINI_KEY_2', parts[1]);
-        if (parts[2]) localStorage.setItem('GEMINI_KEY_3', parts[2]);
-        if (parts[3]) localStorage.setItem('GEMINI_KEY_4', parts[3]);
-        if (parts[4]) localStorage.setItem('GEMINI_KEY_5', parts[4]);
-      }
+    function loadDualEngineSettingsIntoUI() {
+      const legacy1 = localStorage.getItem('GEMINI_KEY_1') || localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
+      const legacy2 = localStorage.getItem('GEMINI_KEY_4') || localStorage.getItem('GEMINI_KEY_2') || '';
 
-      for (let i = 1; i <= 5; i++) {
-        const el = document.getElementById(`geminiKey${i}`);
-        if (el) el.value = localStorage.getItem(`GEMINI_KEY_${i}`) || '';
-      }
-      updateKeyPoolStatusBadges();
+      const k1 = localStorage.getItem('DEDICATED_LAYMAN_KEY') || legacy1;
+      const k2 = localStorage.getItem('DEDICATED_ACTIVE_KEY') || legacy2;
+      const spacing = localStorage.getItem('GEMINI_AUTO_SPACING_MS') || '5500';
+
+      if (k1 && !localStorage.getItem('DEDICATED_LAYMAN_KEY')) localStorage.setItem('DEDICATED_LAYMAN_KEY', k1);
+      if (k2 && !localStorage.getItem('DEDICATED_ACTIVE_KEY')) localStorage.setItem('DEDICATED_ACTIVE_KEY', k2);
+
+      const el1 = document.getElementById('laymanEngineKeyInput');
+      const el2 = document.getElementById('activeEngineKeyInput');
+      const spEl = document.getElementById('autoSpacingSelector');
+
+      if (el1) el1.value = k1;
+      if (el2) el2.value = k2;
+      if (spEl) spEl.value = spacing;
+
+      updateDualEngineBadges();
     }
 
-    function saveFiveGeminiKeys(triggerPrep = false) {
-      for (let i = 1; i <= 5; i++) {
-        const el = document.getElementById(`geminiKey${i}`);
-        if (el) {
-          localStorage.setItem(`GEMINI_KEY_${i}`, el.value.trim());
-        }
-      }
-      updateKeyPoolStatusBadges();
+    function saveDualEngineSettings(triggerPrep = false) {
+      const k1 = (document.getElementById('laymanEngineKeyInput')?.value || '').trim();
+      const k2 = (document.getElementById('activeEngineKeyInput')?.value || '').trim();
+      const sp = document.getElementById('autoSpacingSelector')?.value || '5500';
+
+      localStorage.setItem('DEDICATED_LAYMAN_KEY', k1);
+      localStorage.setItem('DEDICATED_ACTIVE_KEY', k2);
+      localStorage.setItem('GEMINI_AUTO_SPACING_MS', sp);
+
+      updateDualEngineBadges();
       if (triggerPrep) {
         startBackgroundLaymanQueue(true);
       }
     }
 
-    function getLaymanPoolKeys() {
-      const keys = [];
-      for (let i = 1; i <= 3; i++) {
-        const k = (localStorage.getItem(`GEMINI_KEY_${i}`) || '').trim();
-        if (k.length > 10) keys.push({ slot: `Key #${i}`, key: k });
-      }
-      return keys;
+    function getLaymanEngineKey() {
+      return (localStorage.getItem('DEDICATED_LAYMAN_KEY') || '').trim();
     }
 
-    function getActiveSearchPoolKeys() {
-      const primary = [];
-      for (let i = 4; i <= 5; i++) {
-        const k = (localStorage.getItem(`GEMINI_KEY_${i}`) || '').trim();
-        if (k.length > 10) primary.push({ slot: `Key #${i}`, key: k, isOverflow: false });
-      }
-      const overflow = [];
-      for (let i = 3; i >= 1; i--) {
-        const k = (localStorage.getItem(`GEMINI_KEY_${i}`) || '').trim();
-        if (k.length > 10 && !primary.some(p => p.key === k)) {
-          overflow.push({ slot: `Key #${i} (Overflow)`, key: k, isOverflow: true });
-        }
-      }
-      return [...primary, ...overflow];
+    function getActiveSearchEngineKey() {
+      const k2 = (localStorage.getItem('DEDICATED_ACTIVE_KEY') || '').trim();
+      return k2.length > 10 ? k2 : getLaymanEngineKey();
     }
 
-    function updateKeyPoolStatusBadges() {
-      const poolA = getLaymanPoolKeys();
-      const poolB = [];
-      for (let i = 4; i <= 5; i++) {
-        const k = (localStorage.getItem(`GEMINI_KEY_${i}`) || '').trim();
-        if (k.length > 10) poolB.push(k);
+    function getAutoSpacingMs() {
+      return parseInt(localStorage.getItem('GEMINI_AUTO_SPACING_MS') || '5500', 10);
+    }
+
+    function updateDualEngineBadges() {
+      const k1 = getLaymanEngineKey();
+      const k2 = (localStorage.getItem('DEDICATED_ACTIVE_KEY') || '').trim();
+      const sp = getAutoSpacingMs();
+
+      const el1 = document.getElementById('laymanKeyStatus');
+      if (el1) {
+        el1.innerText = k1.length > 10 ? "Engine 1 Active" : "Key Needed";
+        el1.className = k1.length > 10 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-rose-400";
       }
 
-      const elA = document.getElementById('poolAStatus');
-      if (elA) {
-        elA.innerText = `${poolA.length}/3 Active`;
-        elA.className = poolA.length > 0 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-rose-400";
+      const el2 = document.getElementById('activeKeyStatus');
+      if (el2) {
+        el2.innerText = k2.length > 10 ? "Engine 2 Active" : (k1.length > 10 ? "Using Engine 1" : "Key Needed");
+        el2.className = k2.length > 10 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-amber-300";
       }
-      const elB = document.getElementById('poolBStatus');
-      if (elB) {
-        elB.innerText = `${poolB.length}/2 Active`;
-        elB.className = poolB.length > 0 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-amber-300";
+
+      const spText = document.getElementById('spacingStatusText');
+      if (spText) {
+        const rpm = Math.floor(60000 / sp);
+        spText.innerText = `${(sp / 1000).toFixed(1)}s / req (~${rpm} RPM)`;
       }
     }
 
@@ -745,155 +744,140 @@
     function getEngineOptionsHTML(selectedVal) {
       const current = selectedVal || localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
       const options = [
-        ["gemini-auto-cascade", "⚡ Gemini Auto-Cascade (All Verified Models)"],
-        ["gemini-2.5-flash", "Gemini 2.5 Flash (Best All-Round)"],
-        ["gemini-2.5-flash-lite", "Gemini 2.5 Flash-Lite (Fastest)"],
-        ["gemini-2.5-pro", "Gemini 2.5 Pro (Deep Reasoning)"],
-        ["gemini-2.0-flash", "Gemini 2.0 Flash (High Quota)"],
-        ["gemini-2.0-flash-lite", "Gemini 2.0 Flash-Lite (Backup)"],
-        ["gemma-3-27b-it", "Gemma 3 27B (Separate Quota Bucket)"]
+        ["gemini-auto-cascade", "⚡ Gemini Free-Tier Cascade"],
+        ["gemini-3.8-flash", "Gemini 3.8 Flash (Primary)"],
+        ["gemini-3.6-flash", "Gemini 3.6 Flash (Balanced)"],
+        ["gemini-3.5-flash-lite", "Gemini 3.5 Flash-Lite (Fastest)"],
+        ["gemini-3.1-flash-lite", "Gemini 3.1 Flash-Lite (High RPM)"],
+        ["gemma-4-31b-it", "Gemma 4 31B (Separate Quota)"],
+        ["gemma-4-26b-a4b-it", "Gemma 4 26B (Fast Open)"]
       ];
       return options.map(([val, label]) =>
         `<option value="${val}" class="bg-slate-900" ${current === val ? 'selected' : ''}>${label}</option>`
       ).join('');
     }
 
-    function renderAttributionBadge(poolLabel, keySlot, model) {
+    function renderAttributionBadge(engineName, model) {
       return `
         <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-sky-500/15 text-sky-300 border border-sky-400/30">
           <i class="fa-solid fa-sparkles text-[9px] text-amber-300"></i>
-          <span>${poolLabel} [${keySlot}] • <strong>${model}</strong></span>
+          <span>${engineName} • <strong>${model}</strong></span>
         </span>
       `;
     }
 
-    // POOL A CALLER: KEYS 1, 2, 3 ONLY
-    async function callGeminiLaymanPool(promptText, rotateOffset = 0, overrideModel = null) {
-      const poolKeys = getLaymanPoolKeys();
-      if (poolKeys.length === 0) {
+    async function enforceAutoSpacing(engineType) {
+      const minGap = getAutoSpacingMs();
+      const now = Date.now();
+      if (engineType === 'layman') {
+        const elapsed = now - lastLaymanCallTimestamp;
+        if (elapsed < minGap) {
+          await new Promise(r => setTimeout(r, minGap - elapsed));
+        }
+        lastLaymanCallTimestamp = Date.now();
+      } else {
+        const elapsed = now - lastActiveSearchCallTimestamp;
+        if (elapsed < 1500) {
+          await new Promise(r => setTimeout(r, 1500 - elapsed));
+        }
+        lastActiveSearchCallTimestamp = Date.now();
+      }
+    }
+
+    // ENGINE 1 CALLER: DEDICATED BACKGROUND LAYMAN'S READ ENGINE (AUTO-SPACED)
+    async function callGeminiLaymanEngine(promptText, rotateOffset = 0) {
+      const key = getLaymanEngineKey();
+      if (!key || key.length < 10) {
         throw new Error("GEMINI_KEYS_REQUIRED");
       }
 
-      const rotatedKeys = poolKeys.slice(rotateOffset % poolKeys.length).concat(poolKeys.slice(0, rotateOffset % poolKeys.length));
-      const rotatedModels = LAYMAN_POOL_MODELS.slice(rotateOffset % LAYMAN_POOL_MODELS.length).concat(
-        LAYMAN_POOL_MODELS.slice(0, rotateOffset % LAYMAN_POOL_MODELS.length)
+      const rotatedModels = FREE_TIER_GEMINI_MODELS.slice(rotateOffset % FREE_TIER_GEMINI_MODELS.length).concat(
+        FREE_TIER_GEMINI_MODELS.slice(0, rotateOffset % FREE_TIER_GEMINI_MODELS.length)
       );
-      const modelPool = (overrideModel && overrideModel !== "gemini-auto-cascade")
-        ? [...new Set([overrideModel, ...rotatedModels])]
-        : rotatedModels;
 
-      for (const keyObj of rotatedKeys) {
-        for (const model of modelPool) {
-          const ctrl = new AbortController();
-          const tid = setTimeout(() => ctrl.abort(), 8500);
-          try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${keyObj.key}`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
-              signal: ctrl.signal
-            });
-            clearTimeout(tid);
-            if (res.ok) {
-              const data = await res.json();
-              const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (txt && txt.trim().length > 10) {
-                return {
-                  text: txt.trim(),
-                  poolLabel: "Layman Pool",
-                  keySlot: keyObj.slot,
-                  model: model
-                };
-              }
+      for (const model of rotatedModels) {
+        await enforceAutoSpacing('layman');
+        const ctrl = new AbortController();
+        const tid = setTimeout(() => ctrl.abort(), 9000);
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
+            signal: ctrl.signal
+          });
+          clearTimeout(tid);
+          if (res.ok) {
+            const data = await res.json();
+            const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (txt && txt.trim().length > 10) {
+              return {
+                text: txt.trim(),
+                engineName: "Engine 1 (Layman Prep)",
+                model: model
+              };
             }
-          } catch (e) {
-            clearTimeout(tid);
+          } else if (res.status === 429) {
+            await new Promise(r => setTimeout(r, 2500));
+            continue;
           }
+        } catch (e) {
+          clearTimeout(tid);
         }
       }
 
-      throw new Error("Layman Pool (Keys 1–3) busy. Tap Retry.");
+      throw new Error("Engine 1 (Layman Prep) cooling down to stay within free RPM limit.");
     }
 
-    // POOL B CALLER: KEYS 4 & 5 PRIMARY + SMART GROUNDING FALLBACK + OVERFLOW TO KEYS 3-1
-    async function callGeminiActiveSearchPool(promptText, allowSearch = true, rotateOffset = 0, overrideModel = null) {
-      const poolKeys = getActiveSearchPoolKeys();
-      if (poolKeys.length === 0) {
+    // ENGINE 2 CALLER: DEDICATED ACTIVE SEARCH ENGINE
+    async function callGeminiActiveSearchEngine(promptText, rotateOffset = 0, overrideModel = null) {
+      activeUserSearchLockUntil = Date.now() + 20000;
+
+      const key = getActiveSearchEngineKey();
+      if (!key || key.length < 10) {
         throw new Error("GEMINI_KEYS_REQUIRED");
       }
 
       const chosen = overrideModel || document.getElementById('engineSelector')?.value || "gemini-auto-cascade";
-      const rotatedModels = ACTIVE_SEARCH_MODELS.slice(rotateOffset % ACTIVE_SEARCH_MODELS.length).concat(
-        ACTIVE_SEARCH_MODELS.slice(0, rotateOffset % ACTIVE_SEARCH_MODELS.length)
+      const rotatedModels = FREE_TIER_GEMINI_MODELS.slice(rotateOffset % FREE_TIER_GEMINI_MODELS.length).concat(
+        FREE_TIER_GEMINI_MODELS.slice(0, rotateOffset % FREE_TIER_GEMINI_MODELS.length)
       );
       const modelPool = chosen === "gemini-auto-cascade"
         ? rotatedModels
         : [...new Set([chosen, ...rotatedModels])];
 
-      for (const keyObj of poolKeys) {
-        for (const model of modelPool) {
-          const isGemma = model.startsWith("gemma");
-
-          if (allowSearch && !isGemma) {
-            const ctrl = new AbortController();
-            const tid = setTimeout(() => ctrl.abort(), 9000);
-            try {
-              const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${keyObj.key}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  contents: [{ parts: [{ text: promptText }] }],
-                  tools: [{ googleSearch: {} }]
-                }),
-                signal: ctrl.signal
-              });
-              clearTimeout(tid);
-              if (res.ok) {
-                const data = await res.json();
-                const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (txt && txt.trim().length > 10) {
-                  return {
-                    text: txt.trim(),
-                    poolLabel: "Active Search + Web",
-                    keySlot: keyObj.slot,
-                    model: model
-                  };
-                }
-              }
-            } catch (e) {
-              clearTimeout(tid);
+      for (const model of modelPool) {
+        await enforceAutoSpacing('active');
+        const ctrl = new AbortController();
+        const tid = setTimeout(() => ctrl.abort(), 9000);
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
+            signal: ctrl.signal
+          });
+          clearTimeout(tid);
+          if (res.ok) {
+            const data = await res.json();
+            const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (txt && txt.trim().length > 10) {
+              return {
+                text: txt.trim(),
+                engineName: "Engine 2 (Active Search)",
+                model: model
+              };
             }
+          } else if (res.status === 429) {
+            await new Promise(r => setTimeout(r, 1500));
+            continue;
           }
-
-          const ctrl2 = new AbortController();
-          const tid2 = setTimeout(() => ctrl2.abort(), 8000);
-          try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${keyObj.key}`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
-              signal: ctrl2.signal
-            });
-            clearTimeout(tid2);
-            if (res.ok) {
-              const data = await res.json();
-              const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (txt && txt.trim().length > 10) {
-                return {
-                  text: txt.trim(),
-                  poolLabel: isGemma ? "Active Gemma" : "Active Search",
-                  keySlot: keyObj.slot,
-                  model: model
-                };
-              }
-            }
-          } catch (e) {
-            clearTimeout(tid2);
-          }
+        } catch (e) {
+          clearTimeout(tid);
         }
       }
 
-      throw new Error("All 5 keys hit Google's per-minute limit. Wait 15 seconds and tap Retry.");
+      throw new Error("Engine 2 hit temporary per-minute RPM limit. Wait 10 seconds and tap Retry.");
     }
 
     // ============================================================================
@@ -1382,7 +1366,7 @@
     }
 
     // ============================================================================
-    // CONTINUOUS BACKGROUND LAYMAN'S READ AUTO-PREPARER (KEYS 1, 2, 3 ONLY)
+    // AUTO-SPACED BACKGROUND LAYMAN'S READ ENGINE (NEVER HITS RPM LIMIT)
     // ============================================================================
     function getCachedLaymanMap() {
       try {
@@ -1392,10 +1376,10 @@
       }
     }
 
-    function saveCachedLayman(videoId, text, poolLabel, keySlot, model) {
+    function saveCachedLayman(videoId, text, engineName, model) {
       try {
         const map = getCachedLaymanMap();
-        map[videoId] = { text, poolLabel, keySlot, model };
+        map[videoId] = { text, engineName, model };
         localStorage.setItem('LAYMAN_SUMMARY_CACHE', JSON.stringify(map));
       } catch (e) {}
     }
@@ -1409,32 +1393,45 @@
     }
 
     async function startBackgroundLaymanQueue(manualTrigger = false) {
-      if (getLaymanPoolKeys().length === 0) return;
+      const key = getLaymanEngineKey();
+      if (!key || key.length < 10) return;
       if (laymanQueueRunning && !manualTrigger) return;
       laymanQueueRunning = true;
 
+      const statusLine = document.getElementById('laymanQueueStatusLine');
       const missing = allVideos.filter(v => !isVideoChannelPaused(v) && (!v.layman_news || v.layman_news.trim().length === 0));
+
       for (let i = 0; i < missing.length; i++) {
+        while (Date.now() < activeUserSearchLockUntil) {
+          if (statusLine) statusLine.innerText = "Paused: yielding priority to Active Search Engine...";
+          await new Promise(r => setTimeout(r, 2000));
+        }
+
         const vid = missing[i];
         if (vid.layman_news) continue;
+
+        if (statusLine) {
+          statusLine.innerText = `Engine 1 preparing (${i + 1}/${missing.length}) with ${(getAutoSpacingMs() / 1000).toFixed(1)}s spacing...`;
+        }
 
         const prompt = buildLaymanPrompt(vid);
 
         try {
-          const result = await callGeminiLaymanPool(prompt, i, null);
+          const result = await callGeminiLaymanEngine(prompt, i);
           if (result && result.text) {
             vid.layman_news = result.text;
-            vid.layman_pool = result.poolLabel;
-            vid.layman_slot = result.keySlot;
+            vid.layman_engine = result.engineName;
             vid.layman_model = result.model;
-            saveCachedLayman(vid.id, result.text, result.poolLabel, result.keySlot, result.model);
+            saveCachedLayman(vid.id, result.text, result.engineName, result.model);
             updateLaymanProgressCounter();
           }
-          await new Promise(r => setTimeout(r, 2500));
         } catch (err) {
-          await new Promise(r => setTimeout(r, 6000));
+          if (statusLine) statusLine.innerText = "Engine 1 cooling down 12s to respect RPM limit...";
+          await new Promise(r => setTimeout(r, 12000));
         }
       }
+
+      if (statusLine) statusLine.innerText = "All visible Layman briefings ready!";
       laymanQueueRunning = false;
     }
 
@@ -1586,7 +1583,7 @@ Structure strictly using these exact Markdown sections:
     }
 
     async function loadFeed() {
-      loadFiveGeminiKeysIntoUI();
+      loadDualEngineSettingsIntoUI();
       restorePreferences();
       await loadPermanentChannelRoster();
 
@@ -1609,15 +1606,13 @@ Structure strictly using these exact Markdown sections:
                 v.layman_news = cachedLayman[v.id];
               } else {
                 v.layman_news = cachedLayman[v.id].text;
-                v.layman_pool = cachedLayman[v.id].poolLabel || "Layman Pool";
-                v.layman_slot = cachedLayman[v.id].keySlot || "Keys 1–3";
+                v.layman_engine = cachedLayman[v.id].engineName || "Engine 1 (Layman Prep)";
                 v.layman_model = cachedLayman[v.id].model;
               }
             }
             if (v.layman_news && !v.layman_model) {
-              v.layman_pool = "Layman Pool";
-              v.layman_slot = "Backend";
-              v.layman_model = "gemini-2.5-flash-lite";
+              v.layman_engine = "Engine 1 (Backend Prep)";
+              v.layman_model = "gemini-3.5-flash-lite";
             }
             combinedMap.set(v.id, v);
           }
@@ -1829,7 +1824,7 @@ Structure strictly using these exact Markdown sections:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-3">
           <i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i>
-          <span>Master Gemini (Keys 4 & 5) analyzing topics across all active channels...</span>
+          <span>Master Gemini (Engine 2) analyzing topics across all active channels...</span>
         </div>`;
 
       const readSet = getReadSet();
@@ -1864,7 +1859,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
 `;
 
       try {
-        const result = await callGeminiActiveSearchPool(prompt, false, 0, null);
+        const result = await callGeminiActiveSearchEngine(prompt, 0, null);
         const match = result.text.match(/\{[\s\S]*\}/);
         const data = JSON.parse(match ? match[0] : result.text);
 
@@ -1877,7 +1872,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
               <span class="font-semibold text-emerald-400 flex items-center gap-1.5">
                 <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Topic Deduplication Complete
               </span>
-              ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
+              ${renderAttributionBadge(result.engineName, result.model)}
             </div>
             <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white">
               <i class="fa-solid fa-xmark"></i>
@@ -1975,9 +1970,8 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           videoId,
           video.layman_news,
           "Layman's News Story",
-          video.layman_pool || "Layman Pool",
-          video.layman_slot || "Keys 1–3",
-          video.layman_model || "gemini-2.5-flash-lite"
+          video.layman_engine || "Engine 1 (Layman Prep)",
+          video.layman_model || "gemini-3.5-flash-lite"
         );
         outputBox.dataset.loaded = "true";
         return;
@@ -1986,18 +1980,17 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       outputBox.innerHTML = `
         <div class="flex items-center gap-2 text-sky-400 py-3">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Synthesizing Layman briefing via Keys 1–3...</span>
+          <span>Synthesizing Layman briefing via Engine 1...</span>
         </div>`;
 
       try {
-        const result = await callGeminiLaymanPool(buildLaymanPrompt(video), 0, null);
+        const result = await callGeminiLaymanEngine(buildLaymanPrompt(video), 0);
         video.layman_news = result.text;
-        video.layman_pool = result.poolLabel;
-        video.layman_slot = result.keySlot;
+        video.layman_engine = result.engineName;
         video.layman_model = result.model;
-        saveCachedLayman(video.id, result.text, result.poolLabel, result.keySlot, result.model);
+        saveCachedLayman(video.id, result.text, result.engineName, result.model);
         updateLaymanProgressCounter();
-        renderOutput(videoId, result.text, "Layman's News Story", result.poolLabel, result.keySlot, result.model);
+        renderOutput(videoId, result.text, "Layman's News Story", result.engineName, result.model);
         outputBox.dataset.loaded = "true";
       } catch (err) {
         if (err.message === "GEMINI_KEYS_REQUIRED") {
@@ -2015,7 +2008,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       }
     }
 
-    function renderOutput(videoId, text, title, poolLabel, keySlot, model) {
+    function renderOutput(videoId, text, title, engineName, model) {
       const box = document.getElementById(`output-${videoId}`);
       const selectedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
       box.innerHTML = `
@@ -2024,7 +2017,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
             <span class="text-xs font-semibold text-teal-300 flex items-center gap-1.5">
               <i class="fa-solid fa-newspaper text-amber-400"></i> ${title}
             </span>
-            ${renderAttributionBadge(poolLabel, keySlot, model)}
+            ${renderAttributionBadge(engineName, model)}
           </div>
           <div class="flex items-center gap-2">
             <button data-prevent-close="true" onclick="event.stopPropagation(); regenerateLayman('${videoId}')" class="text-[10px] text-sky-300 hover:text-white px-2 py-0.5 glass-pill rounded" title="Regenerate Layman Briefing">
@@ -2060,12 +2053,12 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         <div id="aiSmartContainer-${videoId}" data-prevent-close="true" class="hidden mt-3 pt-2 border-t border-white/15"></div>
         <div id="qaResponseContainer-${videoId}" data-prevent-close="true" class="hidden mt-3 space-y-3"></div>
 
-        <!-- Per-Video Deep Gemini Search Engine -->
+        <!-- Per-Video Deep Gemini Search Engine (Uses Engine 2 Exclusively) -->
         <div data-prevent-close="true" class="mt-4 pt-3 border-t border-white/15">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
             <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5">
               <i class="fa-solid fa-globe text-amber-400"></i>
-              <span>Gemini Active Search (Keys 4 & 5)</span>
+              <span>Gemini Active Search (Engine 2)</span>
             </label>
             <div class="relative">
               <select id="cardEngine-${videoId}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">
@@ -2118,7 +2111,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           </div>
           <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
             <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-            <span>Active Search Pool (Keys 4 & 5) searching live global sources...</span>
+            <span>Engine 2 (Active Search) analyzing deep context & official positions...</span>
           </div>`;
       }
 
@@ -2133,7 +2126,7 @@ User Deep Search Inquiry: "${query}"
 
 CRITICAL INSTRUCTIONS:
 1. NEVER say "this is not covered in the video" or give a brief surface-level answer. Provide an exhaustive, deeply researched intelligence response packed with concrete names, dates, numbers, and institutional facts.
-2. Search and synthesize all available global information: international news agencies, foreign ministry press releases, official diplomatic communiqués, treaties, legal clauses, economic figures, and historical context.
+2. Synthesize all available knowledge: international news context, official diplomatic stances, treaties, legal clauses, economic figures, and historical background.
 3. Structure your answer thoroughly using clear Markdown headings:
    ## 1. Direct Answer & Core Findings
    (Comprehensive factual breakdown with names, dates, numbers, and mechanisms)
@@ -2145,13 +2138,13 @@ CRITICAL INSTRUCTIONS:
       `;
 
       try {
-        const result = await callGeminiActiveSearchPool(prompt, true, 0, cardModel);
+        const result = await callGeminiActiveSearchEngine(prompt, 0, cardModel);
         if (cardEl) {
           cardEl.innerHTML = `
             <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-amber-400"></i> ${query}</span>
-                ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
+                ${renderAttributionBadge(result.engineName, result.model)}
               </div>
               <button data-prevent-close="true" onclick='event.stopPropagation(); submitCardCustomQuestion(${JSON.stringify(videoId)}, ${JSON.stringify(query)}, ${JSON.stringify(tempId)})' class="text-[10px] text-teal-300 hover:text-white px-2 py-0.5 glass-pill rounded">
                 <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Answer
@@ -2205,18 +2198,18 @@ CRITICAL INSTRUCTIONS:
         </div>
         <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
           <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-          <span>Active Search Pool (Keys 4 & 5) compiling deep intelligence dossier...</span>
+          <span>Engine 2 (Active Search) compiling deep intelligence dossier...</span>
         </div>`;
 
       const prompt = type === 'specific' ? buildSpecificKnowledgePrompt(video) : buildUpscPrompt(video);
 
       try {
-        const result = await callGeminiActiveSearchPool(prompt, true, 0, overrideModel);
+        const result = await callGeminiActiveSearchEngine(prompt, 0, overrideModel);
         el.innerHTML = `
           <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
             <div class="flex flex-wrap items-center gap-2">
               <span class="font-semibold text-sky-300">${title}</span>
-              ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
+              ${renderAttributionBadge(result.engineName, result.model)}
             </div>
             <button data-prevent-close="true" onclick="event.stopPropagation(); executeDeepenRequest('${videoId}', '${type}', '${tempId}', '${title}', document.getElementById('cardEngine-${videoId}')?.value)" class="text-[10px] text-slate-300 hover:text-white px-2 py-0.5 glass-pill rounded">
               <i class="fa-solid fa-rotate-right mr-1"></i> Regenerate
@@ -2249,13 +2242,13 @@ CRITICAL INSTRUCTIONS:
       container.classList.remove('hidden');
       container.innerHTML = `
         <div class="text-[11px] text-purple-300 flex items-center gap-1.5 py-1">
-          <i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> Keys 4 & 5 formulating deep analytical questions...
+          <i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> Engine 2 formulating deep analytical questions...
         </div>`;
 
       const prompt = `Based on: "${video.title}" and context: "${video.description ? video.description.slice(0, 1200) : ''}", write 3 sharp, deep analytical questions covering treaties, official reactions, and strategic impact. Return ONLY JSON array of strings: ["Q1?", "Q2?", "Q3?"]`;
 
       try {
-        const result = await callGeminiActiveSearchPool(prompt, false, 1, cardModel);
+        const result = await callGeminiActiveSearchEngine(prompt, 1, cardModel);
         let questions = [];
         try {
           const match = result.text.match(/\[.*\]/s);
@@ -2273,7 +2266,7 @@ CRITICAL INSTRUCTIONS:
             <span class="uppercase font-semibold tracking-wider text-purple-300 flex items-center gap-1">
               <i class="fa-solid fa-wand-magic-sparkles"></i> Suggested Deep Inquiries:
             </span>
-            ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
+            ${renderAttributionBadge(result.engineName, result.model)}
           </div>
           <div class="flex flex-col gap-1.5">
             ${questions.map(q => `
@@ -2459,7 +2452,7 @@ CRITICAL INSTRUCTIONS:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master Gemini (Keys 4 & 5) synthesizing comprehensive intelligence...</span>
+          <span>Master Gemini (Engine 2) synthesizing comprehensive intelligence...</span>
         </div>`;
 
       const contextSummary = allVideos.filter(v => !isVideoChannelPaused(v)).slice(0, 16).map((v, i) => 
@@ -2472,17 +2465,17 @@ ${contextSummary}
 
 User Request: "${query}"
 
-Provide an exhaustive, authoritative, well-structured intelligence report with bold headings, concrete facts, figures, institutional roles, and detailed bullet points. Synthesize live internet geopolitical news and official positions.`;
+Provide an exhaustive, authoritative, well-structured intelligence report with bold headings, concrete facts, figures, institutional roles, and detailed bullet points.`;
 
       try {
-        const result = await callGeminiActiveSearchPool(masterPrompt, true, 0, null);
+        const result = await callGeminiActiveSearchEngine(masterPrompt, 0, null);
         box.innerHTML = `
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/15 mb-2">
             <div class="flex flex-wrap items-center gap-2">
               <span class="font-semibold text-sky-300 flex items-center gap-1.5">
                 <i class="fa-solid fa-brain text-amber-400"></i> ${query}
               </span>
-              ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
+              ${renderAttributionBadge(result.engineName, result.model)}
             </div>
             <div class="flex items-center gap-2">
               <button onclick='runMasterQuery(${JSON.stringify(query)})' class="text-[10px] text-sky-300 hover:text-white glass-pill px-2 py-0.5 rounded">
