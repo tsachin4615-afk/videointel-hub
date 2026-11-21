@@ -149,9 +149,9 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             Headings Intelligence
-            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">Deep Intel + Model Tag</span>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-sky-300">Pure Gemini AI</span>
           </h1>
-          <p class="text-xs text-slate-300/80">Tap Row to Read • Tap Empty Space to Close • 6-Tier AI Cascade</p>
+          <p class="text-xs text-slate-300/80">Tap Row to Read • Tap Empty Space to Close • Gemini Multi-Model Cascade</p>
         </div>
       </div>
 
@@ -177,28 +177,30 @@
     </div>
   </header>
 
-  <!-- MASTER AI ENGINE (PROMINENT AT TOP) -->
+  <!-- MASTER GEMINI ENGINE (PROMINENT AT TOP) -->
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="glass-surface rounded-3xl p-4 sm:p-5 relative overflow-hidden">
       
       <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
         <div class="flex items-center gap-2 text-white text-sm font-semibold">
           <i class="fa-solid fa-microchip text-sky-400 text-base"></i>
-          <span>Master AI Engine — Cross-Feed Intelligence & Deep Thinker</span>
+          <span>Master Gemini Engine — Cross-Feed Intelligence & Deep Thinker</span>
         </div>
 
         <div class="flex items-center gap-2">
           <div class="relative">
             <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium">
-              <option value="auto-cascade" class="bg-slate-900" selected>⚡ Auto-Cascade (All 2026 Models)</option>
+              <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Gemini Auto-Cascade (All Models)</option>
               <option value="gemini-3.8-flash" class="bg-slate-900">Gemini 3.8 Flash (Workhorse)</option>
               <option value="gemini-3.5-flash-lite" class="bg-slate-900">Gemini 3.5 Flash-Lite (Fastest)</option>
               <option value="gemini-4-hydrogen" class="bg-slate-900">Gemini 4 Hydrogen (General)</option>
+              <option value="gemini-4-neon" class="bg-slate-900">Gemini 4 Neon (High Speed)</option>
               <option value="gemini-4-argon" class="bg-slate-900">Gemini 4 Argon (Frontier)</option>
               <option value="gemini-4-carbon" class="bg-slate-900">Gemini 4 Carbon (Deepest)</option>
+              <option value="gemini-3.6-flash" class="bg-slate-900">Gemini 3.6 Flash</option>
               <option value="gemini-3.1-flash-lite" class="bg-slate-900">Gemini 3.1 Flash-Lite</option>
-              <option value="gemma-3-27b-it" class="bg-slate-900">Gemma 3 27B (High-Quota)</option>
-              <option value="open-ai-fallback" class="bg-slate-900">Open AI Gateway (Zero-Key)</option>
+              <option value="gemini-2.5-flash" class="bg-slate-900">Gemini 2.5 Flash</option>
+              <option value="gemini-2.5-pro" class="bg-slate-900">Gemini 2.5 Pro</option>
             </select>
             <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
           </div>
@@ -207,7 +209,7 @@
         </div>
       </div>
 
-      <p class="text-xs text-slate-300/80 mb-3">Synthesizes developments across all active channels with instant multi-engine failover and exact model attribution:</p>
+      <p class="text-xs text-slate-300/80 mb-3">Powered exclusively by Google Gemini models with automatic multi-key and model failover:</p>
       
       <div class="flex flex-wrap gap-2 mb-3">
         <button onclick="runMasterAITopicDeduplication()" 
@@ -215,12 +217,12 @@
           <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Deduplicate & Surface Best Topics
         </button>
 
-        <button onclick="runMasterQuery('Provide an exhaustive, deeply detailed layman synthesis of all major developments across the dashboard today, covering key facts, stakeholders, and real-world impact.')" 
+        <button onclick="runMasterQuery('Provide an exhaustive, deeply detailed layman synthesis of all major developments across the dashboard today, covering exact facts, institutions, figures, stakeholders, and real-world impact.')" 
           class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
           <i class="fa-solid fa-user-group text-amber-400"></i> Layman Digest
         </button>
 
-        <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points (Prelims static+current facts + Mains GS2/GS3 analytical dimensions) across all current videos with full details.')" 
+        <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points (Prelims static+current facts + Mains GS2/GS3 analytical dimensions) across all current videos with comprehensive details.')" 
           class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5">
           <i class="fa-solid fa-graduation-cap text-purple-400"></i> Top 5 UPSC Pointers
         </button>
@@ -233,7 +235,7 @@
 
       <div class="flex items-center gap-2">
         <div class="relative flex-1">
-          <input id="masterInput" type="text" placeholder="Ask Master AI across all channels (e.g. 'Compare statements on border talks')..." 
+          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (e.g. 'Compare statements on border talks')..." 
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
             class="w-full bg-black/40 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
           <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400">
@@ -316,26 +318,20 @@
         </a>
       </div>
 
-      <!-- COLLAPSIBLE SECTION 1: Multi-Key & Failover Engine Pool -->
+      <!-- COLLAPSIBLE SECTION 1: Gemini API Keys & Layman Queue -->
       <details open class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/30">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Zero-Failover Engine Keys & Pool</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> Gemini Keys & Layman Queue</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
         <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
           <p class="text-[11px] text-slate-300/85 leading-relaxed">
-            Add <strong>one or multiple Gemini API keys</strong> (separated by commas). If Key 1 hits rate limits, it shifts to Key 2, Gemini 3.8/4, Gemma 3, Groq/OpenRouter, and Zero-Key Open AI automatically.
+            Add <strong>one or multiple Gemini API keys</strong> (separated by commas). If Key 1 hits rate limits, it shifts automatically to Key 2 and rotates through all Gemini models.
           </p>
           <div class="flex items-center justify-between">
             <span class="text-xs text-slate-200 font-medium" id="curtainKeyStatus">Checking Keys...</span>
             <button onclick="promptApiKey()" class="text-[11px] bg-sky-600/40 hover:bg-sky-600/60 text-white border border-sky-400/40 px-2.5 py-1 rounded-lg font-semibold">
               Set / Add Gemini Keys
-            </button>
-          </div>
-          <div class="flex items-center justify-between pt-1 border-t border-white/10">
-            <span class="text-[11px] text-slate-300" id="backupProviderStatus">Backup Groq / OpenRouter: Optional</span>
-            <button onclick="promptBackupKeys()" class="text-[11px] glass-pill text-teal-300 px-2.5 py-1 rounded-lg font-medium">
-              Add Backup Key
             </button>
           </div>
           <div class="flex items-center justify-between text-xs text-slate-300 pt-1 border-t border-white/10">
@@ -472,7 +468,7 @@
 
     <!-- Drawer Footer -->
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v7.5 (Deep Intel + AI Attribution)</span>
+      <span>VideoIntel Hub v8.0 (Pure Gemini AI)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -492,16 +488,18 @@
       "@ReVIEWbySoukhyaGaonkar", "@MasthMagaa"
     ];
 
-    // Live November 2026 Google AI Studio Models (Gemini 3.8, 3.5, 4 Series, 2.5 Flash-Lite & Gemma 3)
+    // Pure Google Gemini Model Cascade (November 2026 Active Roster)
     const ALL_GEMINI_MODELS = [
       "gemini-3.8-flash",
       "gemini-3.5-flash-lite",
       "gemini-4-hydrogen",
+      "gemini-4-neon",
       "gemini-4-argon",
       "gemini-4-carbon",
+      "gemini-3.6-flash",
       "gemini-3.1-flash-lite",
-      "gemini-2.5-flash-lite",
-      "gemma-3-27b-it"
+      "gemini-2.5-flash",
+      "gemini-2.5-pro"
     ];
 
     let channelRoster = [];
@@ -618,7 +616,7 @@
     setGlassTint(currentGlassTint);
 
     // ============================================================================
-    // MULTI-KEY & 6-TIER ZERO-ERROR FAILOVER AI ENGINE WITH EXACT MODEL TRACKING
+    // GOOGLE GEMINI-ONLY MULTI-KEY & MULTI-MODEL CASCADE ENGINE
     // ============================================================================
     function getGeminiKeysList() {
       const raw = localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
@@ -633,24 +631,13 @@
     function promptApiKey() {
       const existing = localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
       const entered = prompt(
-        "Enter one or multiple Gemini API Keys separated by commas (e.g. AIzaSy..., AIzaSy...). Having multiple keys doubles your free rate limit automatically:",
+        "Enter one or multiple Google Gemini API Keys separated by commas (e.g. AIzaSy..., AIzaSy...):",
         existing
       );
       if (entered !== null) {
         localStorage.setItem('GEMINI_FRONTEND_KEY', entered.trim());
         updateKeyStatus();
-      }
-    }
-
-    function promptBackupKeys() {
-      const existing = localStorage.getItem('BACKUP_AI_KEYS') || '';
-      const entered = prompt(
-        "Optional: Paste a free Groq API Key (gsk_...) or OpenRouter API Key (sk-or-...) for instant Llama-3.3-70B failover whenever Gemini hits limits:",
-        existing
-      );
-      if (entered !== null) {
-        localStorage.setItem('BACKUP_AI_KEYS', entered.trim());
-        updateKeyStatus();
+        startBackgroundLaymanQueue(true);
       }
     }
 
@@ -660,19 +647,14 @@
       if (curtainStatus) {
         if (keys.length > 1) {
           curtainStatus.innerText = `${keys.length} Gemini Keys Rotating`;
-          curtainStatus.classList.add("text-emerald-400");
+          curtainStatus.className = "text-xs text-emerald-400 font-semibold";
         } else if (keys.length === 1) {
-          curtainStatus.innerText = "1 Key + Open Fallback Active";
-          curtainStatus.classList.add("text-emerald-400");
+          curtainStatus.innerText = "1 Gemini Key Active";
+          curtainStatus.className = "text-xs text-emerald-400 font-semibold";
         } else {
-          curtainStatus.innerText = "Zero-Key Open AI Active";
-          curtainStatus.classList.add("text-sky-400");
+          curtainStatus.innerText = "No Gemini Key Set";
+          curtainStatus.className = "text-xs text-rose-400 font-semibold";
         }
-      }
-      const backupEl = document.getElementById('backupProviderStatus');
-      const bKey = localStorage.getItem('BACKUP_AI_KEYS') || '';
-      if (backupEl) {
-        backupEl.innerText = bKey ? "Backup Cloud AI: Connected" : "Zero-Key Open Pool: Ready";
       }
     }
 
@@ -686,23 +668,25 @@
     }
 
     function restorePreferences() {
-      const savedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'auto-cascade';
+      const savedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
       const sel = document.getElementById('engineSelector');
       if (sel) sel.value = savedEngine;
     }
 
     function getEngineOptionsHTML(selectedVal) {
-      const current = selectedVal || localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'auto-cascade';
+      const current = selectedVal || localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
       const options = [
-        ["auto-cascade", "⚡ Auto-Cascade (All 2026 Models)"],
+        ["gemini-auto-cascade", "⚡ Gemini Auto-Cascade"],
         ["gemini-3.8-flash", "Gemini 3.8 Flash (Workhorse)"],
         ["gemini-3.5-flash-lite", "Gemini 3.5 Flash-Lite (Fastest)"],
         ["gemini-4-hydrogen", "Gemini 4 Hydrogen (General)"],
+        ["gemini-4-neon", "Gemini 4 Neon (High Speed)"],
         ["gemini-4-argon", "Gemini 4 Argon (Frontier)"],
         ["gemini-4-carbon", "Gemini 4 Carbon (Deepest)"],
+        ["gemini-3.6-flash", "Gemini 3.6 Flash"],
         ["gemini-3.1-flash-lite", "Gemini 3.1 Flash-Lite"],
-        ["gemma-3-27b-it", "Gemma 3 27B (High Quota)"],
-        ["open-ai-fallback", "Open AI Gateway (Zero-Key)"]
+        ["gemini-2.5-flash", "Gemini 2.5 Flash"],
+        ["gemini-2.5-pro", "Gemini 2.5 Pro"]
       ];
       return options.map(([val, label]) =>
         `<option value="${val}" class="bg-slate-900" ${current === val ? 'selected' : ''}>${label}</option>`
@@ -712,234 +696,93 @@
     function renderAttributionBadge(provider, model) {
       return `
         <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-sky-500/15 text-sky-300 border border-sky-400/30">
-          <i class="fa-solid fa-robot text-[9px] text-amber-300"></i>
+          <i class="fa-solid fa-sparkles text-[9px] text-amber-300"></i>
           <span>${provider}: <strong>${model}</strong></span>
         </span>
       `;
     }
 
-    async function fetchLiveWebContext(queryText) {
-      const cleanQuery = queryText.replace(/[^a-zA-Z0-9\s]/g, ' ').trim().split(/\s+/).slice(0, 7).join(' ');
-      let contextSnippets = [];
-
-      try {
-        const ddgRes = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(cleanQuery)}&format=json&no_html=1&skip_disambig=1`);
-        if (ddgRes.ok) {
-          const ddgData = await ddgRes.json();
-          if (ddgData.AbstractText) contextSnippets.push(ddgData.AbstractText);
-          if (Array.isArray(ddgData.RelatedTopics)) {
-            ddgData.RelatedTopics.slice(0, 4).forEach(t => {
-              if (t.Text) contextSnippets.push(t.Text);
-            });
-          }
-        }
-      } catch (e) {}
-
-      try {
-        const wikiRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanQuery)}&format=json&origin=*&srlimit=3`);
-        if (wikiRes.ok) {
-          const wikiData = await wikiRes.json();
-          const results = wikiData?.query?.search || [];
-          results.forEach(r => {
-            if (r.snippet) {
-              contextSnippets.push(`${r.title}: ${r.snippet.replace(/<[^>]+>/g, '')}`);
-            }
-          });
-        }
-      } catch (e) {}
-
-      return contextSnippets.join('\n');
-    }
-
-    // RETURNS { text, provider, model } SO EVERY DESCRIPTION DISPLAYS WHICH AI & MODEL GENERATED IT
+    // PURE GOOGLE GEMINI CALLER (RETURNS { text, provider, model })
     async function callGeminiGlobal(promptText, allowSearch = true, rotateOffset = 0, overrideModel = null, isInteractiveUserTap = true) {
       if (isInteractiveUserTap) {
         interactivePriorityLock = Date.now() + 25000;
       }
 
-      const chosen = overrideModel || document.getElementById('engineSelector')?.value || "auto-cascade";
       const geminiKeys = getGeminiKeysList();
-      const backupKey = (localStorage.getItem('BACKUP_AI_KEYS') || '').trim();
+      if (geminiKeys.length === 0) {
+        throw new Error("GEMINI_KEY_REQUIRED");
+      }
 
-      // TIER 1 & 2: All Gemini 3.8 / 3.5 / 4 / 2.5 & Gemma 3 Models across ALL configured Gemini Keys
-      if (geminiKeys.length > 0 && chosen !== "open-ai-fallback") {
-        const rotatedModels = ALL_GEMINI_MODELS.slice(rotateOffset % ALL_GEMINI_MODELS.length).concat(
-          ALL_GEMINI_MODELS.slice(0, rotateOffset % ALL_GEMINI_MODELS.length)
-        );
-        const modelPool = chosen === "auto-cascade"
-          ? rotatedModels
-          : [...new Set([chosen, ...rotatedModels])];
+      const chosen = overrideModel || document.getElementById('engineSelector')?.value || "gemini-auto-cascade";
+      const rotatedModels = ALL_GEMINI_MODELS.slice(rotateOffset % ALL_GEMINI_MODELS.length).concat(
+        ALL_GEMINI_MODELS.slice(0, rotateOffset % ALL_GEMINI_MODELS.length)
+      );
+      const modelPool = chosen === "gemini-auto-cascade"
+        ? rotatedModels
+        : [...new Set([chosen, ...rotatedModels])];
 
-        for (const key of geminiKeys) {
-          for (const model of modelPool) {
-            const isGemma = model.startsWith("gemma");
-
-            if (allowSearch && !isGemma) {
-              const ctrl = new AbortController();
-              const tid = setTimeout(() => ctrl.abort(), 7500);
-              try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    contents: [{ parts: [{ text: promptText }] }],
-                    tools: [{ googleSearch: {} }]
-                  }),
-                  signal: ctrl.signal
-                });
-                clearTimeout(tid);
-                if (res.ok) {
-                  const data = await res.json();
-                  const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-                  if (txt && txt.trim().length > 10) {
-                    return {
-                      text: txt.trim(),
-                      provider: "Google Gemini + Live Search",
-                      model: model
-                    };
-                  }
-                } else if (res.status === 429) {
-                  continue;
-                }
-              } catch (e) {
-                clearTimeout(tid);
-              }
-            }
-
-            const ctrl2 = new AbortController();
-            const tid2 = setTimeout(() => ctrl2.abort(), 6500);
+      for (const key of geminiKeys) {
+        for (const model of modelPool) {
+          if (allowSearch) {
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), 9000);
             try {
               const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
-                signal: ctrl2.signal
+                body: JSON.stringify({
+                  contents: [{ parts: [{ text: promptText }] }],
+                  tools: [{ googleSearch: {} }]
+                }),
+                signal: ctrl.signal
               });
-              clearTimeout(tid2);
+              clearTimeout(tid);
               if (res.ok) {
                 const data = await res.json();
                 const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (txt && txt.trim().length > 10) {
                   return {
                     text: txt.trim(),
-                    provider: isGemma ? "Google Gemma" : "Google Gemini",
+                    provider: "Google Gemini + Search",
                     model: model
                   };
                 }
+              } else if (res.status === 429) {
+                continue;
               }
             } catch (e) {
-              clearTimeout(tid2);
+              clearTimeout(tid);
             }
+          }
+
+          const ctrl2 = new AbortController();
+          const tid2 = setTimeout(() => ctrl2.abort(), 8000);
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
+              signal: ctrl2.signal
+            });
+            clearTimeout(tid2);
+            if (res.ok) {
+              const data = await res.json();
+              const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (txt && txt.trim().length > 10) {
+                return {
+                  text: txt.trim(),
+                  provider: "Google Gemini",
+                  model: model
+                };
+              }
+            }
+          } catch (e) {
+            clearTimeout(tid2);
           }
         }
       }
 
-      // TIER 3: Optional Secondary Cloud AI Providers (Groq / OpenRouter)
-      if (backupKey) {
-        try {
-          const isGroq = backupKey.startsWith("gsk_");
-          const endpoint = isGroq
-            ? "https://api.groq.com/openai/v1/chat/completions"
-            : "https://openrouter.ai/api/v1/chat/completions";
-          const modelName = isGroq ? "llama-3.3-70b-versatile" : "meta-llama/llama-3.3-70b-instruct:free";
-
-          const ctrl3 = new AbortController();
-          const tid3 = setTimeout(() => ctrl3.abort(), 7500);
-          const res = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${backupKey}`
-            },
-            body: JSON.stringify({
-              model: modelName,
-              messages: [{ role: "user", content: promptText }]
-            }),
-            signal: ctrl3.signal
-          });
-          clearTimeout(tid3);
-          if (res.ok) {
-            const data = await res.json();
-            const txt = data?.choices?.[0]?.message?.content;
-            if (txt && txt.trim().length > 10) {
-              return {
-                text: txt.trim(),
-                provider: isGroq ? "Groq Cloud AI" : "OpenRouter AI",
-                model: modelName
-              };
-            }
-          }
-        } catch (e) {}
-      }
-
-      // TIER 4: Zero-Key Open AI Gateways (Pollinations Multi-Model Route)
-      let enrichedPrompt = promptText;
-      if (allowSearch) {
-        const titleMatch = promptText.match(/Title:\s*"([^"]+)"/) || promptText.match(/User Inquiry:\s*"([^"]+)"/);
-        if (titleMatch && titleMatch[1]) {
-          const liveWeb = await fetchLiveWebContext(titleMatch[1]);
-          if (liveWeb) {
-            enrichedPrompt += `\n\nLive Web & Encyclopedia Context:\n${liveWeb}`;
-          }
-        }
-      }
-
-      const openRoutes = ["openai", "mistral", "llama", "deepseek"];
-      for (const route of openRoutes) {
-        const ctrl4 = new AbortController();
-        const tid4 = setTimeout(() => ctrl4.abort(), 8500);
-        try {
-          const res = await fetch("https://text.pollinations.ai/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              messages: [
-                { role: "system", content: "You are an exhaustive, high-precision intelligence analyst. Provide deep, comprehensive, multi-section explanations with concrete facts, figures, institutions, and implications." },
-                { role: "user", content: enrichedPrompt }
-              ],
-              model: route,
-              seed: Math.floor(Math.random() * 10000)
-            }),
-            signal: ctrl4.signal
-          });
-          clearTimeout(tid4);
-          if (res.ok) {
-            const txt = await res.text();
-            if (txt && txt.trim().length > 15 && !txt.includes("502 Bad Gateway") && !txt.includes("Error")) {
-              return {
-                text: txt.trim(),
-                provider: "Pollinations Open AI",
-                model: route
-              };
-            }
-          }
-        } catch (e) {
-          clearTimeout(tid4);
-        }
-      }
-
-      // TIER 5: Guaranteed Local + Live Web Intelligence Synthesizer
-      const titleExtract = (promptText.match(/Title:\s*"([^"]+)"/) || [null, "Intelligence Update"])[1];
-      const contextExtract = (promptText.match(/Context(?:\s*\/\s*Description)?:\s*([\s\S]*?)(?:\n\n|Rewrite|Break down|Provide|TASK|$)/) || [null, ""])[1].trim();
-      const liveFact = await fetchLiveWebContext(titleExtract);
-
-      if (promptText.includes("JSON array")) {
-        return {
-          text: JSON.stringify([
-            `What are the detailed strategic, legal, and institutional mechanics behind ${titleExtract.slice(0, 60)}?`,
-            `Which key ministries, international treaties, and stakeholders are directly impacted?`,
-            `What are the historical precedents and long-term implications of this development?`
-          ]),
-          provider: "Local Intel Engine",
-          model: "Structured Question Synthesizer"
-        };
-      }
-
-      return {
-        text: `## Comprehensive Briefing: ${titleExtract}\n**1. Core Situation & Facts:** ${contextExtract ? contextExtract.slice(0, 750) : titleExtract}\n**2. Verified Background & Context:** ${liveFact ? liveFact.slice(0, 750) : 'Cross-referenced against active intelligence feeds and official channel reports.'}\n**3. Strategic & Practical Significance:** Monitor official diplomatic communiqués, institutional releases, and downstream policy updates related to this topic.`,
-        provider: "Local + Live Web Synthesizer",
-        model: "Wikipedia/DDG + Metadata Engine"
-      };
+      throw new Error("Gemini API rate limit reached across configured keys. Add a backup Gemini key in Curtain Panel or tap Retry.");
     }
 
     // ============================================================================
@@ -1428,7 +1271,7 @@
     }
 
     // ============================================================================
-    // CONTINUOUS BACKGROUND LAYMAN'S READ AUTO-PREPARER (YIELDS TO USER TAPS)
+    // CONTINUOUS BACKGROUND LAYMAN'S READ AUTO-PREPARER (GEMINI-ONLY)
     // ============================================================================
     function getCachedLaymanMap() {
       try {
@@ -1455,6 +1298,7 @@
     }
 
     async function startBackgroundLaymanQueue(manualTrigger = false) {
+      if (getGeminiKeysList().length === 0) return;
       if (laymanQueueRunning && !manualTrigger) return;
       laymanQueueRunning = true;
 
@@ -1467,15 +1311,7 @@
         const vid = missing[i];
         if (vid.layman_news) continue;
 
-        const prompt = `Rewrite this video event as a clear, informative news story for a regular reader:
-Format exactly like this:
-## [Catchy Clear News Headline]
-**The Story in Brief:** 3-4 clear, detailed sentences explaining what happened, who is involved, and key facts.
-**Why It Matters to You:** 2-3 clear sentences explaining the real-world impact and strategic significance.
-
-Video Title: "${vid.title}"
-Channel: "${vid.channel_title}"
-Context / Description: ${vid.description ? vid.description.slice(0, 1800) : ''}`;
+        const prompt = buildLaymanPrompt(vid);
 
         try {
           const result = await callGeminiGlobal(prompt, false, i, null, false);
@@ -1494,6 +1330,67 @@ Context / Description: ${vid.description ? vid.description.slice(0, 1800) : ''}`
         }
       }
       laymanQueueRunning = false;
+    }
+
+    // ============================================================================
+    // HIGH-DENSITY EDITORIAL PROMPTS (LAYMAN, SPECIFIC KNOWLEDGE, UPSC, SEARCH)
+    // ============================================================================
+    function buildLaymanPrompt(video) {
+      return `You are a Senior Intelligence Editor writing for an informed reader. Transform this video report into a rich, deeply informative, crystal-clear briefing. Avoid generic filler—pack every sentence with concrete names, countries, institutions, numbers, dates, and real-world stakes.
+
+Format strictly using these exact Markdown sections:
+## [Sharp, Informative News Headline]
+**The Story in Brief:** 3-4 detailed sentences explaining exact events, key actors, locations, and mechanisms in plain, engaging language.
+**Key Facts & Background:**
+* **[Fact/Actor 1]:** Specific data point, policy detail, or historical context.
+* **[Fact/Actor 2]:** Specific institutional role, agreement, or timeline detail.
+* **[Fact/Actor 3]:** Broader regional or economic context.
+**Why It Matters to You:** 2-3 clear sentences explaining the concrete impact on citizens, markets, or national security.
+
+Video Title: "${video.title}"
+Channel: "${video.channel_title}"
+Context / Description: ${video.description ? video.description.slice(0, 2200) : ''}`;
+    }
+
+    function buildSpecificKnowledgePrompt(video) {
+      return `You are a Senior Subject-Matter Intelligence Analyst. Produce an exhaustive, richly detailed technical and factual dossier on this topic. Do NOT write a short summary; provide deep, thorough explanations with concrete facts, names, figures, dates, legal/technical terms, and causal mechanisms.
+
+Topic Title: "${video.title}"
+Source Channel: "${video.channel_title}"
+Context / Description: ${video.description ? video.description.slice(0, 2200) : ''}
+
+Structure your detailed intelligence report using these exact Markdown sections:
+## 1. Core Architecture, Mechanics & Technical Details
+(Explain step-by-step how the policy, system, military/economic operation, or event works in concrete technical detail.)
+
+## 2. Key Institutions, Treaties, Laws & Stakeholders Involved
+(List and explain the exact ministries, international bodies, agreements, or key figures involved and their specific roles.)
+
+## 3. Hard Data, Figures, Timelines & Historical Context
+(Provide concrete statistics, dates, historical background, and precedent events.)
+
+## 4. Strategic, Geopolitical & Economic Implications
+(Analyze short-term and long-term consequences, regional power shifts, and direct impact on India and global affairs.)
+
+## 5. Counter-Perspectives, Risks & Unresolved Bottlenecks
+(Detail potential challenges, criticisms, or operational vulnerabilities.)`;
+    }
+
+    function buildUpscPrompt(video) {
+      return `You are a Senior UPSC Civil Services Mentor. Produce a comprehensive, exam-ready Prelims + Mains intelligence dossier for:
+Title: "${video.title}"
+Channel: "${video.channel_title}"
+Context: ${video.description ? video.description.slice(0, 2200) : ''}
+
+Structure strictly using these exact Markdown sections:
+## 1. Prelims High-Yield Facts & Terminology
+(Detailed bullet points covering constitutional articles, statutory bodies, geographical locations, schemes, defense/tech terms, and indices.)
+
+## 2. Mains GS Paper Linkage & Multi-Dimensional Analysis
+(Explicitly map to GS1/GS2/GS3/GS4. Break down: **Core Arguments / Significance**, **Key Challenges / Concerns**, and **Way Forward / Policy Reforms**.)
+
+## 3. Model Mains Conclusion & Practice Question
+(Provide a crisp 2-sentence administrative conclusion and 1 UPSC Mains analytical practice question.)`;
     }
 
     // ============================================================================
@@ -1611,7 +1508,7 @@ Context / Description: ${vid.description ? vid.description.slice(0, 1800) : ''}`
               }
             }
             if (v.layman_news && !v.layman_model) {
-              v.layman_provider = "Backend Pipeline (Google Gemini)";
+              v.layman_provider = "Google Gemini";
               v.layman_model = "gemini-3.5-flash-lite / 3.8-flash";
             }
             combinedMap.set(v.id, v);
@@ -1824,7 +1721,7 @@ Context / Description: ${vid.description ? vid.description.slice(0, 1800) : ''}`
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-3">
           <i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i>
-          <span>Master AI analyzing topics across all active channels...</span>
+          <span>Master Gemini analyzing topics across all active channels...</span>
         </div>`;
 
       const readSet = getReadSet();
@@ -1886,13 +1783,18 @@ Respond strictly in valid JSON format only, with no markdown code fences:
 
         renderHeadings();
       } catch (err) {
-        box.innerHTML = `
-          <div class="flex items-center justify-between text-rose-400 text-xs py-1">
-            <span>${err.message}</span>
-            <button onclick="runMasterAITopicDeduplication()" class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold hover:text-white">
-              <i class="fa-solid fa-rotate-right mr-1"></i> Retry Now
-            </button>
-          </div>`;
+        if (err.message === "GEMINI_KEY_REQUIRED") {
+          promptApiKey();
+          box.classList.add('hidden');
+        } else {
+          box.innerHTML = `
+            <div class="flex items-center justify-between text-rose-400 text-xs py-1">
+              <span>${err.message}</span>
+              <button onclick="runMasterAITopicDeduplication()" class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold hover:text-white">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Retry Now
+              </button>
+            </div>`;
+        }
       }
     }
 
@@ -2015,7 +1917,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       const timeAgo = formatTimeAgo(item.published_at);
       const hasServerSummary = Boolean(item.layman_news && item.layman_news.trim().length > 0);
       let rowClass = isRead ? 'row-read' : (isDuplicate ? 'row-duplicate' : 'row-unread');
-      const selectedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'auto-cascade';
+      const selectedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
 
       return `
       <div id="row-${item.id}" class="heading-row ${rowClass}">
@@ -2056,10 +1958,15 @@ Respond strictly in valid JSON format only, with no markdown code fences:
               <span class="text-teal-300 font-semibold flex items-center gap-1"><i class="fa-solid fa-newspaper text-amber-400"></i> Layman Briefing</span>
               <span id="laymanModelBadge-${item.id}"></span>
             </div>
-            <span class="text-[10px] text-slate-300">Tap empty space to collapse</span>
+            <div class="flex items-center gap-2">
+              <button data-prevent-close="true" onclick="event.stopPropagation(); regenerateLayman('${item.id}')" class="text-[10px] text-sky-300 hover:text-white px-2 py-0.5 glass-pill rounded" title="Regenerate with deeper Gemini analysis">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Refresh
+              </button>
+              <span class="text-[10px] text-slate-300 hidden sm:inline">Tap empty space to collapse</span>
+            </div>
           </div>
 
-          <div id="inlineOutput-${item.id}" class="clickable-desc p-3 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-100 leading-relaxed space-y-1.5 mb-3" title="Tap empty space to collapse description"></div>
+          <div id="inlineOutput-${item.id}" class="clickable-desc p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-100 leading-relaxed space-y-2 mb-3" title="Tap empty space to collapse description"></div>
 
           <div onclick="closeDrawer('${item.id}')" class="py-1 my-1 text-center text-[10px] text-slate-400 hover:text-slate-200 cursor-pointer border-y border-white/10 select-none">
             ▲ Tap anywhere here to collapse description
@@ -2080,12 +1987,12 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           <div id="smartQuestionsBox-${item.id}" data-prevent-close="true" class="hidden flex flex-wrap gap-1.5 mb-3 p-2 rounded-xl bg-black/40 border border-white/15"></div>
           <div id="qaResponseContainer-${item.id}" data-prevent-close="true" class="hidden space-y-2.5 mb-3"></div>
 
-          <!-- Per-Video Deep AI Search Engine + Model Selector -->
+          <!-- Per-Video Deep Gemini Search Engine + Model Selector -->
           <div data-prevent-close="true" class="mt-3 pt-3 border-t border-white/15">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
               <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5">
                 <i class="fa-solid fa-globe text-amber-400"></i>
-                <span>Deep AI Search Engine & Cross-Questions</span>
+                <span>Gemini Deep Search Engine & Cross-Questions</span>
               </label>
               <div class="relative">
                 <select id="cardEngine-${item.id}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">
@@ -2122,6 +2029,14 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       }
     }
 
+    function regenerateLayman(videoId) {
+      const video = allVideos.find(v => v.id === videoId);
+      if (video) {
+        video.layman_news = "";
+      }
+      runInlineAI(videoId, 'layman');
+    }
+
     async function runInlineAI(videoId, type) {
       markAsRead(videoId);
       const video = allVideos.find(v => v.id === videoId);
@@ -2146,29 +2061,34 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           return;
         }
 
-        box.innerHTML = `<span class="text-sky-300 flex items-center gap-1.5 py-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Synthesizing detailed briefing across failover pool...</span>`;
+        box.innerHTML = `<span class="text-sky-300 flex items-center gap-1.5 py-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Synthesizing detailed Gemini briefing...</span>`;
 
-        const prompt = `Rewrite this video event as a comprehensive, engaging news story for an informed reader:
-Format exactly like this:
-## [Catchy Clear News Headline]
-**The Story in Brief:** 3-4 clear, detailed sentences explaining what happened, who is involved, and key facts.
-**Why It Matters to You:** 2-3 clear sentences explaining the real-world impact, strategic stakes, and next steps.
-
-Video Title: "${video.title}"
-Channel: "${video.channel_title}"
-Context / Description: ${video.description ? video.description.slice(0, 1800) : ''}`;
-
-        const result = await callGeminiGlobal(prompt, false, 0, cardModel, true);
-        video.layman_news = result.text;
-        video.layman_provider = result.provider;
-        video.layman_model = result.model;
-        saveCachedLayman(video.id, result.text, result.provider, result.model);
-        updateLaymanProgressCounter();
-        if (badgeEl) {
-          badgeEl.innerHTML = renderAttributionBadge(result.provider, result.model);
+        try {
+          const result = await callGeminiGlobal(buildLaymanPrompt(video), true, 0, cardModel, true);
+          video.layman_news = result.text;
+          video.layman_provider = result.provider;
+          video.layman_model = result.model;
+          saveCachedLayman(video.id, result.text, result.provider, result.model);
+          updateLaymanProgressCounter();
+          if (badgeEl) {
+            badgeEl.innerHTML = renderAttributionBadge(result.provider, result.model);
+          }
+          box.innerHTML = formatMarkdown(result.text);
+          drawer.dataset.loaded = "true";
+        } catch (err) {
+          if (err.message === "GEMINI_KEY_REQUIRED") {
+            promptApiKey();
+            box.innerHTML = `<span class="text-amber-300 text-xs">Please set your Gemini API key to generate briefings.</span>`;
+          } else {
+            box.innerHTML = `
+              <div data-prevent-close="true" class="flex items-center justify-between gap-2 text-rose-400 text-xs py-1">
+                <span>${err.message}</span>
+                <button data-prevent-close="true" onclick="event.stopPropagation(); runInlineAI('${videoId}', 'layman')" class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold hover:text-white shrink-0">
+                  <i class="fa-solid fa-rotate-right mr-1"></i> Tap to Retry
+                </button>
+              </div>`;
+          }
         }
-        box.innerHTML = formatMarkdown(result.text);
-        drawer.dataset.loaded = "true";
         return;
       }
 
@@ -2185,7 +2105,6 @@ Context / Description: ${video.description ? video.description.slice(0, 1800) : 
       executeDeepenRequest(videoId, type, tempId, title, cardModel);
     }
 
-    // EXHAUSTIVE, MULTI-SECTION SPECIFIC KNOWLEDGE & UPSC PROMPTING WITH AI MODEL ATTRIBUTION
     async function executeDeepenRequest(videoId, type, tempId, title, overrideModel) {
       const video = allVideos.find(v => v.id === videoId);
       const el = document.getElementById(tempId);
@@ -2197,62 +2116,40 @@ Context / Description: ${video.description ? video.description.slice(0, 1800) : 
         </div>
         <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
           <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-          <span>Compiling deep multi-layer intelligence dossier & live facts...</span>
+          <span>Compiling deep multi-layer Gemini intelligence dossier & live facts...</span>
         </div>`;
 
-      let prompt = "";
-      if (type === 'specific') {
-        prompt = `You are a Senior Subject-Matter Intelligence Analyst. Produce an exhaustive, richly detailed technical and factual dossier on this topic. Do NOT write a short summary; provide deep, thorough explanations with concrete facts, names, numbers, dates, and mechanisms.
+      const prompt = type === 'specific' ? buildSpecificKnowledgePrompt(video) : buildUpscPrompt(video);
 
-Topic Title: "${video.title}"
-Source Channel: "${video.channel_title}"
-Context / Description: ${video.description ? video.description.slice(0, 2000) : ''}
-
-Structure your detailed intelligence report using these exact Markdown sections:
-## 1. Core Architecture, Mechanics & Technical Details
-(Explain step-by-step how the policy, system, operation, or event works in concrete detail.)
-
-## 2. Key Institutions, Treaties, Laws & Stakeholders Involved
-(List and explain the exact ministries, international bodies, agreements, or key figures involved and their specific roles.)
-
-## 3. Hard Data, Figures, Timelines & Historical Context
-(Provide concrete statistics, dates, historical background, and precedent events.)
-
-## 4. Strategic, Geopolitical & Economic Implications
-(Analyze short-term and long-term consequences, regional power shifts, and impact on India/global affairs.)
-
-## 5. Counter-Perspectives, Risks & Unresolved Questions
-(Detail potential challenges, criticisms, or strategic bottlenecks.)`;
-      } else {
-        prompt = `You are a Senior UPSC Civil Services Mentor. Provide a thorough, high-yield Prelims + Mains intelligence dossier for:
-Title: "${video.title}"
-Context: ${video.description ? video.description.slice(0, 2000) : ''}
-
-Structure strictly as:
-## 1. Prelims High-Yield Facts & Terminology
-(Detailed bullet points covering constitutional articles, bodies, locations, schemes, and indices.)
-## 2. Mains GS Paper Linkage & Analytical Dimensions
-(Map to GS1/GS2/GS3/GS4 with multi-dimensional arguments: Pros, Cons, Challenges, and Way Forward.)
-## 3. Model Mains Conclusion & Practice Question
-(Provide a 2-sentence administrative conclusion and 1 Mains practice question.)`;
-      }
-
-      const result = await callGeminiGlobal(prompt, true, 1, overrideModel, true);
-      el.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="font-semibold text-sky-300">${title}</span>
-            ${renderAttributionBadge(result.provider, result.model)}
+      try {
+        const result = await callGeminiGlobal(prompt, true, 1, overrideModel, true);
+        el.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-semibold text-sky-300">${title}</span>
+              ${renderAttributionBadge(result.provider, result.model)}
+            </div>
+            <button data-prevent-close="true" onclick="event.stopPropagation(); executeDeepenRequest('${videoId}', '${type}', '${tempId}', '${title}', document.getElementById('cardEngine-${videoId}')?.value)" class="text-[10px] text-slate-300 hover:text-white px-2 py-0.5 glass-pill rounded">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Regenerate
+            </button>
           </div>
-          <button data-prevent-close="true" onclick="event.stopPropagation(); executeDeepenRequest('${videoId}', '${type}', '${tempId}', '${title}', document.getElementById('cardEngine-${videoId}')?.value)" class="text-[10px] text-slate-300 hover:text-white px-2 py-0.5 glass-pill rounded">
-            <i class="fa-solid fa-rotate-right mr-1"></i> Regenerate
-          </button>
-        </div>
-        <div class="prose-slate text-xs space-y-2 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(result.text)}</div>
-      `;
+          <div class="prose-slate text-xs space-y-2 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(result.text)}</div>
+        `;
+      } catch (err) {
+        if (err.message === "GEMINI_KEY_REQUIRED") {
+          promptApiKey();
+        }
+        el.innerHTML = `
+          <div class="font-semibold text-sky-300 mb-1">${title}</div>
+          <div class="flex items-center justify-between gap-2 text-rose-400 text-xs">
+            <span>${err.message}</span>
+            <button data-prevent-close="true" onclick="event.stopPropagation(); executeDeepenRequest('${videoId}', '${type}', '${tempId}', '${title}', document.getElementById('cardEngine-${videoId}')?.value)" class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold hover:text-white shrink-0">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Tap to Retry
+            </button>
+          </div>`;
+      }
     }
 
-    // EXHAUSTIVE PER-VIDEO AI SEARCH ENGINE WITH LIVE WEB GROUNDING & MODEL ATTRIBUTION
     async function submitInlineCustom(videoId, retryQuery = null, retryCardId = null) {
       const input = document.getElementById(`customInput-${videoId}`);
       const query = retryQuery || (input ? input.value.trim() : '');
@@ -2281,43 +2178,63 @@ Structure strictly as:
           </div>
           <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
             <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-            <span>Searching global sources, official statements, timelines & deep context...</span>
+            <span>Gemini searching global sources, official statements, timelines & deep context...</span>
           </div>`;
       }
 
       const prompt = `
-You are an exhaustive, real-time Global Intelligence & Current Affairs Deep Research Engine.
+You are an exhaustive, real-time Global Intelligence & Current Affairs Deep Research Engine powered by Google Gemini.
 Video / Intelligence Reference:
 - Title: "${video.title}"
 - Channel: "${video.channel_title}"
-- Description/Summary: "${(video.description || video.layman_news || '').slice(0, 2000)}"
+- Description/Summary: "${(video.description || video.layman_news || '').slice(0, 2200)}"
 
 User Deep Search Inquiry: "${query}"
 
 CRITICAL INSTRUCTIONS:
-1. NEVER say "this is not covered in the video" or give a brief surface-level answer. Provide a comprehensive, deeply researched intelligence response.
+1. NEVER say "this is not covered in the video" or give a brief surface-level answer. Provide an exhaustive, deeply researched intelligence response packed with concrete names, dates, numbers, and institutional facts.
 2. Search and synthesize all available global information: international news agencies, foreign ministry press releases, official diplomatic communiqués, treaties, legal clauses, economic figures, and historical context.
 3. Structure your answer thoroughly using clear Markdown headings:
-   - **Direct Answer & Core Findings** (Comprehensive factual breakdown with names, dates, and numbers)
-   - **Official Positions, Diplomatic Stances & Key Reactions** (Exact stances of governments, agencies, or leaders involved)
-   - **Broader Strategic, Legal & Economic Context** (Why this matters and downstream implications)
+   ## 1. Direct Answer & Core Findings
+   (Comprehensive factual breakdown with names, dates, numbers, and mechanisms)
+   ## 2. Official Positions, Diplomatic Stances & Key Reactions
+   (Exact stances of governments, ministries, agencies, or leaders involved)
+   ## 3. Broader Strategic, Legal & Economic Context
+   (Why this matters, historical parallels, and downstream implications)
 4. Use bold key terms and detailed bullet points.
       `;
 
-      const result = await callGeminiGlobal(prompt, true, 0, cardModel, true);
-      if (cardEl) {
-        cardEl.innerHTML = `
-          <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-amber-400"></i> ${query}</span>
-              ${renderAttributionBadge(result.provider, result.model)}
+      try {
+        const result = await callGeminiGlobal(prompt, true, 0, cardModel, true);
+        if (cardEl) {
+          cardEl.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-amber-400"></i> ${query}</span>
+                ${renderAttributionBadge(result.provider, result.model)}
+              </div>
+              <button data-prevent-close="true" onclick='event.stopPropagation(); submitInlineCustom(${JSON.stringify(videoId)}, ${JSON.stringify(query)}, ${JSON.stringify(tempId)})' class="text-[10px] text-teal-300 hover:text-white px-2 py-0.5 glass-pill rounded">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Answer
+              </button>
             </div>
-            <button data-prevent-close="true" onclick='event.stopPropagation(); submitInlineCustom(${JSON.stringify(videoId)}, ${JSON.stringify(query)}, ${JSON.stringify(tempId)})' class="text-[10px] text-teal-300 hover:text-white px-2 py-0.5 glass-pill rounded">
-              <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Answer
-            </button>
-          </div>
-          <div class="prose-slate text-xs space-y-2 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(result.text)}</div>
-        `;
+            <div class="prose-slate text-xs space-y-2 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(result.text)}</div>
+          `;
+        }
+      } catch (err) {
+        if (err.message === "GEMINI_KEY_REQUIRED") {
+          promptApiKey();
+        }
+        if (cardEl) {
+          cardEl.innerHTML = `
+            <div class="font-semibold text-sky-300 mb-1">${query}</div>
+            <div class="flex items-center justify-between gap-2 text-rose-400 text-xs">
+              <span>${err.message}</span>
+              <button data-prevent-close="true" onclick='event.stopPropagation(); submitInlineCustom(${JSON.stringify(videoId)}, ${JSON.stringify(query)}, ${JSON.stringify(tempId)})' class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold hover:text-white shrink-0">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Tap to Retry
+              </button>
+            </div>
+          `;
+        }
       }
     }
 
@@ -2329,34 +2246,47 @@ CRITICAL INSTRUCTIONS:
       const cardModel = document.getElementById(`cardEngine-${videoId}`)?.value;
       const qBox = document.getElementById(`smartQuestionsBox-${videoId}`);
       qBox.classList.remove('hidden');
-      qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Formulating deep analytical questions...</span>`;
+      qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Gemini formulating deep analytical questions...</span>`;
 
       const prompt = `Based on: "${video.title}" and context: "${video.description ? video.description.slice(0, 1200) : ''}", write 3 sharp, deep analytical questions covering treaties, official reactions, and strategic impact. Return ONLY JSON array of strings: ["Q1?", "Q2?", "Q3?"]`;
 
-      const result = await callGeminiGlobal(prompt, false, 2, cardModel, true);
-      let questions = [];
       try {
-        const match = result.text.match(/\[.*\]/s);
-        questions = JSON.parse(match ? match[0] : result.text);
-      } catch (e) {
-        questions = [
-          `What are the key geopolitical and institutional implications of ${video.title.slice(0, 50)}?`,
-          `How have official ministries and international actors responded to this development?`,
-          `What are the historical precedents, figures, and long-term impacts of this report?`
-        ];
+        const result = await callGeminiGlobal(prompt, false, 2, cardModel, true);
+        let questions = [];
+        try {
+          const match = result.text.match(/\[.*\]/s);
+          questions = JSON.parse(match ? match[0] : result.text);
+        } catch (e) {
+          questions = [
+            `What are the detailed geopolitical and institutional implications of ${video.title.slice(0, 50)}?`,
+            `How have official ministries and international actors responded to this development?`,
+            `What are the historical precedents, figures, and long-term impacts of this report?`
+          ];
+        }
+        qBox.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[10px] text-slate-300 pb-1">
+            <span>Suggested Deep Inquiries:</span>
+            ${renderAttributionBadge(result.provider, result.model)}
+          </div>
+          ${questions.map(q => `
+            <button data-prevent-close="true" onclick="document.getElementById('customInput-${videoId}').value = ${JSON.stringify(q)}; submitInlineCustom('${videoId}')" 
+              class="glass-pill text-left px-2.5 py-1.5 rounded-xl text-[11px] text-purple-200 w-full">
+              ⚡ ${q}
+            </button>
+          `).join('')}
+        `;
+      } catch (err) {
+        if (err.message === "GEMINI_KEY_REQUIRED") {
+          promptApiKey();
+        }
+        qBox.innerHTML = `
+          <div class="w-full flex items-center justify-between text-rose-400 text-[11px]">
+            <span>${err.message}</span>
+            <button data-prevent-close="true" onclick="event.stopPropagation(); generateInlineQuestions('${videoId}')" class="px-2 py-0.5 glass-pill rounded text-sky-300 font-semibold">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Tap to Retry
+            </button>
+          </div>`;
       }
-      qBox.innerHTML = `
-        <div class="w-full flex items-center justify-between text-[10px] text-slate-300 pb-1">
-          <span>Suggested Deep Inquiries:</span>
-          ${renderAttributionBadge(result.provider, result.model)}
-        </div>
-        ${questions.map(q => `
-          <button data-prevent-close="true" onclick="document.getElementById('customInput-${videoId}').value = ${JSON.stringify(q)}; submitInlineCustom('${videoId}')" 
-            class="glass-pill text-left px-2.5 py-1.5 rounded-xl text-[11px] text-purple-200 w-full">
-            ⚡ ${q}
-          </button>
-        `).join('')}
-      `;
     }
 
     function submitMasterQuery() {
@@ -2371,14 +2301,14 @@ CRITICAL INSTRUCTIONS:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master AI synthesizing comprehensive intelligence across briefings & global sources...</span>
+          <span>Master Gemini synthesizing comprehensive intelligence across briefings & global sources...</span>
         </div>`;
 
       const contextSummary = allVideos.filter(v => !isVideoChannelPaused(v)).slice(0, 16).map((v, i) => 
         `[${i+1}] Channel: ${v.channel_title} | Title: ${v.title} | Snippet: ${v.description ? v.description.slice(0, 250) : ''}`
       ).join('\n');
 
-      const masterPrompt = `You are the Master Geopolitical & Current Affairs AI Engine.
+      const masterPrompt = `You are the Master Geopolitical & Current Affairs AI Engine powered by Google Gemini.
 Context from active dashboard video reports:
 ${contextSummary}
 
@@ -2386,26 +2316,41 @@ User Request: "${query}"
 
 Provide an exhaustive, authoritative, well-structured intelligence report with bold headings, concrete facts, figures, institutional roles, and detailed bullet points. Synthesize live internet geopolitical news and official positions.`;
 
-      const result = await callGeminiGlobal(masterPrompt, true, 0, null, true);
-      box.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/15 mb-2">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="font-semibold text-sky-300 flex items-center gap-1.5">
-              <i class="fa-solid fa-brain text-amber-400"></i> ${query}
-            </span>
-            ${renderAttributionBadge(result.provider, result.model)}
+      try {
+        const result = await callGeminiGlobal(masterPrompt, true, 0, null, true);
+        box.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/15 mb-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-semibold text-sky-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-brain text-amber-400"></i> ${query}
+              </span>
+              ${renderAttributionBadge(result.provider, result.model)}
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick='runMasterQuery(${JSON.stringify(query)})' class="text-[10px] text-sky-300 hover:text-white glass-pill px-2 py-0.5 rounded">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Regenerate
+              </button>
+              <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button onclick='runMasterQuery(${JSON.stringify(query)})' class="text-[10px] text-sky-300 hover:text-white glass-pill px-2 py-0.5 rounded">
-              <i class="fa-solid fa-rotate-right mr-1"></i> Regenerate
-            </button>
-            <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="prose-slate text-xs space-y-2 leading-relaxed">${formatMarkdown(result.text)}</div>
-      `;
+          <div class="prose-slate text-xs space-y-2 leading-relaxed">${formatMarkdown(result.text)}</div>
+        `;
+      } catch (err) {
+        if (err.message === "GEMINI_KEY_REQUIRED") {
+          promptApiKey();
+          box.classList.add('hidden');
+        } else {
+          box.innerHTML = `
+            <div class="flex items-center justify-between text-rose-400 text-xs py-1">
+              <span>${err.message}</span>
+              <button onclick='runMasterQuery(${JSON.stringify(query)})' class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold hover:text-white">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Tap to Retry
+              </button>
+            </div>`;
+        }
+      }
     }
 
     loadFeed();
