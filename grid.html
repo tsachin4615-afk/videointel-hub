@@ -172,9 +172,9 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             Master Visual Grid
-            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-sky-300">Pure Gemini AI</span>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-sky-300">5-Key Split Pool</span>
           </h1>
-          <p class="text-xs text-slate-300/80">Tap Card to Read • Tap Empty Space to Close • Gemini Multi-Model Cascade</p>
+          <p class="text-xs text-slate-300/80">Keys 1–3: Layman Prep • Keys 4–5: Active Live Search</p>
         </div>
       </div>
 
@@ -200,14 +200,14 @@
     </div>
   </header>
 
-  <!-- MASTER GEMINI ENGINE (PROMINENT AT TOP) -->
+  <!-- MASTER GEMINI ENGINE (USES KEYS 4 & 5 EXCLUSIVELY FOR ACTIVE SEARCH) -->
   <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
     <div class="glass-surface rounded-3xl p-4 sm:p-5 relative overflow-hidden">
       
       <div class="flex flex-wrap items-center justify-between gap-3 mb-2.5">
         <div class="flex items-center gap-2 text-white text-sm font-semibold">
           <i class="fa-solid fa-microchip text-sky-400 text-base"></i>
-          <span>Master Gemini Engine — Cross-Feed Intelligence & Deep Thinker</span>
+          <span>Master Gemini Engine — Active Search Pool (Keys 4 & 5)</span>
         </div>
 
         <div class="flex items-center gap-2">
@@ -215,24 +215,22 @@
             <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium">
               <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Gemini Auto-Cascade (All Models)</option>
               <option value="gemini-3.8-flash" class="bg-slate-900">Gemini 3.8 Flash (Workhorse)</option>
-              <option value="gemini-3.5-flash-lite" class="bg-slate-900">Gemini 3.5 Flash-Lite (Fastest)</option>
               <option value="gemini-4-hydrogen" class="bg-slate-900">Gemini 4 Hydrogen (General)</option>
               <option value="gemini-4-neon" class="bg-slate-900">Gemini 4 Neon (High Speed)</option>
               <option value="gemini-4-argon" class="bg-slate-900">Gemini 4 Argon (Frontier)</option>
               <option value="gemini-4-carbon" class="bg-slate-900">Gemini 4 Carbon (Deepest)</option>
-              <option value="gemini-3.6-flash" class="bg-slate-900">Gemini 3.6 Flash</option>
+              <option value="gemini-3.5-flash-lite" class="bg-slate-900">Gemini 3.5 Flash-Lite (Fastest)</option>
               <option value="gemini-3.1-flash-lite" class="bg-slate-900">Gemini 3.1 Flash-Lite</option>
-              <option value="gemini-2.5-flash" class="bg-slate-900">Gemini 2.5 Flash</option>
-              <option value="gemini-2.5-pro" class="bg-slate-900">Gemini 2.5 Pro</option>
+              <option value="gemini-2.5-flash-lite" class="bg-slate-900">Gemini 2.5 Flash-Lite</option>
             </select>
             <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
           </div>
 
-          <span id="laymanPrepBadge" class="text-[11px] glass-pill text-emerald-300 px-2.5 py-1 rounded-xl font-mono">Layman Ready</span>
+          <span id="laymanPrepBadge" class="text-[11px] glass-pill text-emerald-300 px-2.5 py-1 rounded-xl font-mono">Keys 1–3 Prep</span>
         </div>
       </div>
 
-      <p class="text-xs text-slate-300/80 mb-3">Powered exclusively by Google Gemini models with automatic multi-key and model failover:</p>
+      <p class="text-xs text-slate-300/80 mb-3">Keys 1–3 prepare Layman briefings in the background while Keys 4 & 5 stay 100% dedicated to your active searches:</p>
       
       <div class="flex flex-wrap gap-2 mb-3">
         <button onclick="runMasterAITopicDeduplication()" 
@@ -258,7 +256,7 @@
 
       <div class="flex items-center gap-2">
         <div class="relative flex-1">
-          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (e.g. 'Compare statements on border talks')..." 
+          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (Uses Keys 4 & 5)..." 
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
             class="w-full bg-black/40 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
           <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400">
@@ -281,8 +279,8 @@
         <button onclick="markAllAsRead()" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white">
           <i class="fa-solid fa-check-double"></i> Mark All Read
         </button>
-        <button onclick="toggleCurtain(true)" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-emerald-300 hover:text-white flex items-center gap-1.5">
-          <i class="fa-solid fa-plus-circle"></i> Add / Pause Channels
+        <button onclick="toggleCurtain(true)" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-sky-300 hover:text-white flex items-center gap-1.5">
+          <i class="fa-solid fa-key"></i> Configure 5 Keys
         </button>
       </div>
 
@@ -307,7 +305,7 @@
   </main>
 
   <!-- ============================================================================== -->
-  <!-- COLLAPSIBLE SLIDING CURTAIN DRAWER (CONTROL CENTER) -->
+  <!-- COLLAPSIBLE SLIDING CURTAIN DRAWER (CONTROL CENTER WITH 5-KEY ARCHITECTURE) -->
   <!-- ============================================================================== -->
   <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/55 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
   
@@ -335,28 +333,47 @@
         </a>
       </div>
 
-      <!-- COLLAPSIBLE SECTION 1: Gemini API Keys & Layman Queue -->
-      <details open class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/30">
+      <!-- COLLAPSIBLE SECTION 1: 5-Key Dedicated Role Architecture -->
+      <details open class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> Gemini Keys & Layman Queue</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> 5 Gemini Keys (Role-Separated Pools)</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
         <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
-          <p class="text-[11px] text-slate-300/85 leading-relaxed">
-            Add <strong>one or multiple Gemini API keys</strong> (separated by commas). If Key 1 hits rate limits, it shifts automatically to Key 2 and rotates through all Gemini models.
-          </p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-200 font-medium" id="curtainKeyStatus">Checking Keys...</span>
-            <button onclick="promptApiKey()" class="text-[11px] bg-sky-600/40 hover:bg-sky-600/60 text-white border border-sky-400/40 px-2.5 py-1 rounded-lg font-semibold">
-              Set / Add Gemini Keys
-            </button>
+          
+          <!-- Pool A: Keys 1, 2, 3 -->
+          <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/25 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-amber-300">Pool A: Background Layman Prep (Keys 1–3)</span>
+              <span id="poolAStatus" class="text-[10px] font-mono text-amber-200">0/3 Active</span>
+            </div>
+            <p class="text-[10px] text-slate-300/80">Dedicated strictly to preparing Layman's Read summaries across all videos.</p>
+            <input id="geminiKey1" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #1 (Layman Prep Primary)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
+            <input id="geminiKey2" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #2 (Layman Prep Backup 1)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
+            <input id="geminiKey3" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #3 (Layman Prep Backup 2)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
           </div>
+
+          <!-- Pool B: Keys 4 & 5 -->
+          <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-400/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-emerald-300">Pool B: Active Search Only (Keys 4 & 5)</span>
+              <span id="poolBStatus" class="text-[10px] font-mono text-emerald-200">0/2 Active</span>
+            </div>
+            <p class="text-[10px] text-slate-300/80">Reserved 100% for Specific Knowledge, UPSC Curated, Smart Questions, Master Engine & Per-Video Search.</p>
+            <input id="geminiKey4" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #4 (Active Live Search Primary)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-emerald-400" />
+            <input id="geminiKey5" type="password" onchange="saveFiveGeminiKeys()" placeholder="Key #5 (Active Live Search Failover)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-emerald-400" />
+          </div>
+
+          <button onclick="saveFiveGeminiKeys(true)" class="w-full py-1.5 rounded-xl text-xs bg-sky-600/40 hover:bg-sky-600/60 text-white border border-sky-400/40 font-semibold transition">
+            <i class="fa-solid fa-check-circle mr-1"></i> Save All 5 Keys & Start Layman Prep
+          </button>
+
           <div class="flex items-center justify-between text-xs text-slate-300 pt-1 border-t border-white/10">
             <span>Layman Summaries Ready:</span>
             <span id="laymanProgressCounter" class="font-mono text-emerald-400 font-semibold">0 / 0</span>
           </div>
-          <button onclick="startBackgroundLaymanQueue(true)" class="w-full py-1.5 rounded-xl text-xs bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-200 border border-emerald-400/40 font-medium transition">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Pre-Generate Missing Layman Reads
+          <button onclick="startBackgroundLaymanQueue(true)" class="w-full py-1.5 rounded-xl text-xs bg-emerald-600/25 hover:bg-emerald-600/45 text-emerald-200 border border-emerald-400/35 font-medium transition">
+            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Run Background Layman Queue (Keys 1–3)
           </button>
         </div>
       </details>
@@ -485,7 +502,7 @@
 
     <!-- Drawer Footer -->
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v8.0 (Pure Gemini AI)</span>
+      <span>VideoIntel Hub v9.0 (5-Key Role Split)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -505,17 +522,23 @@
       "@ReVIEWbySoukhyaGaonkar", "@MasthMagaa"
     ];
 
-    const ALL_GEMINI_MODELS = [
-      "gemini-3.8-flash",
+    const LAYMAN_POOL_MODELS = [
       "gemini-3.5-flash-lite",
+      "gemini-3.8-flash",
+      "gemini-4-hydrogen",
+      "gemini-3.1-flash-lite",
+      "gemini-2.5-flash-lite"
+    ];
+
+    const ACTIVE_SEARCH_MODELS = [
+      "gemini-3.8-flash",
       "gemini-4-hydrogen",
       "gemini-4-neon",
       "gemini-4-argon",
       "gemini-4-carbon",
-      "gemini-3.6-flash",
+      "gemini-3.5-flash-lite",
       "gemini-3.1-flash-lite",
-      "gemini-2.5-flash",
-      "gemini-2.5-pro"
+      "gemini-2.5-flash-lite"
     ];
 
     let channelRoster = [];
@@ -525,7 +548,6 @@
     let aiExplicitPrimaryIds = null;
     let aiExplicitDuplicateIds = null;
     let laymanQueueRunning = false;
-    let interactivePriorityLock = 0;
 
     // ============================================================================
     // TYPOGRAPHY & FONT ENGINE
@@ -632,45 +654,77 @@
     setGlassTint(currentGlassTint);
 
     // ============================================================================
-    // GOOGLE GEMINI-ONLY MULTI-KEY & MULTI-MODEL CASCADE ENGINE
+    // 5-KEY ROLE-SEPARATED GEMINI ARCHITECTURE
     // ============================================================================
-    function getGeminiKeysList() {
-      const raw = localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
-      return raw.split(/[\s,;]+/).map(k => k.trim()).filter(k => k.length > 10);
+    function loadFiveGeminiKeysIntoUI() {
+      const legacy = localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
+      if (legacy && !localStorage.getItem('GEMINI_KEY_1')) {
+        const parts = legacy.split(/[\s,;]+/).map(k => k.trim()).filter(k => k.length > 10);
+        if (parts[0]) localStorage.setItem('GEMINI_KEY_1', parts[0]);
+        if (parts[1]) localStorage.setItem('GEMINI_KEY_2', parts[1]);
+        if (parts[2]) localStorage.setItem('GEMINI_KEY_3', parts[2]);
+        if (parts[3]) localStorage.setItem('GEMINI_KEY_4', parts[3]);
+        if (parts[4]) localStorage.setItem('GEMINI_KEY_5', parts[4]);
+      }
+
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`geminiKey${i}`);
+        if (el) el.value = localStorage.getItem(`GEMINI_KEY_${i}`) || '';
+      }
+      updateKeyPoolStatusBadges();
     }
 
-    function getApiKey() {
-      const list = getGeminiKeysList();
-      return list.length > 0 ? list[0] : '';
-    }
-
-    function promptApiKey() {
-      const existing = localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
-      const entered = prompt(
-        "Enter one or multiple Google Gemini API Keys separated by commas (e.g. AIzaSy..., AIzaSy...):",
-        existing
-      );
-      if (entered !== null) {
-        localStorage.setItem('GEMINI_FRONTEND_KEY', entered.trim());
-        updateKeyStatus();
+    function saveFiveGeminiKeys(triggerPrep = false) {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`geminiKey${i}`);
+        if (el) {
+          localStorage.setItem(`GEMINI_KEY_${i}`, el.value.trim());
+        }
+      }
+      updateKeyPoolStatusBadges();
+      if (triggerPrep) {
         startBackgroundLaymanQueue(true);
       }
     }
 
-    function updateKeyStatus() {
-      const curtainStatus = document.getElementById('curtainKeyStatus');
-      const keys = getGeminiKeysList();
-      if (curtainStatus) {
-        if (keys.length > 1) {
-          curtainStatus.innerText = `${keys.length} Gemini Keys Rotating`;
-          curtainStatus.className = "text-xs text-emerald-400 font-semibold";
-        } else if (keys.length === 1) {
-          curtainStatus.innerText = "1 Gemini Key Active";
-          curtainStatus.className = "text-xs text-emerald-400 font-semibold";
-        } else {
-          curtainStatus.innerText = "No Gemini Key Set";
-          curtainStatus.className = "text-xs text-rose-400 font-semibold";
-        }
+    function getLaymanPoolKeys() {
+      const keys = [];
+      for (let i = 1; i <= 3; i++) {
+        const k = (localStorage.getItem(`GEMINI_KEY_${i}`) || '').trim();
+        if (k.length > 10) keys.push({ slot: `Key #${i}`, key: k });
+      }
+      return keys;
+    }
+
+    function getActiveSearchPoolKeys() {
+      const keys = [];
+      for (let i = 4; i <= 5; i++) {
+        const k = (localStorage.getItem(`GEMINI_KEY_${i}`) || '').trim();
+        if (k.length > 10) keys.push({ slot: `Key #${i}`, key: k });
+      }
+      if (keys.length === 0) {
+        return getLaymanPoolKeys();
+      }
+      return keys;
+    }
+
+    function updateKeyPoolStatusBadges() {
+      const poolA = getLaymanPoolKeys();
+      const poolB = [];
+      for (let i = 4; i <= 5; i++) {
+        const k = (localStorage.getItem(`GEMINI_KEY_${i}`) || '').trim();
+        if (k.length > 10) poolB.push(k);
+      }
+
+      const elA = document.getElementById('poolAStatus');
+      if (elA) {
+        elA.innerText = `${poolA.length}/3 Active`;
+        elA.className = poolA.length > 0 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-rose-400";
+      }
+      const elB = document.getElementById('poolBStatus');
+      if (elB) {
+        elB.innerText = `${poolB.length}/2 Active`;
+        elB.className = poolB.length > 0 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-amber-300";
       }
     }
 
@@ -692,57 +746,101 @@
     function getEngineOptionsHTML(selectedVal) {
       const current = selectedVal || localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
       const options = [
-        ["gemini-auto-cascade", "⚡ Gemini Auto-Cascade"],
+        ["gemini-auto-cascade", "⚡ Gemini Auto-Cascade (Keys 4 & 5)"],
         ["gemini-3.8-flash", "Gemini 3.8 Flash (Workhorse)"],
-        ["gemini-3.5-flash-lite", "Gemini 3.5 Flash-Lite (Fastest)"],
         ["gemini-4-hydrogen", "Gemini 4 Hydrogen (General)"],
         ["gemini-4-neon", "Gemini 4 Neon (High Speed)"],
         ["gemini-4-argon", "Gemini 4 Argon (Frontier)"],
         ["gemini-4-carbon", "Gemini 4 Carbon (Deepest)"],
-        ["gemini-3.6-flash", "Gemini 3.6 Flash"],
+        ["gemini-3.5-flash-lite", "Gemini 3.5 Flash-Lite (Fastest)"],
         ["gemini-3.1-flash-lite", "Gemini 3.1 Flash-Lite"],
-        ["gemini-2.5-flash", "Gemini 2.5 Flash"],
-        ["gemini-2.5-pro", "Gemini 2.5 Pro"]
+        ["gemini-2.5-flash-lite", "Gemini 2.5 Flash-Lite"]
       ];
       return options.map(([val, label]) =>
         `<option value="${val}" class="bg-slate-900" ${current === val ? 'selected' : ''}>${label}</option>`
       ).join('');
     }
 
-    function renderAttributionBadge(provider, model) {
+    function renderAttributionBadge(poolLabel, keySlot, model) {
       return `
         <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-sky-500/15 text-sky-300 border border-sky-400/30">
           <i class="fa-solid fa-sparkles text-[9px] text-amber-300"></i>
-          <span>${provider}: <strong>${model}</strong></span>
+          <span>${poolLabel} [${keySlot}] • <strong>${model}</strong></span>
         </span>
       `;
     }
 
-    async function callGeminiGlobal(promptText, allowSearch = true, rotateOffset = 0, overrideModel = null, isInteractiveUserTap = true) {
-      if (isInteractiveUserTap) {
-        interactivePriorityLock = Date.now() + 25000;
+    // POOL A CALLER: KEYS 1, 2, 3 ONLY
+    async function callGeminiLaymanPool(promptText, rotateOffset = 0, overrideModel = null) {
+      const poolKeys = getLaymanPoolKeys();
+      if (poolKeys.length === 0) {
+        throw new Error("GEMINI_KEYS_REQUIRED");
       }
 
-      const geminiKeys = getGeminiKeysList();
-      if (geminiKeys.length === 0) {
-        throw new Error("GEMINI_KEY_REQUIRED");
+      const rotatedKeys = poolKeys.slice(rotateOffset % poolKeys.length).concat(poolKeys.slice(0, rotateOffset % poolKeys.length));
+      const rotatedModels = LAYMAN_POOL_MODELS.slice(rotateOffset % LAYMAN_POOL_MODELS.length).concat(
+        LAYMAN_POOL_MODELS.slice(0, rotateOffset % LAYMAN_POOL_MODELS.length)
+      );
+      const modelPool = (overrideModel && overrideModel !== "gemini-auto-cascade")
+        ? [...new Set([overrideModel, ...rotatedModels])]
+        : rotatedModels;
+
+      for (const keyObj of rotatedKeys) {
+        for (const model of modelPool) {
+          const ctrl = new AbortController();
+          const tid = setTimeout(() => ctrl.abort(), 8500);
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${keyObj.key}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
+              signal: ctrl.signal
+            });
+            clearTimeout(tid);
+            if (res.ok) {
+              const data = await res.json();
+              const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (txt && txt.trim().length > 10) {
+                return {
+                  text: txt.trim(),
+                  poolLabel: "Layman Pool",
+                  keySlot: keyObj.slot,
+                  model: model
+                };
+              }
+            }
+          } catch (e) {
+            clearTimeout(tid);
+          }
+        }
+      }
+
+      throw new Error("Layman Pool (Keys 1–3) temporarily busy. Tap Retry.");
+    }
+
+    // POOL B CALLER: KEYS 4 & 5 ONLY
+    async function callGeminiActiveSearchPool(promptText, allowSearch = true, rotateOffset = 0, overrideModel = null) {
+      const poolKeys = getActiveSearchPoolKeys();
+      if (poolKeys.length === 0) {
+        throw new Error("GEMINI_KEYS_REQUIRED");
       }
 
       const chosen = overrideModel || document.getElementById('engineSelector')?.value || "gemini-auto-cascade";
-      const rotatedModels = ALL_GEMINI_MODELS.slice(rotateOffset % ALL_GEMINI_MODELS.length).concat(
-        ALL_GEMINI_MODELS.slice(0, rotateOffset % ALL_GEMINI_MODELS.length)
+      const rotatedKeys = poolKeys.slice(rotateOffset % poolKeys.length).concat(poolKeys.slice(0, rotateOffset % poolKeys.length));
+      const rotatedModels = ACTIVE_SEARCH_MODELS.slice(rotateOffset % ACTIVE_SEARCH_MODELS.length).concat(
+        ACTIVE_SEARCH_MODELS.slice(0, rotateOffset % ACTIVE_SEARCH_MODELS.length)
       );
       const modelPool = chosen === "gemini-auto-cascade"
         ? rotatedModels
         : [...new Set([chosen, ...rotatedModels])];
 
-      for (const key of geminiKeys) {
+      for (const keyObj of rotatedKeys) {
         for (const model of modelPool) {
           if (allowSearch) {
             const ctrl = new AbortController();
             const tid = setTimeout(() => ctrl.abort(), 9000);
             try {
-              const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+              const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${keyObj.key}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -758,7 +856,8 @@
                 if (txt && txt.trim().length > 10) {
                   return {
                     text: txt.trim(),
-                    provider: "Google Gemini + Search",
+                    poolLabel: "Active Search + Web",
+                    keySlot: keyObj.slot,
                     model: model
                   };
                 }
@@ -773,7 +872,7 @@
           const ctrl2 = new AbortController();
           const tid2 = setTimeout(() => ctrl2.abort(), 8000);
           try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${keyObj.key}`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
@@ -786,7 +885,8 @@
               if (txt && txt.trim().length > 10) {
                 return {
                   text: txt.trim(),
-                  provider: "Google Gemini",
+                  poolLabel: "Active Search",
+                  keySlot: keyObj.slot,
                   model: model
                 };
               }
@@ -797,7 +897,7 @@
         }
       }
 
-      throw new Error("Gemini API rate limit reached across configured keys. Add a backup Gemini key in Curtain Panel or tap Retry.");
+      throw new Error("Active Search Pool (Keys 4 & 5) rate-limited. Tap Retry.");
     }
 
     // ============================================================================
@@ -1286,7 +1386,7 @@
     }
 
     // ============================================================================
-    // CONTINUOUS BACKGROUND LAYMAN'S READ AUTO-PREPARER (GEMINI-ONLY)
+    // CONTINUOUS BACKGROUND LAYMAN'S READ AUTO-PREPARER (KEYS 1, 2, 3 ONLY)
     // ============================================================================
     function getCachedLaymanMap() {
       try {
@@ -1296,10 +1396,10 @@
       }
     }
 
-    function saveCachedLayman(videoId, text, provider, model) {
+    function saveCachedLayman(videoId, text, poolLabel, keySlot, model) {
       try {
         const map = getCachedLaymanMap();
-        map[videoId] = { text, provider, model };
+        map[videoId] = { text, poolLabel, keySlot, model };
         localStorage.setItem('LAYMAN_SUMMARY_CACHE', JSON.stringify(map));
       } catch (e) {}
     }
@@ -1313,33 +1413,30 @@
     }
 
     async function startBackgroundLaymanQueue(manualTrigger = false) {
-      if (getGeminiKeysList().length === 0) return;
+      if (getLaymanPoolKeys().length === 0) return;
       if (laymanQueueRunning && !manualTrigger) return;
       laymanQueueRunning = true;
 
       const missing = allVideos.filter(v => !isVideoChannelPaused(v) && (!v.layman_news || v.layman_news.trim().length === 0));
       for (let i = 0; i < missing.length; i++) {
-        while (Date.now() < interactivePriorityLock) {
-          await new Promise(r => setTimeout(r, 2000));
-        }
-
         const vid = missing[i];
         if (vid.layman_news) continue;
 
         const prompt = buildLaymanPrompt(vid);
 
         try {
-          const result = await callGeminiGlobal(prompt, false, i, null, false);
+          const result = await callGeminiLaymanPool(prompt, i, null);
           if (result && result.text) {
             vid.layman_news = result.text;
-            vid.layman_provider = result.provider;
+            vid.layman_pool = result.poolLabel;
+            vid.layman_slot = result.keySlot;
             vid.layman_model = result.model;
-            saveCachedLayman(vid.id, result.text, result.provider, result.model);
+            saveCachedLayman(vid.id, result.text, result.poolLabel, result.keySlot, result.model);
             updateLaymanProgressCounter();
           }
-          await new Promise(r => setTimeout(r, 4500));
+          await new Promise(r => setTimeout(r, 2200));
         } catch (err) {
-          await new Promise(r => setTimeout(r, 7000));
+          await new Promise(r => setTimeout(r, 5000));
         }
       }
       laymanQueueRunning = false;
@@ -1493,7 +1590,7 @@ Structure strictly using these exact Markdown sections:
     }
 
     async function loadFeed() {
-      updateKeyStatus();
+      loadFiveGeminiKeysIntoUI();
       restorePreferences();
       await loadPermanentChannelRoster();
 
@@ -1516,13 +1613,15 @@ Structure strictly using these exact Markdown sections:
                 v.layman_news = cachedLayman[v.id];
               } else {
                 v.layman_news = cachedLayman[v.id].text;
-                v.layman_provider = cachedLayman[v.id].provider;
+                v.layman_pool = cachedLayman[v.id].poolLabel || "Layman Pool";
+                v.layman_slot = cachedLayman[v.id].keySlot || "Keys 1–3";
                 v.layman_model = cachedLayman[v.id].model;
               }
             }
             if (v.layman_news && !v.layman_model) {
-              v.layman_provider = "Google Gemini";
-              v.layman_model = "gemini-3.5-flash-lite / 3.8-flash";
+              v.layman_pool = "Layman Pool";
+              v.layman_slot = "Backend";
+              v.layman_model = "gemini-3.5-flash-lite";
             }
             combinedMap.set(v.id, v);
           }
@@ -1734,7 +1833,7 @@ Structure strictly using these exact Markdown sections:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-3">
           <i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i>
-          <span>Master Gemini analyzing topics across all active channels...</span>
+          <span>Master Gemini (Keys 4 & 5) analyzing topics across all active channels...</span>
         </div>`;
 
       const readSet = getReadSet();
@@ -1769,7 +1868,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
 `;
 
       try {
-        const result = await callGeminiGlobal(prompt, false, 0, null, true);
+        const result = await callGeminiActiveSearchPool(prompt, false, 0, null);
         const match = result.text.match(/\{[\s\S]*\}/);
         const data = JSON.parse(match ? match[0] : result.text);
 
@@ -1782,7 +1881,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
               <span class="font-semibold text-emerald-400 flex items-center gap-1.5">
                 <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Topic Deduplication Complete
               </span>
-              ${renderAttributionBadge(result.provider, result.model)}
+              ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
             </div>
             <button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white">
               <i class="fa-solid fa-xmark"></i>
@@ -1796,8 +1895,8 @@ Respond strictly in valid JSON format only, with no markdown code fences:
 
         renderGrid();
       } catch (err) {
-        if (err.message === "GEMINI_KEY_REQUIRED") {
-          promptApiKey();
+        if (err.message === "GEMINI_KEYS_REQUIRED") {
+          toggleCurtain(true);
           box.classList.add('hidden');
         } else {
           box.innerHTML = `
@@ -1880,7 +1979,8 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           videoId,
           video.layman_news,
           "Layman's News Story",
-          video.layman_provider || "Google Gemini",
+          video.layman_pool || "Layman Pool",
+          video.layman_slot || "Keys 1–3",
           video.layman_model || "gemini-3.5-flash-lite"
         );
         outputBox.dataset.loaded = "true";
@@ -1890,21 +1990,22 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       outputBox.innerHTML = `
         <div class="flex items-center gap-2 text-sky-400 py-3">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Synthesizing detailed Gemini briefing...</span>
+          <span>Synthesizing Layman briefing via Keys 1–3...</span>
         </div>`;
 
       try {
-        const result = await callGeminiGlobal(buildLaymanPrompt(video), true, 0, null, true);
+        const result = await callGeminiLaymanPool(buildLaymanPrompt(video), 0, null);
         video.layman_news = result.text;
-        video.layman_provider = result.provider;
+        video.layman_pool = result.poolLabel;
+        video.layman_slot = result.keySlot;
         video.layman_model = result.model;
-        saveCachedLayman(video.id, result.text, result.provider, result.model);
+        saveCachedLayman(video.id, result.text, result.poolLabel, result.keySlot, result.model);
         updateLaymanProgressCounter();
-        renderOutput(videoId, result.text, "Layman's News Story", result.provider, result.model);
+        renderOutput(videoId, result.text, "Layman's News Story", result.poolLabel, result.keySlot, result.model);
         outputBox.dataset.loaded = "true";
       } catch (err) {
-        if (err.message === "GEMINI_KEY_REQUIRED") {
-          promptApiKey();
+        if (err.message === "GEMINI_KEYS_REQUIRED") {
+          toggleCurtain(true);
           outputBox.classList.add('hidden');
         } else {
           outputBox.innerHTML = `
@@ -1918,7 +2019,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
       }
     }
 
-    function renderOutput(videoId, text, title, provider, model) {
+    function renderOutput(videoId, text, title, poolLabel, keySlot, model) {
       const box = document.getElementById(`output-${videoId}`);
       const selectedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
       box.innerHTML = `
@@ -1927,10 +2028,10 @@ Respond strictly in valid JSON format only, with no markdown code fences:
             <span class="text-xs font-semibold text-teal-300 flex items-center gap-1.5">
               <i class="fa-solid fa-newspaper text-amber-400"></i> ${title}
             </span>
-            ${renderAttributionBadge(provider, model)}
+            ${renderAttributionBadge(poolLabel, keySlot, model)}
           </div>
           <div class="flex items-center gap-2">
-            <button data-prevent-close="true" onclick="event.stopPropagation(); regenerateLayman('${videoId}')" class="text-[10px] text-sky-300 hover:text-white px-2 py-0.5 glass-pill rounded" title="Regenerate with deeper Gemini analysis">
+            <button data-prevent-close="true" onclick="event.stopPropagation(); regenerateLayman('${videoId}')" class="text-[10px] text-sky-300 hover:text-white px-2 py-0.5 glass-pill rounded" title="Regenerate Layman Briefing">
               <i class="fa-solid fa-rotate-right mr-1"></i> Refresh
             </button>
             <button onclick="closeOutput('${videoId}')" class="text-slate-300 hover:text-white text-xs p-1" title="Close Story">
@@ -1963,12 +2064,12 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         <div id="aiSmartContainer-${videoId}" data-prevent-close="true" class="hidden mt-3 pt-2 border-t border-white/15"></div>
         <div id="qaResponseContainer-${videoId}" data-prevent-close="true" class="hidden mt-3 space-y-3"></div>
 
-        <!-- Per-Video Deep Gemini Search Engine + Model Selector -->
+        <!-- Per-Video Deep Gemini Search Engine (Uses Keys 4 & 5 Exclusively) -->
         <div data-prevent-close="true" class="mt-4 pt-3 border-t border-white/15">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
             <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5">
               <i class="fa-solid fa-globe text-amber-400"></i>
-              <span>Gemini Deep Search Engine & Cross-Questions</span>
+              <span>Gemini Active Search (Keys 4 & 5)</span>
             </label>
             <div class="relative">
               <select id="cardEngine-${videoId}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">
@@ -2021,7 +2122,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           </div>
           <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
             <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-            <span>Gemini searching global sources, official statements, timelines & deep context...</span>
+            <span>Active Search Pool (Keys 4 & 5) searching live global sources...</span>
           </div>`;
       }
 
@@ -2048,13 +2149,13 @@ CRITICAL INSTRUCTIONS:
       `;
 
       try {
-        const result = await callGeminiGlobal(prompt, true, 0, cardModel, true);
+        const result = await callGeminiActiveSearchPool(prompt, true, 0, cardModel);
         if (cardEl) {
           cardEl.innerHTML = `
             <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-amber-400"></i> ${query}</span>
-                ${renderAttributionBadge(result.provider, result.model)}
+                ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
               </div>
               <button data-prevent-close="true" onclick='event.stopPropagation(); submitCardCustomQuestion(${JSON.stringify(videoId)}, ${JSON.stringify(query)}, ${JSON.stringify(tempId)})' class="text-[10px] text-teal-300 hover:text-white px-2 py-0.5 glass-pill rounded">
                 <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Answer
@@ -2064,8 +2165,8 @@ CRITICAL INSTRUCTIONS:
           `;
         }
       } catch (err) {
-        if (err.message === "GEMINI_KEY_REQUIRED") {
-          promptApiKey();
+        if (err.message === "GEMINI_KEYS_REQUIRED") {
+          toggleCurtain(true);
         }
         if (cardEl) {
           cardEl.innerHTML = `
@@ -2108,18 +2209,18 @@ CRITICAL INSTRUCTIONS:
         </div>
         <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
           <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-          <span>Compiling deep multi-layer Gemini intelligence dossier & live facts...</span>
+          <span>Active Search Pool (Keys 4 & 5) compiling deep intelligence dossier...</span>
         </div>`;
 
       const prompt = type === 'specific' ? buildSpecificKnowledgePrompt(video) : buildUpscPrompt(video);
 
       try {
-        const result = await callGeminiGlobal(prompt, true, 1, overrideModel, true);
+        const result = await callGeminiActiveSearchPool(prompt, true, 0, overrideModel);
         el.innerHTML = `
           <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
             <div class="flex flex-wrap items-center gap-2">
               <span class="font-semibold text-sky-300">${title}</span>
-              ${renderAttributionBadge(result.provider, result.model)}
+              ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
             </div>
             <button data-prevent-close="true" onclick="event.stopPropagation(); executeDeepenRequest('${videoId}', '${type}', '${tempId}', '${title}', document.getElementById('cardEngine-${videoId}')?.value)" class="text-[10px] text-slate-300 hover:text-white px-2 py-0.5 glass-pill rounded">
               <i class="fa-solid fa-rotate-right mr-1"></i> Regenerate
@@ -2128,8 +2229,8 @@ CRITICAL INSTRUCTIONS:
           <div class="prose-slate text-xs space-y-2 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(result.text)}</div>
         `;
       } catch (err) {
-        if (err.message === "GEMINI_KEY_REQUIRED") {
-          promptApiKey();
+        if (err.message === "GEMINI_KEYS_REQUIRED") {
+          toggleCurtain(true);
         }
         el.innerHTML = `
           <div class="font-semibold text-sky-300 mb-1">${title}</div>
@@ -2152,13 +2253,13 @@ CRITICAL INSTRUCTIONS:
       container.classList.remove('hidden');
       container.innerHTML = `
         <div class="text-[11px] text-purple-300 flex items-center gap-1.5 py-1">
-          <i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> Gemini formulating deep analytical questions...
+          <i class="fa-solid fa-circle-notch fa-spin text-purple-400"></i> Keys 4 & 5 formulating deep analytical questions...
         </div>`;
 
       const prompt = `Based on: "${video.title}" and context: "${video.description ? video.description.slice(0, 1200) : ''}", write 3 sharp, deep analytical questions covering treaties, official reactions, and strategic impact. Return ONLY JSON array of strings: ["Q1?", "Q2?", "Q3?"]`;
 
       try {
-        const result = await callGeminiGlobal(prompt, false, 2, cardModel, true);
+        const result = await callGeminiActiveSearchPool(prompt, false, 1, cardModel);
         let questions = [];
         try {
           const match = result.text.match(/\[.*\]/s);
@@ -2176,7 +2277,7 @@ CRITICAL INSTRUCTIONS:
             <span class="uppercase font-semibold tracking-wider text-purple-300 flex items-center gap-1">
               <i class="fa-solid fa-wand-magic-sparkles"></i> Suggested Deep Inquiries:
             </span>
-            ${renderAttributionBadge(result.provider, result.model)}
+            ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
           </div>
           <div class="flex flex-col gap-1.5">
             ${questions.map(q => `
@@ -2189,8 +2290,8 @@ CRITICAL INSTRUCTIONS:
           </div>
         `;
       } catch (err) {
-        if (err.message === "GEMINI_KEY_REQUIRED") {
-          promptApiKey();
+        if (err.message === "GEMINI_KEYS_REQUIRED") {
+          toggleCurtain(true);
         }
         container.innerHTML = `
           <div class="w-full flex items-center justify-between text-rose-400 text-[11px]">
@@ -2362,7 +2463,7 @@ CRITICAL INSTRUCTIONS:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master Gemini synthesizing comprehensive intelligence across briefings & global sources...</span>
+          <span>Master Gemini (Keys 4 & 5) synthesizing comprehensive intelligence...</span>
         </div>`;
 
       const contextSummary = allVideos.filter(v => !isVideoChannelPaused(v)).slice(0, 16).map((v, i) => 
@@ -2378,14 +2479,14 @@ User Request: "${query}"
 Provide an exhaustive, authoritative, well-structured intelligence report with bold headings, concrete facts, figures, institutional roles, and detailed bullet points. Synthesize live internet geopolitical news and official positions.`;
 
       try {
-        const result = await callGeminiGlobal(masterPrompt, true, 0, null, true);
+        const result = await callGeminiActiveSearchPool(masterPrompt, true, 0, null);
         box.innerHTML = `
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/15 mb-2">
             <div class="flex flex-wrap items-center gap-2">
               <span class="font-semibold text-sky-300 flex items-center gap-1.5">
                 <i class="fa-solid fa-brain text-amber-400"></i> ${query}
               </span>
-              ${renderAttributionBadge(result.provider, result.model)}
+              ${renderAttributionBadge(result.poolLabel, result.keySlot, result.model)}
             </div>
             <div class="flex items-center gap-2">
               <button onclick='runMasterQuery(${JSON.stringify(query)})' class="text-[10px] text-sky-300 hover:text-white glass-pill px-2 py-0.5 rounded">
@@ -2399,8 +2500,8 @@ Provide an exhaustive, authoritative, well-structured intelligence report with b
           <div class="prose-slate text-xs space-y-2 leading-relaxed">${formatMarkdown(result.text)}</div>
         `;
       } catch (err) {
-        if (err.message === "GEMINI_KEY_REQUIRED") {
-          promptApiKey();
+        if (err.message === "GEMINI_KEYS_REQUIRED") {
+          toggleCurtain(true);
           box.classList.add('hidden');
         } else {
           box.innerHTML = `
