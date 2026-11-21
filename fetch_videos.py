@@ -529,38 +529,43 @@ def fetch_channel_videos_resilient(channel_id, handle):
     return [], "None"
 
 # ==============================================================================
-# CONTINUOUS MULTI-MODEL LAYMAN SUMMARIZER (WITH 429 RATE-LIMIT ROTATION)
+# GOOGLE GEMINI ONLY — HIGH-DEPTH LAYMAN'S READ SUMMARIZER
 # ==============================================================================
-MODEL_BASKET = [
-    "gemini-2.5-flash-lite",
-    "gemini-2.5-flash",
-    "gemini-2.0-flash-lite",
-    "gemini-2.0-flash",
-    "gemini-1.5-flash",
-    "gemini-1.5-flash-8b"
+GEMINI_MODEL_BASKET = [
+    "gemini-3.5-flash-lite",
+    "gemini-3.8-flash",
+    "gemini-4-hydrogen",
+    "gemini-3.6-flash",
+    "gemini-3.1-flash-lite",
+    "gemini-4-neon"
 ]
 
 def generate_layman_summary(title, description, channel_title, start_offset=0):
     if not GEMINI_API_KEY:
-        return None
+        return None, None
 
-    prompt = f"""Rewrite this video event as a simple, engaging news story for a regular person:
-Format exactly like this:
-## [Catchy Clear News Headline]
-**The Story in Brief:** 2-3 short, clear sentences explaining what just happened in simple everyday words.
-**Why It Matters to You:** 1-2 simple sentences explaining the real-world impact on everyday citizens.
+    prompt = f"""You are a Senior Intelligence Editor writing for an informed reader. Transform this video report into a rich, deeply informative, crystal-clear briefing. Avoid generic filler—pack every sentence with concrete names, countries, institutions, numbers, dates, and real-world stakes.
+
+Format strictly using these exact Markdown sections:
+## [Sharp, Informative News Headline]
+**The Story in Brief:** 3-4 detailed sentences explaining exact events, key actors, locations, and mechanisms in plain, engaging language.
+**Key Facts & Background:**
+* **[Fact/Actor 1]:** Specific data point, policy detail, or historical context.
+* **[Fact/Actor 2]:** Specific institutional role, agreement, or timeline detail.
+* **[Fact/Actor 3]:** Broader regional or economic context.
+**Why It Matters to You:** 2-3 clear sentences explaining the concrete impact on citizens, markets, or national security.
 
 Video Title: "{title}"
 Channel: "{channel_title}"
-Context / Description: {description[:1800]}"""
+Context / Description: {description[:2000]}"""
 
-    rotated_models = MODEL_BASKET[start_offset % len(MODEL_BASKET):] + MODEL_BASKET[:start_offset % len(MODEL_BASKET)]
+    rotated_models = GEMINI_MODEL_BASKET[start_offset % len(GEMINI_MODEL_BASKET):] + GEMINI_MODEL_BASKET[:start_offset % len(GEMINI_MODEL_BASKET)]
 
     for model in rotated_models:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
             payload = {"contents": [{"parts": [{"text": prompt}]}]}
-            res = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=16)
+            res = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=18)
             if res.status_code == 429:
                 time.sleep(1.2)
                 continue
@@ -568,10 +573,10 @@ Context / Description: {description[:1800]}"""
             if "candidates" in data and len(data["candidates"]) > 0:
                 parts = data["candidates"][0].get("content", {}).get("parts", [])
                 if parts and "text" in parts[0]:
-                    return parts[0]["text"].strip()
+                    return parts[0]["text"].strip(), model
         except Exception:
             continue
-    return None
+    return None, None
 
 # ==============================================================================
 # DYNAMIC FEEDBACK & TOPIC SIGNATURE CLUSTERING
@@ -761,11 +766,11 @@ def main():
     final_feed = build_adaptive_quota_feed(feed_map, past_signatures)
 
     unsummarized = [v for v in final_feed if not v.get("layman_news")]
-    log(f"Generating Layman's Read for {len(unsummarized)} videos across the entire feed...")
+    log(f"Generating Gemini Layman's Read for {len(unsummarized)} videos across the entire feed...")
 
     for idx, vid in enumerate(unsummarized):
         try:
-            summary = generate_layman_summary(
+            summary, model_used = generate_layman_summary(
                 vid["title"],
                 vid.get("description", ""),
                 vid.get("channel_title", ""),
@@ -773,6 +778,8 @@ def main():
             )
             if summary:
                 vid["layman_news"] = summary
+                vid["layman_provider"] = "Google Gemini"
+                vid["layman_model"] = model_used
                 if (idx + 1) % 10 == 0:
                     atomic_save_json(FEED_FILE, final_feed)
                 time.sleep(1.5)
