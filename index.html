@@ -148,9 +148,9 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             Headings Intelligence
-            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">4-Way Turbo Search</span>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">Multi-Bucket Zero-429</span>
           </h1>
-          <p class="text-xs text-slate-300/80">Tap Any Empty Space to Close • Zero-Thinking Fast Gemini</p>
+          <p class="text-xs text-slate-300/80">Tap Any Empty Space to Close • Gemini + Gemma 30-RPM Bucket</p>
         </div>
       </div>
 
@@ -190,7 +190,7 @@
       <!-- Search Bar -->
       <div class="flex items-center gap-2">
         <div class="relative flex-1">
-          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (Parallel 4-Way Race)..." 
+          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels..." 
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
             class="w-full bg-black/40 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
           <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400">
@@ -213,11 +213,11 @@
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="relative">
               <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium">
-                <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ 4-Way Parallel Turbo Race</option>
-                <option value="gemini-2.5-flash-lite" class="bg-slate-900">Gemini 2.5 Flash-Lite (Ultra Fast)</option>
-                <option value="gemini-2.5-flash" class="bg-slate-900">Gemini 2.5 Flash (Zero-Think Fast)</option>
-                <option value="gemini-2.0-flash-lite" class="bg-slate-900">Gemini 2.0 Flash-Lite (High RPM)</option>
-                <option value="gemini-2.0-flash" class="bg-slate-900">Gemini 2.0 Flash (Backup)</option>
+                <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Multi-Bucket Auto-Rotate (Zero-429)</option>
+                <option value="gemini-2.5-flash-lite" class="bg-slate-900">Gemini 2.5 Flash-Lite (Fastest)</option>
+                <option value="gemini-2.5-flash" class="bg-slate-900">Gemini 2.5 Flash (Zero-Think)</option>
+                <option value="gemma-3-27b-it" class="bg-slate-900">Gemma 3 27B (30 RPM High-Quota Bucket)</option>
+                <option value="gemma-3-12b-it" class="bg-slate-900">Gemma 3 12B (30 RPM Backup Bucket)</option>
               </select>
               <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
             </div>
@@ -331,6 +331,10 @@
         </summary>
         <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
           
+          <div id="duplicateKeyWarning" class="hidden p-2 rounded-xl bg-rose-500/20 border border-rose-400/40 text-[10px] text-rose-200 leading-relaxed">
+            ⚠️ <strong>Same API Key Detected:</strong> Two or more slots use the exact same key string. Use keys from <strong>different Google Cloud Projects</strong> for separate RPM quotas.
+          </div>
+
           <!-- KEY 1: Background Layman's Read Key (Rate-Limited by Default) -->
           <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/25 space-y-2">
             <div class="flex items-center justify-between">
@@ -522,7 +526,7 @@
 
     <!-- Drawer Footer -->
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v12.0 (Universal Tap-Close + 4-Way Race)</span>
+      <span>VideoIntel Hub v12.5 (Multi-Bucket + Auto-Heal)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -542,12 +546,12 @@
       "@ReVIEWbySoukhyaGaonkar", "@MasthMagaa"
     ];
 
-    // Real, verified ultra-fast Google Gemini models (Ordered fastest first)
+    // Separate Google API Quota Buckets: Gemini Flash (15 RPM) + Gemma 3 (30 RPM / 14,400 RPD independent bucket)
     const FREE_TIER_GEMINI_MODELS = [
       "gemini-2.5-flash-lite",
       "gemini-2.5-flash",
-      "gemini-2.0-flash-lite",
-      "gemini-2.0-flash"
+      "gemma-3-27b-it",
+      "gemma-3-12b-it"
     ];
 
     let channelRoster = [];
@@ -561,6 +565,7 @@
     let lastLaymanCallTimestamp = 0;
     let lastActive1CallTimestamp = 0;
     let lastActive2CallTimestamp = 0;
+    let activeKeyTurnIndex = 0;
 
     // ============================================================================
     // TYPOGRAPHY & FONT ENGINE
@@ -667,7 +672,7 @@
     setGlassTint(currentGlassTint);
 
     // ============================================================================
-    // 3-KEY ARCHITECTURE + ZERO-THINKING 4-WAY PARALLEL RACE ENGINE
+    // 3-KEY ARCHITECTURE + MULTI-BUCKET ROTATION + AUTO-HEALING COOLOFF
     // ============================================================================
     function loadEngineKeySettingsIntoUI() {
       const legacyLayman = localStorage.getItem('DEDICATED_LAYMAN_KEY') || localStorage.getItem('GEMINI_KEY_1') || localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
@@ -743,10 +748,9 @@
       if (k1.length > 10) {
         list.push({ id: 'active1', label: 'Active Key #1', key: k1, spacingMs: sp1 });
       }
-      if (k2.length > 10) {
+      if (k2.length > 10 && k2 !== k1) {
         list.push({ id: 'active2', label: 'Active Key #2', key: k2, spacingMs: sp2 });
       }
-      // Emergency overflow to Layman Key if both Active Keys are temporarily throttled
       if (kL.length > 10 && !list.some(item => item.key === kL)) {
         list.push({ id: 'laymanOverflow', label: 'Layman Key (Overflow)', key: kL, spacingMs: 0 });
       }
@@ -775,6 +779,13 @@
         el2.innerText = k2.length > 10 ? "Active (Instant)" : "Not Set";
         el2.className = k2.length > 10 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-slate-400";
       }
+
+      const dupWarn = document.getElementById('duplicateKeyWarning');
+      if (dupWarn) {
+        const nonEmpty = [kL, k1, k2].filter(k => k.length > 10);
+        const uniqueSet = new Set(nonEmpty);
+        dupWarn.classList.toggle('hidden', nonEmpty.length === uniqueSet.size);
+      }
     }
 
     function syncEngineSelection(val) {
@@ -795,11 +806,11 @@
     function getEngineOptionsHTML(selectedVal) {
       const current = selectedVal || localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
       const options = [
-        ["gemini-auto-cascade", "⚡ 4-Way Parallel Turbo Race"],
-        ["gemini-2.5-flash-lite", "Gemini 2.5 Flash-Lite (Ultra Fast)"],
-        ["gemini-2.5-flash", "Gemini 2.5 Flash (Zero-Think Fast)"],
-        ["gemini-2.0-flash-lite", "Gemini 2.0 Flash-Lite (High RPM)"],
-        ["gemini-2.0-flash", "Gemini 2.0 Flash (Backup)"]
+        ["gemini-auto-cascade", "⚡ Multi-Bucket Auto-Rotate (Zero-429)"],
+        ["gemini-2.5-flash-lite", "Gemini 2.5 Flash-Lite (Fastest)"],
+        ["gemini-2.5-flash", "Gemini 2.5 Flash (Zero-Think)"],
+        ["gemma-3-27b-it", "Gemma 3 27B (30 RPM High-Quota)"],
+        ["gemma-3-12b-it", "Gemma 3 12B (30 RPM Backup)"]
       ];
       return options.map(([val, label]) =>
         `<option value="${val}" class="bg-slate-900" ${current === val ? 'selected' : ''}>${label}</option>`
@@ -820,7 +831,6 @@
         temperature: 0.3,
         maxOutputTokens: maxTokens
       };
-      // Disable multi-second thinking deliberation on Gemini 2.5 models for instant speed
       if (modelName.startsWith("gemini-2.5")) {
         genConfig.thinkingConfig = { thinkingBudget: 0 };
       }
@@ -863,7 +873,7 @@
       for (const model of rotatedModels) {
         await enforceKeySpacing('layman', spacingMs);
         const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), 7500);
+        const tid = setTimeout(() => ctrl.abort(), 8000);
         try {
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
             method: 'POST',
@@ -883,7 +893,7 @@
               };
             }
           } else if (res.status === 429) {
-            await new Promise(r => setTimeout(r, 2000));
+            await new Promise(r => setTimeout(r, 1500));
             continue;
           }
         } catch (e) {
@@ -894,79 +904,63 @@
       throw new Error("Layman Reading Key cooling down to respect RPM limit.");
     }
 
-    // ENGINE 2: ULTRA-FAST 4-WAY PARALLEL RACE ACROSS BOTH ACTIVE KEYS & FAST MODELS
+    // ENGINE 2: ZERO-WASTE MULTI-BUCKET ROTATION + AUTO-HEALING COOLOFF
+    // Alternates Active Key #1 <-> Active Key #2 and jumps across separate Gemini Flash & Gemma 30-RPM quota buckets
     async function callGeminiActiveSearchEngine(promptText, rotateOffset = 0, overrideModel = null, maxTokens = 950) {
       const activeKeys = getActiveSearchKeysList();
       if (activeKeys.length === 0) {
         throw new Error("GEMINI_KEYS_REQUIRED");
       }
 
+      // Alternate starting key on every query so Active Key #1 and #2 share load evenly
+      activeKeyTurnIndex = (activeKeyTurnIndex + 1) % activeKeys.length;
+      const orderedKeys = activeKeys.slice(activeKeyTurnIndex).concat(activeKeys.slice(0, activeKeyTurnIndex));
+
       const chosen = overrideModel || document.getElementById('engineSelector')?.value || "gemini-auto-cascade";
       const modelPool = chosen === "gemini-auto-cascade"
         ? FREE_TIER_GEMINI_MODELS
         : [...new Set([chosen, ...FREE_TIER_GEMINI_MODELS])];
 
-      const primaryKeys = activeKeys.filter(k => k.id !== 'laymanOverflow');
-      const raceKeys = primaryKeys.length > 0 ? primaryKeys : activeKeys;
-
-      const makeSingleCall = async (keyObj, modelName, tagSuffix = "") => {
-        await enforceKeySpacing(keyObj.id, keyObj.spacingMs);
-        const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), 7500);
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${keyObj.key}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(buildFastGeminiPayload(promptText, modelName, maxTokens)),
-            signal: ctrl.signal
-          });
-          clearTimeout(tid);
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          const data = await res.json();
-          const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!txt || txt.trim().length <= 10) throw new Error("Empty");
-          return {
-            text: txt.trim(),
-            engineName: `${keyObj.label}${tagSuffix}`,
-            model: modelName
-          };
-        } catch (err) {
-          clearTimeout(tid);
-          throw err;
-        }
-      };
-
-      // Stage 1: Fire parallel race across all unthrottled Active Keys x Top 2 Fastest Models (up to 4 parallel streams)
-      const racePromises = [];
-      for (const kObj of raceKeys) {
-        if (kObj.spacingMs === 0) {
-          racePromises.push(makeSingleCall(kObj, modelPool[0], " (Turbo)"));
-          if (modelPool[1]) {
-            racePromises.push(makeSingleCall(kObj, modelPool[1], " (Turbo)"));
+      // Up to 2 passes: Pass 1 checks all keys & separate model quota buckets immediately; Pass 2 waits 4.5s and auto-heals if a transient burst occurred
+      for (let pass = 1; pass <= 2; pass++) {
+        for (const keyObj of orderedKeys) {
+          for (const model of modelPool) {
+            await enforceKeySpacing(keyObj.id, keyObj.spacingMs);
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), 8500);
+            try {
+              const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${keyObj.key}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(buildFastGeminiPayload(promptText, model, maxTokens)),
+                signal: ctrl.signal
+              });
+              clearTimeout(tid);
+              if (res.ok) {
+                const data = await res.json();
+                const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (txt && txt.trim().length > 10) {
+                  return {
+                    text: txt.trim(),
+                    engineName: keyObj.label,
+                    model: model
+                  };
+                }
+              } else if (res.status === 429) {
+                // Immediately jump to next model bucket / next key without wasting time
+                continue;
+              }
+            } catch (e) {
+              clearTimeout(tid);
+            }
           }
         }
-      }
-
-      if (racePromises.length > 0) {
-        try {
-          return await Promise.any(racePromises);
-        } catch (e) {
-          // If Stage 1 models hit a transient limit, immediately sweep remaining models + overflow key
+        if (pass === 1) {
+          await new Promise(r => setTimeout(r, 4500));
         }
       }
 
-      // Stage 2: Fast sequential sweep across all remaining keys (including Layman overflow) & models
-      for (const kObj of activeKeys) {
-        for (const model of modelPool) {
-          try {
-            return await makeSingleCall(kObj, model, "");
-          } catch (e) {
-            continue;
-          }
-        }
-      }
-
-      throw new Error("All Gemini keys hit per-minute limit. Wait 10 seconds and tap Retry.");
+      throw new Error("Google per-minute quota reached. Make sure Active Keys #1 & #2 are from separate Cloud Projects, or wait 15s and tap Retry.");
     }
 
     // ============================================================================
@@ -1901,7 +1895,7 @@ Format strictly as:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-3">
           <i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i>
-          <span>Master Gemini (4-Way Turbo) analyzing topics across all active channels...</span>
+          <span>Master Gemini analyzing topics across all active channels...</span>
         </div>`;
 
       const readSet = getReadSet();
@@ -2009,11 +2003,9 @@ Respond strictly in valid JSON format only, with no markdown code fences:
 
     // UNIVERSAL EMPTY SPACE TAP HANDLER: Works across Layman, Specific Knowledge, UPSC, Smart Questions & Personal Q&A
     function onDrawerContainerClick(event, videoId) {
-      // Only ignore taps on actual interactive UI controls (buttons, inputs, selects, links)
       if (event.target.closest('button, input, a, select, textarea, label')) {
         return;
       }
-      // Allow user to highlight/copy text without accidentally closing
       const selection = window.getSelection();
       if (selection && selection.toString().trim().length > 0) {
         return;
@@ -2155,7 +2147,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
             ▲ Tap any empty space anywhere in this panel to collapse
           </div>
 
-          <!-- Active Search Triggers (Uses 4-Way Parallel Turbo Race) -->
+          <!-- Active Search Triggers (Uses Multi-Bucket Rotation) -->
           <div class="flex flex-wrap gap-1.5 mb-2.5 mt-2">
             <button onclick="event.stopPropagation(); runInlineAI('${item.id}', 'specific')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-sky-300 flex items-center gap-1 font-medium">
               <i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge (Deep)
@@ -2171,12 +2163,12 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           <div id="smartQuestionsBox-${item.id}" class="hidden flex flex-wrap gap-1.5 mb-3 p-2.5 rounded-xl bg-black/40 border border-white/15 clickable-desc"></div>
           <div id="qaResponseContainer-${item.id}" class="hidden space-y-2.5 mb-3 clickable-desc"></div>
 
-          <!-- Per-Video Deep Gemini Search Engine (Uses 4-Way Parallel Turbo Race) -->
+          <!-- Per-Video Deep Gemini Search Engine -->
           <div class="mt-3 pt-3 border-t border-white/15">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
               <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5">
                 <i class="fa-solid fa-globe text-amber-400"></i>
-                <span>Gemini Active Search (4-Way Turbo)</span>
+                <span>Gemini Active Search (Multi-Bucket)</span>
               </label>
               <div class="relative">
                 <select id="cardEngine-${item.id}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">
@@ -2300,7 +2292,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         </div>
         <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
           <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-          <span>4-Way Turbo Race generating deep intelligence dossier...</span>
+          <span>Generating deep intelligence dossier across quota buckets...</span>
         </div>`;
 
       const prompt = type === 'specific' ? buildSpecificKnowledgePrompt(video) : buildUpscPrompt(video);
@@ -2363,7 +2355,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           </div>
           <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
             <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-            <span>4-Way Turbo Race analyzing deep context & official positions...</span>
+            <span>Analyzing deep context & official positions...</span>
           </div>`;
       }
 
@@ -2478,7 +2470,7 @@ Format strictly as:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master Gemini (4-Way Turbo) synthesizing comprehensive intelligence...</span>
+          <span>Master Gemini synthesizing comprehensive intelligence...</span>
         </div>`;
 
       const contextSummary = allVideos.filter(v => !isVideoChannelPaused(v)).slice(0, 14).map((v, i) => 
