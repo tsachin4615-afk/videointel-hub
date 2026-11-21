@@ -86,7 +86,6 @@
     .unread-indicator { width: 7px; height: 7px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
     .clickable-desc { cursor: pointer; user-select: none; }
 
-    /* Collapsible Curtain & Master Engine Details Styling */
     details.curtain-section > summary,
     details.master-collapsible > summary {
       list-style: none;
@@ -149,9 +148,9 @@
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             Headings Intelligence
-            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">Auto-Spaced Dual Gemini</span>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">Dual-Key Turbo Search</span>
           </h1>
-          <p class="text-xs text-slate-300/80">Engine 1: Spaced Layman Prep • Engine 2: Active Live Search</p>
+          <p class="text-xs text-slate-300/80">Layman Key (Rate-Limited) • 2 Active Search Keys (Unthrottled)</p>
         </div>
       </div>
 
@@ -191,7 +190,7 @@
       <!-- Search Bar -->
       <div class="flex items-center gap-2">
         <div class="relative flex-1">
-          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels..." 
+          <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels (Uses both Active Search Keys)..." 
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
             class="w-full bg-black/40 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
           <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400">
@@ -214,13 +213,12 @@
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="relative">
               <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium">
-                <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Gemini Free-Tier Cascade</option>
-                <option value="gemini-3.8-flash" class="bg-slate-900">Gemini 3.8 Flash (Primary)</option>
+                <option value="gemini-auto-cascade" class="bg-slate-900" selected>⚡ Gemini Dual-Key Turbo Cascade</option>
+                <option value="gemini-4-hydrogen" class="bg-slate-900">Gemini 4 Hydrogen (Latest Flagship)</option>
+                <option value="gemini-3.8-flash" class="bg-slate-900">Gemini 3.8 Flash (Workhorse)</option>
                 <option value="gemini-3.6-flash" class="bg-slate-900">Gemini 3.6 Flash (Balanced)</option>
                 <option value="gemini-3.5-flash-lite" class="bg-slate-900">Gemini 3.5 Flash-Lite (Fastest)</option>
                 <option value="gemini-3.1-flash-lite" class="bg-slate-900">Gemini 3.1 Flash-Lite (High RPM)</option>
-                <option value="gemma-4-31b-it" class="bg-slate-900">Gemma 4 31B (Separate Quota)</option>
-                <option value="gemma-4-26b-a4b-it" class="bg-slate-900">Gemma 4 26B (Fast Open)</option>
               </select>
               <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
             </div>
@@ -267,7 +265,7 @@
           <i class="fa-solid fa-check-double"></i> Mark All Read
         </button>
         <button onclick="toggleCurtain(true)" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-sky-300 hover:text-white flex items-center gap-1.5">
-          <i class="fa-solid fa-key"></i> Engine Keys & Spacing
+          <i class="fa-solid fa-key"></i> API Keys & Rate Limits
         </button>
       </div>
 
@@ -298,7 +296,7 @@
   </main>
 
   <!-- ============================================================================== -->
-  <!-- COLLAPSIBLE SLIDING CURTAIN DRAWER (DUAL ENGINE + AUTO-SPACING CONTROLS) -->
+  <!-- COLLAPSIBLE SLIDING CURTAIN DRAWER (3 KEYS + INDIVIDUAL RATE LIMIT CONTROLS) -->
   <!-- ============================================================================== -->
   <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/55 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
   
@@ -326,50 +324,71 @@
         </a>
       </div>
 
-      <!-- COLLAPSIBLE SECTION 1: Dual Engine Keys + Auto-Spacing Control -->
+      <!-- COLLAPSIBLE SECTION 1: Gemini API Keys & Individual Rate-Limit Controls -->
       <details open class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> Dual Gemini Engines & Auto-Spacing</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> Gemini Keys & Per-Key Rate Limits</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
         <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
           
-          <!-- Engine 1: Background Layman's Read Preparation -->
+          <!-- KEY 1: Background Layman's Read Key (Rate-Limited by Default) -->
           <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/25 space-y-2">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold text-amber-300">Engine 1: Background Layman Prep</span>
+              <span class="text-[11px] font-bold text-amber-300">1. Layman Reading Key (Background)</span>
               <span id="laymanKeyStatus" class="text-[10px] font-mono text-amber-200">Not Set</span>
             </div>
-            <p class="text-[10px] text-slate-300/80">Dedicated exclusively to preparing Layman's Read in the background with auto-spacing so it never hits RPM limits.</p>
-            <input id="laymanEngineKeyInput" type="password" onchange="saveDualEngineSettings()" placeholder="Paste Gemini API Key #1 (Layman Prep)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
+            <input id="laymanEngineKeyInput" type="password" onchange="saveEngineKeySettings()" placeholder="Paste Gemini Key for Layman Prep..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-amber-400" />
+            <div class="flex items-center justify-between gap-2 pt-0.5">
+              <span class="text-[10px] text-slate-300">Rate Limit Spacing:</span>
+              <select id="laymanSpacingSelect" onchange="saveEngineKeySettings()" class="bg-black/60 text-[10px] text-amber-200 px-2 py-1 rounded border border-white/15 focus:outline-none">
+                <option value="0" class="bg-slate-900">0s (No Limit)</option>
+                <option value="3000" class="bg-slate-900">3.0s (~20 RPM)</option>
+                <option value="5500" class="bg-slate-900" selected>5.5s (~11 RPM - Default)</option>
+                <option value="8000" class="bg-slate-900">8.0s (~7 RPM)</option>
+                <option value="12000" class="bg-slate-900">12.0s (~5 RPM)</option>
+              </select>
+            </div>
           </div>
 
-          <!-- Engine 2: Active Search Engine -->
+          <!-- KEY 2: Active Search Key #1 (Unthrottled 0s Default) -->
           <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-400/30 space-y-2">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold text-emerald-300">Engine 2: Active Live Search</span>
-              <span id="activeKeyStatus" class="text-[10px] font-mono text-emerald-200">Not Set</span>
+              <span class="text-[11px] font-bold text-emerald-300">2. Active Search Key #1 (Fast Answers)</span>
+              <span id="activeKey1Status" class="text-[10px] font-mono text-emerald-200">Not Set</span>
             </div>
-            <p class="text-[10px] text-slate-300/80">Dedicated strictly to Specific Knowledge, UPSC Curated, Smart Questions, Master Engine & Per-Video Search.</p>
-            <input id="activeEngineKeyInput" type="password" onchange="saveDualEngineSettings()" placeholder="Paste Gemini API Key #2 (Active Search)..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-emerald-400" />
+            <input id="activeEngineKey1Input" type="password" onchange="saveEngineKeySettings()" placeholder="Paste Active Search Key #1..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-emerald-400" />
+            <div class="flex items-center justify-between gap-2 pt-0.5">
+              <span class="text-[10px] text-slate-300">Rate Limit Spacing:</span>
+              <select id="active1SpacingSelect" onchange="saveEngineKeySettings()" class="bg-black/60 text-[10px] text-emerald-200 px-2 py-1 rounded border border-white/15 focus:outline-none">
+                <option value="0" class="bg-slate-900" selected>0s (No Rate Limit - Instant)</option>
+                <option value="1500" class="bg-slate-900">1.5s Light Spacing</option>
+                <option value="3000" class="bg-slate-900">3.0s Spacing</option>
+                <option value="5500" class="bg-slate-900">5.5s Spacing</option>
+              </select>
+            </div>
           </div>
 
-          <!-- Auto-Spacing Interval Control -->
-          <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
-            <div class="flex items-center justify-between text-[11px]">
-              <span class="text-slate-200 font-semibold"><i class="fa-solid fa-stopwatch text-sky-400 mr-1"></i> Auto-Spacing Pace</span>
-              <span id="spacingStatusText" class="font-mono text-sky-300">5.5s / req (~11 RPM)</span>
+          <!-- KEY 3: Active Search Key #2 (Unthrottled 0s Default) -->
+          <div class="p-2.5 rounded-xl bg-sky-500/10 border border-sky-400/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-sky-300">3. Active Search Key #2 (Dual-Speed Pair)</span>
+              <span id="activeKey2Status" class="text-[10px] font-mono text-sky-200">Not Set</span>
             </div>
-            <select id="autoSpacingSelector" onchange="saveDualEngineSettings()" class="w-full bg-black/60 text-xs text-sky-200 px-2.5 py-1.5 rounded-lg border border-white/15 focus:outline-none">
-              <option value="4500" class="bg-slate-900">4.5 Seconds Spacing (~13 RPM — Fast Safe)</option>
-              <option value="5500" class="bg-slate-900" selected>5.5 Seconds Spacing (~11 RPM — Zero-429 Default)</option>
-              <option value="7000" class="bg-slate-900">7.0 Seconds Spacing (~8 RPM — Ultra Safe)</option>
-              <option value="10000" class="bg-slate-900">10.0 Seconds Spacing (~6 RPM — Conservative)</option>
-            </select>
+            <input id="activeEngineKey2Input" type="password" onchange="saveEngineKeySettings()" placeholder="Paste Active Search Key #2..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-sky-400" />
+            <div class="flex items-center justify-between gap-2 pt-0.5">
+              <span class="text-[10px] text-slate-300">Rate Limit Spacing:</span>
+              <select id="active2SpacingSelect" onchange="saveEngineKeySettings()" class="bg-black/60 text-[10px] text-sky-200 px-2 py-1 rounded border border-white/15 focus:outline-none">
+                <option value="0" class="bg-slate-900" selected>0s (No Rate Limit - Instant)</option>
+                <option value="1500" class="bg-slate-900">1.5s Light Spacing</option>
+                <option value="3000" class="bg-slate-900">3.0s Spacing</option>
+                <option value="5500" class="bg-slate-900">5.5s Spacing</option>
+              </select>
+            </div>
           </div>
 
-          <button onclick="saveDualEngineSettings(true)" class="w-full py-1.5 rounded-xl text-xs bg-sky-600/40 hover:bg-sky-600/60 text-white border border-sky-400/40 font-semibold transition">
-            <i class="fa-solid fa-check-circle mr-1"></i> Save Keys & Start Spaced Layman Prep
+          <button onclick="saveEngineKeySettings(true)" class="w-full py-1.5 rounded-xl text-xs bg-sky-600/40 hover:bg-sky-600/60 text-white border border-sky-400/40 font-semibold transition">
+            <i class="fa-solid fa-check-circle mr-1"></i> Save Keys & Start Layman Prep
           </button>
 
           <div class="flex items-center justify-between text-xs text-slate-300 pt-1 border-t border-white/10">
@@ -504,7 +523,7 @@
 
     <!-- Drawer Footer -->
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v10.5 (Compact Master + Dual Spaced Gemini)</span>
+      <span>VideoIntel Hub v11.0 (Dual Active Keys + Per-Key Rate Control)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -524,13 +543,13 @@
       "@ReVIEWbySoukhyaGaonkar", "@MasthMagaa"
     ];
 
+    // Verified Free-Tier November 2026 Gemini Models
     const FREE_TIER_GEMINI_MODELS = [
+      "gemini-4-hydrogen",
       "gemini-3.8-flash",
       "gemini-3.6-flash",
       "gemini-3.5-flash-lite",
-      "gemini-3.1-flash-lite",
-      "gemma-4-31b-it",
-      "gemma-4-26b-a4b-it"
+      "gemini-3.1-flash-lite"
     ];
 
     let channelRoster = [];
@@ -541,9 +560,11 @@
     let aiExplicitDuplicateIds = null;
     let laymanQueueRunning = false;
 
+    // Independent per-key rate-limiting timestamps
     let lastLaymanCallTimestamp = 0;
-    let lastActiveSearchCallTimestamp = 0;
-    let activeUserSearchLockUntil = 0;
+    let lastActive1CallTimestamp = 0;
+    let lastActive2CallTimestamp = 0;
+    let activeKeyRotationCounter = 0;
 
     // ============================================================================
     // TYPOGRAPHY & FONT ENGINE
@@ -650,40 +671,60 @@
     setGlassTint(currentGlassTint);
 
     // ============================================================================
-    // DUAL DEDICATED GEMINI ENGINES + TOKEN-BUCKET AUTO-SPACING
+    // 3-KEY ARCHITECTURE + PER-KEY RATE-LIMITING ENGINE
+    // Key 1: Layman Reading Key (Rate-Limited by Default)
+    // Key 2 & Key 3: Active Search Key #1 & #2 (Unthrottled 0s Default, Both Used for Fast Answers)
     // ============================================================================
-    function loadDualEngineSettingsIntoUI() {
-      const legacy1 = localStorage.getItem('GEMINI_KEY_1') || localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
-      const legacy2 = localStorage.getItem('GEMINI_KEY_4') || localStorage.getItem('GEMINI_KEY_2') || '';
+    function loadEngineKeySettingsIntoUI() {
+      const legacyLayman = localStorage.getItem('DEDICATED_LAYMAN_KEY') || localStorage.getItem('GEMINI_KEY_1') || localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
+      const legacyActive1 = localStorage.getItem('ACTIVE_SEARCH_KEY_1') || localStorage.getItem('DEDICATED_ACTIVE_KEY') || localStorage.getItem('GEMINI_KEY_4') || '';
+      const legacyActive2 = localStorage.getItem('ACTIVE_SEARCH_KEY_2') || localStorage.getItem('GEMINI_KEY_5') || '';
 
-      const k1 = localStorage.getItem('DEDICATED_LAYMAN_KEY') || legacy1;
-      const k2 = localStorage.getItem('DEDICATED_ACTIVE_KEY') || legacy2;
-      const spacing = localStorage.getItem('GEMINI_AUTO_SPACING_MS') || '5500';
+      const spLayman = localStorage.getItem('RATE_LIMIT_LAYMAN_MS') || '5500';
+      const spActive1 = localStorage.getItem('RATE_LIMIT_ACTIVE1_MS') || '0';
+      const spActive2 = localStorage.getItem('RATE_LIMIT_ACTIVE2_MS') || '0';
 
-      if (k1 && !localStorage.getItem('DEDICATED_LAYMAN_KEY')) localStorage.setItem('DEDICATED_LAYMAN_KEY', k1);
-      if (k2 && !localStorage.getItem('DEDICATED_ACTIVE_KEY')) localStorage.setItem('DEDICATED_ACTIVE_KEY', k2);
+      if (legacyLayman && !localStorage.getItem('DEDICATED_LAYMAN_KEY')) localStorage.setItem('DEDICATED_LAYMAN_KEY', legacyLayman);
+      if (legacyActive1 && !localStorage.getItem('ACTIVE_SEARCH_KEY_1')) localStorage.setItem('ACTIVE_SEARCH_KEY_1', legacyActive1);
+      if (legacyActive2 && !localStorage.getItem('ACTIVE_SEARCH_KEY_2')) localStorage.setItem('ACTIVE_SEARCH_KEY_2', legacyActive2);
 
-      const el1 = document.getElementById('laymanEngineKeyInput');
-      const el2 = document.getElementById('activeEngineKeyInput');
-      const spEl = document.getElementById('autoSpacingSelector');
+      const elLayman = document.getElementById('laymanEngineKeyInput');
+      const elAct1 = document.getElementById('activeEngineKey1Input');
+      const elAct2 = document.getElementById('activeEngineKey2Input');
 
-      if (el1) el1.value = k1;
-      if (el2) el2.value = k2;
-      if (spEl) spEl.value = spacing;
+      const selLayman = document.getElementById('laymanSpacingSelect');
+      const selAct1 = document.getElementById('active1SpacingSelect');
+      const selAct2 = document.getElementById('active2SpacingSelect');
 
-      updateDualEngineBadges();
+      if (elLayman) elLayman.value = legacyLayman;
+      if (elAct1) elAct1.value = legacyActive1;
+      if (elAct2) elAct2.value = legacyActive2;
+
+      if (selLayman) selLayman.value = spLayman;
+      if (selAct1) selAct1.value = spActive1;
+      if (selAct2) selAct2.value = spActive2;
+
+      updateKeyStatusBadges();
     }
 
-    function saveDualEngineSettings(triggerPrep = false) {
-      const k1 = (document.getElementById('laymanEngineKeyInput')?.value || '').trim();
-      const k2 = (document.getElementById('activeEngineKeyInput')?.value || '').trim();
-      const sp = document.getElementById('autoSpacingSelector')?.value || '5500';
+    function saveEngineKeySettings(triggerPrep = false) {
+      const kLayman = (document.getElementById('laymanEngineKeyInput')?.value || '').trim();
+      const kAct1 = (document.getElementById('activeEngineKey1Input')?.value || '').trim();
+      const kAct2 = (document.getElementById('activeEngineKey2Input')?.value || '').trim();
 
-      localStorage.setItem('DEDICATED_LAYMAN_KEY', k1);
-      localStorage.setItem('DEDICATED_ACTIVE_KEY', k2);
-      localStorage.setItem('GEMINI_AUTO_SPACING_MS', sp);
+      const spLayman = document.getElementById('laymanSpacingSelect')?.value || '5500';
+      const spAct1 = document.getElementById('active1SpacingSelect')?.value || '0';
+      const spAct2 = document.getElementById('active2SpacingSelect')?.value || '0';
 
-      updateDualEngineBadges();
+      localStorage.setItem('DEDICATED_LAYMAN_KEY', kLayman);
+      localStorage.setItem('ACTIVE_SEARCH_KEY_1', kAct1);
+      localStorage.setItem('ACTIVE_SEARCH_KEY_2', kAct2);
+
+      localStorage.setItem('RATE_LIMIT_LAYMAN_MS', spLayman);
+      localStorage.setItem('RATE_LIMIT_ACTIVE1_MS', spAct1);
+      localStorage.setItem('RATE_LIMIT_ACTIVE2_MS', spAct2);
+
+      updateKeyStatusBadges();
       if (triggerPrep) {
         startBackgroundLaymanQueue(true);
       }
@@ -693,36 +734,54 @@
       return (localStorage.getItem('DEDICATED_LAYMAN_KEY') || '').trim();
     }
 
-    function getActiveSearchEngineKey() {
-      const k2 = (localStorage.getItem('DEDICATED_ACTIVE_KEY') || '').trim();
-      return k2.length > 10 ? k2 : getLaymanEngineKey();
+    function getLaymanSpacingMs() {
+      return parseInt(localStorage.getItem('RATE_LIMIT_LAYMAN_MS') || '5500', 10);
     }
 
-    function getAutoSpacingMs() {
-      return parseInt(localStorage.getItem('GEMINI_AUTO_SPACING_MS') || '5500', 10);
+    function getActiveSearchKeysList() {
+      const list = [];
+      const k1 = (localStorage.getItem('ACTIVE_SEARCH_KEY_1') || '').trim();
+      const k2 = (localStorage.getItem('ACTIVE_SEARCH_KEY_2') || '').trim();
+      const sp1 = parseInt(localStorage.getItem('RATE_LIMIT_ACTIVE1_MS') || '0', 10);
+      const sp2 = parseInt(localStorage.getItem('RATE_LIMIT_ACTIVE2_MS') || '0', 10);
+
+      if (k1.length > 10) {
+        list.push({ id: 'active1', label: 'Active Key #1', key: k1, spacingMs: sp1 });
+      }
+      if (k2.length > 10) {
+        list.push({ id: 'active2', label: 'Active Key #2', key: k2, spacingMs: sp2 });
+      }
+      // Fallback to Layman key only if neither Active Search key is configured yet
+      if (list.length === 0) {
+        const kL = getLaymanEngineKey();
+        if (kL.length > 10) {
+          list.push({ id: 'laymanFallback', label: 'Layman Key (Fallback)', key: kL, spacingMs: 0 });
+        }
+      }
+      return list;
     }
 
-    function updateDualEngineBadges() {
-      const k1 = getLaymanEngineKey();
-      const k2 = (localStorage.getItem('DEDICATED_ACTIVE_KEY') || '').trim();
-      const sp = getAutoSpacingMs();
+    function updateKeyStatusBadges() {
+      const kL = getLaymanEngineKey();
+      const k1 = (localStorage.getItem('ACTIVE_SEARCH_KEY_1') || '').trim();
+      const k2 = (localStorage.getItem('ACTIVE_SEARCH_KEY_2') || '').trim();
 
-      const el1 = document.getElementById('laymanKeyStatus');
+      const elL = document.getElementById('laymanKeyStatus');
+      if (elL) {
+        elL.innerText = kL.length > 10 ? "Active (Spaced)" : "Key Needed";
+        elL.className = kL.length > 10 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-rose-400";
+      }
+
+      const el1 = document.getElementById('activeKey1Status');
       if (el1) {
-        el1.innerText = k1.length > 10 ? "Engine 1 Active" : "Key Needed";
-        el1.className = k1.length > 10 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-rose-400";
+        el1.innerText = k1.length > 10 ? "Active (Instant)" : "Not Set";
+        el1.className = k1.length > 10 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-amber-300";
       }
 
-      const el2 = document.getElementById('activeKeyStatus');
+      const el2 = document.getElementById('activeKey2Status');
       if (el2) {
-        el2.innerText = k2.length > 10 ? "Engine 2 Active" : (k1.length > 10 ? "Using Engine 1" : "Key Needed");
-        el2.className = k2.length > 10 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-amber-300";
-      }
-
-      const spText = document.getElementById('spacingStatusText');
-      if (spText) {
-        const rpm = Math.floor(60000 / sp);
-        spText.innerText = `${(sp / 1000).toFixed(1)}s / req (~${rpm} RPM)`;
+        el2.innerText = k2.length > 10 ? "Active (Instant)" : "Not Set";
+        el2.className = k2.length > 10 ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-slate-400";
       }
     }
 
@@ -744,13 +803,12 @@
     function getEngineOptionsHTML(selectedVal) {
       const current = selectedVal || localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'gemini-auto-cascade';
       const options = [
-        ["gemini-auto-cascade", "⚡ Gemini Free-Tier Cascade"],
-        ["gemini-3.8-flash", "Gemini 3.8 Flash (Primary)"],
+        ["gemini-auto-cascade", "⚡ Gemini Dual-Key Turbo Cascade"],
+        ["gemini-4-hydrogen", "Gemini 4 Hydrogen (Latest Flagship)"],
+        ["gemini-3.8-flash", "Gemini 3.8 Flash (Workhorse)"],
         ["gemini-3.6-flash", "Gemini 3.6 Flash (Balanced)"],
         ["gemini-3.5-flash-lite", "Gemini 3.5 Flash-Lite (Fastest)"],
-        ["gemini-3.1-flash-lite", "Gemini 3.1 Flash-Lite (High RPM)"],
-        ["gemma-4-31b-it", "Gemma 4 31B (Separate Quota)"],
-        ["gemma-4-26b-a4b-it", "Gemma 4 26B (Fast Open)"]
+        ["gemini-3.1-flash-lite", "Gemini 3.1 Flash-Lite (High RPM)"]
       ];
       return options.map(([val, label]) =>
         `<option value="${val}" class="bg-slate-900" ${current === val ? 'selected' : ''}>${label}</option>`
@@ -766,37 +824,38 @@
       `;
     }
 
-    async function enforceAutoSpacing(engineType) {
-      const minGap = getAutoSpacingMs();
+    async function enforceKeySpacing(keyId, spacingMs) {
+      if (!spacingMs || spacingMs <= 0) return; // Zero delay when rate limit is set to 0s
       const now = Date.now();
-      if (engineType === 'layman') {
+      if (keyId === 'layman') {
         const elapsed = now - lastLaymanCallTimestamp;
-        if (elapsed < minGap) {
-          await new Promise(r => setTimeout(r, minGap - elapsed));
-        }
+        if (elapsed < spacingMs) await new Promise(r => setTimeout(r, spacingMs - elapsed));
         lastLaymanCallTimestamp = Date.now();
-      } else {
-        const elapsed = now - lastActiveSearchCallTimestamp;
-        if (elapsed < 1500) {
-          await new Promise(r => setTimeout(r, 1500 - elapsed));
-        }
-        lastActiveSearchCallTimestamp = Date.now();
+      } else if (keyId === 'active1') {
+        const elapsed = now - lastActive1CallTimestamp;
+        if (elapsed < spacingMs) await new Promise(r => setTimeout(r, spacingMs - elapsed));
+        lastActive1CallTimestamp = Date.now();
+      } else if (keyId === 'active2') {
+        const elapsed = now - lastActive2CallTimestamp;
+        if (elapsed < spacingMs) await new Promise(r => setTimeout(r, spacingMs - elapsed));
+        lastActive2CallTimestamp = Date.now();
       }
     }
 
-    // ENGINE 1 CALLER: DEDICATED BACKGROUND LAYMAN'S READ ENGINE (AUTO-SPACED)
+    // ENGINE 1: RATE-LIMITED BACKGROUND LAYMAN'S READ CALLER
     async function callGeminiLaymanEngine(promptText, rotateOffset = 0) {
       const key = getLaymanEngineKey();
       if (!key || key.length < 10) {
         throw new Error("GEMINI_KEYS_REQUIRED");
       }
 
+      const spacingMs = getLaymanSpacingMs();
       const rotatedModels = FREE_TIER_GEMINI_MODELS.slice(rotateOffset % FREE_TIER_GEMINI_MODELS.length).concat(
         FREE_TIER_GEMINI_MODELS.slice(0, rotateOffset % FREE_TIER_GEMINI_MODELS.length)
       );
 
       for (const model of rotatedModels) {
-        await enforceAutoSpacing('layman');
+        await enforceKeySpacing('layman', spacingMs);
         const ctrl = new AbortController();
         const tid = setTimeout(() => ctrl.abort(), 9000);
         try {
@@ -813,7 +872,7 @@
             if (txt && txt.trim().length > 10) {
               return {
                 text: txt.trim(),
-                engineName: "Engine 1 (Layman Prep)",
+                engineName: "Layman Key",
                 model: model
               };
             }
@@ -826,17 +885,19 @@
         }
       }
 
-      throw new Error("Engine 1 (Layman Prep) cooling down to stay within free RPM limit.");
+      throw new Error("Layman Reading Key cooling down to respect RPM limit.");
     }
 
-    // ENGINE 2 CALLER: DEDICATED ACTIVE SEARCH ENGINE
+    // ENGINE 2: UNTHROTTLED DUAL-KEY ACTIVE SEARCH CALLER (USES BOTH ACTIVE KEYS FOR FAST ANSWERS)
     async function callGeminiActiveSearchEngine(promptText, rotateOffset = 0, overrideModel = null) {
-      activeUserSearchLockUntil = Date.now() + 20000;
-
-      const key = getActiveSearchEngineKey();
-      if (!key || key.length < 10) {
+      const activeKeys = getActiveSearchKeysList();
+      if (activeKeys.length === 0) {
         throw new Error("GEMINI_KEYS_REQUIRED");
       }
+
+      // Round-robin rotation across both Active Search Keys so every query splits load across both keys
+      activeKeyRotationCounter = (activeKeyRotationCounter + 1) % activeKeys.length;
+      const orderedKeys = activeKeys.slice(activeKeyRotationCounter).concat(activeKeys.slice(0, activeKeyRotationCounter));
 
       const chosen = overrideModel || document.getElementById('engineSelector')?.value || "gemini-auto-cascade";
       const rotatedModels = FREE_TIER_GEMINI_MODELS.slice(rotateOffset % FREE_TIER_GEMINI_MODELS.length).concat(
@@ -846,38 +907,82 @@
         ? rotatedModels
         : [...new Set([chosen, ...rotatedModels])];
 
-      for (const model of modelPool) {
-        await enforceAutoSpacing('active');
-        const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), 9000);
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
-            signal: ctrl.signal
-          });
-          clearTimeout(tid);
-          if (res.ok) {
+      // When both Active Keys are unthrottled (0s spacing) and user didn't lock a single model, race Key #1 and Key #2 in parallel for fastest response!
+      const bothUnthrottled = orderedKeys.length === 2 && orderedKeys[0].spacingMs === 0 && orderedKeys[1].spacingMs === 0;
+
+      if (bothUnthrottled) {
+        const primaryModel = modelPool[0];
+        const secondaryModel = modelPool[1] || modelPool[0];
+
+        const makeFastRequest = async (keyObj, modelName) => {
+          const ctrl = new AbortController();
+          const tid = setTimeout(() => ctrl.abort(), 8500);
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${keyObj.key}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
+              signal: ctrl.signal
+            });
+            clearTimeout(tid);
+            if (!res.ok) throw new Error("HTTP " + res.status);
             const data = await res.json();
             const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (txt && txt.trim().length > 10) {
-              return {
-                text: txt.trim(),
-                engineName: "Engine 2 (Active Search)",
-                model: model
-              };
-            }
-          } else if (res.status === 429) {
-            await new Promise(r => setTimeout(r, 1500));
-            continue;
+            if (!txt || txt.trim().length <= 10) throw new Error("Empty response");
+            return {
+              text: txt.trim(),
+              engineName: `${keyObj.label} (Dual-Turbo)`,
+              model: modelName
+            };
+          } catch (err) {
+            clearTimeout(tid);
+            throw err;
           }
-        } catch (e) {
-          clearTimeout(tid);
+        };
+
+        try {
+          // Promise.any returns whichever of Active Key #1 or Active Key #2 finishes first!
+          return await Promise.any([
+            makeFastRequest(orderedKeys[0], primaryModel),
+            makeFastRequest(orderedKeys[1], secondaryModel)
+          ]);
+        } catch (raceErr) {
+          // If both initial models failed, fall through to sequential cascade across all remaining models & keys
         }
       }
 
-      throw new Error("Engine 2 hit temporary per-minute RPM limit. Wait 10 seconds and tap Retry.");
+      // Sequential unthrottled failover across both Active Search Keys and all Gemini models
+      for (const keyObj of orderedKeys) {
+        for (const model of modelPool) {
+          await enforceKeySpacing(keyObj.id, keyObj.spacingMs);
+          const ctrl = new AbortController();
+          const tid = setTimeout(() => ctrl.abort(), 8500);
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${keyObj.key}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] }),
+              signal: ctrl.signal
+            });
+            clearTimeout(tid);
+            if (res.ok) {
+              const data = await res.json();
+              const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (txt && txt.trim().length > 10) {
+                return {
+                  text: txt.trim(),
+                  engineName: keyObj.label,
+                  model: model
+                };
+              }
+            }
+          } catch (e) {
+            clearTimeout(tid);
+          }
+        }
+      }
+
+      throw new Error("Active Search Keys temporarily busy. Tap Retry.");
     }
 
     // ============================================================================
@@ -1366,7 +1471,7 @@
     }
 
     // ============================================================================
-    // AUTO-SPACED BACKGROUND LAYMAN'S READ ENGINE (NEVER HITS RPM LIMIT)
+    // RATE-LIMITED BACKGROUND LAYMAN'S READ ENGINE (USES DEDICATED LAYMAN KEY ONLY)
     // ============================================================================
     function getCachedLaymanMap() {
       try {
@@ -1402,16 +1507,12 @@
       const missing = allVideos.filter(v => !isVideoChannelPaused(v) && (!v.layman_news || v.layman_news.trim().length === 0));
 
       for (let i = 0; i < missing.length; i++) {
-        while (Date.now() < activeUserSearchLockUntil) {
-          if (statusLine) statusLine.innerText = "Paused: yielding priority to Active Search Engine...";
-          await new Promise(r => setTimeout(r, 2000));
-        }
-
         const vid = missing[i];
         if (vid.layman_news) continue;
 
+        const spSec = (getLaymanSpacingMs() / 1000).toFixed(1);
         if (statusLine) {
-          statusLine.innerText = `Engine 1 preparing (${i + 1}/${missing.length}) with ${(getAutoSpacingMs() / 1000).toFixed(1)}s spacing...`;
+          statusLine.innerText = `Layman Key preparing (${i + 1}/${missing.length}) with ${spSec}s rate limit...`;
         }
 
         const prompt = buildLaymanPrompt(vid);
@@ -1428,7 +1529,7 @@
             if (statusTag) statusTag.classList.remove('hidden');
           }
         } catch (err) {
-          if (statusLine) statusLine.innerText = "Engine 1 cooling down 12s to respect RPM limit...";
+          if (statusLine) statusLine.innerText = "Layman Key cooling down 12s to respect RPM limit...";
           await new Promise(r => setTimeout(r, 12000));
         }
       }
@@ -1585,7 +1686,7 @@ Structure strictly using these exact Markdown sections:
     }
 
     async function loadFeed() {
-      loadDualEngineSettingsIntoUI();
+      loadEngineKeySettingsIntoUI();
       restorePreferences();
       await loadPermanentChannelRoster();
 
@@ -1608,12 +1709,12 @@ Structure strictly using these exact Markdown sections:
                 v.layman_news = cachedLayman[v.id];
               } else {
                 v.layman_news = cachedLayman[v.id].text;
-                v.layman_engine = cachedLayman[v.id].engineName || "Engine 1 (Layman Prep)";
+                v.layman_engine = cachedLayman[v.id].engineName || "Layman Key";
                 v.layman_model = cachedLayman[v.id].model;
               }
             }
             if (v.layman_news && !v.layman_model) {
-              v.layman_engine = "Engine 1 (Backend Prep)";
+              v.layman_engine = "Layman Key (Backend)";
               v.layman_model = "gemini-3.5-flash-lite";
             }
             combinedMap.set(v.id, v);
@@ -1826,7 +1927,7 @@ Structure strictly using these exact Markdown sections:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-3">
           <i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i>
-          <span>Master Gemini (Engine 2) analyzing topics across all active channels...</span>
+          <span>Master Gemini (Dual Active Keys) analyzing topics across all active channels...</span>
         </div>`;
 
       const readSet = getReadSet();
@@ -2077,7 +2178,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
             ▲ Tap anywhere here to collapse description
           </div>
 
-          <!-- Active Search Triggers (Uses Engine 2 Exclusively) -->
+          <!-- Active Search Triggers (Uses Both Active Keys Unthrottled) -->
           <div data-prevent-close="true" class="flex flex-wrap gap-1.5 mb-2.5 mt-2">
             <button onclick="runInlineAI('${item.id}', 'specific')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-sky-300 flex items-center gap-1 font-medium">
               <i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge (Deep)
@@ -2093,12 +2194,12 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           <div id="smartQuestionsBox-${item.id}" data-prevent-close="true" class="hidden flex flex-wrap gap-1.5 mb-3 p-2 rounded-xl bg-black/40 border border-white/15"></div>
           <div id="qaResponseContainer-${item.id}" data-prevent-close="true" class="hidden space-y-2.5 mb-3"></div>
 
-          <!-- Per-Video Deep Gemini Search Engine (Uses Engine 2 Exclusively) -->
+          <!-- Per-Video Deep Gemini Search Engine (Uses Both Active Keys Unthrottled) -->
           <div data-prevent-close="true" class="mt-3 pt-3 border-t border-white/15">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
               <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5">
                 <i class="fa-solid fa-globe text-amber-400"></i>
-                <span>Gemini Active Search (Engine 2)</span>
+                <span>Gemini Active Search (Dual Keys)</span>
               </label>
               <div class="relative">
                 <select id="cardEngine-${item.id}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">
@@ -2159,7 +2260,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           box.innerHTML = formatMarkdown(video.layman_news);
           if (badgeEl) {
             badgeEl.innerHTML = renderAttributionBadge(
-              video.layman_engine || "Engine 1 (Layman Prep)",
+              video.layman_engine || "Layman Key",
               video.layman_model || "gemini-3.5-flash-lite"
             );
           }
@@ -2167,7 +2268,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           return;
         }
 
-        box.innerHTML = `<span class="text-sky-300 flex items-center gap-1.5 py-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Synthesizing Layman briefing via Engine 1...</span>`;
+        box.innerHTML = `<span class="text-sky-300 flex items-center gap-1.5 py-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Synthesizing Layman briefing via Layman Key...</span>`;
 
         try {
           const result = await callGeminiLaymanEngine(buildLaymanPrompt(video), 0);
@@ -2198,6 +2299,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         return;
       }
 
+      // Specific Knowledge & UPSC Curated -> Uses Both Unthrottled Active Search Keys
       const container = document.getElementById(`qaResponseContainer-${videoId}`);
       container.classList.remove('hidden');
 
@@ -2222,7 +2324,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
         </div>
         <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
           <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-          <span>Engine 2 (Active Search) compiling deep intelligence dossier...</span>
+          <span>Dual Active Keys compiling deep intelligence dossier...</span>
         </div>`;
 
       const prompt = type === 'specific' ? buildSpecificKnowledgePrompt(video) : buildUpscPrompt(video);
@@ -2284,7 +2386,7 @@ Respond strictly in valid JSON format only, with no markdown code fences:
           </div>
           <div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]">
             <i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i>
-            <span>Engine 2 (Active Search) analyzing deep context & official positions...</span>
+            <span>Dual Active Keys analyzing deep context & official positions...</span>
           </div>`;
       }
 
@@ -2352,7 +2454,7 @@ CRITICAL INSTRUCTIONS:
       const cardModel = document.getElementById(`cardEngine-${videoId}`)?.value;
       const qBox = document.getElementById(`smartQuestionsBox-${videoId}`);
       qBox.classList.remove('hidden');
-      qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Engine 2 formulating deep analytical questions...</span>`;
+      qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Dual Active Keys formulating deep analytical questions...</span>`;
 
       const prompt = `Based on: "${video.title}" and context: "${video.description ? video.description.slice(0, 1200) : ''}", write 3 sharp, deep analytical questions covering treaties, official reactions, and strategic impact. Return ONLY JSON array of strings: ["Q1?", "Q2?", "Q3?"]`;
 
@@ -2407,7 +2509,7 @@ CRITICAL INSTRUCTIONS:
       box.innerHTML = `
         <div class="flex items-center gap-2 text-sky-300 py-2">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Master Gemini (Engine 2) synthesizing comprehensive intelligence...</span>
+          <span>Master Gemini (Dual Active Keys) synthesizing comprehensive intelligence...</span>
         </div>`;
 
       const contextSummary = allVideos.filter(v => !isVideoChannelPaused(v)).slice(0, 16).map((v, i) => 
