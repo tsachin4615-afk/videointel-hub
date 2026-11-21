@@ -13,7 +13,6 @@ from dateutil import parser
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", "").strip()
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 
-# Default 26 Seed Channels (Automatically migrated into permanent channels.json)
 DEFAULT_CHANNELS = [
     "@deftalksbyaadi",
     "@IndiaDecodedAA",
@@ -48,7 +47,6 @@ FEED_FILE = "videos.json"
 CYCLES_FILE = "cycles.json"
 
 NOW_UTC = datetime.now(timezone.utc)
-TIME_WINDOW_36H = NOW_UTC - timedelta(hours=36)
 CYCLE_WINDOW_START = NOW_UTC - timedelta(hours=2, minutes=20)
 FIVE_DAYS_AGO = NOW_UTC - timedelta(days=5)
 SIXTY_DAYS_AGO = NOW_UTC - timedelta(days=60)
@@ -61,14 +59,14 @@ SESSION = requests.Session()
 retries = Retry(
     total=3,
     backoff_factor=0.8,
-    status_forcelist=[429, 500, 502, 503, 504],
+    status_forcelist=[500, 502, 503, 504],
     raise_on_status=False
 )
 adapter = HTTPAdapter(max_retries=retries, pool_connections=20, pool_maxsize=20)
 SESSION.mount("https://", adapter)
 SESSION.mount("http://", adapter)
 SESSION.headers.update({
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
     "Accept-Language": "en-US,en;q=0.9"
 })
 
@@ -90,10 +88,9 @@ def atomic_save_json(filepath, data):
                 pass
 
 # ==============================================================================
-# VIDEO LINK & CHANNEL LINK AUTO-DETECTION (4 FAILOVER ROUTES)
+# VIDEO LINK & CHANNEL LINK AUTO-DETECTION
 # ==============================================================================
 def extract_video_id_from_input(raw_input):
-    """Detects if input is a YouTube video link (watch, live, shorts, youtu.be) and returns the 11-char videoId."""
     text = raw_input.strip()
     patterns = [
         r'(?:v=|\/live\/|\/shorts\/|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})',
@@ -106,8 +103,6 @@ def extract_video_id_from_input(raw_input):
     return None
 
 def resolve_video_to_parent_channel(video_id):
-    """Given a single video ID, detects the original parent channel ID, handle, and title via 4 routes."""
-    # Route 1: oEmbed API + Channel URL scrape
     try:
         oembed_url = f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={video_id}&format=json"
         res = SESSION.get(oembed_url, timeout=8)
@@ -129,10 +124,9 @@ def resolve_video_to_parent_channel(video_id):
                     "channel_id": channel_id,
                     "title": author_name or handle
                 }
-    except Exception as e:
-        log(f"Video-to-Channel Route 1 (oEmbed) failed for {video_id}: {e}")
+    except Exception:
+        pass
 
-    # Route 2: Direct Watch Page HTML Scrape
     try:
         watch_url = f"https://www.youtube.com/watch?v={video_id}"
         res = SESSION.get(watch_url, timeout=10)
@@ -141,21 +135,18 @@ def resolve_video_to_parent_channel(video_id):
             ch_id_match = re.search(r'"channelId":"(UC[a-zA-Z0-9_-]{22})"', html) or re.search(r'itemprop="channelId"\s+content="(UC[a-zA-Z0-9_-]{22})"', html)
             owner_match = re.search(r'"ownerProfileUrl":"https://www\.youtube\.com/@([^"/]+)"', html)
             author_match = re.search(r'"author":"([^"]+)"', html)
-
             c_id = ch_id_match.group(1) if ch_id_match else None
             h_str = f"@{owner_match.group(1)}" if owner_match else None
             t_str = author_match.group(1) if author_match else (h_str or c_id)
-
             if c_id or h_str:
                 return {
                     "handle": h_str or c_id,
                     "channel_id": c_id,
                     "title": t_str
                 }
-    except Exception as e:
-        log(f"Video-to-Channel Route 2 (Watch HTML) failed for {video_id}: {e}")
+    except Exception:
+        pass
 
-    # Route 3: YouTube Data API v3 Videos Endpoint
     if YOUTUBE_API_KEY:
         try:
             api_url = "https://www.googleapis.com/youtube/v3/videos"
@@ -171,34 +162,23 @@ def resolve_video_to_parent_channel(video_id):
                     "channel_id": c_id,
                     "title": c_title
                 }
-        except Exception as e:
-            log(f"Video-to-Channel Route 3 (API) failed for {video_id}: {e}")
+        except Exception:
+            pass
 
     return None
 
-# ==============================================================================
-# TIERED CHANNEL ID RESOLVER (4 FAILOVER ROUTES)
-# ==============================================================================
 def resolve_channel_id(handle_or_input):
     raw = handle_or_input.strip()
-
-    # Check if already a 24-char UC channel ID
     if re.match(r'^UC[a-zA-Z0-9_-]{22}$', raw):
         return raw
 
-    # Check if URL contains /channel/UC...
     m_ch = re.search(r'youtube\.com/channel/(UC[a-zA-Z0-9_-]{22})', raw)
     if m_ch:
         return m_ch.group(1)
 
-    # Extract @handle if full URL was passed
     m_h = re.search(r'youtube\.com/@([a-zA-Z0-9_.-]+)', raw)
-    if m_h:
-        clean_handle = f"@{m_h.group(1)}"
-    else:
-        clean_handle = raw if raw.startswith("@") else f"@{raw}"
+    clean_handle = f"@{m_h.group(1)}" if m_h else (raw if raw.startswith("@") else f"@{raw}")
 
-    # Route 1: Direct Web HTML Scrape
     url = f"https://www.youtube.com/{clean_handle}"
     try:
         res = SESSION.get(url, timeout=10)
@@ -212,10 +192,9 @@ def resolve_channel_id(handle_or_input):
                 match = re.search(pat, res.text)
                 if match:
                     return match.group(1)
-    except Exception as e:
-        log(f"Resolve Route 1 failed for {clean_handle}: {e}")
+    except Exception:
+        pass
 
-    # Route 2: YouTube API forHandle
     if YOUTUBE_API_KEY:
         try:
             api_url = "https://www.googleapis.com/youtube/v3/channels"
@@ -228,11 +207,9 @@ def resolve_channel_id(handle_or_input):
             items = res.get("items", [])
             if items:
                 return items[0]["id"]
-        except Exception as e:
-            log(f"Resolve Route 2 failed for {clean_handle}: {e}")
+        except Exception:
+            pass
 
-    # Route 3: YouTube API Search Query
-    if YOUTUBE_API_KEY:
         try:
             search_url = "https://www.googleapis.com/youtube/v3/search"
             params = {
@@ -246,19 +223,12 @@ def resolve_channel_id(handle_or_input):
             items = res.get("items", [])
             if items:
                 return items[0]["snippet"]["channelId"]
-        except Exception as e:
-            log(f"Resolve Route 3 failed for {clean_handle}: {e}")
+        except Exception:
+            pass
 
     return None
 
-# ==============================================================================
-# PERMANENT CHANNEL ROSTER MANAGER & PAUSE CHECKER
-# ==============================================================================
 def load_and_sync_channels():
-    """
-    Loads channels.json, merges any new entries or raw video/channel links added from the dashboard,
-    resolves parent channels permanently, and saves back to channels.json.
-    """
     roster = []
     if os.path.exists(CHANNELS_FILE):
         try:
@@ -266,10 +236,9 @@ def load_and_sync_channels():
                 loaded = json.load(f)
                 if isinstance(loaded, list):
                     roster = loaded
-        except Exception as e:
-            log(f"⚠️ Could not parse {CHANNELS_FILE}, rebuilding: {e}")
+        except Exception:
+            pass
 
-    # Normalize existing entries and ensure seed channels exist
     normalized_map = {}
     for entry in roster:
         if isinstance(entry, str):
@@ -278,18 +247,14 @@ def load_and_sync_channels():
         if not raw_key:
             continue
 
-        # Check if user pasted a video link or raw URL into the entry
         vid_id = extract_video_id_from_input(raw_key)
         if vid_id and not entry.get("channel_id"):
-            log(f"🔍 Detecting parent channel from shared video link [{vid_id}]...")
             detected = resolve_video_to_parent_channel(vid_id)
             if detected:
                 entry["handle"] = detected["handle"]
                 entry["channel_id"] = detected["channel_id"]
                 entry["title"] = detected["title"]
-                log(f"✅ Permanently resolved video {vid_id} -> {entry['title']} ({entry['handle']})")
 
-        # Clean handle if full channel URL was pasted
         m_h = re.search(r'youtube\.com/@([a-zA-Z0-9_.-]+)', entry.get("handle", ""))
         if m_h:
             entry["handle"] = f"@{m_h.group(1)}"
@@ -303,10 +268,8 @@ def load_and_sync_channels():
         entry.setdefault("paused", False)
         entry.setdefault("paused_until", None)
         entry.setdefault("added_at", NOW_UTC.isoformat())
-
         normalized_map[handle_key.lower()] = entry
 
-    # Ensure all 26 default channels are present unless explicitly deleted
     if not roster:
         for ch in DEFAULT_CHANNELS:
             k = ch.lower()
@@ -325,7 +288,6 @@ def load_and_sync_channels():
     return final_roster
 
 def is_channel_currently_paused(ch_obj):
-    """Checks if a channel is paused indefinitely or until a future date."""
     paused_until = ch_obj.get("paused_until")
     if paused_until:
         try:
@@ -335,7 +297,6 @@ def is_channel_currently_paused(ch_obj):
             if NOW_UTC < until_dt:
                 return True, f"Paused until {paused_until[:10]}"
             else:
-                # Pause date has expired -> auto-unpause!
                 ch_obj["paused"] = False
                 ch_obj["paused_until"] = None
                 return False, None
@@ -484,8 +445,8 @@ def fetch_via_web_initialdata(handle, tab="videos"):
                 "description": desc.strip(),
                 "thumbnail_url": f"https://i.ytimg.com/vi/{v_id}/hqdefault.jpg"
             })
-    except Exception as e:
-        log(f"Web scraper error on {handle} [{tab}]: {e}")
+    except Exception:
+        pass
 
     return videos
 
@@ -520,7 +481,6 @@ def fetch_via_api_search(channel_id, handle):
     return videos
 
 def fetch_channel_videos_resilient(channel_id, handle):
-    # Tier 1: XML RSS
     if channel_id:
         try:
             vids = fetch_via_rss(channel_id, handle)
@@ -529,7 +489,6 @@ def fetch_channel_videos_resilient(channel_id, handle):
         except Exception:
             pass
 
-    # Tier 2: API Playlist
     if channel_id and YOUTUBE_API_KEY:
         try:
             vids = fetch_via_api_playlist(channel_id, handle)
@@ -538,7 +497,6 @@ def fetch_channel_videos_resilient(channel_id, handle):
         except Exception:
             pass
 
-    # Tier 3: Web Scraper /videos
     try:
         vids = fetch_via_web_initialdata(handle, tab="videos")
         if vids:
@@ -546,7 +504,6 @@ def fetch_channel_videos_resilient(channel_id, handle):
     except Exception:
         pass
 
-    # Tier 4: Web Scraper /streams
     try:
         vids = fetch_via_web_initialdata(handle, tab="streams")
         if vids:
@@ -554,7 +511,6 @@ def fetch_channel_videos_resilient(channel_id, handle):
     except Exception:
         pass
 
-    # Tier 5: Web Scraper /featured
     try:
         vids = fetch_via_web_initialdata(handle, tab="featured")
         if vids:
@@ -562,7 +518,6 @@ def fetch_channel_videos_resilient(channel_id, handle):
     except Exception:
         pass
 
-    # Tier 6: API Search
     if channel_id and YOUTUBE_API_KEY:
         try:
             vids = fetch_via_api_search(channel_id, handle)
@@ -574,9 +529,18 @@ def fetch_channel_videos_resilient(channel_id, handle):
     return [], "None"
 
 # ==============================================================================
-# FAST CASCADE SUMMARIZER
+# CONTINUOUS MULTI-MODEL LAYMAN SUMMARIZER (WITH 429 RATE-LIMIT ROTATION)
 # ==============================================================================
-def generate_layman_summary(title, description, channel_title):
+MODEL_BASKET = [
+    "gemini-2.5-flash-lite",
+    "gemini-2.5-flash",
+    "gemini-2.0-flash-lite",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+    "gemini-1.5-flash-8b"
+]
+
+def generate_layman_summary(title, description, channel_title, start_offset=0):
     if not GEMINI_API_KEY:
         return None
 
@@ -590,12 +554,16 @@ Video Title: "{title}"
 Channel: "{channel_title}"
 Context / Description: {description[:1800]}"""
 
-    model_cascade = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-4-argon", "gemini-1.5-flash", "gemini-1.5-flash-8b"]
-    for model in model_cascade:
+    rotated_models = MODEL_BASKET[start_offset % len(MODEL_BASKET):] + MODEL_BASKET[:start_offset % len(MODEL_BASKET)]
+
+    for model in rotated_models:
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
             payload = {"contents": [{"parts": [{"text": prompt}]}]}
-            res = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=18)
+            res = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=16)
+            if res.status_code == 429:
+                time.sleep(1.2)
+                continue
             data = res.json()
             if "candidates" in data and len(data["candidates"]) > 0:
                 parts = data["candidates"][0].get("content", {}).get("parts", [])
@@ -713,7 +681,7 @@ def build_adaptive_quota_feed(feed_map, past_signatures):
     return primary_active_feed[:TARGET_FEED_CAPACITY]
 
 # ==============================================================================
-# MAIN ISOLATED EXECUTION CONTROLLER
+# MAIN EXECUTION CONTROLLER
 # ==============================================================================
 def main():
     existing_videos = []
@@ -727,7 +695,6 @@ def main():
     feed_map = {v["id"]: v for v in existing_videos}
     log(f"Feed loaded: {len(feed_map)} existing items.")
 
-    # Load permanent channel roster (includes any newly added channels from dashboard)
     channel_roster = load_and_sync_channels()
     log(f"Active permanent channel roster size: {len(channel_roster)}")
 
@@ -738,7 +705,6 @@ def main():
     for index, ch_obj in enumerate(channel_roster, start=1):
         handle = ch_obj.get("handle", "")
         try:
-            # Check Pause Status / Pause Date
             is_paused, reason = is_channel_currently_paused(ch_obj)
             if is_paused:
                 log(f"[{index}/{len(channel_roster)}] ⏸️ Skipping {handle} ({reason})")
@@ -759,10 +725,8 @@ def main():
                 v_id = vid["id"]
                 try:
                     dt = parser.parse(vid["published_at"])
-                    is_fresh_36h = dt >= TIME_WINDOW_36H
                     is_in_current_2h_cycle = dt >= CYCLE_WINDOW_START or (v_id not in feed_map)
                 except Exception:
-                    is_fresh_36h = True
                     is_in_current_2h_cycle = False
 
                 if is_in_current_2h_cycle:
@@ -786,23 +750,37 @@ def main():
                         if k in vid and vid[k]:
                             feed_map[v_id][k] = vid[k]
 
-                if is_fresh_36h and not feed_map[v_id].get("layman_news"):
-                    log(f"--> Summarizing: {vid['title'][:40]}...")
-                    summary = generate_layman_summary(vid["title"], vid.get("description", ""), vid.get("channel_title", ""))
-                    if summary:
-                        feed_map[v_id]["layman_news"] = summary
-                        time.sleep(3.0)
-
-            time.sleep(0.6)
+            time.sleep(0.5)
 
         except Exception as channel_err:
             log(f"⚠️ Channel {handle} isolated error: {channel_err}. Continuing.")
             continue
 
-    # Save updated channel metadata (resolved channel_ids, titles, auto-expired pause dates)
     atomic_save_json(CHANNELS_FILE, channel_roster)
 
     final_feed = build_adaptive_quota_feed(feed_map, past_signatures)
+
+    unsummarized = [v for v in final_feed if not v.get("layman_news")]
+    log(f"Generating Layman's Read for {len(unsummarized)} videos across the entire feed...")
+
+    for idx, vid in enumerate(unsummarized):
+        try:
+            summary = generate_layman_summary(
+                vid["title"],
+                vid.get("description", ""),
+                vid.get("channel_title", ""),
+                start_offset=idx
+            )
+            if summary:
+                vid["layman_news"] = summary
+                if (idx + 1) % 10 == 0:
+                    atomic_save_json(FEED_FILE, final_feed)
+                time.sleep(1.5)
+            else:
+                time.sleep(4.0)
+        except Exception:
+            continue
+
     atomic_save_json(FEED_FILE, final_feed)
 
     cycles_history = []
