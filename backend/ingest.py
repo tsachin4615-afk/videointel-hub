@@ -9,7 +9,8 @@ import urllib.error
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
-CHANNELS_FILE = "channels.json"
+DATA_CHANNELS_FILE = "data/channels.json"
+ROOT_CHANNELS_FILE = "channels.json"
 VIDEOS_FILE = "videos.json"
 MAX_VIDEOS_PER_CHANNEL = 6
 MAX_TOTAL_VIDEOS = 250
@@ -76,6 +77,9 @@ def load_json_safe(path, default):
 
 
 def save_json_safe(path, data):
+    folder = os.path.dirname(path)
+    if folder:
+        os.makedirs(folder, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
@@ -92,40 +96,77 @@ def is_channel_paused(ch):
     return bool(ch.get("paused", False))
 
 
-# ==============================================================================
-# BULLETPROOF MULTI-TIER CHANNEL ID RESOLVER (ZERO-WAIT FAILOVER)
-# ==============================================================================
-def resolve_channel_id(ch):
-    if ch.get("channel_id") and str(ch["channel_id"]).startswith("UC"):
-        return ch["channel_id"]
-
-    handle = str(ch.get("handle", "")).strip()
-    if handle.startswith("UC") and len(handle) == 24:
-        ch["channel_id"] = handle
-        return handle
-
-    # Tier 1: Direct YouTube handle page
-    try:
-        url = f"https://www.youtube.com/{handle}"
-        html = http_get_text(url)
-        m = re.search(r'"externalId":"(UC[a-zA-Z0-9_-]{22})"', html) or re.search(
-            r'"channelId":"(UC[a-zA-Z0-9_-]{22})"', html
-        )
+def extract_uc_from_text(text):
+    if not text:
+        return None
+    patterns = [
+        r'"externalId"\s*:\s*"(UC[a-zA-Z0-9_-]{22})"',
+        r'"channelId"\s*:\s*"(UC[a-zA-Z0-9_-]{22})"',
+        r'"browseId"\s*:\s*"(UC[a-zA-Z0-9_-]{22})"',
+        r'youtube\.com/channel/(UC[a-zA-Z0-9_-]{22})',
+        r'urn:youtube:channel:(UC[a-zA-Z0-9_-]{22})',
+    ]
+    for pat in patterns:
+        m = re.search(pat, text)
         if m:
-            ch["channel_id"] = m.group(1)
-            t = re.search(r'<meta property="og:title" content="([^"]+)">', html)
-            if t and t.group(1):
-                ch["title"] = t.group(1)
-            return ch["channel_id"]
+            return m.group(1)
+    return None
+
+
+def resolve_channel_id(ch):
+    existing = str(ch.get("channel_id") or "").strip()
+    if existing.startswith("UC") and len(existing) == 24:
+        return existing
+
+    raw_handle = str(ch.get("handle") or "").strip()
+    if raw_handle.startswith("UC") and len(raw_handle) == 24:
+        ch["channel_id"] = raw_handle
+        return raw_handle
+
+    clean_handle = raw_handle.lstrip("@")
+    if not clean_handle:
+        return None
+
+    # RSS Method 1A: YouTube oEmbed endpoint for @handle (lighter than full channel HTML)
+    try:
+        watch_or_handle = urllib.parse.quote(f"https://www.youtube.com/@{clean_handle}", safe=":/")
+        oembed_raw = http_get_text(
+            f"https://www.youtube.com/oembed?url={watch_or_handle}&format=json",
+            timeout=8,
+        )
+        oembed_data = json.loads(oembed_raw)
+        author_url = oembed_data.get("author_url", "")
+        cid = extract_uc_from_text(author_url)
+        if cid:
+            ch["channel_id"] = cid
+            if oembed_data.get("author_name"):
+                ch["title"] = oembed_data["author_name"]
+            return cid
     except Exception:
         pass
 
-    # Tier 2: Invidious search fallback
-    clean_name = handle.lstrip("@")
+    # RSS Method 1B: Direct handle page UC extraction
+    for candidate_url in [
+        f"https://www.youtube.com/@{clean_handle}/about",
+        f"https://www.youtube.com/@{clean_handle}",
+    ]:
+        try:
+            html = http_get_text(candidate_url, timeout=9)
+            cid = extract_uc_from_text(html)
+            if cid:
+                ch["channel_id"] = cid
+                t = re.search(r'<meta property="og:title" content="([^"]+)">', html)
+                if t and t.group(1):
+                    ch["title"] = t.group(1)
+                return cid
+        except Exception:
+            continue
+
+    # RSS Method 1C: Invidious channel lookup fallback
     for mirror in INVIDIOUS_MIRRORS:
         try:
             raw = http_get_text(
-                f"{mirror}/api/v1/search?q={urllib.parse.quote(clean_name)}&type=channel",
+                f"{mirror}/api/v1/search?q={urllib.parse.quote(clean_handle)}&type=channel",
                 timeout=8,
             )
             results = json.loads(raw)
@@ -142,18 +183,18 @@ def resolve_channel_id(ch):
     return None
 
 
-# ==============================================================================
-# BULLETPROOF 4-TIER VIDEO FETCHER (CATCHES ALL KNOWN & UNKNOWN ERRORS)
-# ==============================================================================
-def fetch_via_rss(channel_id, handle, fallback_title):
-    url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
-    xml_text = http_get_text(url)
+def parse_rss_xml(xml_text, handle, fallback_title, ch=None):
     root = ET.fromstring(xml_text)
     ns = {
         "atom": "http://www.w3.org/2005/Atom",
         "yt": "http://www.youtube.com/xml/schemas/2015",
         "media": "http://search.yahoo.com/mrss/",
     }
+    if ch is not None and not ch.get("channel_id"):
+        ch_id_el = root.find("yt:channelId", ns)
+        if ch_id_el is not None and ch_id_el.text and ch_id_el.text.strip().startswith("UC"):
+            ch["channel_id"] = ch_id_el.text.strip()
+
     feed_title_el = root.find("atom:title", ns)
     ch_title = feed_title_el.text.strip() if feed_title_el is not None and feed_title_el.text else fallback_title
 
@@ -176,6 +217,26 @@ def fetch_via_rss(channel_id, handle, fallback_title):
             "thumbnail_url": f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg",
         })
     return videos
+
+
+def fetch_via_rss(channel_id, handle, fallback_title, ch=None):
+    rss_urls = []
+    if channel_id and str(channel_id).startswith("UC"):
+        rss_urls.append(f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}")
+
+    clean_handle = str(handle or "").lstrip("@").strip()
+    if clean_handle:
+        rss_urls.append(f"https://www.youtube.com/feeds/videos.xml?user={urllib.parse.quote(clean_handle)}")
+
+    for url in rss_urls:
+        try:
+            xml_text = http_get_text(url, timeout=9)
+            videos = parse_rss_xml(xml_text, handle, fallback_title, ch=ch)
+            if videos:
+                return videos
+        except Exception:
+            continue
+    return []
 
 
 def fetch_via_yt_html(channel_id, handle, fallback_title):
@@ -222,7 +283,6 @@ def fetch_via_mirrors(channel_id, handle, fallback_title):
         return []
     now_iso = datetime.now(timezone.utc).isoformat()
 
-    # Piped Mirrors
     for mirror in PIPED_MIRRORS:
         try:
             data = json.loads(http_get_text(f"{mirror}/channel/{channel_id}", timeout=8))
@@ -230,8 +290,7 @@ def fetch_via_mirrors(channel_id, handle, fallback_title):
             streams = data.get("relatedStreams", [])[:MAX_VIDEOS_PER_CHANNEL]
             videos = []
             for s in streams:
-                url = s.get("url", "")
-                m = re.search(r"v=([a-zA-Z0-9_-]{11})", url)
+                m = re.search(r"v=([a-zA-Z0-9_-]{11})", s.get("url", ""))
                 if not m:
                     continue
                 vid = m.group(1)
@@ -251,7 +310,6 @@ def fetch_via_mirrors(channel_id, handle, fallback_title):
         except Exception:
             continue
 
-    # Invidious Mirrors
     for mirror in INVIDIOUS_MIRRORS:
         try:
             data = json.loads(http_get_text(f"{mirror}/api/v1/channels/{channel_id}/videos", timeout=8))
@@ -287,9 +345,8 @@ def fetch_channel_videos_bulletproof(ch):
     fallback_title = ch.get("title") or handle
     cid = resolve_channel_id(ch)
 
-    # Chain: Tier 1 (RSS) -> Tier 2 (HTML ytInitialData) -> Tier 3 (Piped/Invidious Mirrors)
     tiers = [
-        ("RSS", lambda: fetch_via_rss(cid, handle, fallback_title) if cid else []),
+        ("RSS", lambda: fetch_via_rss(cid, handle, fallback_title, ch=ch)),
         ("YT_HTML", lambda: fetch_via_yt_html(cid, handle, fallback_title)),
         ("MIRRORS", lambda: fetch_via_mirrors(cid, handle, fallback_title)),
     ]
@@ -309,9 +366,6 @@ def fetch_channel_videos_bulletproof(ch):
     return []
 
 
-# ==============================================================================
-# STEP 1 & STEP 3: 3-KEY × N-MODEL EQUAL SPLITTING + ZERO-WAIT UNIVERSAL FAILOVER
-# ==============================================================================
 def get_gemini_keys():
     keys = []
     for idx, env_name in enumerate(["GEMINI_API_KEY_1", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3"], start=1):
@@ -365,7 +419,6 @@ def generate_layman_with_failover(video, batch_index, keys, models, cooldown_map
     if not keys or not models:
         return None
 
-    # Equal splitting: rotate starting key & starting model per video index
     num_keys = len(keys)
     num_models = len(models)
     start_key_idx = batch_index % num_keys
@@ -375,7 +428,6 @@ def generate_layman_with_failover(video, batch_index, keys, models, cooldown_map
     ordered_keys = keys[start_key_idx:] + keys[:start_key_idx]
     ordered_models = models[start_model_idx:] + models[:start_model_idx]
 
-    # Key-first interconnected chain: KeyA-M1 -> KeyA-M2 -> ... -> KeyB-M1 -> ...
     chain = []
     for k in ordered_keys:
         for m in ordered_models:
@@ -404,14 +456,14 @@ def generate_layman_with_failover(video, batch_index, keys, models, cooldown_map
                 cooldown_map[path_id] = time.time() + 45
             continue
         except Exception:
-            # Any unknown/network/timeout/JSON error -> immediate zero-wait failover
             continue
 
     return None
 
 
 def main():
-    raw_channels = load_json_safe(CHANNELS_FILE, [])
+    source_file = DATA_CHANNELS_FILE if os.path.exists(DATA_CHANNELS_FILE) else ROOT_CHANNELS_FILE
+    raw_channels = load_json_safe(source_file, [])
     channels = [
         {"handle": c, "title": c, "channel_id": None, "paused": False, "paused_until": None}
         if isinstance(c, str)
@@ -422,33 +474,28 @@ def main():
     existing_videos = load_json_safe(VIDEOS_FILE, [])
     video_map = {v["id"]: v for v in existing_videos if isinstance(v, dict) and v.get("id")}
 
-    # 1. Bulletproof Video Fetch across all active channels
     for ch in channels:
         if is_channel_paused(ch):
             continue
         fetched = fetch_channel_videos_bulletproof(ch)
         for v in fetched:
             vid = v["id"]
-            if vid in video_map:
-                # Preserve existing pre-generated layman summary
-                if video_map[vid].get("layman_news"):
-                    v["layman_news"] = video_map[vid]["layman_news"]
-                    v["layman_engine"] = video_map[vid].get("layman_engine", "Pre-Generated")
-                    v["layman_model"] = video_map[vid].get("layman_model", DEFAULT_HIGH_QUOTA_MODELS[0])
+            if vid in video_map and video_map[vid].get("layman_news"):
+                v["layman_news"] = video_map[vid]["layman_news"]
+                v["layman_engine"] = video_map[vid].get("layman_engine", "Pre-Generated")
+                v["layman_model"] = video_map[vid].get("layman_model", DEFAULT_HIGH_QUOTA_MODELS[0])
             video_map[vid] = v
         time.sleep(0.4)
 
-    # Save updated channels.json (with newly cached channel_ids)
-    save_json_safe(CHANNELS_FILE, channels)
+    save_json_safe(DATA_CHANNELS_FILE, channels)
+    save_json_safe(ROOT_CHANNELS_FILE, channels)
 
-    # Sort newest first and cap total size
     all_videos = sorted(
         video_map.values(),
         key=lambda x: x.get("published_at", ""),
         reverse=True,
     )[:MAX_TOTAL_VIDEOS]
 
-    # 2. Background Layman's Read Generation (3 Keys × N Models Equal Split + Failover)
     keys = get_gemini_keys()
     models = discover_active_free_models(keys)
     pending = [v for v in all_videos if not v.get("layman_news")][:45]
