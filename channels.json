@@ -1,0 +1,366 @@
+[
+  {
+    "handle": "@BBCNews",
+    "title": "BBC News",
+    "channel_id": "UC16niRr50-MSBwiO3YDb3RA",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@aljazeeraenglish",
+    "title": "Al Jazeera English",
+    "channel_id": "UCNye-wNBqNL5ZzHSJj3l8Bg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@Reuters",
+    "title": "Reuters",
+    "channel_id": "UChqUTb7kYRX8-EiaN3XFrSQ",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@AssociatedPress",
+    "title": "Associated Press",
+    "channel_id": "UC52X5wxOL_s5yw0dQk7NtgA",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@dwnews",
+    "title": "DW News",
+    "channel_id": "UCknLrEdhRCp1aegoMqRaCZg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@France24_en",
+    "title": "FRANCE 24 English",
+    "channel_id": "UCQfwfsi5VrQ8yKZ-UWmAEFg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@SkyNews",
+    "title": "Sky News",
+    "channel_id": "UCoMdktPbSTixAyNGwb-UYkQ",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@euronews",
+    "title": "euronews",
+    "channel_id": "UCSrZ3UV4jOidv8ppoVuvW9Q",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@trtworld",
+    "title": "TRT World",
+    "channel_id": "UC7fWeaHhqgM4Ry-RMpM2YYw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@africanews",
+    "title": "africanews",
+    "channel_id": "UC1_E8NeF5QHY2dtdLRBCCLA",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@WION",
+    "title": "WION",
+    "channel_id": "UC_gUM8rL-Lrg6O3adPW9K1g",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@Firstpost",
+    "title": "Firstpost",
+    "channel_id": "UCz8QaiQxApLq8sLNcszYyJw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@channelnewsasia",
+    "title": "CNA",
+    "channel_id": "UC83jt4dlz1Gjl58fzQrrKZg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@NHKWORLDJAPAN",
+    "title": "NHK WORLD-JAPAN",
+    "channel_id": "UCSPEjw8F2nQDtmUKPFNF7_A",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@SouthChinaMorningPost",
+    "title": "South China Morning Post",
+    "channel_id": "UC4SUWizzKc1tptprBkWjX2Q",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@abcnewsaustralia",
+    "title": "ABC News (Australia)",
+    "channel_id": "UCVgO39Bk5sMo66-6o6Spn6Q",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@CNN",
+    "title": "CNN",
+    "channel_id": "UCupvZG-5ko_eiXAupbDfxWw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@PBSNewsHour",
+    "title": "PBS NewsHour",
+    "channel_id": "UC6ZFN9Tx6xh-skXCuRHCDpQ",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@ABCNews",
+    "title": "ABC News",
+    "channel_id": "UCBi2mrWuNuyYy4gbM6fU18Q",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@NBCNews",
+    "title": "NBC News",
+    "channel_id": "UCeY0bbntWzzVIaj2z3QigXg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@CBCNews",
+    "title": "CBC News",
+    "channel_id": "UCuFFtHWoLl5fauMMD5Ww2jA",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@markets",
+    "title": "Bloomberg Television",
+    "channel_id": "UCIALMKvObZNtJ6AmdCLP7Lg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@FinancialTimes",
+    "title": "Financial Times",
+    "channel_id": "UCoUxsWakJucWg46KW5RsvPw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@TheEconomist",
+    "title": "The Economist",
+    "channel_id": "UC0p5jTq6Xx_DosDFxVXnWaQ",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@TLDRnewsGLOBAL",
+    "title": "TLDR News Global",
+    "channel_id": "UC-uhvujip5deVcEtLxnW8qg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@TLDRnewsEU",
+    "title": "TLDR News EU",
+    "channel_id": "UC-eegKVWEgBCa4OzjnK_PtA",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@deftalksbyaadi",
+    "title": "DEF Tallks  by Aadi",
+    "channel_id": "UCVVRDJbTe6q6FJRR4m3h3_A",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@IndiaDecodedAA",
+    "title": "India Decoded by Anirudh",
+    "channel_id": "UCZRDuYlHEJas4bUPBYH3hoQ",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@WorldAffairsUnacademy",
+    "title": "World Affairs by Unacademy",
+    "channel_id": "UCCJsQKOKArvDksacfT2ryQw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@StudyIQIAS",
+    "title": "@StudyIQIAS",
+    "channel_id": null,
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@coffeewithsumeetjain",
+    "title": "Coffee With Sumeet Jain",
+    "channel_id": "UCcnwa6E4BwDJKeATB6tqmsQ",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@IndiaGlobalReview",
+    "title": "India Global Review",
+    "channel_id": "UC83iGbaOhZR8AWNYYNzSNjg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@TimesAxis",
+    "title": "Times Axis",
+    "channel_id": "UCB7m5ebDde3jqSXOMood4Og",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@LetsCrackUPSCCSE",
+    "title": "@LetsCrackUPSCCSE",
+    "channel_id": null,
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@Adda247Bankers",
+    "title": "@Adda247Bankers",
+    "channel_id": null,
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@ParchamClasses",
+    "title": "Parcham Classes",
+    "channel_id": "UC9IBv9i3bTd6zKS2hlj7-Bw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@AffairsCloud",
+    "title": "@AffairsCloud",
+    "channel_id": null,
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@alpha_defense",
+    "title": "Defense Zone",
+    "channel_id": "UC6ekcdJIF9wJXhwJRmH-_Bw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@DefenceDecode",
+    "title": "@DefenceDecode",
+    "channel_id": null,
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@GareebScientist",
+    "title": "Gareeb Scientist",
+    "channel_id": "UCS1abmNrZSkWM1vq-sMm63g",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@NEXTIAS",
+    "title": "NEXT IAS",
+    "channel_id": "UCgKgAaGbKS-XWUJGWqP5W0A",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@DrishtiIASEnglish",
+    "title": "Drishti IAS : English",
+    "channel_id": "UCafpueX9hFLls24ed6UddEQ",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@SleepyClassesIAS",
+    "title": "Sleepy Classes IAS",
+    "channel_id": "UCgRf62bnK3uX4N-YEhG4Jog",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@amitsengupta01",
+    "title": "Amit Sengupta",
+    "channel_id": "UCYCVm1aN33HYdLs66DHw_ow",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@TheChanakyaDialoguesHindi",
+    "title": "THE CHANAKYA DIALOGUES HINDI",
+    "channel_id": "UC1bUswUinAEFYaRQFvAKjPA",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@StratNewsGlobal",
+    "title": "StratNewsGlobal",
+    "channel_id": "UCKt7TllYnUsCkocpzeX7Tfw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@ThirdEyekannada",
+    "title": "Third Eye",
+    "channel_id": "UCar-NTVSqfURER-XwXn5wGA",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@rajshamani",
+    "title": "Raj Shamani",
+    "channel_id": "UCzwCEE_PchiBULMnAJqhGVg",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@inconnectnews",
+    "title": "Inconnect News",
+    "channel_id": "UC2aqmsaS8JU0kUZr86Jzq7A",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@NarendraModi",
+    "title": "Narendra Modi",
+    "channel_id": "UC1NF71EwP41VdjAU1iXdLkw",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@ReVIEWbySoukhyaGaonkar",
+    "title": "ReVIEW by Soukhya Gaonkar",
+    "channel_id": "UC-d0dpgTBTstV5Ww08rIfwQ",
+    "paused": false,
+    "paused_until": null
+  },
+  {
+    "handle": "@MasthMagaa",
+    "title": "Masth Magaa",
+    "channel_id": "UCBusXcy2hNAP_cIP0fCOf_w",
+    "paused": false,
+    "paused_until": null
+  }
+]
