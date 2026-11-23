@@ -1,38 +1,75 @@
-name: Test All Tiers Separately
+import json
+import os
+import sys
+import time
 
-on:
-  workflow_dispatch:
-    inputs:
-      tier:
-        description: "Choose which tier to test across all channels"
-        required: true
-        default: "yt_html"
-        type: choice
-        options:
-          - rss
-          - yt_dlp
-          - yt_html
-          - mirrors
+# Import the exact 4 tier functions directly from scripts/ingest.py
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import ingest
 
-jobs:
-  test-tier:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+CHANNELS_FILE = "data/channels.json"
+VALID_MODES = {"rss", "yt_dlp", "yt_html", "mirrors"}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
 
-      - name: Install yt-dlp (if testing yt_dlp)
-        if: ${{ inputs.tier == 'yt_dlp' }}
-        run: pip install --upgrade yt-dlp
+def load_channels():
+    with open(CHANNELS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-      - name: Install scrapetube (if testing yt_html)
-        if: ${{ inputs.tier == 'yt_html' }}
-        run: pip install --upgrade scrapetube
 
-      - name: Run selected tier test
-        run: python scripts/test_tiers.py ${{ inputs.tier }}
+def main():
+    mode = sys.argv[1].strip().lower() if len(sys.argv) > 1 else "yt_html"
+    if mode not in VALID_MODES:
+        print("Usage: python scripts/test_tiers.py [rss|yt_dlp|yt_html|mirrors]")
+        sys.exit(1)
+
+    channels = load_channels()
+    total = len(channels)
+    passed = 0
+    failed = []
+
+    print("=" * 60)
+    print(f"TESTING TIER: {mode.upper()} ACROSS {total} CHANNELS")
+    print("=" * 60)
+
+    for idx, ch in enumerate(channels, start=1):
+        handle = ch.get("handle") or f"channel_{idx}"
+        cid = ch.get("channel_id")
+        title = ch.get("title") or handle
+
+        try:
+            if mode == "rss":
+                vids = ingest.fetch_via_rss(cid, handle, title, ch=ch)
+            elif mode == "yt_dlp":
+                vids = ingest.fetch_via_ytdlp(cid, handle, title, ch=ch)
+            elif mode == "yt_html":
+                vids = ingest.fetch_via_yt_html(cid, handle, title)
+            else:
+                vids = ingest.fetch_via_mirrors(cid, handle, title)
+
+            if vids:
+                passed += 1
+                sample = vids[0]["title"][:50]
+                print(f"[{idx:02d}/{total}] [PASS] {handle} -> {len(vids)} videos (e.g., {sample})")
+            else:
+                failed.append((handle, "Returned 0 videos"))
+                print(f"[{idx:02d}/{total}] [FAIL] {handle} -> Returned 0 videos")
+
+        except Exception as e:
+            err = f"{type(e).__name__}: {str(e)[:80]}"
+            failed.append((handle, err))
+            print(f"[{idx:02d}/{total}] [FAIL] {handle} -> {err}")
+
+        time.sleep(0.4)
+
+    print("\n" + "=" * 60)
+    print(f"{mode.upper()} RESULTS: {passed}/{total} PASSED | {len(failed)}/{total} FAILED")
+    print("=" * 60)
+
+    if failed:
+        print("\nFailed channels:")
+        for handle, err in failed:
+            print(f" - {handle}: {err}")
+
+
+if __name__ == "__main__":
+    main()
