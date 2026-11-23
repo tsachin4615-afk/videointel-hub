@@ -2,6 +2,8 @@ import json
 import os
 import random
 import re
+import subprocess
+import sys
 import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -98,6 +100,81 @@ def fetch_via_rss(channel_id: str, limit: int = 6, timeout: int = 12) -> list[di
             })
 
     return videos
+
+
+def fetch_via_ytdlp(channel: dict, limit: int = 6, timeout: int = 25) -> list[dict]:
+    """Tier 2 fallback: metadata-only flat-playlist extraction via yt-dlp (/videos + /streams)."""
+    channel_id = (channel.get("channel_id") or "").strip()
+    handle = (channel.get("handle") or "").strip()
+
+    targets = []
+    if channel_id and channel_id.startswith("UC"):
+        targets.append(f"https://www.youtube.com/channel/{quote(channel_id)}/videos")
+        targets.append(f"https://www.youtube.com/channel/{quote(channel_id)}/streams")
+    elif handle:
+        clean_handle = handle if handle.startswith("@") else f"@{handle}"
+        targets.append(f"https://www.youtube.com/{quote(clean_handle)}/videos")
+        targets.append(f"https://www.youtube.com/{quote(clean_handle)}/streams")
+
+    collected = []
+    seen_ids = set()
+
+    for tab_url in targets:
+        if len(collected) >= limit:
+            break
+        cmd = [
+            sys.executable,
+            "-m",
+            "yt_dlp",
+            "--flat-playlist",
+            "--playlist-end",
+            str(limit),
+            "--dump-single-json",
+            "--no-warnings",
+            "--ignore-errors",
+            "--extractor-args",
+            "youtube:player_client=android,web",
+            tab_url,
+        ]
+        try:
+            proc = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+                check=False,
+            )
+            if not proc.stdout:
+                continue
+            payload = json.loads(proc.stdout)
+            entries = payload.get("entries") or []
+            for entry in entries:
+                if not isinstance(entry, dict):
+                    continue
+                vid = (entry.get("id") or "").strip()
+                title = (entry.get("title") or "").strip()
+                if (
+                    vid
+                    and re.fullmatch(r"[A-Za-z0-9_-]{11}", vid)
+                    and vid not in seen_ids
+                    and title
+                    and title.lower() not in {"[private video]", "[deleted video]"}
+                ):
+                    seen_ids.add(vid)
+                    collected.append({
+                        "video_id": vid,
+                        "title": title,
+                        "url": f"https://www.youtube.com/watch?v={vid}",
+                        "published_at": "",
+                        "description": "",
+                        "source_tier": "YT_DLP",
+                    })
+                    if len(collected) >= limit:
+                        break
+        except (subprocess.TimeoutExpired, json.JSONDecodeError, OSError):
+            continue
+
+    return collected
 
 
 def _extract_yt_initial_data(html: str) -> dict | None:
@@ -199,12 +276,13 @@ def fetch_via_yt_html(channel: dict, limit: int = 6, timeout: int = 12) -> list[
     channel_id = (channel.get("channel_id") or "").strip()
 
     urls = []
+    if channel_id and channel_id.startswith("UC"):
+        urls.append(f"https://www.youtube.com/channel/{quote(channel_id)}/videos")
+        urls.append(f"https://www.youtube.com/channel/{quote(channel_id)}/streams")
     if handle:
         clean_handle = handle if handle.startswith("@") else f"@{handle}"
         urls.append(f"https://www.youtube.com/{quote(clean_handle)}/videos")
         urls.append(f"https://www.youtube.com/{quote(clean_handle)}/streams")
-    if channel_id and channel_id.startswith("UC"):
-        urls.append(f"https://www.youtube.com/channel/{quote(channel_id)}/videos")
 
     last_err = None
     for page_url in urls:
@@ -279,7 +357,15 @@ def fetch_channel_videos(channel: dict, limit: int = 6) -> tuple[list[dict], str
         except Exception:
             pass
 
-    # Tier 2: Hardened YT_HTML fallback (handles HTTPError gracefully)
+    # Tier 2: yt-dlp flat-playlist metadata fallback (/videos + /streams)
+    try:
+        videos = fetch_via_ytdlp(channel, limit=limit)
+        if videos:
+            return videos, "YT_DLP"
+    except Exception as exc:
+        print(f"[FAILOVER] {handle} failed on YT_DLP: {type(exc).__name__}")
+
+    # Tier 3: Hardened YT_HTML fallback (handles HTTPError gracefully)
     try:
         videos = fetch_via_yt_html(channel, limit=limit)
         if videos:
@@ -290,7 +376,7 @@ def fetch_channel_videos(channel: dict, limit: int = 6) -> tuple[list[dict], str
     except Exception as exc:
         print(f"[FAILOVER] {handle} failed on YT_HTML: {type(exc).__name__}")
 
-    # Tier 3: Piped mirror fallback
+    # Tier 4: Piped mirror fallback
     if channel_id:
         videos = fetch_via_piped(channel_id, limit=limit)
         if videos:
