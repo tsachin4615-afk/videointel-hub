@@ -34,16 +34,17 @@ def test_channel_ytdlp(ch):
     if channel_id.startswith("UC"):
         targets.append(f"https://www.youtube.com/channel/{channel_id}/videos")
         targets.append(f"https://www.youtube.com/channel/{channel_id}/streams")
-    elif handle:
+    if handle:
         clean_handle = handle if handle.startswith("@") else f"@{handle}"
         targets.append(f"https://www.youtube.com/{clean_handle}/videos")
         targets.append(f"https://www.youtube.com/{clean_handle}/streams")
 
     if not targets:
-        return [], "No channel_id or handle"
+        return [], None, "No channel_id or handle"
 
     found = []
     seen = set()
+    real_cid = None
     last_error = "No videos returned"
 
     for tab_url in targets:
@@ -71,12 +72,20 @@ def test_channel_ytdlp(ch):
                 timeout=TIMEOUT_SECONDS,
                 check=False,
             )
-            if not proc.stdout:
+            if not proc.stdout or not proc.stdout.strip():
                 err_msg = (proc.stderr or "").strip().splitlines()
                 if err_msg:
                     last_error = err_msg[-1][:120]
                 continue
             payload = json.loads(proc.stdout)
+            if not isinstance(payload, dict):
+                last_error = "Invalid/empty YouTube response (null)"
+                continue
+
+            detected_cid = (payload.get("channel_id") or "").strip()
+            if detected_cid.startswith("UC"):
+                real_cid = detected_cid
+
             entries = payload.get("entries") or []
             for entry in entries:
                 if not isinstance(entry, dict):
@@ -97,9 +106,9 @@ def test_channel_ytdlp(ch):
         except subprocess.TimeoutExpired:
             last_error = f"Timeout ({TIMEOUT_SECONDS}s)"
         except Exception as e:
-            last_error = type(e).__name__
+            last_error = f"{type(e).__name__}: {str(e)[:80]}"
 
-    return found, last_error
+    return found, real_cid, last_error
 
 
 def main():
@@ -107,12 +116,18 @@ def main():
     total = len(channels)
     passed = []
     failed = []
+    id_fixes = []
 
     print(f"Starting yt-dlp test across {total} channels...\n")
 
     for idx, ch in enumerate(channels, start=1):
         handle = ch.get("handle") or ch.get("title") or ch.get("channel_id") or f"channel_{idx}"
-        videos, err = test_channel_ytdlp(ch)
+        saved_cid = str(ch.get("channel_id") or "").strip()
+        videos, real_cid, err = test_channel_ytdlp(ch)
+
+        if real_cid and real_cid != saved_cid:
+            id_fixes.append((handle, saved_cid, real_cid))
+
         if videos:
             passed.append(handle)
             sample_title = videos[0][1][:55]
@@ -125,6 +140,12 @@ def main():
     print("\n" + "=" * 60)
     print(f"TEST COMPLETE: {len(passed)}/{total} PASSED | {len(failed)}/{total} FAILED")
     print("=" * 60)
+
+    if id_fixes:
+        print("\nChannel ID mismatches detected (saved -> real):")
+        for handle, old_id, new_id in id_fixes:
+            print(f" - {handle}: {old_id} -> {new_id}")
+
     if failed:
         print("\nFailed channels:")
         for handle, err in failed:
