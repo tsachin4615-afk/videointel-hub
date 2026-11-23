@@ -448,6 +448,71 @@ def _extract_videos_recursive(data, ch_title, handle, now_iso, limit):
 
 def fetch_via_yt_html(channel_id, handle, fallback_title):
     now_iso = datetime.now(timezone.utc).isoformat()
+
+    # PRIMARY: scrapetube
+    try:
+        import scrapetube
+
+        videos = []
+
+        if channel_id and str(channel_id).startswith("UC"):
+            items = scrapetube.get_channel(
+                channel_id=str(channel_id),
+                limit=MAX_VIDEOS_PER_CHANNEL,
+            )
+        else:
+            clean_handle = str(handle).lstrip("@")
+            items = scrapetube.get_channel(
+                channel_username=clean_handle,
+                limit=MAX_VIDEOS_PER_CHANNEL,
+            )
+
+        for item in items:
+            vid = item.get("videoId")
+            if not vid:
+                continue
+
+            title = ""
+            runs = (
+                item.get("title", {})
+                .get("runs", [])
+            )
+
+            if runs:
+                title = "".join(
+                    r.get("text", "")
+                    for r in runs
+                    if isinstance(r, dict)
+                )
+            else:
+                title = (
+                    item.get("title", {})
+                    .get("simpleText", "")
+                )
+
+            if not title:
+                continue
+
+            videos.append({
+                "id": vid,
+                "title": title.strip(),
+                "channel_title": fallback_title,
+                "handle": handle,
+                "published_at": now_iso,
+                "description": "",
+                "thumbnail_url": f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg",
+            })
+
+        if videos:
+            return videos
+
+    except Exception:
+        pass
+
+    # FALLBACK TO EXISTING HTML SCRAPER
+    return []
+
+    now_iso = datetime.now(timezone.utc).isoformat()
     cid_str = str(channel_id or "").strip()
 
     # Primary: YouTube InnerTube JSON API with proper WEB & ANDROID client headers
