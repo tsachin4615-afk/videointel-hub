@@ -444,21 +444,57 @@ def _extract_videos_recursive(data, ch_title, handle, now_iso, limit):
 
 
 def fetch_via_yt_html(channel_id, handle, fallback_title):
+    now_iso = datetime.now(timezone.utc).isoformat()
+    cid_str = str(channel_id or "").strip()
+
+    # Primary: YouTube InnerTube JSON API (fast, bypasses HTML bot/consent stripping)
+    if cid_str.startswith("UC"):
+        try:
+            payload = {
+                "context": {
+                    "client": {
+                        "clientName": "WEB",
+                        "clientVersion": "2.20241120.01.00",
+                        "hl": "en",
+                        "gl": "US",
+                    }
+                },
+                "browseId": cid_str,
+                "params": "EgZ2aWRlb3PyBgQKAjoA",
+            }
+            status, data = http_post_json(
+                "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false",
+                payload,
+                timeout=REQUEST_TIMEOUT,
+            )
+            if status == 200 and isinstance(data, dict):
+                ch_title = (
+                    data.get("metadata", {})
+                    .get("channelMetadataRenderer", {})
+                    .get("title")
+                    or fallback_title
+                )
+                videos = _extract_videos_recursive(
+                    data, ch_title, handle, now_iso, MAX_VIDEOS_PER_CHANNEL
+                )
+                if videos:
+                    return videos
+        except Exception:
+            pass
+
+    # Fallback: Raw HTML page scraping
     targets = []
-    if channel_id and str(channel_id).startswith("UC"):
-        targets.append(f"https://www.youtube.com/channel/{channel_id}/videos")
-        targets.append(f"https://www.youtube.com/channel/{channel_id}/streams")
+    if cid_str.startswith("UC"):
+        targets.append(f"https://www.youtube.com/channel/{cid_str}/videos")
+        targets.append(f"https://www.youtube.com/channel/{cid_str}/streams")
     if handle:
         clean_handle = handle if str(handle).startswith("@") else f"@{handle}"
         targets.append(f"https://www.youtube.com/{clean_handle}/videos")
         targets.append(f"https://www.youtube.com/{clean_handle}/streams")
 
-    now_iso = datetime.now(timezone.utc).isoformat()
-    last_err = None
-
     for target in targets:
         try:
-            time.sleep(random.uniform(0.3, 0.7))
+            time.sleep(random.uniform(0.2, 0.5))
             html = http_get_text(
                 target,
                 timeout=REQUEST_TIMEOUT,
@@ -507,12 +543,9 @@ def fetch_via_yt_html(channel_id, handle, fallback_title):
 
             if videos:
                 return videos
-        except Exception as e:
-            last_err = e
+        except Exception:
             continue
 
-    if last_err is not None:
-        raise last_err
     return []
 
 
