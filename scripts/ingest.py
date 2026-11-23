@@ -59,12 +59,15 @@ def http_get_text(url, timeout=REQUEST_TIMEOUT, extra_headers=None):
         return resp.read().decode("utf-8", errors="ignore")
 
 
-def http_post_json(url, payload, timeout=15):
+def http_post_json(url, payload, timeout=15, extra_headers=None):
     data = json.dumps(payload).encode("utf-8")
+    headers = {"Content-Type": "application/json"}
+    if extra_headers:
+        headers.update(extra_headers)
     req = urllib.request.Request(
         url,
         data=data,
-        headers={"Content-Type": "application/json"},
+        headers=headers,
         method="POST",
     )
     with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -447,40 +450,77 @@ def fetch_via_yt_html(channel_id, handle, fallback_title):
     now_iso = datetime.now(timezone.utc).isoformat()
     cid_str = str(channel_id or "").strip()
 
-    # Primary: YouTube InnerTube JSON API (fast, bypasses HTML bot/consent stripping)
+    # Primary: YouTube InnerTube JSON API with proper WEB & ANDROID client headers
     if cid_str.startswith("UC"):
-        try:
-            payload = {
-                "context": {
-                    "client": {
-                        "clientName": "WEB",
-                        "clientVersion": "2.20241120.01.00",
-                        "hl": "en",
-                        "gl": "US",
-                    }
+        innertube_attempts = [
+            (
+                {
+                    "context": {
+                        "client": {
+                            "clientName": "WEB",
+                            "clientVersion": "2.20241120.01.00",
+                            "hl": "en",
+                            "gl": "US",
+                        }
+                    },
+                    "browseId": cid_str,
+                    "params": "EgZ2aWRlb3PyBgQKAjoA",
                 },
-                "browseId": cid_str,
-                "params": "EgZ2aWRlb3PyBgQKAjoA",
-            }
-            status, data = http_post_json(
-                "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false",
-                payload,
-                timeout=REQUEST_TIMEOUT,
-            )
-            if status == 200 and isinstance(data, dict):
-                ch_title = (
-                    data.get("metadata", {})
-                    .get("channelMetadataRenderer", {})
-                    .get("title")
-                    or fallback_title
+                {
+                    "User-Agent": random.choice(USER_AGENTS),
+                    "Origin": "https://www.youtube.com",
+                    "Referer": f"https://www.youtube.com/channel/{cid_str}/videos",
+                    "X-YouTube-Client-Name": "1",
+                    "X-YouTube-Client-Version": "2.20241120.01.00",
+                    "Accept-Language": "en-US,en;q=0.9",
+                    "Cookie": YT_CONSENT_COOKIE,
+                },
+            ),
+            (
+                {
+                    "context": {
+                        "client": {
+                            "clientName": "ANDROID",
+                            "clientVersion": "19.29.37",
+                            "androidSdkVersion": 30,
+                            "hl": "en",
+                            "gl": "US",
+                        }
+                    },
+                    "browseId": cid_str,
+                    "params": "EgZ2aWRlb3PyBgQKAjoA",
+                },
+                {
+                    "User-Agent": "com.google.android.youtube/19.29.37 (Linux; U; Android 11) gzip",
+                    "X-YouTube-Client-Name": "3",
+                    "X-YouTube-Client-Version": "19.29.37",
+                    "Accept-Language": "en-US,en;q=0.9",
+                },
+            ),
+        ]
+
+        for payload, req_headers in innertube_attempts:
+            try:
+                status, data = http_post_json(
+                    "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false",
+                    payload,
+                    timeout=REQUEST_TIMEOUT,
+                    extra_headers=req_headers,
                 )
-                videos = _extract_videos_recursive(
-                    data, ch_title, handle, now_iso, MAX_VIDEOS_PER_CHANNEL
-                )
-                if videos:
-                    return videos
-        except Exception:
-            pass
+                if status == 200 and isinstance(data, dict):
+                    ch_title = (
+                        data.get("metadata", {})
+                        .get("channelMetadataRenderer", {})
+                        .get("title")
+                        or fallback_title
+                    )
+                    videos = _extract_videos_recursive(
+                        data, ch_title, handle, now_iso, MAX_VIDEOS_PER_CHANNEL
+                    )
+                    if videos:
+                        return videos
+            except Exception:
+                continue
 
     # Fallback: Raw HTML page scraping
     targets = []
