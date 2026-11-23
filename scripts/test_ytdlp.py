@@ -1,155 +1,181 @@
+
 import json
-import os
 import re
 import subprocess
 import sys
 import time
 
-DATA_CHANNELS_FILE = "data/channels.json"
-ROOT_CHANNELS_FILE = "channels.json"
-TEST_LIMIT = 3
-TIMEOUT_SECONDS = 25
+CHANNELS_FILE = "data/channels.json"
+VIDEO_LIMIT = 3
+TIMEOUT = 60
 
 
 def load_channels():
-    path = DATA_CHANNELS_FILE if os.path.exists(DATA_CHANNELS_FILE) else ROOT_CHANNELS_FILE
-    if not os.path.exists(path):
-        print(f"[ERROR] Channels file not found at {path}")
-        return []
-    with open(path, "r", encoding="utf-8") as f:
-        raw = json.load(f)
-    return [
-        {"handle": c, "title": c, "channel_id": None}
-        if isinstance(c, str)
-        else c
-        for c in raw
-    ]
+    with open(CHANNELS_FILE, "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    if not isinstance(data, list):
+        raise ValueError("channels.json must contain a list")
+
+    return data
 
 
-def test_channel_ytdlp(ch):
-    channel_id = str(ch.get("channel_id") or "").strip()
-    handle = str(ch.get("handle") or "").strip()
+def get_channel_urls(channel):
+    urls = []
 
-    targets = []
+    channel_id = str(channel.get("channel_id") or "").strip()
+    handle = str(channel.get("handle") or "").strip()
+
     if channel_id.startswith("UC"):
-        targets.append(f"https://www.youtube.com/channel/{channel_id}/videos")
-        targets.append(f"https://www.youtube.com/channel/{channel_id}/streams")
+        urls.append(
+            f"https://www.youtube.com/channel/{channel_id}/videos"
+        )
+
     if handle:
-        clean_handle = handle if handle.startswith("@") else f"@{handle}"
-        targets.append(f"https://www.youtube.com/{clean_handle}/videos")
-        targets.append(f"https://www.youtube.com/{clean_handle}/streams")
+        if not handle.startswith("@"):
+            handle = "@" + handle
 
-    if not targets:
-        return [], None, "No channel_id or handle"
+        urls.append(
+            f"https://www.youtube.com/{handle}/videos"
+        )
 
-    found = []
-    seen = set()
-    real_cid = None
-    last_error = "No videos returned"
+    return list(dict.fromkeys(urls))
 
-    for tab_url in targets:
-        if len(found) >= TEST_LIMIT:
-            break
-        cmd = [
+
+def test_channel(channel):
+    urls = get_channel_urls(channel)
+
+    if not urls:
+        return False, [], "No channel ID or handle"
+
+    errors = []
+
+    for url in urls:
+        command = [
             sys.executable,
-            "-m",
-            "yt_dlp",
+            "-m", "yt_dlp",
+            "--ignore-config",
             "--flat-playlist",
-            "--playlist-end",
-            str(TEST_LIMIT),
+            "--playlist-end", str(VIDEO_LIMIT),
             "--dump-single-json",
             "--no-warnings",
-            "--ignore-errors",
-            "--extractor-args",
-            "youtube:player_client=android,web",
-            tab_url,
+            "--socket-timeout", "30",
+            "--extractor-retries", "2",
+            "--retries", "2",
+            url
         ]
+
         try:
-            proc = subprocess.run(
-                cmd,
+            result = subprocess.run(
+                command,
                 capture_output=True,
                 text=True,
-                timeout=TIMEOUT_SECONDS,
-                check=False,
+                timeout=TIMEOUT
             )
-            if not proc.stdout or not proc.stdout.strip():
-                err_msg = (proc.stderr or "").strip().splitlines()
-                if err_msg:
-                    last_error = err_msg[-1][:120]
-                continue
-            payload = json.loads(proc.stdout)
-            if not isinstance(payload, dict):
-                last_error = "Invalid/empty YouTube response (null)"
+
+            output = result.stdout.strip()
+
+            if not output:
+                errors.append(
+                    "Empty response: " +
+                    (result.stderr.strip()[-300:] or
+                     f"Exit code {result.returncode}")
+                )
                 continue
 
-            detected_cid = (payload.get("channel_id") or "").strip()
-            if detected_cid.startswith("UC"):
-                real_cid = detected_cid
+            try:
+                data = json.loads(output)
+            except json.JSONDecodeError:
+                errors.append("Invalid JSON response")
+                continue
 
-            entries = payload.get("entries") or []
+            if not isinstance(data, dict):
+                errors.append("Invalid YouTube response")
+                continue
+
+            entries = data.get("entries") or []
+
+            videos = []
+
             for entry in entries:
                 if not isinstance(entry, dict):
                     continue
-                vid = (entry.get("id") or "").strip()
-                title = (entry.get("title") or "").strip()
-                if (
-                    vid
-                    and re.fullmatch(r"[A-Za-z0-9_-]{11}", vid)
-                    and vid not in seen
-                    and title
-                    and title.lower() not in {"[private video]", "[deleted video]"}
-                ):
-                    seen.add(vid)
-                    found.append((vid, title))
-                    if len(found) >= TEST_LIMIT:
-                        break
-        except subprocess.TimeoutExpired:
-            last_error = f"Timeout ({TIMEOUT_SECONDS}s)"
-        except Exception as e:
-            last_error = f"{type(e).__name__}: {str(e)[:80]}"
 
-    return found, real_cid, last_error
+                video_id = str(entry.get("id") or "").strip()
+                title = str(entry.get("title") or "").strip()
+
+                if re.fullmatch(r"[A-Za-z0-9_-]{11}", video_id):
+                    videos.append({
+                        "video_id": video_id,
+                        "title": title
+                    })
+
+            if videos:
+                return True, videos[:VIDEO_LIMIT], None
+
+            errors.append("Channel resolved but no videos returned")
+
+        except subprocess.TimeoutExpired:
+            errors.append("Request timed out")
+
+        except Exception as error:
+            errors.append(str(error))
+
+    return False, [], " | ".join(errors)
 
 
 def main():
     channels = load_channels()
-    total = len(channels)
-    passed = []
-    failed = []
-    id_fixes = []
 
-    print(f"Starting yt-dlp test across {total} channels...\n")
+    passed = 0
+    failed = 0
+    skipped = 0
 
-    for idx, ch in enumerate(channels, start=1):
-        handle = ch.get("handle") or ch.get("title") or ch.get("channel_id") or f"channel_{idx}"
-        saved_cid = str(ch.get("channel_id") or "").strip()
-        videos, real_cid, err = test_channel_ytdlp(ch)
+    print("=" * 65)
+    print("YT-DLP CHANNEL RESOLUTION TEST")
+    print("=" * 65)
+    print(f"Total channels: {len(channels)}\n")
 
-        if real_cid and real_cid != saved_cid:
-            id_fixes.append((handle, saved_cid, real_cid))
+    for index, channel in enumerate(channels, 1):
 
-        if videos:
-            passed.append(handle)
-            sample_title = videos[0][1][:55]
-            print(f"[{idx:02d}/{total}] [OK]   {handle} -> {len(videos)} videos (e.g., {sample_title})")
+        if channel.get("paused", False):
+            skipped += 1
+            print(f"[{index}/{len(channels)}] [SKIP] "
+                  f"{channel.get('handle')}")
+            continue
+
+        handle = channel.get("handle", "Unknown")
+
+        success, videos, error = test_channel(channel)
+
+        if success:
+            passed += 1
+
+            print(f"\n[{index}/{len(channels)}] [PASS] {handle}")
+
+            for video in videos:
+                print(f"  ID: {video['video_id']}")
+                print(f"  Title: {video['title']}")
+
         else:
-            failed.append((handle, err))
-            print(f"[{idx:02d}/{total}] [FAIL] {handle} -> {err}")
+            failed += 1
+
+            print(f"\n[{index}/{len(channels)}] [FAIL] {handle}")
+            print(f"  Reason: {error}")
+
         time.sleep(0.5)
 
-    print("\n" + "=" * 60)
-    print(f"TEST COMPLETE: {len(passed)}/{total} PASSED | {len(failed)}/{total} FAILED")
-    print("=" * 60)
-
-    if id_fixes:
-        print("\nChannel ID mismatches detected (saved -> real):")
-        for handle, old_id, new_id in id_fixes:
-            print(f" - {handle}: {old_id} -> {new_id}")
+    print("\n" + "=" * 65)
+    print("FINAL TEST RESULTS")
+    print("=" * 65)
+    print(f"Total:   {len(channels)}")
+    print(f"Passed:  {passed}")
+    print(f"Failed:  {failed}")
+    print(f"Skipped: {skipped}")
+    print("=" * 65)
 
     if failed:
-        print("\nFailed channels:")
-        for handle, err in failed:
-            print(f" - {handle}: {err}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
