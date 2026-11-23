@@ -1,0 +1,22 @@
+name: Test yt-dlp All Channels
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-ytdlp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install yt-dlp
+        run: pip install --upgrade yt-dlp
+
+      - name: Run yt-dlp test on all channels
+        run: python scripts/test_ytdlp.py
