@@ -59,7 +59,7 @@ def main():
             failed.append((handle, err))
             print(f"[{idx:02d}/{total}] [FAIL] {handle} -> {err}")
 
-        time.sleep(0.4)
+        time.sleep(0.05)
 
     print("\n" + "=" * 60)
     print(f"{mode.upper()} RESULTS: {passed}/{total} PASSED | {len(failed)}/{total} FAILED")
