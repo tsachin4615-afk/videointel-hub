@@ -17,7 +17,7 @@ on:
 jobs:
   test-tier:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -39,4 +39,4 @@ jobs:
 
       - name: Run selected tier test
         run: |
-          python scripts/test_tiers.py ${{ inputs.tier }}
+          python -u scripts/test_tiers.py ${{ inputs.tier }}
