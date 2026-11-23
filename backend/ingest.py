@@ -17,6 +17,7 @@ VIDEOS_FILE = "videos.json"
 MAX_VIDEOS_PER_CHANNEL = 6
 MAX_TOTAL_VIDEOS = 250
 REQUEST_TIMEOUT = 12
+YTDLP_TIMEOUT = 60
 
 DEFAULT_HIGH_QUOTA_MODELS = [
     "gemini-3.5-flash-lite",
@@ -58,12 +59,15 @@ def http_get_text(url, timeout=REQUEST_TIMEOUT, extra_headers=None):
         return resp.read().decode("utf-8", errors="ignore")
 
 
-def http_post_json(url, payload, timeout=15):
+def http_post_json(url, payload, timeout=15, extra_headers=None):
     data = json.dumps(payload).encode("utf-8")
+    headers = {"Content-Type": "application/json"}
+    if extra_headers:
+        headers.update(extra_headers)
     req = urllib.request.Request(
         url,
         data=data,
-        headers={"Content-Type": "application/json"},
+        headers=headers,
         method="POST",
     )
     with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -243,63 +247,78 @@ def fetch_via_rss(channel_id, handle, fallback_title, ch=None):
     return []
 
 
-def fetch_via_ytdlp(channel_id, handle, fallback_title, timeout=25):
-    targets = []
-    if channel_id and str(channel_id).startswith("UC"):
-        targets.append(f"https://www.youtube.com/channel/{channel_id}/videos")
-        targets.append(f"https://www.youtube.com/channel/{channel_id}/streams")
-    elif handle:
-        clean_handle = handle if str(handle).startswith("@") else f"@{handle}"
-        targets.append(f"https://www.youtube.com/{clean_handle}/videos")
-        targets.append(f"https://www.youtube.com/{clean_handle}/streams")
+def fetch_via_ytdlp(channel_id, handle, fallback_title, ch=None):
+    urls = []
+    cid_str = str(channel_id or "").strip()
+    handle_str = str(handle or "").strip()
+
+    if cid_str.startswith("UC"):
+        urls.append(f"https://www.youtube.com/channel/{cid_str}/videos")
+    if handle_str:
+        clean_handle = handle_str if handle_str.startswith("@") else f"@{handle_str}"
+        urls.append(f"https://www.youtube.com/{clean_handle}/videos")
+
+    urls = list(dict.fromkeys(urls))
+    if not urls:
+        return []
 
     now_iso = datetime.now(timezone.utc).isoformat()
-    videos = []
-    seen_ids = set()
 
-    for tab_url in targets:
-        if len(videos) >= MAX_VIDEOS_PER_CHANNEL:
-            break
-        cmd = [
+    for url in urls:
+        command = [
             sys.executable,
-            "-m",
-            "yt_dlp",
+            "-m", "yt_dlp",
+            "--ignore-config",
             "--flat-playlist",
-            "--playlist-end",
-            str(MAX_VIDEOS_PER_CHANNEL),
+            "--playlist-end", str(MAX_VIDEOS_PER_CHANNEL),
             "--dump-single-json",
             "--no-warnings",
-            "--ignore-errors",
-            "--extractor-args",
-            "youtube:player_client=android,web",
-            tab_url,
+            "--socket-timeout", "30",
+            "--extractor-retries", "2",
+            "--retries", "2",
+            url,
         ]
         try:
-            proc = subprocess.run(
-                cmd,
+            result = subprocess.run(
+                command,
                 capture_output=True,
                 text=True,
-                timeout=timeout,
-                check=False,
+                timeout=YTDLP_TIMEOUT,
             )
-            if not proc.stdout:
+            output = result.stdout.strip()
+            if not output:
                 continue
-            payload = json.loads(proc.stdout)
+
+            try:
+                data = json.loads(output)
+            except json.JSONDecodeError:
+                continue
+
+            if not isinstance(data, dict):
+                continue
+
+            if ch is not None and not ch.get("channel_id"):
+                detected_cid = str(data.get("channel_id") or "").strip()
+                if detected_cid.startswith("UC"):
+                    ch["channel_id"] = detected_cid
+
             ch_title = (
-                payload.get("channel")
-                or payload.get("uploader")
-                or payload.get("title")
+                data.get("channel")
+                or data.get("uploader")
+                or data.get("title")
                 or fallback_title
             )
-            entries = payload.get("entries") or []
+            entries = data.get("entries") or []
+            videos = []
+            seen_ids = set()
+
             for entry in entries:
                 if not isinstance(entry, dict):
                     continue
-                vid = (entry.get("id") or "").strip()
-                title = (entry.get("title") or "").strip()
+                vid = str(entry.get("id") or "").strip()
+                title = str(entry.get("title") or "").strip()
                 if (
-                    not vid
-                    or not re.fullmatch(r"[A-Za-z0-9_-]{11}", vid)
+                    not re.fullmatch(r"[A-Za-z0-9_-]{11}", vid)
                     or vid in seen_ids
                     or not title
                     or title.lower() in {"[private video]", "[deleted video]"}
@@ -312,7 +331,7 @@ def fetch_via_ytdlp(channel_id, handle, fallback_title, timeout=25):
                     if isinstance(ts, (int, float)) and ts > 0
                     else now_iso
                 )
-                desc = (entry.get("description") or "").strip()[:1500]
+                desc = str(entry.get("description") or "").strip()[:1500]
                 videos.append({
                     "id": vid,
                     "title": title,
@@ -324,10 +343,15 @@ def fetch_via_ytdlp(channel_id, handle, fallback_title, timeout=25):
                 })
                 if len(videos) >= MAX_VIDEOS_PER_CHANNEL:
                     break
-        except (subprocess.TimeoutExpired, json.JSONDecodeError, OSError):
+
+            if videos:
+                return videos
+        except (subprocess.TimeoutExpired, OSError):
+            continue
+        except Exception:
             continue
 
-    return videos
+    return []
 
 
 def _extract_yt_initial_data(html):
@@ -423,21 +447,75 @@ def _extract_videos_recursive(data, ch_title, handle, now_iso, limit):
 
 
 def fetch_via_yt_html(channel_id, handle, fallback_title):
+    now_iso = datetime.now(timezone.utc).isoformat()
+    cid_str = str(channel_id or "").strip()
+
+    # Primary: scrapetube (handles YouTube's live InnerTube API key & session automatically)
+    try:
+        import scrapetube
+
+        kwargs = {"limit": MAX_VIDEOS_PER_CHANNEL, "content_type": "videos"}
+        if cid_str.startswith("UC"):
+            kwargs["channel_id"] = cid_str
+        elif handle:
+            clean_handle = handle if str(handle).startswith("@") else f"@{handle}"
+            kwargs["channel_url"] = f"https://www.youtube.com/{clean_handle}"
+
+        if "channel_id" in kwargs or "channel_url" in kwargs:
+            videos = []
+            seen_ids = set()
+            for item in scrapetube.get_channel(**kwargs):
+                if not isinstance(item, dict):
+                    continue
+                vid = str(item.get("videoId") or "").strip()
+                if not re.fullmatch(r"[A-Za-z0-9_-]{11}", vid) or vid in seen_ids:
+                    continue
+                title_field = item.get("title")
+                title = ""
+                if isinstance(title_field, dict):
+                    runs = title_field.get("runs")
+                    if isinstance(runs, list):
+                        title = "".join(r.get("text", "") for r in runs if isinstance(r, dict))
+                    elif isinstance(title_field.get("simpleText"), str):
+                        title = title_field["simpleText"]
+                elif isinstance(title_field, str):
+                    title = title_field
+                title = title.strip()
+                if not title:
+                    continue
+
+                desc_runs = item.get("descriptionSnippet", {}).get("runs", []) if isinstance(item.get("descriptionSnippet"), dict) else []
+                desc = "".join(r.get("text", "") for r in desc_runs if isinstance(r, dict))
+                seen_ids.add(vid)
+                videos.append({
+                    "id": vid,
+                    "title": title,
+                    "channel_title": fallback_title,
+                    "handle": handle,
+                    "published_at": now_iso,
+                    "description": desc.strip()[:1500],
+                    "thumbnail_url": f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg",
+                })
+                if len(videos) >= MAX_VIDEOS_PER_CHANNEL:
+                    break
+            if videos:
+                return videos
+    except Exception:
+        pass
+
+    # Fallback: Raw HTML page scraping
     targets = []
-    if channel_id and str(channel_id).startswith("UC"):
-        targets.append(f"https://www.youtube.com/channel/{channel_id}/videos")
-        targets.append(f"https://www.youtube.com/channel/{channel_id}/streams")
+    if cid_str.startswith("UC"):
+        targets.append(f"https://www.youtube.com/channel/{cid_str}/videos")
+        targets.append(f"https://www.youtube.com/channel/{cid_str}/streams")
     if handle:
         clean_handle = handle if str(handle).startswith("@") else f"@{handle}"
         targets.append(f"https://www.youtube.com/{clean_handle}/videos")
         targets.append(f"https://www.youtube.com/{clean_handle}/streams")
 
-    now_iso = datetime.now(timezone.utc).isoformat()
-    last_err = None
-
     for target in targets:
         try:
-            time.sleep(random.uniform(0.3, 0.7))
+            time.sleep(random.uniform(0.2, 0.5))
             html = http_get_text(
                 target,
                 timeout=REQUEST_TIMEOUT,
@@ -486,12 +564,9 @@ def fetch_via_yt_html(channel_id, handle, fallback_title):
 
             if videos:
                 return videos
-        except Exception as e:
-            last_err = e
+        except Exception:
             continue
 
-    if last_err is not None:
-        raise last_err
     return []
 
 
@@ -564,7 +639,7 @@ def fetch_channel_videos_bulletproof(ch):
 
     tiers = [
         ("RSS", lambda: fetch_via_rss(cid, handle, fallback_title, ch=ch)),
-        ("YT_DLP", lambda: fetch_via_ytdlp(cid, handle, fallback_title)),
+        ("YT_DLP", lambda: fetch_via_ytdlp(cid, handle, fallback_title, ch=ch)),
         ("YT_HTML", lambda: fetch_via_yt_html(cid, handle, fallback_title)),
         ("MIRRORS", lambda: fetch_via_mirrors(cid, handle, fallback_title)),
     ]
