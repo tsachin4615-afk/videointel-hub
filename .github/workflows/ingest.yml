@@ -20,6 +20,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install yt-dlp
+        run: pip install --upgrade yt-dlp
+
       - name: Run bulletproof fetcher & 3-key Layman engine
         env:
           GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
