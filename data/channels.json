@@ -203,9 +203,9 @@
     "paused_until": null
   },
   {
-    "handle": "@StudyIQIAS",
-    "title": "@StudyIQIAS",
-    "channel_id": null,
+    "handle": "@StudyIQEducationLtd",
+    "title": "StudyIQ IAS",
+    "channel_id": "UCrC8mOqJQpoB7NuIMKIS6rQ",
     "paused": false,
     "paused_until": null
   },
@@ -232,14 +232,14 @@
   },
   {
     "handle": "@LetsCrackUPSCCSE",
-    "title": "@LetsCrackUPSCCSE",
-    "channel_id": null,
+    "title": "Let's Crack UPSC CSE",
+    "channel_id": "UCABe2FgVNv2hgBeMu2mySVg",
     "paused": false,
     "paused_until": null
   },
   {
-    "handle": "@Adda247Bankers",
-    "title": "@Adda247Bankers",
+    "handle": "@bankers-adda",
+    "title": "Adda247",
     "channel_id": null,
     "paused": false,
     "paused_until": null
@@ -252,22 +252,22 @@
     "paused_until": null
   },
   {
-    "handle": "@AffairsCloud",
-    "title": "@AffairsCloud",
+    "handle": "@AffairsCloud-Com",
+    "title": "AffairsCloud",
     "channel_id": null,
     "paused": false,
     "paused_until": null
   },
   {
-    "handle": "@alpha_defense",
-    "title": "Defense Zone",
-    "channel_id": "UC6ekcdJIF9wJXhwJRmH-_Bw",
+    "handle": "@AlphaDefenseHindi",
+    "title": "Alpha Defense Hindi",
+    "channel_id": null,
     "paused": false,
     "paused_until": null
   },
   {
-    "handle": "@DefenceDecode",
-    "title": "@DefenceDecode",
+    "handle": "@defencedecodeOfficial",
+    "title": "Defence Decode",
     "channel_id": null,
     "paused": false,
     "paused_until": null
