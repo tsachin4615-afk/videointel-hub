@@ -14,7 +14,7 @@
       --app-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       --app-scale: 1;
       --bubble-alpha: 0.42;
-      --dimmer-alpha: 0.25;
+      --dimmer-alpha: 0.20;
       --headline-shadow: 0 1px 3px rgba(0, 0, 0, 0.78);
       --headline-weight: 600;
     }
@@ -125,91 +125,84 @@
   <canvas id="bgCanvas"></canvas>
   <div id="bgDimmer"></div>
 
-  <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 glass-surface border-b border-white/20 text-sky-200 text-xs py-2.5 text-center flex items-center justify-center gap-2">
+  <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 glass-surface border-b border-white/20 text-sky-200 text-xs py-2 text-center flex items-center justify-center gap-2">
     <i class="fa-solid fa-arrows-rotate fa-spin text-sky-400"></i>
     <span>Refreshing feed...</span>
   </div>
 
-  <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0 px-4 py-3 sm:px-8">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <div class="h-9 w-9 rounded-2xl bg-indigo-500/90 border border-white/25 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-          <i class="fa-solid fa-table-cells-large text-lg"></i>
+  <!-- ULTRA-SLIM SINGLE-LINE HEADER -->
+  <header class="sticky top-0 z-40 glass-surface border-x-0 border-t-0 px-3 py-2 sm:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="h-7 w-7 rounded-xl bg-indigo-500/90 border border-white/25 flex items-center justify-center text-white shadow shadow-indigo-500/30 shrink-0">
+          <i class="fa-solid fa-table-cells-large text-xs"></i>
         </div>
-        <div>
-          <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-            Master Visual Grid
-            <span id="headerEngineBadge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">3 Keys × 3 Models Chain</span>
-          </h1>
-          <p class="text-xs text-slate-300/85">Equal N-Model Split • Zero-Wait Universal Failover</p>
-        </div>
+        <h1 class="text-sm sm:text-base font-bold text-white tracking-tight whitespace-nowrap truncate">Master Visual Grid</h1>
       </div>
 
-      <div class="flex items-center gap-2">
-        <a href="index.html" class="glass-pill text-xs text-sky-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5 font-medium"><i class="fa-solid fa-list-check text-sky-400"></i> <span class="hidden sm:inline">Headings (Home)</span></a>
-        <a href="monitoring.html" class="glass-pill text-xs text-teal-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5 font-medium"><i class="fa-solid fa-tower-broadcast text-teal-400"></i> <span class="hidden sm:inline">Monitor</span></a>
-        <button onclick="triggerManualRefresh()" class="glass-pill text-xs text-sky-300 px-3 py-1.5 rounded-xl flex items-center gap-1.5 font-medium"><i class="fa-solid fa-arrows-rotate text-sky-400"></i></button>
-        <button onclick="toggleCurtain(true)" class="glass-pill text-xs text-white px-3.5 py-1.5 rounded-xl flex items-center gap-2 font-semibold"><i class="fa-solid fa-sliders text-sky-400"></i><span>Curtain Panel</span></button>
-      </div>
+      <button onclick="toggleCurtain(true)" class="glass-pill text-[11px] text-white px-2.5 py-1 rounded-xl flex items-center gap-1.5 font-semibold whitespace-nowrap shrink-0">
+        <i class="fa-solid fa-sliders text-sky-400"></i>
+        <span>Curtain Panel</span>
+      </button>
     </div>
   </header>
 
-  <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
-    <div class="glass-surface rounded-3xl p-4 sm:p-5 relative overflow-hidden">
-      <div class="flex items-center justify-between gap-2 mb-2.5">
-        <div class="flex items-center gap-2 text-white text-sm font-semibold"><i class="fa-solid fa-microchip text-sky-400 text-base"></i><span>Master Gemini Engine</span></div>
-        <span id="laymanPrepBadge" class="text-[11px] glass-pill text-emerald-300 px-2.5 py-0.5 rounded-xl font-mono">Ready</span>
+  <!-- COMPACT MASTER GEMINI ENGINE -->
+  <section class="max-w-7xl mx-auto px-3 sm:px-8 pt-2.5">
+    <div class="glass-surface rounded-2xl p-2.5 sm:p-3 relative overflow-hidden">
+      <div class="flex items-center justify-between gap-2 mb-1.5">
+        <div class="flex items-center gap-1.5 text-white text-xs font-semibold"><i class="fa-solid fa-microchip text-sky-400 text-xs"></i><span>Master Gemini Engine</span></div>
+        <span id="laymanPrepBadge" class="text-[10px] glass-pill text-emerald-300 px-2 py-0.5 rounded-lg font-mono">Ready</span>
       </div>
 
       <div class="relative">
-        <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels..." onkeydown="if(event.key==='Enter') submitMasterQuery()" class="w-full bg-black/45 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
-        <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400"><i class="fa-solid fa-paper-plane text-xs"></i></button>
+        <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels..." onkeydown="if(event.key==='Enter') submitMasterQuery()" class="w-full bg-black/45 text-xs text-white placeholder-slate-400 rounded-xl pl-3 pr-8 py-1.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
+        <button onclick="submitMasterQuery()" class="absolute right-2.5 top-1.5 text-slate-300 hover:text-sky-400"><i class="fa-solid fa-paper-plane text-xs"></i></button>
       </div>
 
-      <details class="master-collapsible mt-3 pt-2.5 border-t border-white/10">
+      <details class="master-collapsible mt-2 pt-1.5 border-t border-white/10">
         <summary class="flex items-center justify-between text-[11px] text-slate-300 hover:text-white select-none">
           <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-wand-magic-sparkles text-sky-400 text-[10px]"></i><span>Quick Synthesis Tools, Deduplication & Routing Mode</span></span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
-        <div class="pt-3 space-y-3">
+        <div class="pt-2.5 space-y-2.5">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="relative">
-              <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1.5 rounded-xl focus:outline-none font-medium"></select>
-              <i class="fa-solid fa-chevron-down absolute right-2.5 top-2.5 text-[10px] text-slate-300 pointer-events-none"></i>
+              <select id="engineSelector" onchange="syncEngineSelection(this.value)" class="glass-pill text-xs text-sky-200 pl-3 pr-7 py-1 rounded-xl focus:outline-none font-medium"></select>
+              <i class="fa-solid fa-chevron-down absolute right-2.5 top-2 text-[10px] text-slate-300 pointer-events-none"></i>
             </div>
             <span id="splitSummaryPill" class="text-[10px] text-slate-300 font-mono">2 Active Keys • Equal Split</span>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <button onclick="runMasterAITopicDeduplication()" class="glass-pill px-3 py-1.5 rounded-xl text-xs text-emerald-200 flex items-center gap-1.5 font-medium"><i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Deduplicate</button>
-            <button onclick="runMasterQuery('Provide a sharp, information-dense layman synthesis of all major developments across the dashboard today.')" class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5"><i class="fa-solid fa-user-group text-amber-400"></i> Layman Digest</button>
-            <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points across all current videos with concrete details.')" class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5"><i class="fa-solid fa-graduation-cap text-purple-400"></i> Top 5 UPSC Pointers</button>
-            <button onclick="runMasterQuery('Identify the single most critical geopolitical strategic conflict across these updates with a sharp breakdown.')" class="glass-pill px-3 py-1.5 rounded-xl text-xs text-slate-100 flex items-center gap-1.5"><i class="fa-solid fa-compass text-sky-400"></i> Strategic Conflict</button>
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="runMasterAITopicDeduplication()" class="glass-pill px-2.5 py-1 rounded-xl text-[11px] text-emerald-200 flex items-center gap-1.5 font-medium"><i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Deduplicate</button>
+            <button onclick="runMasterQuery('Provide a sharp, information-dense layman synthesis of all major developments across the dashboard today.')" class="glass-pill px-2.5 py-1 rounded-xl text-[11px] text-slate-100 flex items-center gap-1.5"><i class="fa-solid fa-user-group text-amber-400"></i> Layman Digest</button>
+            <button onclick="runMasterQuery('Extract the top 5 high-yield UPSC exam points across all current videos with concrete details.')" class="glass-pill px-2.5 py-1 rounded-xl text-[11px] text-slate-100 flex items-center gap-1.5"><i class="fa-solid fa-graduation-cap text-purple-400"></i> Top 5 UPSC Pointers</button>
+            <button onclick="runMasterQuery('Identify the single most critical geopolitical strategic conflict across these updates with a sharp breakdown.')" class="glass-pill px-2.5 py-1 rounded-xl text-[11px] text-slate-100 flex items-center gap-1.5"><i class="fa-solid fa-compass text-sky-400"></i> Strategic Conflict</button>
           </div>
         </div>
       </details>
 
-      <div id="masterOutput" class="hidden mt-4 p-4 rounded-2xl bg-black/60 border border-white/15 text-xs text-slate-100 space-y-2 shadow-inner"></div>
+      <div id="masterOutput" class="hidden mt-3 p-3.5 rounded-2xl bg-black/60 border border-white/15 text-xs text-slate-100 space-y-2 shadow-inner"></div>
     </div>
   </section>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-8 pt-5">
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-      <div class="flex items-center gap-2">
-        <button id="timeFilterBtn" onclick="toggleTimeFilter()" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-200 flex items-center gap-1.5"><i class="fa-regular fa-clock text-sky-400"></i> <span id="timeFilterLabel">Showing All Time (Top 100 Prioritized)</span></button>
-        <button onclick="markAllAsRead()" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white"><i class="fa-solid fa-check-double"></i> Mark All Read</button>
-        <button onclick="toggleCurtain(true)" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-sky-300 hover:text-white flex items-center gap-1.5"><i class="fa-solid fa-key"></i> Keys & Appearance</button>
+  <main class="max-w-7xl mx-auto px-3 sm:px-8 pt-3.5">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+      <div class="flex items-center gap-1.5">
+        <button id="timeFilterBtn" onclick="toggleTimeFilter()" class="glass-pill px-3 py-1.5 rounded-xl text-[11px] font-medium text-slate-200 flex items-center gap-1.5"><i class="fa-regular fa-clock text-sky-400"></i> <span id="timeFilterLabel">All Time (Top 100)</span></button>
+        <button onclick="markAllAsRead()" class="glass-pill px-3 py-1.5 rounded-xl text-[11px] font-medium text-slate-300 hover:text-white"><i class="fa-solid fa-check-double"></i> Mark All Read</button>
       </div>
       <div class="flex items-center gap-2">
-        <div class="text-xs text-slate-200 drop-shadow" id="readStats">0 Read / 0 Total</div>
-        <span id="countBadge" class="text-xs glass-pill text-sky-300 px-2.5 py-0.5 rounded-full font-medium">Loading...</span>
+        <div class="text-[11px] text-slate-200 drop-shadow" id="readStats">0 Read / 0 Total</div>
+        <span id="countBadge" class="text-[11px] glass-pill text-sky-300 px-2 py-0.5 rounded-full font-medium">Loading...</span>
       </div>
     </div>
 
-    <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-4 no-scrollbar">
+    <div id="filterBar" class="flex items-center gap-2 overflow-x-auto pb-3 no-scrollbar">
       <button class="channel-pill active px-3.5 py-1.5 rounded-xl text-xs font-medium bg-sky-500 text-white whitespace-nowrap">All Channels</button>
     </div>
 
-    <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-2">
+    <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 mt-1.5">
       <div class="col-span-full py-16 text-center text-slate-300 glass-surface rounded-3xl"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-sky-400 mb-2"></i><p class="text-sm">Loading visual intelligence cards...</p></div>
     </div>
   </main>
@@ -224,18 +217,63 @@
         <button onclick="toggleCurtain(false)" class="text-slate-300 hover:text-white p-1"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
 
-      <div class="grid grid-cols-2 gap-2">
-        <a href="index.html" class="p-2.5 rounded-2xl glass-pill text-xs text-sky-300 flex items-center justify-center gap-2 font-semibold"><i class="fa-solid fa-list-check text-sky-400"></i> Headings (Home)</a>
-        <a href="monitoring.html" class="p-2.5 rounded-2xl glass-pill text-xs text-teal-300 flex items-center justify-center gap-2 font-semibold"><i class="fa-solid fa-tower-broadcast text-teal-400"></i> 2h Telemetry</a>
-      </div>
-
-      <!-- COLLAPSED SECTION: LIVE WALLPAPERS (15 SCENES) -->
-      <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-indigo-400/35">
-        <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-indigo-300 select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-film text-indigo-400"></i> Live Wallpapers (15 Scenes)</span>
+      <!-- COLLAPSED SECTION: QUICK NAVIGATION & STATUS -->
+      <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/30">
+        <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-compass text-sky-400"></i> Quick Navigation & Engine Status</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
-        <div class="px-3.5 pb-3.5 pt-2 space-y-2 border-t border-white/10">
+        <div class="px-3.5 pb-3.5 pt-2 space-y-2.5 border-t border-white/10">
+          <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-1">
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-slate-300">Active Chain:</span>
+              <span id="headerEngineBadge" class="font-semibold text-emerald-300 font-mono">3 Keys × 3 Models Chain</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Equal N-Model Split • Zero-Wait Universal Failover</p>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="index.html" class="p-2 rounded-xl glass-pill text-xs text-sky-300 flex items-center justify-center gap-1.5 font-semibold"><i class="fa-solid fa-list-check text-sky-400"></i> Headings</a>
+            <a href="monitoring.html" class="p-2 rounded-xl glass-pill text-xs text-teal-300 flex items-center justify-center gap-1.5 font-semibold"><i class="fa-solid fa-tower-broadcast text-teal-400"></i> 2h Monitor</a>
+          </div>
+          <button onclick="triggerManualRefresh(); toggleCurtain(false);" class="w-full py-2 rounded-xl text-xs bg-sky-600/35 hover:bg-sky-600/55 text-sky-100 border border-sky-400/35 font-semibold flex items-center justify-center gap-2 transition">
+            <i class="fa-solid fa-arrows-rotate text-sky-300"></i> Refresh & Reorder Feed
+          </button>
+        </div>
+      </details>
+
+      <!-- COLLAPSED SECTION: UNIFORM COLOR & LIVE WALLPAPERS -->
+      <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-indigo-400/35">
+        <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-indigo-300 select-none">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-film text-indigo-400"></i> Background Color & Wallpapers</span>
+          <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
+        </summary>
+        <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
+
+          <!-- UNIFORM SOLID COLOR STUDIO -->
+          <div class="p-2.5 rounded-xl bg-black/35 border border-indigo-400/25 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold uppercase tracking-wider text-indigo-200">Uniform Solid Color (0% GPU)</label>
+              <button onclick="setWallpaper('uniform')" id="wpBtn-uniform" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold border transition">Use Uniform</button>
+            </div>
+            <div class="grid grid-cols-4 gap-1.5">
+              <button onclick="setUniformColor('#1e293b')" id="uColor-#1e293b" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#1e293b"></span>Midnight</button>
+              <button onclick="setUniformColor('#291d14')" id="uColor-#291d14" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#291d14"></span>Warm</button>
+              <button onclick="setUniformColor('#172554')" id="uColor-#172554" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#172554"></span>Navy</button>
+              <button onclick="setUniformColor('#142c24')" id="uColor-#142c24" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#142c24"></span>Forest</button>
+              <button onclick="setUniformColor('#27272a')" id="uColor-#27272a" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#27272a"></span>Slate</button>
+              <button onclick="setUniformColor('#2e1065')" id="uColor-#2e1065" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#2e1065"></span>Plum</button>
+              <button onclick="setUniformColor('#0c4a6e')" id="uColor-#0c4a6e" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#0c4a6e"></span>Ocean</button>
+              <button onclick="setUniformColor('#3f151b')" id="uColor-#3f151b" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#3f151b"></span>Burgundy</button>
+            </div>
+            <div>
+              <div class="flex justify-between text-[10px] text-slate-300 mb-1">
+                <span>Color Intensity (Darker ↔ Brighter)</span>
+                <span id="uniformIntensityVal" class="font-mono text-indigo-300">65%</span>
+              </div>
+              <input id="uniformIntensitySlider" type="range" min="0" max="100" value="65" oninput="setUniformIntensity(this.value)" class="w-full accent-indigo-400 cursor-pointer" />
+            </div>
+          </div>
+
           <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block">Animated Wallpapers (30 FPS)</label>
           <div class="grid grid-cols-3 gap-1.5">
             <button onclick="setWallpaper('space')" id="wpBtn-space" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌌 Dark Space</button>
@@ -249,7 +287,7 @@
             <button onclick="setWallpaper('pitch')" id="wpBtn-pitch" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌑 Pitch Black</button>
           </div>
 
-          <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block pt-1.5">Minimal / No Objects (Zero Distraction)</label>
+          <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block pt-1">Minimal / No Objects</label>
           <div class="grid grid-cols-3 gap-1.5">
             <button onclick="setWallpaper('bluesky_clear')" id="wpBtn-bluesky_clear" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🩵 Clear Sky</button>
             <button onclick="setWallpaper('sunset_clear')" id="wpBtn-sunset_clear" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌇 Clear Sunset</button>
@@ -279,9 +317,9 @@
           <div>
             <div class="flex justify-between text-[10px] text-slate-300 mb-1">
               <span>Background Dimmer (Eye Comfort)</span>
-              <span id="dimmerAlphaVal" class="font-mono text-cyan-300">25%</span>
+              <span id="dimmerAlphaVal" class="font-mono text-cyan-300">20%</span>
             </div>
-            <input id="dimmerAlphaSlider" type="range" min="0" max="80" value="25" oninput="setDimmerAlpha(this.value)" class="w-full accent-sky-400 cursor-pointer" />
+            <input id="dimmerAlphaSlider" type="range" min="0" max="80" value="20" oninput="setDimmerAlpha(this.value)" class="w-full accent-sky-400 cursor-pointer" />
           </div>
 
           <div class="pt-1 border-t border-white/10">
@@ -300,7 +338,7 @@
         </div>
       </details>
 
-      <!-- 3 API KEYS (COLLAPSED BY DEFAULT) -->
+      <!-- 3 API KEYS -->
       <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
           <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> 3 Project API Keys & Rate Limits</span>
@@ -338,7 +376,7 @@
         </div>
       </details>
 
-      <!-- DYNAMIC MODELS (COLLAPSED BY DEFAULT) -->
+      <!-- DYNAMIC MODELS -->
       <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-purple-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-purple-300 select-none">
           <span class="flex items-center gap-2"><i class="fa-solid fa-cubes text-purple-400"></i> Dynamic Models & Equal Split (<span id="activeModelCountLabel">3</span>)</span>
@@ -421,7 +459,7 @@
     </div>
 
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v17.1 (15 Wallpapers)</span>
+      <span>VideoIntel Hub v18.0 (Step 4 Compact)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -446,17 +484,20 @@
     const pathCooldownUntil = new Map();
 
     // ============================================================================
-    // COOL 30 FPS WALLPAPER ENGINE (15 SCENES) + TEXT CLARITY STUDIO
+    // COOL WALLPAPER ENGINE (UNIFORM COLOR + 15 SCENES) + TEXT CLARITY STUDIO
     // ============================================================================
-    let currentWallpaper = localStorage.getItem('APP_WALLPAPER') || 'space';
+    let currentWallpaper = localStorage.getItem('APP_WALLPAPER') || 'uniform';
+    let currentUniformColor = localStorage.getItem('APP_UNIFORM_COLOR') || '#1e293b';
+    let currentUniformIntensity = parseInt(localStorage.getItem('APP_UNIFORM_INTENSITY') || '65', 10);
     let currentBubbleAlpha = parseInt(localStorage.getItem('APP_BUBBLE_ALPHA') || '42', 10);
-    let currentDimmerAlpha = parseInt(localStorage.getItem('APP_BG_DIMMER') || '25', 10);
+    let currentDimmerAlpha = parseInt(localStorage.getItem('APP_BG_DIMMER') || '20', 10);
     let currentTextClarity = localStorage.getItem('APP_TEXT_CLARITY') || 'crisp';
     let autoAdaptEnabled = localStorage.getItem('APP_AUTO_ADAPT') !== 'false';
 
     const BRIGHT_WALLPAPERS = new Set(['bluesky', 'sunset', 'bluesky_clear', 'sunset_clear']);
+    const UNIFORM_PALETTE = ['#1e293b','#291d14','#172554','#142c24','#27272a','#2e1065','#0c4a6e','#3f151b'];
     const ALL_WALLPAPERS = [
-      'space','bluesky','sunset','twilight','aurora','aquarium','nebula','rain','pitch',
+      'uniform','space','bluesky','sunset','twilight','aurora','aquarium','nebula','rain','pitch',
       'bluesky_clear','sunset_clear','twilight_clear','aquarium_calm','ocean_pure','nebula_calm'
     ];
     const canvas = document.getElementById('bgCanvas');
@@ -464,10 +505,26 @@
     let cw = 0, ch = 0, lastFrame = 0, animTime = 0;
     let stars = [], clouds = [], drops = [], bubbles = [], fishes = [];
 
+    function computeUniformScaledHex(hex, intensityPct) {
+      const clean = hex.replace('#', '');
+      const r = parseInt(clean.substring(0, 2), 16) || 0;
+      const g = parseInt(clean.substring(2, 4), 16) || 0;
+      const b = parseInt(clean.substring(4, 6), 16) || 0;
+      const scale = (intensityPct / 100) * 1.45;
+      return `rgb(${Math.min(255, Math.round(r * scale))}, ${Math.min(255, Math.round(g * scale))}, ${Math.min(255, Math.round(b * scale))})`;
+    }
+
+    function paintUniformCanvas() {
+      ctx.fillStyle = computeUniformScaledHex(currentUniformColor, currentUniformIntensity);
+      ctx.fillRect(0, 0, cw, ch);
+    }
+
     function resizeCanvas() {
       cw = canvas.width = window.innerWidth;
       ch = canvas.height = window.innerHeight;
       initSceneEntities();
+      if (currentWallpaper === 'uniform') paintUniformCanvas();
+      else if (currentWallpaper === 'pitch') { ctx.fillStyle = '#040508'; ctx.fillRect(0, 0, cw, ch); }
     }
 
     function initSceneEntities() {
@@ -500,7 +557,7 @@
     function drawWallpaperFrame(ts) {
       requestAnimationFrame(drawWallpaperFrame);
       if (document.hidden) return;
-      if (currentWallpaper === 'pitch') return;
+      if (currentWallpaper === 'pitch' || currentWallpaper === 'uniform') return;
       if (ts - lastFrame < 33) return;
       lastFrame = ts;
       animTime += 0.015;
@@ -587,24 +644,17 @@
       } else if (currentWallpaper === 'bluesky_clear') {
         const shift = Math.sin(animTime * 0.4) * 0.08;
         const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#0c4a6e');
-        g.addColorStop(0.55 + shift, '#0284c7');
-        g.addColorStop(1, '#38bdf8');
+        g.addColorStop(0, '#0c4a6e'); g.addColorStop(0.55 + shift, '#0284c7'); g.addColorStop(1, '#38bdf8');
         ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       } else if (currentWallpaper === 'sunset_clear') {
         const shift = Math.sin(animTime * 0.35) * 0.06;
         const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#1e1b4b');
-        g.addColorStop(0.45 + shift, '#9a3412');
-        g.addColorStop(0.78, '#ea580c');
-        g.addColorStop(1, '#f59e0b');
+        g.addColorStop(0, '#1e1b4b'); g.addColorStop(0.45 + shift, '#9a3412'); g.addColorStop(0.78, '#ea580c'); g.addColorStop(1, '#f59e0b');
         ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       } else if (currentWallpaper === 'twilight_clear') {
         const shift = Math.sin(animTime * 0.35) * 0.07;
         const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#090d1f');
-        g.addColorStop(0.55 + shift, '#1e1b4b');
-        g.addColorStop(1, '#4c1d95');
+        g.addColorStop(0, '#090d1f'); g.addColorStop(0.55 + shift, '#1e1b4b'); g.addColorStop(1, '#4c1d95');
         ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       } else if (currentWallpaper === 'aquarium_calm') {
         const g = ctx.createLinearGradient(0, 0, 0, ch);
@@ -619,39 +669,72 @@
       } else if (currentWallpaper === 'ocean_pure') {
         const shift = Math.sin(animTime * 0.4) * 0.08;
         const g = ctx.createLinearGradient(0, 0, cw * 0.3, ch);
-        g.addColorStop(0, '#042f2e');
-        g.addColorStop(0.5 + shift, '#0c4a6e');
-        g.addColorStop(1, '#020617');
+        g.addColorStop(0, '#042f2e'); g.addColorStop(0.5 + shift, '#0c4a6e'); g.addColorStop(1, '#020617');
         ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       } else if (currentWallpaper === 'nebula_calm') {
         const pulse = Math.sin(animTime * 0.4) * 40;
         const g = ctx.createRadialGradient(cw * 0.35 + pulse, ch * 0.3, 20, cw * 0.5, ch * 0.5, Math.max(cw, ch));
-        g.addColorStop(0, '#2e1065');
-        g.addColorStop(0.45, '#0f172a');
-        g.addColorStop(1, '#02040a');
+        g.addColorStop(0, '#2e1065'); g.addColorStop(0.45, '#0f172a'); g.addColorStop(1, '#02040a');
         ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       }
+    }
+
+    function setUniformColor(hex) {
+      currentUniformColor = hex;
+      localStorage.setItem('APP_UNIFORM_COLOR', hex);
+      setWallpaper('uniform', true);
+      paintUniformCanvas();
+      updateUniformColorButtons();
+    }
+
+    function setUniformIntensity(val) {
+      currentUniformIntensity = parseInt(val, 10);
+      localStorage.setItem('APP_UNIFORM_INTENSITY', String(currentUniformIntensity));
+      const lbl = document.getElementById('uniformIntensityVal'), sl = document.getElementById('uniformIntensitySlider');
+      if (lbl) lbl.innerText = `${currentUniformIntensity}%`;
+      if (sl) sl.value = String(currentUniformIntensity);
+      if (currentWallpaper !== 'uniform') setWallpaper('uniform', true);
+      paintUniformCanvas();
+    }
+
+    function updateUniformColorButtons() {
+      UNIFORM_PALETTE.forEach(c => {
+        const b = document.getElementById(`uColor-${c}`);
+        if (b) b.className = (currentWallpaper === 'uniform' && currentUniformColor === c)
+          ? "py-1.5 rounded-lg text-[9px] font-semibold border border-indigo-400 bg-indigo-500/25 text-white flex flex-col items-center gap-1 transition"
+          : "py-1.5 rounded-lg text-[9px] font-medium border border-white/10 bg-black/35 text-slate-300 hover:text-white flex flex-col items-center gap-1 transition";
+      });
     }
 
     function setWallpaper(key, skipAuto = false) {
       currentWallpaper = key;
       localStorage.setItem('APP_WALLPAPER', key);
       if (key === 'pitch') { ctx.fillStyle = '#040508'; ctx.fillRect(0, 0, cw, ch); }
+      else if (key === 'uniform') { paintUniformCanvas(); }
       if (!skipAuto && autoAdaptEnabled) {
         if (BRIGHT_WALLPAPERS.has(key)) {
           if (currentDimmerAlpha < 38) setDimmerAlpha(42);
           setTextClarity('halo');
         } else {
-          if (currentDimmerAlpha > 35) setDimmerAlpha(22);
+          if (currentDimmerAlpha > 35) setDimmerAlpha(20);
           if (currentTextClarity === 'halo') setTextClarity('crisp');
         }
       }
       ALL_WALLPAPERS.forEach(w => {
         const b = document.getElementById(`wpBtn-${w}`);
-        if (b) b.className = currentWallpaper === w
-          ? "px-2 py-1.5 rounded-xl text-[10px] font-semibold border border-sky-400 bg-sky-500/25 text-white text-center transition"
-          : "px-2 py-1.5 rounded-xl text-[10px] font-medium border border-white/10 bg-black/35 text-slate-300 hover:text-white text-center transition";
+        if (b) {
+          if (w === 'uniform') {
+            b.className = currentWallpaper === 'uniform'
+              ? "px-2 py-0.5 rounded-lg text-[10px] font-semibold border border-indigo-400 bg-indigo-500/30 text-white transition"
+              : "px-2 py-0.5 rounded-lg text-[10px] font-medium border border-white/15 bg-black/40 text-slate-300 hover:text-white transition";
+          } else {
+            b.className = currentWallpaper === w
+              ? "px-2 py-1.5 rounded-xl text-[10px] font-semibold border border-sky-400 bg-sky-500/25 text-white text-center transition"
+              : "px-2 py-1.5 rounded-xl text-[10px] font-medium border border-white/10 bg-black/35 text-slate-300 hover:text-white text-center transition";
+          }
+        }
       });
+      updateUniformColorButtons();
     }
 
     function setBubbleAlpha(val) {
@@ -694,6 +777,9 @@
     resizeCanvas();
     const aaToggle = document.getElementById('autoAdaptToggle');
     if (aaToggle) aaToggle.checked = autoAdaptEnabled;
+    const uSl = document.getElementById('uniformIntensitySlider'), uLbl = document.getElementById('uniformIntensityVal');
+    if (uSl) uSl.value = String(currentUniformIntensity);
+    if (uLbl) uLbl.innerText = `${currentUniformIntensity}%`;
     setBubbleAlpha(currentBubbleAlpha);
     setDimmerAlpha(currentDimmerAlpha);
     setTextClarity(currentTextClarity);
@@ -1015,7 +1101,7 @@
       document.getElementById('readStats').innerHTML = `<span class="text-emerald-400 font-semibold">${p !== undefined ? p : allVideos.length - tr} Top</span> • <span class="text-amber-400 font-semibold">${dup || 0} Repeats</span> • <span class="text-slate-300 font-semibold">${tr} Read</span>`;
       const cc = document.getElementById('curtainReadCount'); if (cc) cc.innerText = `${tr} Read`;
     }
-    function toggleTimeFilter() { onlyLast24Hours = !onlyLast24Hours; visibleLimit = PAGE_SIZE; document.getElementById('timeFilterLabel').innerText = onlyLast24Hours ? "Last 24 Hours Only" : "Showing All Time (Top 100 Prioritized)"; document.getElementById('timeFilterBtn').classList.toggle('border-sky-400', onlyLast24Hours); renderGrid(); }
+    function toggleTimeFilter() { onlyLast24Hours = !onlyLast24Hours; visibleLimit = PAGE_SIZE; document.getElementById('timeFilterLabel').innerText = onlyLast24Hours ? "Last 24 Hours" : "All Time (Top 100)"; document.getElementById('timeFilterBtn').classList.toggle('border-sky-400', onlyLast24Hours); renderGrid(); }
 
     async function loadFeed() {
       loadThreeKeySettingsIntoUI(); loadDynamicModelRoster(); await loadPermanentChannelRoster(); runWeeklyModelDiscovery(false);
