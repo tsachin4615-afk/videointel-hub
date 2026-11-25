@@ -229,14 +229,14 @@
         <a href="monitoring.html" class="p-2.5 rounded-2xl glass-pill text-xs text-teal-300 flex items-center justify-center gap-2 font-semibold"><i class="fa-solid fa-tower-broadcast text-teal-400"></i> 2h Telemetry</a>
       </div>
 
-      <!-- COLLAPSED SECTION: LIVE WALLPAPERS -->
+      <!-- COLLAPSED SECTION: LIVE WALLPAPERS (15 SCENES) -->
       <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-indigo-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-indigo-300 select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-film text-indigo-400"></i> Live Wallpapers (9 Scenes)</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-film text-indigo-400"></i> Live Wallpapers (15 Scenes)</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
         <div class="px-3.5 pb-3.5 pt-2 space-y-2 border-t border-white/10">
-          <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block">Animated Wallpaper (30 FPS Cool Engine)</label>
+          <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block">Animated Wallpapers (30 FPS)</label>
           <div class="grid grid-cols-3 gap-1.5">
             <button onclick="setWallpaper('space')" id="wpBtn-space" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌌 Dark Space</button>
             <button onclick="setWallpaper('bluesky')" id="wpBtn-bluesky" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">☁️ Blue Sky</button>
@@ -247,6 +247,16 @@
             <button onclick="setWallpaper('nebula')" id="wpBtn-nebula" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🪐 Nebula</button>
             <button onclick="setWallpaper('rain')" id="wpBtn-rain" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌧️ Rain</button>
             <button onclick="setWallpaper('pitch')" id="wpBtn-pitch" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌑 Pitch Black</button>
+          </div>
+
+          <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block pt-1.5">Minimal / No Objects (Zero Distraction)</label>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button onclick="setWallpaper('bluesky_clear')" id="wpBtn-bluesky_clear" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🩵 Clear Sky</button>
+            <button onclick="setWallpaper('sunset_clear')" id="wpBtn-sunset_clear" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌇 Clear Sunset</button>
+            <button onclick="setWallpaper('twilight_clear')" id="wpBtn-twilight_clear" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🟣 Clear Twilight</button>
+            <button onclick="setWallpaper('aquarium_calm')" id="wpBtn-aquarium_calm" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🫧 Calm Aqua</button>
+            <button onclick="setWallpaper('ocean_pure')" id="wpBtn-ocean_pure" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌊 Pure Ocean</button>
+            <button onclick="setWallpaper('nebula_calm')" id="wpBtn-nebula_calm" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌌 Calm Nebula</button>
           </div>
         </div>
       </details>
@@ -411,7 +421,7 @@
     </div>
 
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v17.0 (Grid + 9 Wallpapers)</span>
+      <span>VideoIntel Hub v17.1 (15 Wallpapers)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -436,7 +446,7 @@
     const pathCooldownUntil = new Map();
 
     // ============================================================================
-    // COOL 30 FPS WALLPAPER ENGINE (9 SCENES) + TEXT CLARITY STUDIO
+    // COOL 30 FPS WALLPAPER ENGINE (15 SCENES) + TEXT CLARITY STUDIO
     // ============================================================================
     let currentWallpaper = localStorage.getItem('APP_WALLPAPER') || 'space';
     let currentBubbleAlpha = parseInt(localStorage.getItem('APP_BUBBLE_ALPHA') || '42', 10);
@@ -444,7 +454,11 @@
     let currentTextClarity = localStorage.getItem('APP_TEXT_CLARITY') || 'crisp';
     let autoAdaptEnabled = localStorage.getItem('APP_AUTO_ADAPT') !== 'false';
 
-    const BRIGHT_WALLPAPERS = new Set(['bluesky', 'sunset']);
+    const BRIGHT_WALLPAPERS = new Set(['bluesky', 'sunset', 'bluesky_clear', 'sunset_clear']);
+    const ALL_WALLPAPERS = [
+      'space','bluesky','sunset','twilight','aurora','aquarium','nebula','rain','pitch',
+      'bluesky_clear','sunset_clear','twilight_clear','aquarium_calm','ocean_pure','nebula_calm'
+    ];
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d', { alpha: false });
     let cw = 0, ch = 0, lastFrame = 0, animTime = 0;
@@ -570,6 +584,52 @@
           if (d.y > ch) { d.y = -20; d.x = Math.random() * cw; }
           ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x - 2, d.y + d.len); ctx.stroke();
         }
+      } else if (currentWallpaper === 'bluesky_clear') {
+        const shift = Math.sin(animTime * 0.4) * 0.08;
+        const g = ctx.createLinearGradient(0, 0, 0, ch);
+        g.addColorStop(0, '#0c4a6e');
+        g.addColorStop(0.55 + shift, '#0284c7');
+        g.addColorStop(1, '#38bdf8');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+      } else if (currentWallpaper === 'sunset_clear') {
+        const shift = Math.sin(animTime * 0.35) * 0.06;
+        const g = ctx.createLinearGradient(0, 0, 0, ch);
+        g.addColorStop(0, '#1e1b4b');
+        g.addColorStop(0.45 + shift, '#9a3412');
+        g.addColorStop(0.78, '#ea580c');
+        g.addColorStop(1, '#f59e0b');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+      } else if (currentWallpaper === 'twilight_clear') {
+        const shift = Math.sin(animTime * 0.35) * 0.07;
+        const g = ctx.createLinearGradient(0, 0, 0, ch);
+        g.addColorStop(0, '#090d1f');
+        g.addColorStop(0.55 + shift, '#1e1b4b');
+        g.addColorStop(1, '#4c1d95');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+      } else if (currentWallpaper === 'aquarium_calm') {
+        const g = ctx.createLinearGradient(0, 0, 0, ch);
+        g.addColorStop(0, '#042f2e'); g.addColorStop(0.5, '#083344'); g.addColorStop(1, '#020617');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        ctx.strokeStyle = 'rgba(165, 243, 252, 0.22)';
+        for (const b of bubbles) {
+          b.y += b.vy * 0.85; b.x += Math.sin(animTime * 2 + b.wobble) * 0.25;
+          if (b.y < -10) { b.y = ch + 10; b.x = Math.random() * cw; }
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.stroke();
+        }
+      } else if (currentWallpaper === 'ocean_pure') {
+        const shift = Math.sin(animTime * 0.4) * 0.08;
+        const g = ctx.createLinearGradient(0, 0, cw * 0.3, ch);
+        g.addColorStop(0, '#042f2e');
+        g.addColorStop(0.5 + shift, '#0c4a6e');
+        g.addColorStop(1, '#020617');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+      } else if (currentWallpaper === 'nebula_calm') {
+        const pulse = Math.sin(animTime * 0.4) * 40;
+        const g = ctx.createRadialGradient(cw * 0.35 + pulse, ch * 0.3, 20, cw * 0.5, ch * 0.5, Math.max(cw, ch));
+        g.addColorStop(0, '#2e1065');
+        g.addColorStop(0.45, '#0f172a');
+        g.addColorStop(1, '#02040a');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       }
     }
 
@@ -586,7 +646,7 @@
           if (currentTextClarity === 'halo') setTextClarity('crisp');
         }
       }
-      ['space','bluesky','sunset','twilight','aurora','aquarium','nebula','rain','pitch'].forEach(w => {
+      ALL_WALLPAPERS.forEach(w => {
         const b = document.getElementById(`wpBtn-${w}`);
         if (b) b.className = currentWallpaper === w
           ? "px-2 py-1.5 rounded-xl text-[10px] font-semibold border border-sky-400 bg-sky-500/25 text-white text-center transition"
