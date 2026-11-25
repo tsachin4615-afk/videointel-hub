@@ -8,13 +8,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Kalam:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Kalam:wght@400;700&family=Lexend:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --app-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       --app-scale: 1;
+      --app-line-height: 1.5;
+      --app-letter-spacing: 0em;
       --bubble-alpha: 0.42;
-      --dimmer-alpha: 0.25;
+      --dimmer-alpha: 0.20;
+      --warm-shield-alpha: 0;
       --headline-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
       --headline-weight: 500;
     }
@@ -23,10 +26,12 @@
       background-color: #040508;
       color: #f1f5f9;
       font-family: var(--app-font);
+      line-height: var(--app-line-height);
+      letter-spacing: var(--app-letter-spacing);
       overflow-x: hidden;
     }
 
-    /* 30 FPS Wallpaper Canvas & Dimmer */
+    /* 30 FPS Wallpaper Canvas, Dimmer & Warm Eye-Care Shield */
     #bgCanvas {
       position: fixed;
       inset: 0;
@@ -42,6 +47,15 @@
       pointer-events: none;
       background-color: rgba(2, 4, 10, var(--dimmer-alpha));
       transition: background-color 0.25s ease;
+    }
+    #warmShield {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      pointer-events: none;
+      background-color: rgba(255, 147, 41, var(--warm-shield-alpha));
+      mix-blend-mode: multiply;
+      transition: background-color 0.2s ease;
     }
 
     .glass-surface {
@@ -100,6 +114,8 @@
     .headline-text {
       text-shadow: var(--headline-shadow);
       font-weight: var(--headline-weight);
+      line-height: var(--app-line-height);
+      letter-spacing: var(--app-letter-spacing);
     }
     body.clarity-crisp {
       --headline-shadow: 0 1px 3px rgba(0, 0, 0, 0.78);
@@ -154,6 +170,7 @@
 
   <canvas id="bgCanvas"></canvas>
   <div id="bgDimmer"></div>
+  <div id="warmShield"></div>
 
   <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 glass-surface border-b border-white/20 text-sky-200 text-xs py-2 text-center flex items-center justify-center gap-2">
     <i class="fa-solid fa-arrows-rotate fa-spin text-sky-400"></i>
@@ -289,7 +306,7 @@
         </button>
       </div>
 
-      <!-- COLLAPSED SECTION: QUICK NAVIGATION & STATUS (MOVED FROM TOP HEADER) -->
+      <!-- COLLAPSED SECTION: QUICK NAVIGATION & STATUS -->
       <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/30">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
           <span class="flex items-center gap-2"><i class="fa-solid fa-compass text-sky-400"></i> Quick Navigation & Engine Status</span>
@@ -317,36 +334,69 @@
         </div>
       </details>
 
-      <!-- COLLAPSED SECTION: UNIFORM COLOR, LIVE WALLPAPERS & BUBBLE STYLE -->
+      <!-- COLLAPSED SECTION: UNIFORM COLOR STUDIO (PER-COLOR AUTO-SAVE), WALLPAPERS & BUBBLES -->
       <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-indigo-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-indigo-300 select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-film text-indigo-400"></i> Background Color, Wallpapers & Bubbles</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-palette text-indigo-400"></i> Uniform Colors, Wallpapers & Bubbles</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
         <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
 
-          <!-- UNIFORM SOLID COLOR STUDIO -->
+          <!-- UNIFORM SOLID COLOR STUDIO WITH PER-COLOR MEMORY -->
           <div class="p-2.5 rounded-xl bg-black/35 border border-indigo-400/25 space-y-2.5">
-            <div class="flex items-center justify-between">
-              <label class="text-[10px] font-bold uppercase tracking-wider text-indigo-200">Uniform Solid Color (0% GPU)</label>
-              <button onclick="setWallpaper('uniform')" id="wpBtn-uniform" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold border transition">Use Uniform</button>
+            <div class="flex items-center justify-between gap-1">
+              <label class="text-[10px] font-bold uppercase tracking-wider text-indigo-200">Uniform Solid Color (Auto-Saves per Color)</label>
+              <button onclick="setWallpaper('uniform')" id="wpBtn-uniform" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold border transition shrink-0">Active</button>
             </div>
-            <div class="grid grid-cols-4 gap-1.5">
-              <button onclick="setUniformColor('#1e293b')" id="uColor-#1e293b" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#1e293b"></span>Midnight</button>
-              <button onclick="setUniformColor('#291d14')" id="uColor-#291d14" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#291d14"></span>Warm</button>
-              <button onclick="setUniformColor('#172554')" id="uColor-#172554" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#172554"></span>Navy</button>
-              <button onclick="setUniformColor('#142c24')" id="uColor-#142c24" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#142c24"></span>Forest</button>
-              <button onclick="setUniformColor('#27272a')" id="uColor-#27272a" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#27272a"></span>Slate</button>
-              <button onclick="setUniformColor('#2e1065')" id="uColor-#2e1065" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#2e1065"></span>Plum</button>
-              <button onclick="setUniformColor('#0c4a6e')" id="uColor-#0c4a6e" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#0c4a6e"></span>Ocean</button>
-              <button onclick="setUniformColor('#3f151b')" id="uColor-#3f151b" class="py-1.5 rounded-lg text-[9px] font-medium border flex flex-col items-center gap-1 transition"><span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:#3f151b"></span>Burgundy</button>
+
+            <!-- 16 Curated Eye-Friendly Colors -->
+            <div id="uniformPaletteGrid" class="grid grid-cols-4 gap-1.5"></div>
+
+            <!-- Custom Color Picker + Reset -->
+            <div class="flex items-center justify-between gap-2 pt-1.5 border-t border-white/10">
+              <label class="flex items-center gap-2 text-[10px] text-slate-200 cursor-pointer">
+                <input id="customUniformPicker" type="color" value="#1e293b" oninput="setUniformColor(this.value)" class="w-6 h-6 rounded border border-white/30 bg-transparent cursor-pointer" />
+                <span>Custom Color</span>
+              </label>
+              <button onclick="resetCurrentColorProfile()" class="px-2 py-1 rounded-lg text-[10px] bg-white/10 hover:bg-white/20 text-slate-200 border border-white/15 transition">
+                <i class="fa-solid fa-rotate-left mr-1"></i>Reset This Color
+              </button>
             </div>
-            <div>
-              <div class="flex justify-between text-[10px] text-slate-300 mb-1">
-                <span>Color Intensity (Darker ↔ Brighter)</span>
-                <span id="uniformIntensityVal" class="font-mono text-indigo-300">65%</span>
+
+            <!-- Per-Color Saved Sliders -->
+            <div class="space-y-2 pt-1.5 border-t border-white/10">
+              <div class="flex items-center justify-between text-[9px] text-emerald-300 font-mono">
+                <span id="activeColorMemoryBadge">Memory: Midnight (#1e293b)</span>
+                <span>Auto-Saved</span>
               </div>
-              <input id="uniformIntensitySlider" type="range" min="0" max="100" value="65" oninput="setUniformIntensity(this.value)" class="w-full accent-indigo-400 cursor-pointer" />
+              <div>
+                <div class="flex justify-between text-[10px] text-slate-300 mb-0.5">
+                  <span>1. Color Intensity</span>
+                  <span id="uniformIntensityVal" class="font-mono text-indigo-300">65%</span>
+                </div>
+                <input id="uniformIntensitySlider" type="range" min="0" max="100" value="65" oninput="setUniformIntensity(this.value)" class="w-full accent-indigo-400 cursor-pointer" />
+              </div>
+              <div>
+                <div class="flex justify-between text-[10px] text-slate-300 mb-0.5">
+                  <span>2. Color Saturation (Soft ↔ Rich)</span>
+                  <span id="uniformSatVal" class="font-mono text-indigo-300">100%</span>
+                </div>
+                <input id="uniformSatSlider" type="range" min="0" max="150" value="100" oninput="setUniformSaturation(this.value)" class="w-full accent-indigo-400 cursor-pointer" />
+              </div>
+              <div>
+                <div class="flex justify-between text-[10px] text-slate-300 mb-0.5">
+                  <span>3. Background Dimmer</span>
+                  <span id="dimmerAlphaValInline" class="font-mono text-cyan-300">20%</span>
+                </div>
+                <input id="dimmerAlphaSliderInline" type="range" min="0" max="80" value="20" oninput="setDimmerAlpha(this.value)" class="w-full accent-sky-400 cursor-pointer" />
+              </div>
+              <div>
+                <div class="flex justify-between text-[10px] text-slate-300 mb-0.5">
+                  <span>4. Bubble Transparency (Opacity)</span>
+                  <span id="bubbleAlphaValInline" class="font-mono text-cyan-300">42%</span>
+                </div>
+                <input id="bubbleAlphaSliderInline" type="range" min="15" max="90" value="42" oninput="setBubbleAlpha(this.value)" class="w-full accent-sky-400 cursor-pointer" />
+              </div>
             </div>
           </div>
 
@@ -387,27 +437,19 @@
         </div>
       </details>
 
-      <!-- COLLAPSED SECTION: TEXT CLARITY STUDIO -->
+      <!-- COLLAPSED SECTION: TEXT CLARITY & EYE CARE -->
       <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-cyan-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-cyan-300 select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-eye text-cyan-400"></i> Text Clarity & Transparency</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-eye text-cyan-400"></i> Text Clarity & Warm Eye Shield</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
         </summary>
         <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
           <div>
             <div class="flex justify-between text-[10px] text-slate-300 mb-1">
-              <span>Bubble Opacity (Lower = More Transparent)</span>
-              <span id="bubbleAlphaVal" class="font-mono text-cyan-300">42%</span>
+              <span>Warm Eye-Care Shield (Blue Light Filter)</span>
+              <span id="warmShieldVal" class="font-mono text-amber-300">0%</span>
             </div>
-            <input id="bubbleAlphaSlider" type="range" min="15" max="90" value="42" oninput="setBubbleAlpha(this.value)" class="w-full accent-sky-400 cursor-pointer" />
-          </div>
-
-          <div>
-            <div class="flex justify-between text-[10px] text-slate-300 mb-1">
-              <span>Background Dimmer (Eye Comfort)</span>
-              <span id="dimmerAlphaVal" class="font-mono text-cyan-300">25%</span>
-            </div>
-            <input id="dimmerAlphaSlider" type="range" min="0" max="80" value="25" oninput="setDimmerAlpha(this.value)" class="w-full accent-sky-400 cursor-pointer" />
+            <input id="warmShieldSlider" type="range" min="0" max="40" value="0" oninput="setWarmShield(this.value)" class="w-full accent-amber-400 cursor-pointer" />
           </div>
 
           <div class="pt-1 border-t border-white/10">
@@ -423,6 +465,45 @@
             <span>Auto-Adapt Readability on Bright Skies</span>
             <input id="autoAdaptToggle" type="checkbox" checked onchange="setAutoAdapt(this.checked)" class="accent-sky-400 w-4 h-4 cursor-pointer" />
           </label>
+        </div>
+      </details>
+
+      <!-- COLLAPSED SECTION: FONTS & READING TYPOGRAPHY (14 EASY-TO-READ FONTS) -->
+      <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/30">
+        <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-font text-sky-400"></i> Fonts (14) & Reading Spacing</span>
+          <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
+        </summary>
+        <div class="px-3.5 pb-3.5 pt-2 space-y-2.5 border-t border-white/10">
+          <div id="fontButtonsList" class="grid grid-cols-1 gap-1.5 max-h-56 overflow-y-auto pr-0.5"></div>
+
+          <div class="pt-2 border-t border-white/10">
+            <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Reading Text Size</label>
+            <div class="grid grid-cols-4 gap-1.5">
+              <button onclick="setAppScale('0.95')" id="scaleBtn-0.95" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Compact</button>
+              <button onclick="setAppScale('1')" id="scaleBtn-1" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Normal</button>
+              <button onclick="setAppScale('1.08')" id="scaleBtn-1.08" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Large</button>
+              <button onclick="setAppScale('1.16')" id="scaleBtn-1.16" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">XL</button>
+            </div>
+          </div>
+
+          <div class="pt-1">
+            <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Line Spacing</label>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="setLineHeight('1.35')" id="lhBtn-1.35" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Tight</button>
+              <button onclick="setLineHeight('1.55')" id="lhBtn-1.55" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Normal</button>
+              <button onclick="setLineHeight('1.8')" id="lhBtn-1.8" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Relaxed</button>
+            </div>
+          </div>
+
+          <div class="pt-1">
+            <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Letter Spacing</label>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="setLetterSpacing('0em')" id="lsBtn-0em" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Normal</button>
+              <button onclick="setLetterSpacing('0.02em')" id="lsBtn-0.02em" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Airy</button>
+              <button onclick="setLetterSpacing('0.045em')" id="lsBtn-0.045em" class="py-1 rounded-xl text-[10px] font-medium border text-center transition">Wide</button>
+            </div>
+          </div>
         </div>
       </details>
 
@@ -547,34 +628,7 @@
         </div>
       </details>
 
-      <!-- SECTION 5: FONT & TYPOGRAPHY -->
-      <details class="curtain-section glass-pill rounded-2xl overflow-hidden">
-        <summary class="p-3.5 flex items-center justify-between text-xs font-semibold text-white select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-font text-sky-400"></i> Font & Text Size (7 Styles)</span>
-          <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
-        </summary>
-        <div class="px-3.5 pb-3.5 pt-2 space-y-2 border-t border-white/10">
-          <div class="grid grid-cols-1 gap-1.5">
-            <button onclick="setAppFont('sf')" id="fontBtn-sf" style="font-family: -apple-system, BlinkMacSystemFont, sans-serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition"><span>SF Pro / System (Apple)</span><span class="text-[10px] opacity-75">Default</span></button>
-            <button onclick="setAppFont('handwritten')" id="fontBtn-handwritten" style="font-family: 'Kalam', cursive;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition"><span>Kalam (Handwritten Notes)</span><span class="text-[10px] text-amber-300">Notebook</span></button>
-            <button onclick="setAppFont('regional')" id="fontBtn-regional" style="font-family: 'Noto Sans Kannada', 'Noto Sans Devanagari', sans-serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition"><span>Noto Regional (ಕನ್ನಡ / हिंदी / EN)</span><span class="text-[10px] text-emerald-300">Multi-Script</span></button>
-            <button onclick="setAppFont('inter')" id="fontBtn-inter" style="font-family: 'Inter', sans-serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition"><span>Inter (Clean Modern UI)</span><span class="text-[10px] opacity-75">Sans</span></button>
-            <button onclick="setAppFont('jakarta')" id="fontBtn-jakarta" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition"><span>Plus Jakarta (Sharp Display)</span><span class="text-[10px] opacity-75">Editorial</span></button>
-            <button onclick="setAppFont('serif')" id="fontBtn-serif" style="font-family: 'Merriweather', serif;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition"><span>Merriweather (Book Reader)</span><span class="text-[10px] opacity-75">Serif</span></button>
-            <button onclick="setAppFont('mono')" id="fontBtn-mono" style="font-family: 'JetBrains Mono', monospace;" class="px-3 py-2 rounded-xl text-xs flex items-center justify-between border transition"><span>JetBrains Mono (Tactical)</span><span class="text-[10px] opacity-75">Code</span></button>
-          </div>
-          <div class="pt-1">
-            <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Reading Text Size</label>
-            <div class="grid grid-cols-3 gap-1.5">
-              <button onclick="setAppScale('0.95')" id="scaleBtn-0.95" class="py-1 rounded-xl text-[11px] font-medium border text-center transition">Compact</button>
-              <button onclick="setAppScale('1')" id="scaleBtn-1" class="py-1 rounded-xl text-[11px] font-medium border text-center transition">Normal</button>
-              <button onclick="setAppScale('1.08')" id="scaleBtn-1.08" class="py-1 rounded-xl text-[11px] font-medium border text-center transition">Large</button>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <!-- SECTION 6: READ HISTORY -->
+      <!-- SECTION 5: READ HISTORY -->
       <details class="curtain-section glass-pill rounded-2xl overflow-hidden">
         <summary class="p-3.5 flex items-center justify-between text-xs font-semibold text-white select-none">
           <span class="flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-rose-400"></i> Read History & Archive</span>
@@ -594,7 +648,7 @@
     </div>
 
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v18.0 (Step 4 Compact)</span>
+      <span>VideoIntel Hub v19.0 (Step 5 Studio)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -640,19 +694,59 @@
     const pathCooldownUntil = new Map();
 
     // ============================================================================
-    // COOL WALLPAPER ENGINE (UNIFORM COLOR + 15 SCENES) + TEXT CLARITY STUDIO
+    // STEP 5: PER-COLOR MEMORY STUDIO + 16 COLORS + 15 WALLPAPERS
     // ============================================================================
+    const UNIFORM_COLORS = [
+      { hex: '#1e293b', name: 'Midnight' },
+      { hex: '#291d14', name: 'Warm' },
+      { hex: '#172554', name: 'Navy' },
+      { hex: '#142c24', name: 'Forest' },
+      { hex: '#27272a', name: 'Charcoal' },
+      { hex: '#2e1065', name: 'Plum' },
+      { hex: '#0c4a6e', name: 'Ocean' },
+      { hex: '#3f151b', name: 'Burgundy' },
+      { hex: '#2c221e', name: 'Espresso' },
+      { hex: '#1f2e1d', name: 'Moss' },
+      { hex: '#1e293b', name: 'Slate', hex: '#334155' },
+      { hex: '#121216', name: 'Obsidian' },
+      { hex: '#2d2a1b', name: 'Olive' },
+      { hex: '#2b1e36', name: 'Dusk' },
+      { hex: '#1c2b36', name: 'Steel' },
+      { hex: '#362319', name: 'Cocoa' }
+    ];
+
+    const DEFAULT_COLOR_PROFILE = { intensity: 65, saturation: 100, dimmer: 20, bubbleAlpha: 42 };
+
+    function getColorProfilesMap() {
+      try { return JSON.parse(localStorage.getItem('UNIFORM_COLOR_PROFILES') || '{}'); } catch (e) { return {}; }
+    }
+    function saveColorProfilesMap(map) {
+      try { localStorage.setItem('UNIFORM_COLOR_PROFILES', JSON.stringify(map)); } catch (e) {}
+    }
+    function saveActiveColorProfile() {
+      if (currentWallpaper !== 'uniform') return;
+      const map = getColorProfilesMap();
+      map[currentUniformColor.toLowerCase()] = {
+        intensity: currentUniformIntensity,
+        saturation: currentUniformSaturation,
+        dimmer: currentDimmerAlpha,
+        bubbleAlpha: currentBubbleAlpha
+      };
+      saveColorProfilesMap(map);
+    }
+
     let currentWallpaper = localStorage.getItem('APP_WALLPAPER') || 'uniform';
     let currentUniformColor = localStorage.getItem('APP_UNIFORM_COLOR') || '#1e293b';
     let currentUniformIntensity = parseInt(localStorage.getItem('APP_UNIFORM_INTENSITY') || '65', 10);
+    let currentUniformSaturation = parseInt(localStorage.getItem('APP_UNIFORM_SATURATION') || '100', 10);
     let currentBubbleStyle = localStorage.getItem('APP_BUBBLE_STYLE') || 'soft';
     let currentBubbleAlpha = parseInt(localStorage.getItem('APP_BUBBLE_ALPHA') || '42', 10);
     let currentDimmerAlpha = parseInt(localStorage.getItem('APP_BG_DIMMER') || '20', 10);
+    let currentWarmShield = parseInt(localStorage.getItem('APP_WARM_SHIELD') || '0', 10);
     let currentTextClarity = localStorage.getItem('APP_TEXT_CLARITY') || 'crisp';
     let autoAdaptEnabled = localStorage.getItem('APP_AUTO_ADAPT') !== 'false';
 
     const BRIGHT_WALLPAPERS = new Set(['bluesky', 'sunset', 'bluesky_clear', 'sunset_clear']);
-    const UNIFORM_PALETTE = ['#1e293b','#291d14','#172554','#142c24','#27272a','#2e1065','#0c4a6e','#3f151b'];
     const ALL_WALLPAPERS = [
       'uniform','space','bluesky','sunset','twilight','aurora','aquarium','nebula','rain','pitch',
       'bluesky_clear','sunset_clear','twilight_clear','aquarium_calm','ocean_pure','nebula_calm'
@@ -662,21 +756,144 @@
     let cw = 0, ch = 0, lastFrame = 0, animTime = 0;
     let stars = [], clouds = [], drops = [], bubbles = [], fishes = [];
 
-    function computeUniformScaledHex(hex, intensityPct) {
+    function computeUniformColorRGB(hex, intensityPct, satPct) {
       const clean = hex.replace('#', '');
-      const r = parseInt(clean.substring(0, 2), 16) || 0;
-      const g = parseInt(clean.substring(2, 4), 16) || 0;
-      const b = parseInt(clean.substring(4, 6), 16) || 0;
+      let r = parseInt(clean.substring(0, 2), 16) || 0;
+      let g = parseInt(clean.substring(2, 4), 16) || 0;
+      let b = parseInt(clean.substring(4, 6), 16) || 0;
+      // Apply saturation relative to luminance
+      const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+      const sat = satPct / 100;
+      r = gray + (r - gray) * sat;
+      g = gray + (g - gray) * sat;
+      b = gray + (b - gray) * sat;
+      // Apply intensity
       const scale = (intensityPct / 100) * 1.45;
-      const nr = Math.min(255, Math.round(r * scale));
-      const ng = Math.min(255, Math.round(g * scale));
-      const nb = Math.min(255, Math.round(b * scale));
+      const nr = Math.max(0, Math.min(255, Math.round(r * scale)));
+      const ng = Math.max(0, Math.min(255, Math.round(g * scale)));
+      const nb = Math.max(0, Math.min(255, Math.round(b * scale)));
       return `rgb(${nr}, ${ng}, ${nb})`;
     }
 
     function paintUniformCanvas() {
-      ctx.fillStyle = computeUniformScaledHex(currentUniformColor, currentUniformIntensity);
+      ctx.fillStyle = computeUniformColorRGB(currentUniformColor, currentUniformIntensity, currentUniformSaturation);
       ctx.fillRect(0, 0, cw, ch);
+    }
+
+    function renderUniformPaletteGrid() {
+      const grid = document.getElementById('uniformPaletteGrid');
+      if (!grid) return;
+      const profiles = getColorProfilesMap();
+      grid.innerHTML = UNIFORM_COLORS.map(c => {
+        const isActive = currentWallpaper === 'uniform' && currentUniformColor.toLowerCase() === c.hex.toLowerCase();
+        const hasSaved = Boolean(profiles[c.hex.toLowerCase()]);
+        return `<button onclick="setUniformColor('${c.hex}')" class="py-1.5 rounded-lg text-[9px] border flex flex-col items-center gap-1 transition relative ${isActive ? 'font-semibold border-indigo-400 bg-indigo-500/25 text-white' : 'font-medium border-white/10 bg-black/35 text-slate-300 hover:text-white'}">
+          <span class="w-3.5 h-3.5 rounded-full border border-white/30" style="background:${c.hex}"></span>
+          <span>${c.name}</span>
+          ${hasSaved ? '<span class="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-emerald-400" title="Custom settings saved"></span>' : ''}
+        </button>`;
+      }).join('');
+
+      const badge = document.getElementById('activeColorMemoryBadge');
+      if (badge) {
+        const match = UNIFORM_COLORS.find(x => x.hex.toLowerCase() === currentUniformColor.toLowerCase());
+        badge.innerText = `Memory: ${match ? match.name : 'Custom'} (${currentUniformColor})`;
+      }
+      const picker = document.getElementById('customUniformPicker');
+      if (picker) picker.value = currentUniformColor;
+    }
+
+    function setUniformColor(hex) {
+      currentUniformColor = hex.toLowerCase();
+      localStorage.setItem('APP_UNIFORM_COLOR', currentUniformColor);
+
+      // Recall this specific color's saved 3+1 parameters
+      const profiles = getColorProfilesMap();
+      const saved = profiles[currentUniformColor] || DEFAULT_COLOR_PROFILE;
+
+      currentUniformIntensity = saved.intensity !== undefined ? saved.intensity : DEFAULT_COLOR_PROFILE.intensity;
+      currentUniformSaturation = saved.saturation !== undefined ? saved.saturation : DEFAULT_COLOR_PROFILE.saturation;
+      currentDimmerAlpha = saved.dimmer !== undefined ? saved.dimmer : DEFAULT_COLOR_PROFILE.dimmer;
+      currentBubbleAlpha = saved.bubbleAlpha !== undefined ? saved.bubbleAlpha : DEFAULT_COLOR_PROFILE.bubbleAlpha;
+
+      localStorage.setItem('APP_UNIFORM_INTENSITY', String(currentUniformIntensity));
+      localStorage.setItem('APP_UNIFORM_SATURATION', String(currentUniformSaturation));
+      localStorage.setItem('APP_BG_DIMMER', String(currentDimmerAlpha));
+      localStorage.setItem('APP_BUBBLE_ALPHA', String(currentBubbleAlpha));
+
+      syncAppearanceSlidersUI();
+      setWallpaper('uniform', true);
+      paintUniformCanvas();
+      renderUniformPaletteGrid();
+    }
+
+    function resetCurrentColorProfile() {
+      const profiles = getColorProfilesMap();
+      delete profiles[currentUniformColor.toLowerCase()];
+      saveColorProfilesMap(profiles);
+      setUniformColor(currentUniformColor);
+    }
+
+    function syncAppearanceSlidersUI() {
+      document.documentElement.style.setProperty('--bubble-alpha', (currentBubbleAlpha / 100).toFixed(2));
+      document.documentElement.style.setProperty('--dimmer-alpha', (currentDimmerAlpha / 100).toFixed(2));
+
+      const pairs = [
+        ['uniformIntensitySlider', 'uniformIntensityVal', currentUniformIntensity],
+        ['uniformSatSlider', 'uniformSatVal', currentUniformSaturation],
+        ['dimmerAlphaSliderInline', 'dimmerAlphaValInline', currentDimmerAlpha],
+        ['bubbleAlphaSliderInline', 'bubbleAlphaValInline', currentBubbleAlpha]
+      ];
+      pairs.forEach(([slId, lblId, val]) => {
+        const sl = document.getElementById(slId), lbl = document.getElementById(lblId);
+        if (sl) sl.value = String(val);
+        if (lbl) lbl.innerText = `${val}%`;
+      });
+    }
+
+    function setUniformIntensity(val) {
+      currentUniformIntensity = parseInt(val, 10);
+      localStorage.setItem('APP_UNIFORM_INTENSITY', String(currentUniformIntensity));
+      if (currentWallpaper !== 'uniform') setWallpaper('uniform', true);
+      syncAppearanceSlidersUI();
+      paintUniformCanvas();
+      saveActiveColorProfile();
+      renderUniformPaletteGrid();
+    }
+
+    function setUniformSaturation(val) {
+      currentUniformSaturation = parseInt(val, 10);
+      localStorage.setItem('APP_UNIFORM_SATURATION', String(currentUniformSaturation));
+      if (currentWallpaper !== 'uniform') setWallpaper('uniform', true);
+      syncAppearanceSlidersUI();
+      paintUniformCanvas();
+      saveActiveColorProfile();
+      renderUniformPaletteGrid();
+    }
+
+    function setBubbleAlpha(val) {
+      currentBubbleAlpha = parseInt(val, 10);
+      localStorage.setItem('APP_BUBBLE_ALPHA', String(currentBubbleAlpha));
+      syncAppearanceSlidersUI();
+      saveActiveColorProfile();
+      renderUniformPaletteGrid();
+    }
+
+    function setDimmerAlpha(val) {
+      currentDimmerAlpha = parseInt(val, 10);
+      localStorage.setItem('APP_BG_DIMMER', String(currentDimmerAlpha));
+      syncAppearanceSlidersUI();
+      saveActiveColorProfile();
+      renderUniformPaletteGrid();
+    }
+
+    function setWarmShield(val) {
+      currentWarmShield = parseInt(val, 10);
+      localStorage.setItem('APP_WARM_SHIELD', String(currentWarmShield));
+      document.documentElement.style.setProperty('--warm-shield-alpha', (currentWarmShield / 100).toFixed(2));
+      const sl = document.getElementById('warmShieldSlider'), lbl = document.getElementById('warmShieldVal');
+      if (sl) sl.value = String(currentWarmShield);
+      if (lbl) lbl.innerText = `${currentWarmShield}%`;
     }
 
     function resizeCanvas() {
@@ -688,213 +905,72 @@
     }
 
     function initSceneEntities() {
-      stars = Array.from({ length: 85 }, () => ({
-        x: Math.random() * cw, y: Math.random() * ch,
-        r: Math.random() * 1.4 + 0.3,
-        vx: -(Math.random() * 0.25 + 0.06), vy: (Math.random() - 0.5) * 0.08,
-        a: Math.random() * 0.7 + 0.25
-      }));
-      clouds = Array.from({ length: 7 }, (_, i) => ({
-        x: (cw / 6) * i, y: ch * (0.12 + Math.random() * 0.45),
-        w: 140 + Math.random() * 140, h: 42 + Math.random() * 34,
-        vx: 0.14 + Math.random() * 0.18, a: 0.16 + Math.random() * 0.16
-      }));
-      drops = Array.from({ length: 55 }, () => ({
-        x: Math.random() * cw, y: Math.random() * ch,
-        len: 10 + Math.random() * 14, vy: 3.2 + Math.random() * 2.5, a: 0.15 + Math.random() * 0.25
-      }));
-      bubbles = Array.from({ length: 30 }, () => ({
-        x: Math.random() * cw, y: Math.random() * ch,
-        r: 2 + Math.random() * 5, vy: -(0.35 + Math.random() * 0.6),
-        wobble: Math.random() * Math.PI * 2
-      }));
-      fishes = Array.from({ length: 5 }, (_, i) => ({
-        x: Math.random() * cw, y: ch * (0.2 + i * 0.14),
-        size: 10 + Math.random() * 10, vx: (i % 2 === 0 ? 1 : -1) * (0.3 + Math.random() * 0.35)
-      }));
+      stars = Array.from({ length: 85 }, () => ({ x: Math.random() * cw, y: Math.random() * ch, r: Math.random() * 1.4 + 0.3, vx: -(Math.random() * 0.25 + 0.06), vy: (Math.random() - 0.5) * 0.08, a: Math.random() * 0.7 + 0.25 }));
+      clouds = Array.from({ length: 7 }, (_, i) => ({ x: (cw / 6) * i, y: ch * (0.12 + Math.random() * 0.45), w: 140 + Math.random() * 140, h: 42 + Math.random() * 34, vx: 0.14 + Math.random() * 0.18, a: 0.16 + Math.random() * 0.16 }));
+      drops = Array.from({ length: 55 }, () => ({ x: Math.random() * cw, y: Math.random() * ch, len: 10 + Math.random() * 14, vy: 3.2 + Math.random() * 2.5, a: 0.15 + Math.random() * 0.25 }));
+      bubbles = Array.from({ length: 30 }, () => ({ x: Math.random() * cw, y: Math.random() * ch, r: 2 + Math.random() * 5, vy: -(0.35 + Math.random() * 0.6), wobble: Math.random() * Math.PI * 2 }));
+      fishes = Array.from({ length: 5 }, (_, i) => ({ x: Math.random() * cw, y: ch * (0.2 + i * 0.14), size: 10 + Math.random() * 10, vx: (i % 2 === 0 ? 1 : -1) * (0.3 + Math.random() * 0.35) }));
     }
 
     function drawWallpaperFrame(ts) {
       requestAnimationFrame(drawWallpaperFrame);
-      if (document.hidden) return;
-      if (currentWallpaper === 'pitch' || currentWallpaper === 'uniform') return;
+      if (document.hidden || currentWallpaper === 'pitch' || currentWallpaper === 'uniform') return;
       if (ts - lastFrame < 33) return;
       lastFrame = ts;
       animTime += 0.015;
 
       if (currentWallpaper === 'space') {
-        ctx.fillStyle = '#03050a';
-        ctx.fillRect(0, 0, cw, ch);
-        for (const s of stars) {
-          s.x += s.vx; s.y += s.vy;
-          if (s.x < 0) s.x = cw; if (s.y < 0) s.y = ch; if (s.y > ch) s.y = 0;
-          ctx.fillStyle = `rgba(210, 228, 255, ${s.a})`;
-          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
-        }
+        ctx.fillStyle = '#03050a'; ctx.fillRect(0, 0, cw, ch);
+        for (const s of stars) { s.x += s.vx; s.y += s.vy; if (s.x < 0) s.x = cw; if (s.y < 0) s.y = ch; if (s.y > ch) s.y = 0; ctx.fillStyle = `rgba(210, 228, 255, ${s.a})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill(); }
       } else if (currentWallpaper === 'bluesky') {
-        const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#0c4a6e'); g.addColorStop(0.55, '#0284c7'); g.addColorStop(1, '#38bdf8');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
-        for (const c of clouds) {
-          c.x += c.vx; if (c.x - c.w > cw) c.x = -c.w;
-          ctx.fillStyle = `rgba(255, 255, 255, ${c.a})`;
-          ctx.beginPath(); ctx.ellipse(c.x, c.y, c.w * 0.5, c.h * 0.5, 0, 0, Math.PI * 2); ctx.fill();
-        }
+        const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#0c4a6e'); g.addColorStop(0.55, '#0284c7'); g.addColorStop(1, '#38bdf8'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        for (const c of clouds) { c.x += c.vx; if (c.x - c.w > cw) c.x = -c.w; ctx.fillStyle = `rgba(255, 255, 255, ${c.a})`; ctx.beginPath(); ctx.ellipse(c.x, c.y, c.w * 0.5, c.h * 0.5, 0, 0, Math.PI * 2); ctx.fill(); }
       } else if (currentWallpaper === 'sunset') {
-        const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#1e1b4b'); g.addColorStop(0.45, '#9a3412'); g.addColorStop(0.78, '#ea580c'); g.addColorStop(1, '#f59e0b');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
-        for (const c of clouds) {
-          c.x += c.vx * 0.7; if (c.x - c.w > cw) c.x = -c.w;
-          ctx.fillStyle = `rgba(254, 215, 170, ${c.a * 0.85})`;
-          ctx.beginPath(); ctx.ellipse(c.x, c.y, c.w * 0.55, c.h * 0.42, 0, 0, Math.PI * 2); ctx.fill();
-        }
+        const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#1e1b4b'); g.addColorStop(0.45, '#9a3412'); g.addColorStop(0.78, '#ea580c'); g.addColorStop(1, '#f59e0b'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        for (const c of clouds) { c.x += c.vx * 0.7; if (c.x - c.w > cw) c.x = -c.w; ctx.fillStyle = `rgba(254, 215, 170, ${c.a * 0.85})`; ctx.beginPath(); ctx.ellipse(c.x, c.y, c.w * 0.55, c.h * 0.42, 0, 0, Math.PI * 2); ctx.fill(); }
       } else if (currentWallpaper === 'twilight') {
-        const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#090d1f'); g.addColorStop(0.55, '#1e1b4b'); g.addColorStop(1, '#4c1d95');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
-        for (const s of stars) {
-          s.x += s.vx * 0.4; if (s.x < 0) s.x = cw;
-          ctx.fillStyle = `rgba(226, 232, 240, ${s.a * 0.6})`;
-          ctx.beginPath(); ctx.arc(s.x, s.y * 0.75, s.r, 0, Math.PI * 2); ctx.fill();
-        }
+        const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#090d1f'); g.addColorStop(0.55, '#1e1b4b'); g.addColorStop(1, '#4c1d95'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        for (const s of stars) { s.x += s.vx * 0.4; if (s.x < 0) s.x = cw; ctx.fillStyle = `rgba(226, 232, 240, ${s.a * 0.6})`; ctx.beginPath(); ctx.arc(s.x, s.y * 0.75, s.r, 0, Math.PI * 2); ctx.fill(); }
       } else if (currentWallpaper === 'aurora') {
         ctx.fillStyle = '#030712'; ctx.fillRect(0, 0, cw, ch);
-        for (let i = 0; i < 3; i++) {
-          const yBase = ch * (0.22 + i * 0.18) + Math.sin(animTime + i) * 28;
-          const g = ctx.createLinearGradient(0, yBase - 80, 0, yBase + 80);
-          g.addColorStop(0, 'rgba(16, 185, 129, 0)');
-          g.addColorStop(0.5, i === 1 ? 'rgba(56, 189, 248, 0.16)' : 'rgba(16, 185, 129, 0.18)');
-          g.addColorStop(1, 'rgba(16, 185, 129, 0)');
-          ctx.fillStyle = g;
-          ctx.fillRect(0, yBase - 80, cw, 160);
-        }
+        for (let i = 0; i < 3; i++) { const yBase = ch * (0.22 + i * 0.18) + Math.sin(animTime + i) * 28; const g = ctx.createLinearGradient(0, yBase - 80, 0, yBase + 80); g.addColorStop(0, 'rgba(16, 185, 129, 0)'); g.addColorStop(0.5, i === 1 ? 'rgba(56, 189, 248, 0.16)' : 'rgba(16, 185, 129, 0.18)'); g.addColorStop(1, 'rgba(16, 185, 129, 0)'); ctx.fillStyle = g; ctx.fillRect(0, yBase - 80, cw, 160); }
       } else if (currentWallpaper === 'aquarium') {
-        const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#042f2e'); g.addColorStop(0.5, '#083344'); g.addColorStop(1, '#020617');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
-        ctx.strokeStyle = 'rgba(165, 243, 252, 0.25)';
-        for (const b of bubbles) {
-          b.y += b.vy; b.x += Math.sin(animTime * 2 + b.wobble) * 0.3;
-          if (b.y < -10) { b.y = ch + 10; b.x = Math.random() * cw; }
-          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.stroke();
-        }
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
-        for (const f of fishes) {
-          f.x += f.vx;
-          if (f.vx > 0 && f.x > cw + 30) f.x = -30;
-          if (f.vx < 0 && f.x < -30) f.x = cw + 30;
-          ctx.beginPath(); ctx.ellipse(f.x, f.y, f.size, f.size * 0.45, 0, 0, Math.PI * 2); ctx.fill();
-        }
+        const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#042f2e'); g.addColorStop(0.5, '#083344'); g.addColorStop(1, '#020617'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        ctx.strokeStyle = 'rgba(165, 243, 252, 0.25)'; for (const b of bubbles) { b.y += b.vy; b.x += Math.sin(animTime * 2 + b.wobble) * 0.3; if (b.y < -10) { b.y = ch + 10; b.x = Math.random() * cw; } ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.stroke(); }
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.18)'; for (const f of fishes) { f.x += f.vx; if (f.vx > 0 && f.x > cw + 30) f.x = -30; if (f.vx < 0 && f.x < -30) f.x = cw + 30; ctx.beginPath(); ctx.ellipse(f.x, f.y, f.size, f.size * 0.45, 0, 0, Math.PI * 2); ctx.fill(); }
       } else if (currentWallpaper === 'nebula') {
-        const g = ctx.createRadialGradient(cw * 0.3, ch * 0.3, 20, cw * 0.5, ch * 0.5, Math.max(cw, ch));
-        g.addColorStop(0, '#2e1065'); g.addColorStop(0.45, '#0f172a'); g.addColorStop(1, '#02040a');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
-        for (const s of stars) {
-          s.x += s.vx * 0.5; if (s.x < 0) s.x = cw;
-          ctx.fillStyle = `rgba(216, 180, 254, ${s.a * 0.7})`;
-          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
-        }
+        const g = ctx.createRadialGradient(cw * 0.3, ch * 0.3, 20, cw * 0.5, ch * 0.5, Math.max(cw, ch)); g.addColorStop(0, '#2e1065'); g.addColorStop(0.45, '#0f172a'); g.addColorStop(1, '#02040a'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        for (const s of stars) { s.x += s.vx * 0.5; if (s.x < 0) s.x = cw; ctx.fillStyle = `rgba(216, 180, 254, ${s.a * 0.7})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill(); }
       } else if (currentWallpaper === 'rain') {
-        ctx.fillStyle = '#050814'; ctx.fillRect(0, 0, cw, ch);
-        ctx.strokeStyle = 'rgba(148, 197, 255, 0.22)'; ctx.lineWidth = 1;
-        for (const d of drops) {
-          d.y += d.vy; d.x -= 0.4;
-          if (d.y > ch) { d.y = -20; d.x = Math.random() * cw; }
-          ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x - 2, d.y + d.len); ctx.stroke();
-        }
+        ctx.fillStyle = '#050814'; ctx.fillRect(0, 0, cw, ch); ctx.strokeStyle = 'rgba(148, 197, 255, 0.22)'; ctx.lineWidth = 1;
+        for (const d of drops) { d.y += d.vy; d.x -= 0.4; if (d.y > ch) { d.y = -20; d.x = Math.random() * cw; } ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x - 2, d.y + d.len); ctx.stroke(); }
       } else if (currentWallpaper === 'bluesky_clear') {
-        const shift = Math.sin(animTime * 0.4) * 0.08;
-        const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#0c4a6e');
-        g.addColorStop(0.55 + shift, '#0284c7');
-        g.addColorStop(1, '#38bdf8');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        const shift = Math.sin(animTime * 0.4) * 0.08; const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#0c4a6e'); g.addColorStop(0.55 + shift, '#0284c7'); g.addColorStop(1, '#38bdf8'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       } else if (currentWallpaper === 'sunset_clear') {
-        const shift = Math.sin(animTime * 0.35) * 0.06;
-        const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#1e1b4b');
-        g.addColorStop(0.45 + shift, '#9a3412');
-        g.addColorStop(0.78, '#ea580c');
-        g.addColorStop(1, '#f59e0b');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        const shift = Math.sin(animTime * 0.35) * 0.06; const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#1e1b4b'); g.addColorStop(0.45 + shift, '#9a3412'); g.addColorStop(0.78, '#ea580c'); g.addColorStop(1, '#f59e0b'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       } else if (currentWallpaper === 'twilight_clear') {
-        const shift = Math.sin(animTime * 0.35) * 0.07;
-        const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#090d1f');
-        g.addColorStop(0.55 + shift, '#1e1b4b');
-        g.addColorStop(1, '#4c1d95');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        const shift = Math.sin(animTime * 0.35) * 0.07; const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#090d1f'); g.addColorStop(0.55 + shift, '#1e1b4b'); g.addColorStop(1, '#4c1d95'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       } else if (currentWallpaper === 'aquarium_calm') {
-        const g = ctx.createLinearGradient(0, 0, 0, ch);
-        g.addColorStop(0, '#042f2e'); g.addColorStop(0.5, '#083344'); g.addColorStop(1, '#020617');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
-        ctx.strokeStyle = 'rgba(165, 243, 252, 0.22)';
-        for (const b of bubbles) {
-          b.y += b.vy * 0.85; b.x += Math.sin(animTime * 2 + b.wobble) * 0.25;
-          if (b.y < -10) { b.y = ch + 10; b.x = Math.random() * cw; }
-          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.stroke();
-        }
+        const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#042f2e'); g.addColorStop(0.5, '#083344'); g.addColorStop(1, '#020617'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        ctx.strokeStyle = 'rgba(165, 243, 252, 0.22)'; for (const b of bubbles) { b.y += b.vy * 0.85; b.x += Math.sin(animTime * 2 + b.wobble) * 0.25; if (b.y < -10) { b.y = ch + 10; b.x = Math.random() * cw; } ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.stroke(); }
       } else if (currentWallpaper === 'ocean_pure') {
-        const shift = Math.sin(animTime * 0.4) * 0.08;
-        const g = ctx.createLinearGradient(0, 0, cw * 0.3, ch);
-        g.addColorStop(0, '#042f2e');
-        g.addColorStop(0.5 + shift, '#0c4a6e');
-        g.addColorStop(1, '#020617');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        const shift = Math.sin(animTime * 0.4) * 0.08; const g = ctx.createLinearGradient(0, 0, cw * 0.3, ch); g.addColorStop(0, '#042f2e'); g.addColorStop(0.5 + shift, '#0c4a6e'); g.addColorStop(1, '#020617'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       } else if (currentWallpaper === 'nebula_calm') {
-        const pulse = Math.sin(animTime * 0.4) * 40;
-        const g = ctx.createRadialGradient(cw * 0.35 + pulse, ch * 0.3, 20, cw * 0.5, ch * 0.5, Math.max(cw, ch));
-        g.addColorStop(0, '#2e1065');
-        g.addColorStop(0.45, '#0f172a');
-        g.addColorStop(1, '#02040a');
-        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        const pulse = Math.sin(animTime * 0.4) * 40; const g = ctx.createRadialGradient(cw * 0.35 + pulse, ch * 0.3, 20, cw * 0.5, ch * 0.5, Math.max(cw, ch)); g.addColorStop(0, '#2e1065'); g.addColorStop(0.45, '#0f172a'); g.addColorStop(1, '#02040a'); ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       }
-    }
-
-    function setUniformColor(hex) {
-      currentUniformColor = hex;
-      localStorage.setItem('APP_UNIFORM_COLOR', hex);
-      setWallpaper('uniform', true);
-      paintUniformCanvas();
-      updateUniformColorButtons();
-    }
-
-    function setUniformIntensity(val) {
-      currentUniformIntensity = parseInt(val, 10);
-      localStorage.setItem('APP_UNIFORM_INTENSITY', String(currentUniformIntensity));
-      const lbl = document.getElementById('uniformIntensityVal');
-      const sl = document.getElementById('uniformIntensitySlider');
-      if (lbl) lbl.innerText = `${currentUniformIntensity}%`;
-      if (sl) sl.value = String(currentUniformIntensity);
-      if (currentWallpaper !== 'uniform') setWallpaper('uniform', true);
-      paintUniformCanvas();
-    }
-
-    function updateUniformColorButtons() {
-      UNIFORM_PALETTE.forEach(c => {
-        const b = document.getElementById(`uColor-${c}`);
-        if (b) b.className = (currentWallpaper === 'uniform' && currentUniformColor === c)
-          ? "py-1.5 rounded-lg text-[9px] font-semibold border border-indigo-400 bg-indigo-500/25 text-white flex flex-col items-center gap-1 transition"
-          : "py-1.5 rounded-lg text-[9px] font-medium border border-white/10 bg-black/35 text-slate-300 hover:text-white flex flex-col items-center gap-1 transition";
-      });
     }
 
     function setWallpaper(key, skipAuto = false) {
       currentWallpaper = key;
       localStorage.setItem('APP_WALLPAPER', key);
-      if (key === 'pitch') {
-        ctx.fillStyle = '#040508';
-        ctx.fillRect(0, 0, cw, ch);
-      } else if (key === 'uniform') {
-        paintUniformCanvas();
-      }
+      if (key === 'pitch') { ctx.fillStyle = '#040508'; ctx.fillRect(0, 0, cw, ch); }
+      else if (key === 'uniform') { paintUniformCanvas(); }
       if (!skipAuto && autoAdaptEnabled) {
         if (BRIGHT_WALLPAPERS.has(key)) {
-          if (currentDimmerAlpha < 38) setDimmerAlpha(42);
+          if (currentDimmerAlpha < 38) { currentDimmerAlpha = 42; syncAppearanceSlidersUI(); }
           setTextClarity('halo');
         } else {
-          if (currentDimmerAlpha > 35) setDimmerAlpha(20);
+          if (currentDimmerAlpha > 35) { currentDimmerAlpha = 20; syncAppearanceSlidersUI(); }
           if (currentTextClarity === 'halo') setTextClarity('crisp');
         }
       }
@@ -903,8 +979,8 @@
         if (b) {
           if (w === 'uniform') {
             b.className = currentWallpaper === 'uniform'
-              ? "px-2 py-0.5 rounded-lg text-[10px] font-semibold border border-indigo-400 bg-indigo-500/30 text-white transition"
-              : "px-2 py-0.5 rounded-lg text-[10px] font-medium border border-white/15 bg-black/40 text-slate-300 hover:text-white transition";
+              ? "px-2 py-0.5 rounded-lg text-[10px] font-semibold border border-indigo-400 bg-indigo-500/30 text-white transition shrink-0"
+              : "px-2 py-0.5 rounded-lg text-[10px] font-medium border border-white/15 bg-black/40 text-slate-300 hover:text-white transition shrink-0";
           } else {
             b.className = currentWallpaper === w
               ? "px-2 py-1.5 rounded-xl text-[10px] font-semibold border border-sky-400 bg-sky-500/25 text-white text-center transition"
@@ -912,7 +988,7 @@
           }
         }
       });
-      updateUniformColorButtons();
+      renderUniformPaletteGrid();
     }
 
     function setBubbleStyle(style) {
@@ -926,26 +1002,6 @@
           ? "py-1.5 rounded-xl text-[11px] font-semibold border border-sky-400 bg-sky-500/25 text-white text-center transition"
           : "py-1.5 rounded-xl text-[11px] font-medium border border-white/10 bg-black/35 text-slate-300 hover:text-white text-center transition";
       });
-    }
-
-    function setBubbleAlpha(val) {
-      currentBubbleAlpha = parseInt(val, 10);
-      localStorage.setItem('APP_BUBBLE_ALPHA', String(currentBubbleAlpha));
-      document.documentElement.style.setProperty('--bubble-alpha', (currentBubbleAlpha / 100).toFixed(2));
-      const lbl = document.getElementById('bubbleAlphaVal');
-      const sl = document.getElementById('bubbleAlphaSlider');
-      if (lbl) lbl.innerText = `${currentBubbleAlpha}%`;
-      if (sl) sl.value = String(currentBubbleAlpha);
-    }
-
-    function setDimmerAlpha(val) {
-      currentDimmerAlpha = parseInt(val, 10);
-      localStorage.setItem('APP_BG_DIMMER', String(currentDimmerAlpha));
-      document.documentElement.style.setProperty('--dimmer-alpha', (currentDimmerAlpha / 100).toFixed(2));
-      const lbl = document.getElementById('dimmerAlphaVal');
-      const sl = document.getElementById('dimmerAlphaSlider');
-      if (lbl) lbl.innerText = `${currentDimmerAlpha}%`;
-      if (sl) sl.value = String(currentDimmerAlpha);
     }
 
     function setTextClarity(mode) {
@@ -970,13 +1026,9 @@
     resizeCanvas();
     const aaToggle = document.getElementById('autoAdaptToggle');
     if (aaToggle) aaToggle.checked = autoAdaptEnabled;
-    const uSl = document.getElementById('uniformIntensitySlider');
-    const uLbl = document.getElementById('uniformIntensityVal');
-    if (uSl) uSl.value = String(currentUniformIntensity);
-    if (uLbl) uLbl.innerText = `${currentUniformIntensity}%`;
+    syncAppearanceSlidersUI();
+    setWarmShield(currentWarmShield);
     setBubbleStyle(currentBubbleStyle);
-    setBubbleAlpha(currentBubbleAlpha);
-    setDimmerAlpha(currentDimmerAlpha);
     setTextClarity(currentTextClarity);
     setWallpaper(currentWallpaper, true);
     requestAnimationFrame(drawWallpaperFrame);
@@ -999,43 +1051,89 @@
     });
 
     // ============================================================================
-    // TYPOGRAPHY
+    // 14 EASY-TO-READ FONTS + READING TYPOGRAPHY TOOLS
     // ============================================================================
-    let currentAppFont = localStorage.getItem('APP_FONT') || 'sf';
+    let currentAppFont = localStorage.getItem('APP_FONT') || 'lexend';
     let currentAppScale = localStorage.getItem('APP_SCALE') || '1';
-    const FONT_MAP = {
-      sf: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif',
-      handwritten: '"Kalam", "Noto Sans Kannada", "Noto Sans Devanagari", cursive, sans-serif',
-      regional: '"Noto Sans Kannada", "Noto Sans Devanagari", "Inter", sans-serif',
-      inter: '"Inter", "Noto Sans Kannada", "Noto Sans Devanagari", sans-serif',
-      jakarta: '"Plus Jakarta Sans", "Noto Sans Kannada", "Noto Sans Devanagari", sans-serif',
-      serif: '"Merriweather", "Noto Sans Kannada", "Noto Sans Devanagari", Georgia, serif',
-      mono: '"JetBrains Mono", "Noto Sans Kannada", monospace'
-    };
+    let currentLineHeight = localStorage.getItem('APP_LINE_HEIGHT') || '1.55';
+    let currentLetterSpacing = localStorage.getItem('APP_LETTER_SPACING') || '0em';
+
+    const FONT_LIST = [
+      { key: 'lexend', label: 'Lexend (Zero Eye-Strain)', tag: 'Best Read', css: '"Lexend", "Noto Sans Kannada", "Noto Sans Devanagari", sans-serif' },
+      { key: 'atkinson', label: 'Atkinson Hyperlegible', tag: 'High Clarity', css: '"Atkinson Hyperlegible", "Noto Sans Kannada", sans-serif' },
+      { key: 'sf', label: 'SF Pro / System', tag: 'Apple UI', css: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif' },
+      { key: 'inter', label: 'Inter (Clean Modern)', tag: 'Sans', css: '"Inter", "Noto Sans Kannada", "Noto Sans Devanagari", sans-serif' },
+      { key: 'source', label: 'Source Sans 3 (Open)', tag: 'Editorial', css: '"Source Sans 3", "Noto Sans Kannada", sans-serif' },
+      { key: 'nunito', label: 'Nunito (Soft Rounded)', tag: 'Gentle', css: '"Nunito", "Noto Sans Kannada", sans-serif' },
+      { key: 'jakarta', label: 'Plus Jakarta Sans', tag: 'Sharp', css: '"Plus Jakarta Sans", "Noto Sans Kannada", sans-serif' },
+      { key: 'lora', label: 'Lora (Warm Book Serif)', tag: 'Book', css: '"Lora", "Noto Sans Kannada", Georgia, serif' },
+      { key: 'literata', label: 'Literata (E-Reader)', tag: 'E-Book', css: '"Literata", "Noto Sans Kannada", Georgia, serif' },
+      { key: 'serif', label: 'Merriweather (Classic)', tag: 'Serif', css: '"Merriweather", "Noto Sans Kannada", Georgia, serif' },
+      { key: 'slab', label: 'Roboto Slab (News)', tag: 'Headline', css: '"Roboto Slab", "Noto Sans Kannada", serif' },
+      { key: 'regional', label: 'Noto Regional (ಕನ್ನಡ/हिंदी)', tag: 'Multi-Script', css: '"Noto Sans Kannada", "Noto Sans Devanagari", "Inter", sans-serif' },
+      { key: 'handwritten', label: 'Kalam (Handwritten)', tag: 'Notebook', css: '"Kalam", "Noto Sans Kannada", cursive, sans-serif' },
+      { key: 'mono', label: 'JetBrains Mono', tag: 'Code', css: '"JetBrains Mono", "Noto Sans Kannada", monospace' }
+    ];
+
     function setAppFont(fontKey) {
-      if (!FONT_MAP[fontKey]) return;
-      currentAppFont = fontKey;
-      localStorage.setItem('APP_FONT', fontKey);
-      document.documentElement.style.setProperty('--app-font', FONT_MAP[fontKey]);
-      ['sf', 'handwritten', 'regional', 'inter', 'jakarta', 'serif', 'mono'].forEach(f => {
-        const btn = document.getElementById(`fontBtn-${f}`);
-        if (btn) btn.className = currentAppFont === f
-          ? "px-3 py-2 rounded-xl text-xs font-semibold border border-sky-400 bg-sky-500/20 text-white flex items-center justify-between transition shadow-sm"
-          : "px-3 py-2 rounded-xl text-xs font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white flex items-center justify-between transition";
-      });
+      const fObj = FONT_LIST.find(x => x.key === fontKey) || FONT_LIST[0];
+      currentAppFont = fObj.key;
+      localStorage.setItem('APP_FONT', currentAppFont);
+      document.documentElement.style.setProperty('--app-font', fObj.css);
+      renderFontButtons();
     }
+
+    function renderFontButtons() {
+      const list = document.getElementById('fontButtonsList');
+      if (!list) return;
+      list.innerHTML = FONT_LIST.map(f => {
+        const active = currentAppFont === f.key;
+        return `<button onclick="setAppFont('${f.key}')" style="font-family: ${f.css};" class="px-3 py-1.5 rounded-xl text-xs flex items-center justify-between border transition ${active ? 'font-semibold border-sky-400 bg-sky-500/20 text-white shadow-sm' : 'font-medium border-white/10 bg-black/30 text-slate-300 hover:text-white'}">
+          <span>${f.label}</span><span class="text-[9px] opacity-75">${f.tag}</span>
+        </button>`;
+      }).join('');
+    }
+
     function setAppScale(scaleVal) {
       currentAppScale = scaleVal;
       localStorage.setItem('APP_SCALE', scaleVal);
       document.documentElement.style.setProperty('--app-scale', scaleVal);
-      ['0.95', '1', '1.08'].forEach(s => {
+      ['0.95', '1', '1.08', '1.16'].forEach(s => {
         const btn = document.getElementById(`scaleBtn-${s}`);
         if (btn) btn.className = String(currentAppScale) === s
-          ? "py-1 rounded-xl text-[11px] font-semibold border border-sky-400 bg-sky-500/20 text-white text-center transition"
-          : "py-1 rounded-xl text-[11px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white text-center transition";
+          ? "py-1 rounded-xl text-[10px] font-semibold border border-sky-400 bg-sky-500/20 text-white text-center transition"
+          : "py-1 rounded-xl text-[10px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white text-center transition";
       });
     }
-    setAppFont(currentAppFont); setAppScale(currentAppScale);
+
+    function setLineHeight(val) {
+      currentLineHeight = val;
+      localStorage.setItem('APP_LINE_HEIGHT', val);
+      document.documentElement.style.setProperty('--app-line-height', val);
+      ['1.35', '1.55', '1.8'].forEach(v => {
+        const btn = document.getElementById(`lhBtn-${v}`);
+        if (btn) btn.className = String(currentLineHeight) === v
+          ? "py-1 rounded-xl text-[10px] font-semibold border border-sky-400 bg-sky-500/20 text-white text-center transition"
+          : "py-1 rounded-xl text-[10px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white text-center transition";
+      });
+    }
+
+    function setLetterSpacing(val) {
+      currentLetterSpacing = val;
+      localStorage.setItem('APP_LETTER_SPACING', val);
+      document.documentElement.style.setProperty('--app-letter-spacing', val);
+      ['0em', '0.02em', '0.045em'].forEach(v => {
+        const btn = document.getElementById(`lsBtn-${v}`);
+        if (btn) btn.className = String(currentLetterSpacing) === v
+          ? "py-1 rounded-xl text-[10px] font-semibold border border-sky-400 bg-sky-500/20 text-white text-center transition"
+          : "py-1 rounded-xl text-[10px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white text-center transition";
+      });
+    }
+
+    setAppFont(currentAppFont);
+    setAppScale(currentAppScale);
+    setLineHeight(currentLineHeight);
+    setLetterSpacing(currentLetterSpacing);
 
     // ============================================================================
     // DYNAMIC N-MODEL ROSTER + WEEKLY AUTO-DISCOVERY + RETIREMENT
@@ -1086,10 +1184,7 @@
     }
 
     function removeModelFromRoster(modelId) {
-      if (dynamicModels.length <= 1) {
-        alert("Keep at least 1 active model in the pool.");
-        return;
-      }
+      if (dynamicModels.length <= 1) { alert("Keep at least 1 active model in the pool."); return; }
       dynamicModels = dynamicModels.filter(m => m !== modelId);
       saveDynamicModelRoster();
       showDiscoveryLog(`Removed "${modelId}". Now splitting equally across ${dynamicModels.length} models.`);
@@ -1097,30 +1192,23 @@
 
     function recordModelSuccess(modelId) {
       const tracker = getRetireTracker();
-      if (tracker[modelId]) {
-        tracker[modelId] = 0;
-        saveRetireTracker(tracker);
-      }
+      if (tracker[modelId]) { tracker[modelId] = 0; saveRetireTracker(tracker); }
     }
 
     function recordPossibleRetirement(modelId, httpStatus, errText) {
       const lower = (errText || '').toLowerCase();
       const isRetiredSignal = httpStatus === 404 || lower.includes('not found') || lower.includes('retired') || lower.includes('deprecated') || lower.includes('is not supported for generatecontent');
       if (!isRetiredSignal) return;
-
       const tracker = getRetireTracker();
       tracker[modelId] = (tracker[modelId] || 0) + 1;
       saveRetireTracker(tracker);
-
       if (tracker[modelId] >= RETIRE_CONFIRM_THRESHOLD && dynamicModels.length > 1) {
         dynamicModels = dynamicModels.filter(m => m !== modelId);
         delete tracker[modelId];
         saveRetireTracker(tracker);
         saveDynamicModelRoster();
         showDiscoveryLog(`Auto-removed retired model "${modelId}" after ${RETIRE_CONFIRM_THRESHOLD} confirmed 404s.`);
-      } else {
-        renderDynamicModelUI();
-      }
+      } else { renderDynamicModelUI(); }
     }
 
     function showDiscoveryLog(msg) {
@@ -1134,131 +1222,76 @@
       const id = modelId.toLowerCase();
       const banned = ['tts', 'image', 'audio', 'live', 'transcribe', 'embedding', 'aqa', 'vision', 'robotics', 'omni', 'nano', 'pro', 'carbon', 'argon', 'neon', '1.5', '2.0', '2.5', 'exp', 'thinking'];
       if (banned.some(b => id.includes(b))) return false;
-      const isFlashLite = id.includes('flash-lite') && !id.includes('preview');
-      const isGemmaIT = /^gemma-(4|5|6).*-it$/.test(id);
-      return isFlashLite || isGemmaIT;
+      return (id.includes('flash-lite') && !id.includes('preview')) || /^gemma-(4|5|6).*-it$/.test(id);
     }
 
     async function runWeeklyModelDiscovery(forceManual = false) {
       const lastCheck = parseInt(localStorage.getItem('MODEL_SYNC_LAST_CHECK') || '0', 10);
       const now = Date.now();
       updateWeeklySyncLabel(lastCheck);
-
       if (!forceManual && (now - lastCheck) < ONE_WEEK_MS) return;
-
       const allKeys = getAllConfiguredKeys();
       if (allKeys.length === 0) return;
-
       try {
         const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${allKeys[0].key}`);
         if (!res.ok) return;
-        const data = await res.json();
-        const catalog = data?.models || [];
-        const availableIds = new Set();
-        const newlyAdded = [];
-
+        const catalog = (await res.json())?.models || [];
+        const availableIds = new Set(), newlyAdded = [];
         for (const m of catalog) {
           const id = (m.name || '').replace(/^models\//, '');
-          const methods = m.supportedGenerationMethods || [];
-          if (!methods.includes('generateContent')) continue;
+          if (!(m.supportedGenerationMethods || []).includes('generateContent')) continue;
           availableIds.add(id);
-
-          if (isQualifyingHighQuotaFreeModel(id) && !dynamicModels.includes(id)) {
-            dynamicModels.push(id);
-            newlyAdded.push(id);
-          }
+          if (isQualifyingHighQuotaFreeModel(id) && !dynamicModels.includes(id)) { dynamicModels.push(id); newlyAdded.push(id); }
         }
-
         const tracker = getRetireTracker();
         for (const existing of [...dynamicModels]) {
           if (availableIds.size > 5 && !availableIds.has(existing)) {
             tracker[existing] = (tracker[existing] || 0) + 1;
-            if (tracker[existing] >= RETIRE_CONFIRM_THRESHOLD && dynamicModels.length > 1) {
-              dynamicModels = dynamicModels.filter(x => x !== existing);
-              delete tracker[existing];
-            }
-          } else if (availableIds.has(existing)) {
-            tracker[existing] = 0;
-          }
+            if (tracker[existing] >= RETIRE_CONFIRM_THRESHOLD && dynamicModels.length > 1) { dynamicModels = dynamicModels.filter(x => x !== existing); delete tracker[existing]; }
+          } else if (availableIds.has(existing)) tracker[existing] = 0;
         }
         saveRetireTracker(tracker);
         localStorage.setItem('MODEL_SYNC_LAST_CHECK', String(now));
         saveDynamicModelRoster();
         updateWeeklySyncLabel(now);
-
-        if (newlyAdded.length > 0) {
-          showDiscoveryLog(`Weekly scan added ${newlyAdded.length} new free model(s): ${newlyAdded.join(', ')}. Now splitting across ${dynamicModels.length} models.`);
-        } else if (forceManual) {
-          showDiscoveryLog(`Scan complete: ${dynamicModels.length} active models verified. No new high-RPD models found.`);
-        }
-      } catch (e) {
-        if (forceManual) showDiscoveryLog(`Scan skipped (network/key check failed).`);
-      }
+        if (newlyAdded.length > 0) showDiscoveryLog(`Weekly scan added ${newlyAdded.length} new free model(s): ${newlyAdded.join(', ')}.`);
+        else if (forceManual) showDiscoveryLog(`Scan complete: ${dynamicModels.length} active models verified.`);
+      } catch (e) { if (forceManual) showDiscoveryLog(`Scan skipped (network/key check failed).`); }
     }
 
     function updateWeeklySyncLabel(lastTs) {
       const el = document.getElementById('weeklySyncStatus');
       if (!el) return;
-      if (!lastTs) {
-        el.innerText = "Weekly auto-scan: Active (Every 7 days)";
-        return;
-      }
-      const nextDate = new Date(lastTs + ONE_WEEK_MS).toLocaleDateString();
-      el.innerText = `Next auto-scan: ${nextDate}`;
+      el.innerText = lastTs ? `Next auto-scan: ${new Date(lastTs + ONE_WEEK_MS).toLocaleDateString()}` : "Weekly auto-scan: Active (Every 7 days)";
     }
 
     function renderDynamicModelUI() {
-      const list = document.getElementById('dynamicModelList');
-      const countLbl = document.getElementById('activeModelCountLabel');
-      const headerBadge = document.getElementById('headerEngineBadge');
-      const splitPill = document.getElementById('splitSummaryPill');
-      const keyCount = getAllConfiguredKeys().length;
-      const sharePct = dynamicModels.length > 0 ? Math.round(100 / dynamicModels.length) : 100;
-
+      const list = document.getElementById('dynamicModelList'), countLbl = document.getElementById('activeModelCountLabel');
+      const headerBadge = document.getElementById('headerEngineBadge'), splitPill = document.getElementById('splitSummaryPill');
+      const keyCount = getAllConfiguredKeys().length, sharePct = dynamicModels.length > 0 ? Math.round(100 / dynamicModels.length) : 100;
       if (countLbl) countLbl.innerText = String(dynamicModels.length);
       if (headerBadge) headerBadge.innerText = `${keyCount} Key${keyCount === 1 ? '' : 's'} × ${dynamicModels.length} Models Chain`;
       if (splitPill) splitPill.innerText = `2 Active Keys • ${sharePct}% per model (${dynamicModels.length}-way split)`;
-
       if (!list) return;
       const tracker = getRetireTracker();
       list.innerHTML = dynamicModels.map((m, idx) => {
         const retireHits = tracker[m] || 0;
-        return `
-          <div class="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-xl bg-black/40 border border-white/10 text-[11px]">
-            <div class="min-w-0 flex-1">
-              <div class="font-mono text-white truncate">${idx + 1}. ${m}</div>
-              <div class="text-[9px] text-slate-400">All 3 Keys • ${sharePct}% equal share${retireHits > 0 ? ` • <span class="text-amber-300">404 strikes: ${retireHits}/${RETIRE_CONFIRM_THRESHOLD}</span>` : ''}</div>
-            </div>
-            <button onclick="removeModelFromRoster('${m}')" class="text-slate-400 hover:text-rose-400 p-1" title="Remove model">
-              <i class="fa-solid fa-xmark text-[10px]"></i>
-            </button>
-          </div>
-        `;
+        return `<div class="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-xl bg-black/40 border border-white/10 text-[11px]"><div class="min-w-0 flex-1"><div class="font-mono text-white truncate">${idx + 1}. ${m}</div><div class="text-[9px] text-slate-400">All 3 Keys • ${sharePct}% equal share${retireHits > 0 ? ` • <span class="text-amber-300">404 strikes: ${retireHits}/${RETIRE_CONFIRM_THRESHOLD}</span>` : ''}</div></div><button onclick="removeModelFromRoster('${m}')" class="text-slate-400 hover:text-rose-400 p-1" title="Remove model"><i class="fa-solid fa-xmark text-[10px]"></i></button></div>`;
       }).join('');
     }
 
     function getEngineOptionsHTML(selectedVal) {
       const current = selectedVal || localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'auto-equal-split';
-      const opts = [
-        ['auto-equal-split', `⚡ Auto Equal Split (${dynamicModels.length} Models × Failover)`],
-        ...dynamicModels.map(m => [m, `Start with: ${m} (+ Chain Failover)`])
-      ];
+      const opts = [['auto-equal-split', `⚡ Auto Equal Split (${dynamicModels.length} Models × Failover)`], ...dynamicModels.map(m => [m, `Start with: ${m} (+ Chain Failover)`])];
       return opts.map(([val, label]) => `<option value="${val}" class="bg-slate-900" ${current === val ? 'selected' : ''}>${label}</option>`).join('');
     }
-
     function refreshAllModelDropdowns() {
       const saved = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'auto-equal-split';
       const masterSel = document.getElementById('engineSelector');
       if (masterSel) masterSel.innerHTML = getEngineOptionsHTML(saved);
-      document.querySelectorAll('.card-engine-selector').forEach(sel => {
-        sel.innerHTML = getEngineOptionsHTML(saved);
-      });
+      document.querySelectorAll('.card-engine-selector').forEach(sel => { sel.innerHTML = getEngineOptionsHTML(saved); });
     }
-
-    function syncEngineSelection(val) {
-      localStorage.setItem('GEMINI_SELECTED_ENGINE', val);
-      refreshAllModelDropdowns();
-    }
+    function syncEngineSelection(val) { localStorage.setItem('GEMINI_SELECTED_ENGINE', val); refreshAllModelDropdowns(); }
 
     // ============================================================================
     // 3-KEY MANAGEMENT + EQUAL SPLITTING + UNIVERSAL ZERO-WAIT FAILOVER
@@ -1268,46 +1301,29 @@
       const k2 = localStorage.getItem('GEMINI_KEY_2') || localStorage.getItem('ACTIVE_SEARCH_KEY_1') || localStorage.getItem('GEMINI_BACKUP_KEY') || '';
       const k3 = localStorage.getItem('GEMINI_KEY_3') || localStorage.getItem('ACTIVE_SEARCH_KEY_2') || '';
       const sp = localStorage.getItem('RATE_LIMIT_LAYMAN_MS') || '4500';
-
       if (k1) localStorage.setItem('GEMINI_KEY_1', k1.trim());
       if (k2) localStorage.setItem('GEMINI_KEY_2', k2.trim());
       if (k3) localStorage.setItem('GEMINI_KEY_3', k3.trim());
-
-      const e1 = document.getElementById('apiKey1Input');
-      const e2 = document.getElementById('apiKey2Input');
-      const e3 = document.getElementById('apiKey3Input');
-      const sel = document.getElementById('laymanSpacingSelect');
-      if (e1) e1.value = k1;
-      if (e2) e2.value = k2;
-      if (e3) e3.value = k3;
-      if (sel) sel.value = sp;
-
+      if (document.getElementById('apiKey1Input')) document.getElementById('apiKey1Input').value = k1;
+      if (document.getElementById('apiKey2Input')) document.getElementById('apiKey2Input').value = k2;
+      if (document.getElementById('apiKey3Input')) document.getElementById('apiKey3Input').value = k3;
+      if (document.getElementById('laymanSpacingSelect')) document.getElementById('laymanSpacingSelect').value = sp;
       updateThreeKeyBadges();
     }
 
     function saveThreeKeySettings(closeAfter = false) {
-      const k1 = (document.getElementById('apiKey1Input')?.value || '').trim();
-      const k2 = (document.getElementById('apiKey2Input')?.value || '').trim();
-      const k3 = (document.getElementById('apiKey3Input')?.value || '').trim();
-      const sp = document.getElementById('laymanSpacingSelect')?.value || '4500';
-
-      localStorage.setItem('GEMINI_KEY_1', k1);
-      localStorage.setItem('GEMINI_KEY_2', k2);
-      localStorage.setItem('GEMINI_KEY_3', k3);
-      localStorage.setItem('RATE_LIMIT_LAYMAN_MS', sp);
+      localStorage.setItem('GEMINI_KEY_1', (document.getElementById('apiKey1Input')?.value || '').trim());
+      localStorage.setItem('GEMINI_KEY_2', (document.getElementById('apiKey2Input')?.value || '').trim());
+      localStorage.setItem('GEMINI_KEY_3', (document.getElementById('apiKey3Input')?.value || '').trim());
+      localStorage.setItem('RATE_LIMIT_LAYMAN_MS', document.getElementById('laymanSpacingSelect')?.value || '4500');
       pathCooldownUntil.clear();
-
-      updateThreeKeyBadges();
-      renderDynamicModelUI();
-      runWeeklyModelDiscovery(false);
+      updateThreeKeyBadges(); renderDynamicModelUI(); runWeeklyModelDiscovery(false);
       if (closeAfter && getAllConfiguredKeys().length > 0) toggleCurtain(false);
     }
 
     function getAllConfiguredKeys() {
       const out = [];
-      const k1 = (localStorage.getItem('GEMINI_KEY_1') || '').trim();
-      const k2 = (localStorage.getItem('GEMINI_KEY_2') || '').trim();
-      const k3 = (localStorage.getItem('GEMINI_KEY_3') || '').trim();
+      const k1 = (localStorage.getItem('GEMINI_KEY_1') || '').trim(), k2 = (localStorage.getItem('GEMINI_KEY_2') || '').trim(), k3 = (localStorage.getItem('GEMINI_KEY_3') || '').trim();
       if (k1.length > 10) out.push({ id: 'key1', label: 'Key 1 (Layman)', key: k1 });
       if (k2.length > 10) out.push({ id: 'key2', label: 'Key 2 (Active #1)', key: k2 });
       if (k3.length > 10) out.push({ id: 'key3', label: 'Key 3 (Active #2)', key: k3 });
@@ -1315,13 +1331,9 @@
     }
 
     function updateThreeKeyBadges() {
-      const k1 = (localStorage.getItem('GEMINI_KEY_1') || '').trim();
-      const k2 = (localStorage.getItem('GEMINI_KEY_2') || '').trim();
-      const k3 = (localStorage.getItem('GEMINI_KEY_3') || '').trim();
-
+      const k1 = (localStorage.getItem('GEMINI_KEY_1') || '').trim(), k2 = (localStorage.getItem('GEMINI_KEY_2') || '').trim(), k3 = (localStorage.getItem('GEMINI_KEY_3') || '').trim();
       const setB = (id, ok, activeTxt, emptyTxt) => {
-        const el = document.getElementById(id);
-        if (!el) return;
+        const el = document.getElementById(id); if (!el) return;
         el.innerText = ok ? activeTxt : emptyTxt;
         el.className = ok ? "text-[10px] font-mono text-emerald-300 font-bold" : "text-[10px] font-mono text-rose-400";
       };
@@ -1333,258 +1345,120 @@
     function buildFailoverChain(mode, overrideStartModel = null) {
       const allKeys = getAllConfiguredKeys();
       if (allKeys.length === 0) return [];
-
-      const k1 = allKeys.find(k => k.id === 'key1');
-      const k2 = allKeys.find(k => k.id === 'key2');
-      const k3 = allKeys.find(k => k.id === 'key3');
+      const k1 = allKeys.find(k => k.id === 'key1'), k2 = allKeys.find(k => k.id === 'key2'), k3 = allKeys.find(k => k.id === 'key3');
       const models = dynamicModels.length > 0 ? [...dynamicModels] : [...DEFAULT_HIGH_QUOTA_MODELS];
       const N = models.length;
-
-      let orderedKeys = [];
-      let startModelIdx = 0;
+      let orderedKeys = [], startModelIdx = 0;
 
       if (mode === 'layman') {
-        if (k1) orderedKeys.push(k1);
-        if (k2) orderedKeys.push(k2);
-        if (k3) orderedKeys.push(k3);
-        startModelIdx = laymanDispatchCount % N;
-        laymanDispatchCount++;
+        if (k1) orderedKeys.push(k1); if (k2) orderedKeys.push(k2); if (k3) orderedKeys.push(k3);
+        startModelIdx = laymanDispatchCount % N; laymanDispatchCount++;
         localStorage.setItem('LAYMAN_DISPATCH_COUNTER', String(laymanDispatchCount));
       } else {
         const activePool = [k2, k3].filter(Boolean);
         if (activePool.length >= 2) {
           const keyIdx = activeDispatchCount % 2;
-          const perKeyTurn = Math.floor(activeDispatchCount / 2);
-          startModelIdx = perKeyTurn % N;
+          startModelIdx = Math.floor(activeDispatchCount / 2) % N;
           orderedKeys = [activePool[keyIdx], activePool[1 - keyIdx]];
           if (k1) orderedKeys.push(k1);
         } else if (activePool.length === 1) {
-          startModelIdx = activeDispatchCount % N;
-          orderedKeys = [activePool[0]];
-          if (k1) orderedKeys.push(k1);
+          startModelIdx = activeDispatchCount % N; orderedKeys = [activePool[0]]; if (k1) orderedKeys.push(k1);
         } else {
-          startModelIdx = activeDispatchCount % N;
-          orderedKeys = [...allKeys];
+          startModelIdx = activeDispatchCount % N; orderedKeys = [...allKeys];
         }
-        activeDispatchCount++;
-        localStorage.setItem('ACTIVE_DISPATCH_COUNTER', String(activeDispatchCount));
+        activeDispatchCount++; localStorage.setItem('ACTIVE_DISPATCH_COUNTER', String(activeDispatchCount));
       }
 
-      if (overrideStartModel && overrideStartModel !== 'auto-equal-split' && models.includes(overrideStartModel)) {
-        startModelIdx = models.indexOf(overrideStartModel);
-      }
-
+      if (overrideStartModel && overrideStartModel !== 'auto-equal-split' && models.includes(overrideStartModel)) startModelIdx = models.indexOf(overrideStartModel);
       const rotatedModels = models.slice(startModelIdx).concat(models.slice(0, startModelIdx));
-      const chain = [];
-      const seenKeys = new Set();
-
+      const chain = [], seenKeys = new Set();
       for (const keyObj of orderedKeys) {
-        if (seenKeys.has(keyObj.key)) continue;
-        seenKeys.add(keyObj.key);
-        for (const model of rotatedModels) {
-          chain.push({ keyObj, model, pathId: `${keyObj.id}::${model}` });
-        }
+        if (seenKeys.has(keyObj.key)) continue; seenKeys.add(keyObj.key);
+        for (const model of rotatedModels) chain.push({ keyObj, model, pathId: `${keyObj.id}::${model}` });
       }
       return chain;
     }
 
     async function executeFailoverChain(promptText, mode = 'active', overrideModel = null, maxTokens = 950) {
       if (mode === 'active') activeSearchBusyUntil = Date.now() + 18000;
-
       const chain = buildFailoverChain(mode, overrideModel);
       if (chain.length === 0) throw new Error("GEMINI_KEYS_REQUIRED");
-
       const now = Date.now();
-      const readyPaths = chain.filter(p => (pathCooldownUntil.get(p.pathId) || 0) <= now);
-      const coolingPaths = chain.filter(p => (pathCooldownUntil.get(p.pathId) || 0) > now);
-      const executionOrder = [...readyPaths, ...coolingPaths];
-
+      const executionOrder = [...chain.filter(p => (pathCooldownUntil.get(p.pathId) || 0) <= now), ...chain.filter(p => (pathCooldownUntil.get(p.pathId) || 0) > now)];
       let lastErr = "All paths failed";
 
       for (const step of executionOrder) {
-        const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), 11000);
+        const ctrl = new AbortController(), tid = setTimeout(() => ctrl.abort(), 11000);
         try {
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${step.model}:generateContent?key=${step.keyObj.key}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: promptText }] }],
-              generationConfig: { temperature: 0.35, maxOutputTokens: maxTokens }
-            }),
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }], generationConfig: { temperature: 0.35, maxOutputTokens: maxTokens } }),
             signal: ctrl.signal
           });
           clearTimeout(tid);
-
           if (res.ok) {
-            const data = await res.json();
-            const txt = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            const txt = (await res.json())?.candidates?.[0]?.content?.parts?.[0]?.text;
             if (txt && txt.trim().length > 10) {
-              recordModelSuccess(step.model);
-              pathCooldownUntil.delete(step.pathId);
-              return {
-                text: txt.trim(),
-                engineName: step.keyObj.label,
-                model: step.model
-              };
+              recordModelSuccess(step.model); pathCooldownUntil.delete(step.pathId);
+              return { text: txt.trim(), engineName: step.keyObj.label, model: step.model };
             }
-            lastErr = `Empty response on ${step.keyObj.label}/${step.model}`;
-            continue;
+            lastErr = `Empty response on ${step.keyObj.label}/${step.model}`; continue;
           } else {
-            const errData = await res.json().catch(() => ({}));
-            const msg = errData?.error?.message || `HTTP ${res.status}`;
+            const msg = (await res.json().catch(() => ({})))?.error?.message || `HTTP ${res.status}`;
             lastErr = msg;
-            if (res.status === 429) {
-              pathCooldownUntil.set(step.pathId, Date.now() + 45000);
-            }
+            if (res.status === 429) pathCooldownUntil.set(step.pathId, Date.now() + 45000);
             recordPossibleRetirement(step.model, res.status, msg);
             continue;
           }
-        } catch (e) {
-          clearTimeout(tid);
-          lastErr = e.message || "Network/Timeout";
-          continue;
-        }
+        } catch (e) { clearTimeout(tid); lastErr = e.message || "Network/Timeout"; continue; }
       }
-
-      const clean = lastErr.length > 90 ? lastErr.slice(0, 90) + "..." : lastErr;
-      throw new Error(`All ${executionOrder.length} key-model paths failed (${clean}). Tap Retry.`);
+      throw new Error(`All ${executionOrder.length} key-model paths failed (${lastErr.slice(0, 90)}). Tap Retry.`);
     }
 
     function renderAttributionBadge(engineName, model) {
-      return `
-        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-sky-500/15 text-sky-300 border border-sky-400/30">
-          <i class="fa-solid fa-sparkles text-[9px] text-amber-300"></i>
-          <span>${engineName} • <strong>${model}</strong></span>
-        </span>
-      `;
+      return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-sky-500/15 text-sky-300 border border-sky-400/30"><i class="fa-solid fa-sparkles text-[9px] text-amber-300"></i><span>${engineName} • <strong>${model}</strong></span></span>`;
     }
 
     // ============================================================================
     // BACKGROUND LAYMAN'S READ QUEUE
     // ============================================================================
-    function getCachedLaymanMap() {
-      try { return JSON.parse(localStorage.getItem('LAYMAN_SUMMARY_CACHE') || '{}'); } catch (e) { return {}; }
-    }
-    function saveCachedLayman(videoId, text, engineName, model) {
-      try {
-        const map = getCachedLaymanMap();
-        map[videoId] = { text, engineName, model };
-        localStorage.setItem('LAYMAN_SUMMARY_CACHE', JSON.stringify(map));
-      } catch (e) {}
-    }
-
-    function getDeepCache(videoId, type) {
-      try {
-        const map = JSON.parse(localStorage.getItem('DEEP_DOSSIER_CACHE') || '{}');
-        return map[`${videoId}::${type}`] || null;
-      } catch (e) { return null; }
-    }
-    function saveDeepCache(videoId, type, text, engineName, model) {
-      try {
-        const map = JSON.parse(localStorage.getItem('DEEP_DOSSIER_CACHE') || '{}');
-        const keys = Object.keys(map);
-        if (keys.length > 80) delete map[keys[0]];
-        map[`${videoId}::${type}`] = { text, engineName, model };
-        localStorage.setItem('DEEP_DOSSIER_CACHE', JSON.stringify(map));
-      } catch (e) {}
-    }
-
-    function updateLaymanProgressCounter() {
-      const readyCount = allVideos.filter(v => v.layman_news && v.layman_news.trim().length > 0).length;
-      const badge = document.getElementById('laymanPrepBadge');
-      if (badge) badge.innerText = `Layman Ready: ${readyCount}/${allVideos.length}`;
-    }
+    function getCachedLaymanMap() { try { return JSON.parse(localStorage.getItem('LAYMAN_SUMMARY_CACHE') || '{}'); } catch (e) { return {}; } }
+    function saveCachedLayman(videoId, text, engineName, model) { try { const map = getCachedLaymanMap(); map[videoId] = { text, engineName, model }; localStorage.setItem('LAYMAN_SUMMARY_CACHE', JSON.stringify(map)); } catch (e) {} }
+    function getDeepCache(videoId, type) { try { return JSON.parse(localStorage.getItem('DEEP_DOSSIER_CACHE') || '{}')[`${videoId}::${type}`] || null; } catch (e) { return null; } }
+    function saveDeepCache(videoId, type, text, engineName, model) { try { const map = JSON.parse(localStorage.getItem('DEEP_DOSSIER_CACHE') || '{}'); const keys = Object.keys(map); if (keys.length > 80) delete map[keys[0]]; map[`${videoId}::${type}`] = { text, engineName, model }; localStorage.setItem('DEEP_DOSSIER_CACHE', JSON.stringify(map)); } catch (e) {} }
+    function updateLaymanProgressCounter() { const readyCount = allVideos.filter(v => v.layman_news && v.layman_news.trim().length > 0).length; const badge = document.getElementById('laymanPrepBadge'); if (badge) badge.innerText = `Layman Ready: ${readyCount}/${allVideos.length}`; }
 
     async function startBackgroundLaymanQueue(manualTrigger = false) {
-      const k1 = (localStorage.getItem('GEMINI_KEY_1') || '').trim();
-      if (k1.length < 10) {
-        if (manualTrigger) alert("Please paste Key 1 (Background Layman Key) first.");
-        return;
-      }
-      if (laymanQueueRunning) return;
-      laymanQueueRunning = true;
-
-      const statusLine = document.getElementById('laymanQueueStatusLine');
-      const spacingMs = parseInt(localStorage.getItem('RATE_LIMIT_LAYMAN_MS') || '4500', 10);
+      if ((localStorage.getItem('GEMINI_KEY_1') || '').trim().length < 10) { if (manualTrigger) alert("Please paste Key 1 (Background Layman Key) first."); return; }
+      if (laymanQueueRunning) return; laymanQueueRunning = true;
+      const statusLine = document.getElementById('laymanQueueStatusLine'), spacingMs = parseInt(localStorage.getItem('RATE_LIMIT_LAYMAN_MS') || '4500', 10);
       const missing = allVideos.filter(v => !isVideoChannelPaused(v) && (!v.layman_news || v.layman_news.trim().length === 0));
-
       for (let i = 0; i < missing.length; i++) {
-        while (Date.now() < activeSearchBusyUntil) {
-          if (statusLine) statusLine.innerText = "Paused: yielding to active user search...";
-          await new Promise(r => setTimeout(r, 1500));
-        }
-        const vid = missing[i];
-        if (vid.layman_news) continue;
-
+        while (Date.now() < activeSearchBusyUntil) { if (statusLine) statusLine.innerText = "Paused: yielding to active user search..."; await new Promise(r => setTimeout(r, 1500)); }
+        const vid = missing[i]; if (vid.layman_news) continue;
         if (statusLine) statusLine.innerText = `Key 1 preparing Layman (${i + 1}/${missing.length}) across ${dynamicModels.length} models...`;
         try {
           const result = await executeFailoverChain(buildLaymanPrompt(vid), 'layman', null, 550);
-          vid.layman_news = result.text;
-          vid.layman_engine = result.engineName;
-          vid.layman_model = result.model;
-          saveCachedLayman(vid.id, result.text, result.engineName, result.model);
-          updateLaymanProgressCounter();
-          const tag = document.getElementById(`laymanTag-${vid.id}`);
-          if (tag) tag.classList.remove('hidden');
-        } catch (err) {
-          if (statusLine) statusLine.innerText = "Key 1 cooling down 10s...";
-          await new Promise(r => setTimeout(r, 10000));
-        }
+          vid.layman_news = result.text; vid.layman_engine = result.engineName; vid.layman_model = result.model;
+          saveCachedLayman(vid.id, result.text, result.engineName, result.model); updateLaymanProgressCounter();
+          const tag = document.getElementById(`laymanTag-${vid.id}`); if (tag) tag.classList.remove('hidden');
+        } catch (err) { if (statusLine) statusLine.innerText = "Key 1 cooling down 10s..."; await new Promise(r => setTimeout(r, 10000)); }
         await new Promise(r => setTimeout(r, spacingMs));
       }
-
-      if (statusLine) statusLine.innerText = "All visible Layman briefings ready!";
-      laymanQueueRunning = false;
+      if (statusLine) statusLine.innerText = "All visible Layman briefings ready!"; laymanQueueRunning = false;
     }
 
     // ============================================================================
     // PROMPTS
     // ============================================================================
     function buildLaymanPrompt(video) {
-      return `Rewrite this news report as a clear, concrete briefing with exact names, numbers, and dates:
-## [Sharp Headline]
-**The Story in Brief:** 3 clear sentences on exact events and actors.
-**Key Facts:**
-* **[Fact 1]:** Concrete data, policy, or location.
-* **[Fact 2]:** Key institution, agreement, or timeline.
-**Why It Matters:** 2 sentences on real-world impact.
-
-Title: "${video.title}" (${video.channel_title})
-Context: ${video.description ? video.description.slice(0, 950) : ''}`;
+      return `Rewrite this news report as a clear, concrete briefing with exact names, numbers, and dates:\n## [Sharp Headline]\n**The Story in Brief:** 3 clear sentences on exact events and actors.\n**Key Facts:**\n* **[Fact 1]:** Concrete data, policy, or location.\n* **[Fact 2]:** Key institution, agreement, or timeline.\n**Why It Matters:** 2 sentences on real-world impact.\n\nTitle: "${video.title}" (${video.channel_title})\nContext: ${video.description ? video.description.slice(0, 950) : ''}`;
     }
-
     function buildSpecificKnowledgePrompt(video) {
-      return `Produce a crisp, high-density factual & technical dossier with concrete names, numbers, dates, treaties, and mechanisms. Use dense bullet points, zero fluff.
-
-Topic: "${video.title}" (${video.channel_title})
-Context: ${video.description ? video.description.slice(0, 1000) : ''}
-
-Format strictly as:
-## 1. Core Mechanics & Technical Architecture
-* (Step-by-step technical/operational details)
-## 2. Key Institutions, Treaties & Stakeholders
-* (Exact ministries, global bodies, legal clauses, and key figures)
-## 3. Hard Data, Figures & Timeline
-* (Concrete statistics, dates, precedent events)
-## 4. Strategic, Geopolitical & Economic Implications
-* (Impact on India, global power balance, and key risks)`;
+      return `Produce a crisp, high-density factual & technical dossier with concrete names, numbers, dates, treaties, and mechanisms. Use dense bullet points, zero fluff.\n\nTopic: "${video.title}" (${video.channel_title})\nContext: ${video.description ? video.description.slice(0, 1000) : ''}\n\nFormat strictly as:\n## 1. Core Mechanics & Technical Architecture\n* (Step-by-step technical/operational details)\n## 2. Key Institutions, Treaties & Stakeholders\n* (Exact ministries, global bodies, legal clauses, and key figures)\n## 3. Hard Data, Figures & Timeline\n* (Concrete statistics, dates, precedent events)\n## 4. Strategic, Geopolitical & Economic Implications\n* (Impact on India, global power balance, and key risks)`;
     }
-
     function buildUpscPrompt(video) {
-      return `Produce a high-yield UPSC Prelims + Mains intelligence dossier:
-Topic: "${video.title}" (${video.channel_title})
-Context: ${video.description ? video.description.slice(0, 1000) : ''}
-
-Format strictly as:
-## 1. Prelims High-Yield Facts
-* (Constitutional articles, statutory bodies, locations, schemes, indices)
-## 2. Mains GS Linkage & Analysis
-* **GS Paper:** (GS1/GS2/GS3/GS4)
-* **Significance:** (Key arguments & data)
-* **Challenges & Way Forward:** (Bottlenecks & reforms)
-## 3. Model Mains Conclusion & Question
-* (2-sentence conclusion + 1 Mains practice question)`;
+      return `Produce a high-yield UPSC Prelims + Mains intelligence dossier:\nTopic: "${video.title}" (${video.channel_title})\nContext: ${video.description ? video.description.slice(0, 1000) : ''}\n\nFormat strictly as:\n## 1. Prelims High-Yield Facts\n* (Constitutional articles, statutory bodies, locations, schemes, indices)\n## 2. Mains GS Linkage & Analysis\n* **GS Paper:** (GS1/GS2/GS3/GS4)\n* **Significance:** (Key arguments & data)\n* **Challenges & Way Forward:** (Bottlenecks & reforms)\n## 3. Model Mains Conclusion & Question\n* (2-sentence conclusion + 1 Mains practice question)`;
     }
 
     // ============================================================================
@@ -1593,17 +1467,11 @@ Format strictly as:
     function getGitHubToken() { return localStorage.getItem('GITHUB_REPO_PAT') || ''; }
     function promptGitHubToken() {
       const entered = prompt("Optional: Enter a GitHub Personal Access Token (with 'repo' scope) to commit channel changes to channels.json:", getGitHubToken());
-      if (entered !== null) {
-        localStorage.setItem('GITHUB_REPO_PAT', entered.trim());
-        updateGitHubTokenStatus();
-        if (entered.trim()) syncRosterToGitHubRepo(false);
-      }
+      if (entered !== null) { localStorage.setItem('GITHUB_REPO_PAT', entered.trim()); updateGitHubTokenStatus(); if (entered.trim()) syncRosterToGitHubRepo(false); }
     }
     function updateGitHubTokenStatus() {
       const el = document.getElementById('ghTokenStatus');
-      if (el) el.innerHTML = getGitHubToken()
-        ? `<i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> GitHub Auto-Commit Active`
-        : `<i class="fa-solid fa-hard-drive text-sky-400"></i> Saved Permanently on Device`;
+      if (el) el.innerHTML = getGitHubToken() ? `<i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> GitHub Auto-Commit Active` : `<i class="fa-solid fa-hard-drive text-sky-400"></i> Saved Permanently on Device`;
     }
 
     async function loadPermanentChannelRoster() {
@@ -1611,65 +1479,21 @@ Format strictly as:
       let serverChannels = [], localChannels = [];
       try { const res = await fetch(`channels.json?t=${Date.now()}`); if (res.ok) serverChannels = await res.json(); } catch (e) {}
       try { localChannels = JSON.parse(localStorage.getItem('PERMANENT_CHANNEL_ROSTER') || '[]'); } catch (e) {}
-
       const mergedMap = new Map();
       DEFAULT_SEED_CHANNELS.forEach(h => mergedMap.set(h.toLowerCase(), { handle: h, title: h, channel_id: null, paused: false, paused_until: null }));
-      if (Array.isArray(serverChannels)) {
-        serverChannels.forEach(item => {
-          const obj = typeof item === 'string' ? { handle: item, title: item, paused: false, paused_until: null } : item;
-          if (obj && obj.handle) mergedMap.set(obj.handle.toLowerCase(), { handle: obj.handle, title: obj.title || obj.handle, channel_id: obj.channel_id || null, paused: Boolean(obj.paused), paused_until: obj.paused_until || null });
-        });
-      }
-      if (Array.isArray(localChannels)) {
-        localChannels.forEach(obj => {
-          if (obj && obj.handle) {
-            const key = obj.handle.toLowerCase();
-            const ex = mergedMap.get(key) || {};
-            mergedMap.set(key, { handle: obj.handle, title: obj.title || ex.title || obj.handle, channel_id: obj.channel_id || ex.channel_id || null, paused: obj.paused !== undefined ? Boolean(obj.paused) : Boolean(ex.paused), paused_until: obj.paused_until !== undefined ? obj.paused_until : (ex.paused_until || null) });
-          }
-        });
-      }
+      if (Array.isArray(serverChannels)) serverChannels.forEach(item => { const obj = typeof item === 'string' ? { handle: item, title: item, paused: false, paused_until: null } : item; if (obj && obj.handle) mergedMap.set(obj.handle.toLowerCase(), { handle: obj.handle, title: obj.title || obj.handle, channel_id: obj.channel_id || null, paused: Boolean(obj.paused), paused_until: obj.paused_until || null }); });
+      if (Array.isArray(localChannels)) localChannels.forEach(obj => { if (obj && obj.handle) { const key = obj.handle.toLowerCase(), ex = mergedMap.get(key) || {}; mergedMap.set(key, { handle: obj.handle, title: obj.title || ex.title || obj.handle, channel_id: obj.channel_id || ex.channel_id || null, paused: obj.paused !== undefined ? Boolean(obj.paused) : Boolean(ex.paused), paused_until: obj.paused_until !== undefined ? obj.paused_until : (ex.paused_until || null) }); } });
       const todayStr = new Date().toISOString().slice(0, 10);
-      channelRoster = Array.from(mergedMap.values()).map(ch => {
-        if (ch.paused_until && ch.paused_until < todayStr) { ch.paused = false; ch.paused_until = null; }
-        return ch;
-      });
+      channelRoster = Array.from(mergedMap.values()).map(ch => { if (ch.paused_until && ch.paused_until < todayStr) { ch.paused = false; ch.paused_until = null; } return ch; });
       savePermanentChannelRosterLocally();
     }
-
-    function savePermanentChannelRosterLocally() {
-      try { localStorage.setItem('PERMANENT_CHANNEL_ROSTER', JSON.stringify(channelRoster)); } catch (e) {}
-      const c = document.getElementById('rosterCountLabel');
-      if (c) c.innerText = `${channelRoster.length}`;
-    }
-
-    function isChannelPausedNow(chObj) {
-      if (!chObj) return false;
-      const todayStr = new Date().toISOString().slice(0, 10);
-      if (chObj.paused_until) {
-        if (chObj.paused_until >= todayStr) return true;
-        chObj.paused = false; chObj.paused_until = null; return false;
-      }
-      return Boolean(chObj.paused);
-    }
-
-    function isVideoChannelPaused(video) {
-      const hk = (video.handle || '').toLowerCase(), tk = (video.channel_title || '').toLowerCase();
-      for (const ch of channelRoster) {
-        if (ch.handle.toLowerCase() === hk || (ch.title && ch.title.toLowerCase() === tk)) return isChannelPausedNow(ch);
-      }
-      return false;
-    }
-
-    function extractVideoIdFromUrl(input) {
-      const m = input.trim().match(/(?:v=|\/live\/|\/shorts\/|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-      if (m) return m[1];
-      return /^[a-zA-Z0-9_-]{11}$/.test(input.trim()) ? input.trim() : null;
-    }
+    function savePermanentChannelRosterLocally() { try { localStorage.setItem('PERMANENT_CHANNEL_ROSTER', JSON.stringify(channelRoster)); } catch (e) {} const c = document.getElementById('rosterCountLabel'); if (c) c.innerText = `${channelRoster.length}`; }
+    function isChannelPausedNow(chObj) { if (!chObj) return false; const todayStr = new Date().toISOString().slice(0, 10); if (chObj.paused_until) { if (chObj.paused_until >= todayStr) return true; chObj.paused = false; chObj.paused_until = null; return false; } return Boolean(chObj.paused); }
+    function isVideoChannelPaused(video) { const hk = (video.handle || '').toLowerCase(), tk = (video.channel_title || '').toLowerCase(); for (const ch of channelRoster) if (ch.handle.toLowerCase() === hk || (ch.title && ch.title.toLowerCase() === tk)) return isChannelPausedNow(ch); return false; }
+    function extractVideoIdFromUrl(input) { const m = input.trim().match(/(?:v=|\/live\/|\/shorts\/|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/); if (m) return m[1]; return /^[a-zA-Z0-9_-]{11}$/.test(input.trim()) ? input.trim() : null; }
 
     async function detectChannelFromInputMultiTier(rawInput) {
-      const input = rawInput.trim();
-      const videoId = extractVideoIdFromUrl(input);
+      const input = rawInput.trim(), videoId = extractVideoIdFromUrl(input);
       if (videoId) {
         try {
           const res = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`);
@@ -1685,17 +1509,13 @@ Format strictly as:
         } catch (e) {}
       }
       let handle = input, channelId = null;
-      const chMatch = input.match(/youtube\.com\/channel\/(UC[a-zA-Z0-9_-]{22})/);
-      const hMatch = input.match(/youtube\.com\/@([a-zA-Z0-9_.-]+)/);
-      if (chMatch) { channelId = chMatch[1]; handle = channelId; }
-      else if (hMatch) { handle = '@' + hMatch[1]; }
-      else if (!handle.startsWith('@') && !handle.startsWith('UC')) { handle = '@' + handle.replace(/^https?:\/\/(www\.)?youtube\.com\//, '').split(/[/?#]/)[0]; }
+      const chMatch = input.match(/youtube\.com\/channel\/(UC[a-zA-Z0-9_-]{22})/), hMatch = input.match(/youtube\.com\/@([a-zA-Z0-9_.-]+)/);
+      if (chMatch) { channelId = chMatch[1]; handle = channelId; } else if (hMatch) { handle = '@' + hMatch[1]; } else if (!handle.startsWith('@') && !handle.startsWith('UC')) { handle = '@' + handle.replace(/^https?:\/\/(www\.)?youtube\.com\//, '').split(/[/?#]/)[0]; }
       return { handle, title: handle, channel_id: channelId, detectedFromVideo: null };
     }
 
     async function fetchLiveChannelVideosInBrowser(chObj) {
-      let channelId = chObj.channel_id;
-      const handle = chObj.handle;
+      let channelId = chObj.channel_id; const handle = chObj.handle;
       if (!channelId && handle.startsWith('@')) {
         try {
           const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://www.youtube.com/' + handle)}`);
@@ -1703,8 +1523,7 @@ Format strictly as:
             const html = (await res.json()).contents || '';
             const m = html.match(/"externalId":"(UC[a-zA-Z0-9_-]{22})"/) || html.match(/"channelId":"(UC[a-zA-Z0-9_-]{22})"/);
             if (m) { channelId = m[1]; chObj.channel_id = channelId; }
-            const tMatch = html.match(/<meta property="og:title" content="([^"]+)">/);
-            if (tMatch && tMatch[1]) chObj.title = tMatch[1];
+            const tMatch = html.match(/<meta property="og:title" content="([^"]+)">/); if (tMatch && tMatch[1]) chObj.title = tMatch[1];
           }
         } catch (e) {}
       }
@@ -1715,12 +1534,8 @@ Format strictly as:
             const xmlText = (await res.json()).contents || '';
             if (xmlText.includes('<entry>')) {
               const xml = new DOMParser().parseFromString(xmlText, "text/xml");
-              const chTitle = xml.querySelector('feed > title')?.textContent || chObj.title || handle;
-              chObj.title = chTitle;
-              return Array.from(xml.querySelectorAll('entry')).slice(0, 10).map(ent => {
-                const vId = ent.getElementsByTagName('yt:videoId')[0]?.textContent || '';
-                return { id: vId, title: ent.querySelector('title')?.textContent || '', channel_title: chTitle, handle, published_at: ent.querySelector('published')?.textContent || new Date().toISOString(), description: ent.getElementsByTagName('media:description')[0]?.textContent || '', thumbnail_url: `https://i.ytimg.com/vi/${vId}/hqdefault.jpg` };
-              }).filter(v => v.id);
+              const chTitle = xml.querySelector('feed > title')?.textContent || chObj.title || handle; chObj.title = chTitle;
+              return Array.from(xml.querySelectorAll('entry')).slice(0, 10).map(ent => { const vId = ent.getElementsByTagName('yt:videoId')[0]?.textContent || ''; return { id: vId, title: ent.querySelector('title')?.textContent || '', channel_title: chTitle, handle, published_at: ent.querySelector('published')?.textContent || new Date().toISOString(), description: ent.getElementsByTagName('media:description')[0]?.textContent || '', thumbnail_url: `https://i.ytimg.com/vi/${vId}/hqdefault.jpg` }; }).filter(v => v.id);
             }
           }
         } catch (e) {}
@@ -1729,12 +1544,10 @@ Format strictly as:
     }
 
     async function syncRosterToGitHubRepo(triggerAction = true) {
-      const token = getGitHubToken();
-      if (!token) return false;
+      const token = getGitHubToken(); if (!token) return false;
       try {
         const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CHANNELS_FILE_PATH}`;
-        let sha = null;
-        const getRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' } });
+        let sha = null; const getRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' } });
         if (getRes.ok) sha = (await getRes.json()).sha;
         const bodyObj = { message: `Sync channel roster (${channelRoster.length} channels)`, content: btoa(unescape(encodeURIComponent(JSON.stringify(channelRoster, null, 2)))) };
         if (sha) bodyObj.sha = sha;
@@ -1746,20 +1559,13 @@ Format strictly as:
     async function addNewChannelFromInput() {
       const inputEl = document.getElementById('newChannelInput'), statusEl = document.getElementById('channelAddStatus'), btn = document.getElementById('addChannelBtn');
       const raw = inputEl.value.trim(); if (!raw) return;
-      statusEl.classList.remove('hidden');
-      statusEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-sky-400 mr-1"></i> Detecting channel & fetching latest videos...`;
-      btn.disabled = true;
+      statusEl.classList.remove('hidden'); statusEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-sky-400 mr-1"></i> Detecting channel & fetching latest videos...`; btn.disabled = true;
       try {
         const detected = await detectChannelFromInputMultiTier(raw);
         const existingIdx = channelRoster.findIndex(c => c.handle.toLowerCase() === detected.handle.toLowerCase());
         let targetChannelObj;
-        if (existingIdx >= 0) {
-          channelRoster[existingIdx].paused = false; channelRoster[existingIdx].paused_until = null;
-          targetChannelObj = channelRoster[existingIdx];
-        } else {
-          targetChannelObj = { handle: detected.handle, title: detected.title || detected.handle, channel_id: detected.channel_id || null, paused: false, paused_until: null, added_at: new Date().toISOString() };
-          channelRoster.unshift(targetChannelObj);
-        }
+        if (existingIdx >= 0) { channelRoster[existingIdx].paused = false; channelRoster[existingIdx].paused_until = null; targetChannelObj = channelRoster[existingIdx]; }
+        else { targetChannelObj = { handle: detected.handle, title: detected.title || detected.handle, channel_id: detected.channel_id || null, paused: false, paused_until: null, added_at: new Date().toISOString() }; channelRoster.unshift(targetChannelObj); }
         const liveVids = await fetchLiveChannelVideosInBrowser(targetChannelObj);
         if (liveVids.length > 0) {
           const existingIds = new Set(allVideos.map(v => v.id));
@@ -1770,24 +1576,14 @@ Format strictly as:
         const syncedCloud = await syncRosterToGitHubRepo(true);
         statusEl.innerHTML = `<div class="text-emerald-300 font-semibold"><i class="fa-solid fa-circle-check"></i> Added: ${targetChannelObj.title} (${liveVids.length} videos • ${syncedCloud ? 'GitHub Synced' : 'Saved Locally'})</div>`;
         inputEl.value = '';
-      } catch (err) {
-        statusEl.innerHTML = `<span class="text-rose-400">Error: ${err.message}</span>`;
-      } finally { btn.disabled = false; }
+      } catch (err) { statusEl.innerHTML = `<span class="text-rose-400">Error: ${err.message}</span>`; } finally { btn.disabled = false; }
     }
 
-    function toggleChannelPause(idx) {
-      const ch = channelRoster[idx]; if (!ch) return;
-      if (isChannelPausedNow(ch)) { ch.paused = false; ch.paused_until = null; } else { ch.paused = true; ch.paused_until = null; }
-      savePermanentChannelRosterLocally(); syncRosterToGitHubRepo(false); renderFilters(); renderCurtainChannels(); renderHeadings();
-    }
-    function setChannelPauseDate(idx, dateStr) {
-      const ch = channelRoster[idx]; if (!ch) return;
-      ch.paused = Boolean(dateStr); ch.paused_until = dateStr || null;
-      savePermanentChannelRosterLocally(); syncRosterToGitHubRepo(false); renderFilters(); renderCurtainChannels(); renderHeadings();
-    }
+    function toggleChannelPause(idx) { const ch = channelRoster[idx]; if (!ch) return; if (isChannelPausedNow(ch)) { ch.paused = false; ch.paused_until = null; } else { ch.paused = true; ch.paused_until = null; } savePermanentChannelRosterLocally(); syncRosterToGitHubRepo(false); renderFilters(); renderCurtainChannels(); renderHeadings(); }
+    function setChannelPauseDate(idx, dateStr) { const ch = channelRoster[idx]; if (!ch) return; ch.paused = Boolean(dateStr); ch.paused_until = dateStr || null; savePermanentChannelRosterLocally(); syncRosterToGitHubRepo(false); renderFilters(); renderCurtainChannels(); renderHeadings(); }
 
     // ============================================================================
-    // CORE HEADINGS UI & INTERACTIONS (BUBBLES + LAZY DRAWERS + PAGINATION)
+    // CORE HEADINGS UI & INTERACTIONS
     // ============================================================================
     function toggleCurtain(open) {
       const drawer = document.getElementById('curtainDrawer'), backdrop = document.getElementById('curtainBackdrop');
@@ -1796,91 +1592,51 @@ Format strictly as:
     }
 
     function getReadSet() { try { return new Set(JSON.parse(localStorage.getItem('VIDEO_INTEL_READ_SET') || '[]')); } catch (e) { return new Set(); } }
-    function markAsRead(videoId) {
-      const readSet = getReadSet();
-      if (!readSet.has(videoId)) {
-        readSet.add(videoId);
-        try { localStorage.setItem('VIDEO_INTEL_READ_SET', JSON.stringify(Array.from(readSet))); } catch (e) {}
-        updateRowVisualState(videoId, true); updateReadStatsDisplay();
-      }
-    }
-    function updateRowVisualState(videoId, isRead) {
-      const row = document.getElementById(`row-${videoId}`), dot = document.getElementById(`readDot-${videoId}`);
-      if (row) { row.classList.toggle('row-unread', !isRead); row.classList.toggle('row-read', isRead); }
-      if (dot && isRead) dot.classList.add('hidden');
-    }
+    function markAsRead(videoId) { const readSet = getReadSet(); if (!readSet.has(videoId)) { readSet.add(videoId); try { localStorage.setItem('VIDEO_INTEL_READ_SET', JSON.stringify(Array.from(readSet))); } catch (e) {} updateRowVisualState(videoId, true); updateReadStatsDisplay(); } }
+    function updateRowVisualState(videoId, isRead) { const row = document.getElementById(`row-${videoId}`), dot = document.getElementById(`readDot-${videoId}`); if (row) { row.classList.toggle('row-unread', !isRead); row.classList.toggle('row-read', isRead); } if (dot && isRead) dot.classList.add('hidden'); }
     function markAllAsRead() { localStorage.setItem('VIDEO_INTEL_READ_SET', JSON.stringify(allVideos.map(v => v.id))); renderHeadings(); }
     function resetReadState() { if (confirm("Reset read history?")) { localStorage.removeItem('VIDEO_INTEL_READ_SET'); renderHeadings(); } }
     function updateReadStatsDisplay(primaryCount, duplicateCount, readCount) {
-      const readSet = getReadSet();
-      const totalRead = readCount !== undefined ? readCount : allVideos.filter(v => readSet.has(v.id)).length;
-      const totalUnread = allVideos.length - totalRead;
-      document.getElementById('readStats').innerHTML = `<span class="text-emerald-400 font-semibold">${primaryCount !== undefined ? primaryCount : totalUnread} Top</span> • <span class="text-amber-400 font-semibold">${duplicateCount !== undefined ? duplicateCount : 0} Repeats</span> • <span class="text-slate-300 font-semibold">${totalRead} Read</span>`;
+      const readSet = getReadSet(), totalRead = readCount !== undefined ? readCount : allVideos.filter(v => readSet.has(v.id)).length;
+      document.getElementById('readStats').innerHTML = `<span class="text-emerald-400 font-semibold">${primaryCount !== undefined ? primaryCount : allVideos.length - totalRead} Top</span> • <span class="text-amber-400 font-semibold">${duplicateCount !== undefined ? duplicateCount : 0} Repeats</span> • <span class="text-slate-300 font-semibold">${totalRead} Read</span>`;
       const cc = document.getElementById('curtainReadCount'); if (cc) cc.innerText = `${totalRead} Read`;
     }
     function toggleTimeFilter() {
-      onlyLast24Hours = !onlyLast24Hours;
-      visibleLimit = PAGE_SIZE;
+      onlyLast24Hours = !onlyLast24Hours; visibleLimit = PAGE_SIZE;
       document.getElementById('timeFilterLabel').innerText = onlyLast24Hours ? "Last 24 Hours" : "All Time (Top 100)";
       document.getElementById('timeFilterBtn').classList.toggle('border-sky-400', onlyLast24Hours);
       renderHeadings();
     }
 
     async function loadFeed() {
-      loadThreeKeySettingsIntoUI();
-      loadDynamicModelRoster();
-      await loadPermanentChannelRoster();
-      runWeeklyModelDiscovery(false);
-
+      loadThreeKeySettingsIntoUI(); loadDynamicModelRoster(); await loadPermanentChannelRoster(); runWeeklyModelDiscovery(false);
       try {
-        const res = await fetch(`videos.json?t=${Date.now()}`);
-        if (!res.ok) throw new Error("Could not load feed");
-        const rawVideos = await res.json();
-        let localVids = [];
+        const res = await fetch(`videos.json?t=${Date.now()}`); if (!res.ok) throw new Error("Could not load feed");
+        const rawVideos = await res.json(); let localVids = [];
         try { localVids = JSON.parse(localStorage.getItem('LOCAL_HARVESTED_VIDEOS') || '[]'); } catch (e) {}
-
-        const cachedLayman = getCachedLaymanMap();
-        const combinedMap = new Map();
+        const cachedLayman = getCachedLaymanMap(), combinedMap = new Map();
         [...localVids, ...rawVideos].forEach(v => {
           if (v && v.id && !combinedMap.has(v.id)) {
-            if (!v.layman_news && cachedLayman[v.id]) {
-              if (typeof cachedLayman[v.id] === 'string') v.layman_news = cachedLayman[v.id];
-              else { v.layman_news = cachedLayman[v.id].text; v.layman_engine = cachedLayman[v.id].engineName; v.layman_model = cachedLayman[v.id].model; }
-            }
+            if (!v.layman_news && cachedLayman[v.id]) { if (typeof cachedLayman[v.id] === 'string') v.layman_news = cachedLayman[v.id]; else { v.layman_news = cachedLayman[v.id].text; v.layman_engine = cachedLayman[v.id].engineName; v.layman_model = cachedLayman[v.id].model; } }
             if (v.layman_news && !v.layman_model) { v.layman_engine = "Pre-Generated"; v.layman_model = dynamicModels[0]; }
             combinedMap.set(v.id, v);
           }
         });
-
         allVideos = Array.from(combinedMap.values()).sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
         document.getElementById('countBadge').innerText = `${allVideos.length} Headlines`;
         updateLaymanProgressCounter(); renderFilters(); renderCurtainChannels(); renderHeadings();
-      } catch (err) {
-        document.getElementById('headingsList').innerHTML = `<div class="p-8 text-center text-rose-400 text-xs glass-surface rounded-3xl">Failed to load feed data.</div>`;
-      }
+      } catch (err) { document.getElementById('headingsList').innerHTML = `<div class="p-8 text-center text-rose-400 text-xs glass-surface rounded-3xl">Failed to load feed data.</div>`; }
     }
 
-    async function triggerManualRefresh() {
-      const ind = document.getElementById('pullIndicator');
-      if (ind) ind.classList.add('visible');
-      visibleLimit = PAGE_SIZE;
-      await loadFeed();
-      if (ind) setTimeout(() => ind.classList.remove('visible'), 500);
-    }
-
+    async function triggerManualRefresh() { const ind = document.getElementById('pullIndicator'); if (ind) ind.classList.add('visible'); visibleLimit = PAGE_SIZE; await loadFeed(); if (ind) setTimeout(() => ind.classList.remove('visible'), 500); }
     let touchStartY = 0;
     window.addEventListener('touchstart', e => { touchStartY = window.scrollY === 0 ? e.touches[0].clientY : 0; }, { passive: true });
     window.addEventListener('touchend', e => { if (touchStartY > 0 && e.changedTouches[0].clientY - touchStartY > 120 && window.scrollY === 0) triggerManualRefresh(); }, { passive: true });
 
-    function getActiveVisibleChannelTitles() {
-      return ['ALL', ...new Set(allVideos.filter(v => !isVideoChannelPaused(v)).map(v => v.channel_title).filter(Boolean))];
-    }
+    function getActiveVisibleChannelTitles() { return ['ALL', ...new Set(allVideos.filter(v => !isVideoChannelPaused(v)).map(v => v.channel_title).filter(Boolean))]; }
     function renderFilters() {
       const availableChannels = getActiveVisibleChannelTitles();
-      document.getElementById('filterBar').innerHTML = availableChannels.map((ch, idx) => `
-        <button onclick="filterByChannelTitle(${idx})" class="channel-pill px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition ${currentFilter === ch ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/30 border border-white/30' : 'glass-pill text-slate-300 hover:text-white'}">
-          ${ch === 'ALL' ? 'All Active Channels' : ch}
-        </button>`).join('');
+      document.getElementById('filterBar').innerHTML = availableChannels.map((ch, idx) => `<button onclick="filterByChannelTitle(${idx})" class="channel-pill px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition ${currentFilter === ch ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/30 border border-white/30' : 'glass-pill text-slate-300 hover:text-white'}">${ch === 'ALL' ? 'All Active Channels' : ch}</button>`).join('');
     }
     function filterByChannelTitle(idx) { currentFilter = getActiveVisibleChannelTitles()[idx] || 'ALL'; visibleLimit = PAGE_SIZE; renderFilters(); renderCurtainChannels(); renderHeadings(); }
     function selectChannelFromRoster(ch) { currentFilter = ch; visibleLimit = PAGE_SIZE; renderFilters(); renderCurtainChannels(); renderHeadings(); toggleCurtain(false); }
@@ -1892,18 +1648,8 @@ Format strictly as:
       channelRoster.forEach((ch, idx) => {
         const displayTitle = ch.title && ch.title !== ch.handle ? `${ch.title} (${ch.handle})` : ch.handle;
         if (query && !displayTitle.toLowerCase().includes(query)) return;
-        const paused = isChannelPausedNow(ch);
-        const filterTarget = ch.title && ch.title !== ch.handle ? ch.title : ch.handle;
-        html += `<div class="p-2.5 rounded-xl border transition ${paused ? 'bg-rose-950/25 border-rose-500/30 opacity-75' : 'bg-black/35 border-white/10 hover:border-white/25'} space-y-2">
-          <div class="flex items-center justify-between gap-2">
-            <button onclick="selectChannelFromRoster(${JSON.stringify(filterTarget)})" class="text-left text-xs font-medium truncate flex-1 ${paused ? 'line-through text-slate-400' : 'text-white hover:text-sky-300'}">${ch.title || ch.handle}<span class="block text-[10px] text-slate-400 font-mono">${ch.handle}</span></button>
-            <button onclick="toggleChannelPause(${idx})" class="px-2.5 py-1 rounded-lg text-[10px] font-semibold border transition shrink-0 ${paused ? 'bg-emerald-600/30 border-emerald-400/50 text-emerald-200' : 'bg-amber-500/20 border-amber-400/40 text-amber-200 hover:bg-amber-500/30'}">${paused ? 'Resume' : 'Pause'}</button>
-          </div>
-          <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/10 text-[10px] text-slate-300">
-            <span><i class="fa-regular fa-calendar-xmark text-amber-400 mr-1"></i>Pause Until:</span>
-            <input type="date" value="${ch.paused_until || ''}" onchange="setChannelPauseDate(${idx}, this.value)" class="bg-black/60 text-white text-[10px] px-2 py-0.5 rounded border border-white/20 focus:outline-none focus:border-sky-400" />
-          </div>
-        </div>`;
+        const paused = isChannelPausedNow(ch), filterTarget = ch.title && ch.title !== ch.handle ? ch.title : ch.handle;
+        html += `<div class="p-2.5 rounded-xl border transition ${paused ? 'bg-rose-950/25 border-rose-500/30 opacity-75' : 'bg-black/35 border-white/10 hover:border-white/25'} space-y-2"><div class="flex items-center justify-between gap-2"><button onclick="selectChannelFromRoster(${JSON.stringify(filterTarget)})" class="text-left text-xs font-medium truncate flex-1 ${paused ? 'line-through text-slate-400' : 'text-white hover:text-sky-300'}">${ch.title || ch.handle}<span class="block text-[10px] text-slate-400 font-mono">${ch.handle}</span></button><button onclick="toggleChannelPause(${idx})" class="px-2.5 py-1 rounded-lg text-[10px] font-semibold border transition shrink-0 ${paused ? 'bg-emerald-600/30 border-emerald-400/50 text-emerald-200' : 'bg-amber-500/20 border-amber-400/40 text-amber-200 hover:bg-amber-500/30'}">${paused ? 'Resume' : 'Pause'}</button></div><div class="flex items-center justify-between gap-2 pt-1 border-t border-white/10 text-[10px] text-slate-300"><span><i class="fa-regular fa-calendar-xmark text-amber-400 mr-1"></i>Pause Until:</span><input type="date" value="${ch.paused_until || ''}" onchange="setChannelPauseDate(${idx}, this.value)" class="bg-black/60 text-white text-[10px] px-2 py-0.5 rounded border border-white/20 focus:outline-none focus:border-sky-400" /></div></div>`;
       });
       container.innerHTML = html;
     }
@@ -1920,41 +1666,28 @@ Format strictly as:
       }
       const clusters = [];
       for (const vid of unreadVideos) {
-        const words = getNormalizedKeywords(vid.title);
-        let assigned = null;
-        for (const c of clusters) {
-          const setB = new Set(c.keywords);
-          let ov = 0; for (const w of words) if (setB.has(w)) ov++;
-          if (ov >= 3 || (ov >= 2 && words.length <= 4)) { assigned = c; break; }
-        }
+        const words = getNormalizedKeywords(vid.title); let assigned = null;
+        for (const c of clusters) { const setB = new Set(c.keywords); let ov = 0; for (const w of words) if (setB.has(w)) ov++; if (ov >= 3 || (ov >= 2 && words.length <= 4)) { assigned = c; break; } }
         if (assigned) assigned.videos.push(vid); else clusters.push({ keywords: words, videos: [vid] });
       }
       const primary = [], duplicates = [];
       for (const c of clusters) {
         if (c.videos.length === 1) primary.push(c.videos[0]);
-        else {
-          const s = [...c.videos].sort((a, b) => (Boolean(b.layman_news) - Boolean(a.layman_news)) || ((b.description?.length || 0) - (a.description?.length || 0)));
-          primary.push(s[0]);
-          for (let i = 1; i < s.length; i++) duplicates.push({ ...s[i], isDuplicateTopic: true });
-        }
+        else { const s = [...c.videos].sort((a, b) => (Boolean(b.layman_news) - Boolean(a.layman_news)) || ((b.description?.length || 0) - (a.description?.length || 0))); primary.push(s[0]); for (let i = 1; i < s.length; i++) duplicates.push({ ...s[i], isDuplicateTopic: true }); }
       }
       return { primary, duplicates };
     }
 
     async function runMasterAITopicDeduplication() {
-      const box = document.getElementById('masterOutput');
-      box.classList.remove('hidden');
+      const box = document.getElementById('masterOutput'); box.classList.remove('hidden');
       box.innerHTML = `<div class="flex items-center gap-2 text-sky-300 py-3"><i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i><span>Master Gemini analyzing topics across all active channels...</span></div>`;
-      const readSet = getReadSet();
-      const unread = allVideos.filter(v => !readSet.has(v.id) && !isVideoChannelPaused(v)).slice(0, 80);
+      const readSet = getReadSet(), unread = allVideos.filter(v => !readSet.has(v.id) && !isVideoChannelPaused(v)).slice(0, 80);
       if (!unread.length) { box.innerHTML = `<div class="text-amber-400 text-xs py-2">No unread news to analyze.</div>`; return; }
       const prompt = `Identify duplicate headlines covering the SAME story. Pick 1 best ID per story for "primaryIds" and put duplicates in "duplicateIds".\nList:\n${unread.map(v => `[${v.id}] (${v.channel_title}) ${v.title}`).join('\n')}\nReturn ONLY valid JSON: {"summary": "1-sentence overview", "primaryIds": ["id1"], "duplicateIds": ["id2"]}`;
       try {
         const result = await executeFailoverChain(prompt, 'active', document.getElementById('engineSelector')?.value, 900);
-        const match = result.text.match(/\{[\s\S]*\}/);
-        const data = JSON.parse(match ? match[0] : result.text);
-        aiExplicitPrimaryIds = data.primaryIds || [];
-        aiExplicitDuplicateIds = data.duplicateIds || [];
+        const match = result.text.match(/\{[\s\S]*\}/), data = JSON.parse(match ? match[0] : result.text);
+        aiExplicitPrimaryIds = data.primaryIds || []; aiExplicitDuplicateIds = data.duplicateIds || [];
         box.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/15 mb-2"><div class="flex items-center gap-2"><span class="font-semibold text-emerald-400"><i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Topic Deduplication Complete</span>${renderAttributionBadge(result.engineName, result.model)}</div><button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button></div><div class="text-xs text-slate-100"><p class="mb-1">${data.summary || 'Feed re-indexed.'}</p><p class="text-slate-300 text-[11px]">Primary: <strong class="text-emerald-300">${aiExplicitPrimaryIds.length}</strong> | Repeats: <strong class="text-amber-300">${aiExplicitDuplicateIds.length}</strong></p></div>`;
         renderHeadings();
       } catch (err) {
@@ -1964,237 +1697,102 @@ Format strictly as:
     }
 
     function formatMarkdown(text) {
-      return text
-        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
-        .replace(/^###\s(.*)$/gm, '<h3 class="text-sky-300 font-semibold text-xs mt-2.5 mb-1">$1</h3>')
-        .replace(/^##\s(.*)$/gm, '<h2 class="text-amber-300 font-bold text-xs mt-3 mb-1">$1</h2>')
-        .replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-200 mb-1">$1</li>')
-        .replace(/^-\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-200 mb-1">$1</li>')
-        .replace(/\n\n/g, '<p class="mt-2"></p>')
-        .replace(/\n/g, '<br/>');
+      return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/^###\s(.*)$/gm, '<h3 class="text-sky-300 font-semibold text-xs mt-2.5 mb-1">$1</h3>').replace(/^##\s(.*)$/gm, '<h2 class="text-amber-300 font-bold text-xs mt-3 mb-1">$1</h2>').replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-200 mb-1">$1</li>').replace(/^-\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-200 mb-1">$1</li>').replace(/\n\n/g, '<p class="mt-2"></p>').replace(/\n/g, '<br/>');
     }
 
     function buildDrawerInnerHTML(videoId) {
       const selectedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'auto-equal-split';
-      return `
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 mb-2 border-b border-white/10 text-[11px] text-slate-300">
-          <div class="flex items-center gap-2">
-            <span class="text-teal-300 font-semibold flex items-center gap-1"><i class="fa-solid fa-newspaper text-amber-400"></i> Layman Briefing</span>
-            <span id="laymanModelBadge-${videoId}"></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="regenerateLayman('${videoId}')" class="text-[10px] text-sky-300 hover:text-white px-2 py-0.5 glass-pill rounded"><i class="fa-solid fa-rotate-right mr-1"></i> Refresh</button>
-            <span class="text-[10px] text-slate-300 hidden sm:inline">Tap anywhere to collapse</span>
-          </div>
-        </div>
-
-        <div id="inlineOutput-${videoId}" class="p-3.5 rounded-2xl bg-black/55 border border-white/10 text-xs text-slate-100 leading-relaxed space-y-2 mb-3"></div>
-        <div class="py-1 my-1 text-center text-[10px] text-slate-400 border-y border-white/10 select-none">▲ Tap anywhere on any description or empty space to collapse</div>
-
-        <div class="flex flex-wrap gap-1.5 mb-2.5 mt-2">
-          <button onclick="runInlineAI('${videoId}', 'specific')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-sky-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge (Deep)</button>
-          <button onclick="runInlineAI('${videoId}', 'upsc')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-amber-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-landmark text-[10px]"></i> UPSC Curated</button>
-          <button onclick="generateInlineQuestions('${videoId}')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-purple-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions</button>
-        </div>
-
-        <div id="smartQuestionsBox-${videoId}" class="hidden flex flex-wrap gap-1.5 mb-3 p-2.5 rounded-xl bg-black/45 border border-white/15"></div>
-        <div id="qaResponseContainer-${videoId}" class="hidden space-y-2.5 mb-3"></div>
-
-        <div class="mt-3 pt-3 border-t border-white/15">
-          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-            <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-globe text-amber-400"></i><span>Gemini Deep Search (2 Active Keys × N Models)</span></label>
-            <div class="relative">
-              <select id="cardEngine-${videoId}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">${getEngineOptionsHTML(selectedEngine)}</select>
-              <i class="fa-solid fa-chevron-down absolute right-2 top-2 text-[8px] text-slate-300 pointer-events-none"></i>
-            </div>
-          </div>
-          <div class="relative">
-            <input id="customInput-${videoId}" type="text" placeholder="Ask personal or deep questions..." onkeydown="if(event.key==='Enter') submitInlineCustom('${videoId}')" class="w-full bg-black/50 text-xs text-white placeholder-slate-400 rounded-xl pl-3 pr-8 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
-            <button onclick="submitInlineCustom('${videoId}')" class="absolute right-2.5 top-2.5 text-slate-300 hover:text-sky-400"><i class="fa-solid fa-paper-plane text-xs"></i></button>
-          </div>
-        </div>`;
+      return `<div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 mb-2 border-b border-white/10 text-[11px] text-slate-300"><div class="flex items-center gap-2"><span class="text-teal-300 font-semibold flex items-center gap-1"><i class="fa-solid fa-newspaper text-amber-400"></i> Layman Briefing</span><span id="laymanModelBadge-${videoId}"></span></div><div class="flex items-center gap-2"><button onclick="regenerateLayman('${videoId}')" class="text-[10px] text-sky-300 hover:text-white px-2 py-0.5 glass-pill rounded"><i class="fa-solid fa-rotate-right mr-1"></i> Refresh</button><span class="text-[10px] text-slate-300 hidden sm:inline">Tap anywhere to collapse</span></div></div><div id="inlineOutput-${videoId}" class="p-3.5 rounded-2xl bg-black/55 border border-white/10 text-xs text-slate-100 leading-relaxed space-y-2 mb-3"></div><div class="py-1 my-1 text-center text-[10px] text-slate-400 border-y border-white/10 select-none">▲ Tap anywhere on any description or empty space to collapse</div><div class="flex flex-wrap gap-1.5 mb-2.5 mt-2"><button onclick="runInlineAI('${videoId}', 'specific')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-sky-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge (Deep)</button><button onclick="runInlineAI('${videoId}', 'upsc')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-amber-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-landmark text-[10px]"></i> UPSC Curated</button><button onclick="generateInlineQuestions('${videoId}')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-purple-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions</button></div><div id="smartQuestionsBox-${videoId}" class="hidden flex flex-wrap gap-1.5 mb-3 p-2.5 rounded-xl bg-black/45 border border-white/15"></div><div id="qaResponseContainer-${videoId}" class="hidden space-y-2.5 mb-3"></div><div class="mt-3 pt-3 border-t border-white/15"><div class="flex flex-wrap items-center justify-between gap-2 mb-2"><label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-globe text-amber-400"></i><span>Gemini Deep Search (2 Active Keys × N Models)</span></label><div class="relative"><select id="cardEngine-${videoId}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">${getEngineOptionsHTML(selectedEngine)}</select><i class="fa-solid fa-chevron-down absolute right-2 top-2 text-[8px] text-slate-300 pointer-events-none"></i></div></div><div class="relative"><input id="customInput-${videoId}" type="text" placeholder="Ask personal or deep questions..." onkeydown="if(event.key==='Enter') submitInlineCustom('${videoId}')" class="w-full bg-black/50 text-xs text-white placeholder-slate-400 rounded-xl pl-3 pr-8 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" /><button onclick="submitInlineCustom('${videoId}')" class="absolute right-2.5 top-2.5 text-slate-300 hover:text-sky-400"><i class="fa-solid fa-paper-plane text-xs"></i></button></div></div>`;
     }
 
     function onRowClick(event, videoId) {
       if (event && event.target.closest('button, input, a, select, textarea, label')) return;
-      const drawer = document.getElementById(`drawer-${videoId}`);
-      if (!drawer) return;
+      const drawer = document.getElementById(`drawer-${videoId}`); if (!drawer) return;
       if (!drawer.classList.contains('hidden')) { closeDrawer(videoId); return; }
-      if (drawer.dataset.built !== "true") {
-        drawer.innerHTML = buildDrawerInnerHTML(videoId);
-        drawer.dataset.built = "true";
-      }
-      markAsRead(videoId);
-      drawer.classList.remove('hidden');
-      runInlineAI(videoId, 'layman');
+      if (drawer.dataset.built !== "true") { drawer.innerHTML = buildDrawerInnerHTML(videoId); drawer.dataset.built = "true"; }
+      markAsRead(videoId); drawer.classList.remove('hidden'); runInlineAI(videoId, 'layman');
     }
-    function closeDrawer(videoId) {
-      const drawer = document.getElementById(`drawer-${videoId}`);
-      if (drawer) { drawer.classList.add('hidden'); drawer.dataset.loaded = "false"; }
-      updateRowVisualState(videoId, true);
-    }
-
-    function loadMoreHeadlines() {
-      visibleLimit += PAGE_SIZE;
-      renderHeadings();
-    }
+    function closeDrawer(videoId) { const drawer = document.getElementById(`drawer-${videoId}`); if (drawer) { drawer.classList.add('hidden'); drawer.dataset.loaded = "false"; } updateRowVisualState(videoId, true); }
+    function loadMoreHeadlines() { visibleLimit += PAGE_SIZE; renderHeadings(); }
 
     function renderHeadings() {
-      const readSet = getReadSet();
-      const cutoff24 = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      const readSet = getReadSet(), cutoff24 = new Date(Date.now() - 24 * 60 * 60 * 1000);
       let filtered = allVideos.filter(v => !isVideoChannelPaused(v));
       if (currentFilter !== 'ALL') filtered = filtered.filter(v => v.channel_title === currentFilter || v.handle === currentFilter);
       if (onlyLast24Hours) filtered = filtered.filter(v => new Date(v.published_at) >= cutoff24);
 
-      const unreadPool = filtered.filter(v => !readSet.has(v.id));
-      const readPool = filtered.filter(v => readSet.has(v.id));
+      const unreadPool = filtered.filter(v => !readSet.has(v.id)), readPool = filtered.filter(v => readSet.has(v.id));
       const { primary, duplicates } = clusterAndDeduplicate(unreadPool);
       updateReadStatsDisplay(primary.length, duplicates.length, readPool.length);
 
       const list = document.getElementById('headingsList');
       if (!filtered.length) { list.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs glass-surface rounded-3xl">No active updates match your filter.</div>`; return; }
 
-      let remaining = visibleLimit;
-      let html = '';
-
-      const visiblePrimary = primary.slice(0, remaining);
-      remaining -= visiblePrimary.length;
+      let remaining = visibleLimit, html = '';
+      const visiblePrimary = primary.slice(0, remaining); remaining -= visiblePrimary.length;
       html += visiblePrimary.map(item => renderHeadingRowHTML(item, false, false)).join('');
 
       if (remaining > 0 && duplicates.length > 0) {
-        const visibleDup = duplicates.slice(0, remaining);
-        remaining -= visibleDup.length;
+        const visibleDup = duplicates.slice(0, remaining); remaining -= visibleDup.length;
         html += `<div class="px-4 py-2.5 rounded-2xl bg-amber-500/15 border border-amber-400/35 flex items-center justify-between"><span class="text-xs font-bold text-amber-300 uppercase tracking-wider"><i class="fa-solid fa-clone text-amber-400 mr-1"></i> Repeated Coverage (${duplicates.length})</span><span class="text-[11px] text-amber-300 font-mono">Demoted</span></div>`;
         html += visibleDup.map(item => renderHeadingRowHTML(item, false, true)).join('');
       }
-
       if (remaining > 0 && readPool.length > 0) {
-        const visibleRead = readPool.slice(0, remaining);
-        remaining -= visibleRead.length;
+        const visibleRead = readPool.slice(0, remaining); remaining -= visibleRead.length;
         html += `<div class="px-4 py-2.5 rounded-2xl bg-black/50 border border-white/15 flex items-center justify-between"><span class="text-xs font-bold text-slate-300 uppercase tracking-wider"><i class="fa-solid fa-check-double text-slate-400 mr-1"></i> Read Archive (${readPool.length})</span><button onclick="resetReadState()" class="text-xs text-sky-300 hover:text-white glass-pill px-2.5 py-1 rounded-xl">Unmark All</button></div>`;
         html += visibleRead.map(item => renderHeadingRowHTML(item, true, false)).join('');
       }
-
-      const totalCount = primary.length + duplicates.length + readPool.length;
-      const shownCount = Math.min(visibleLimit, totalCount);
-      if (shownCount < totalCount) {
-        html += `<div class="pt-2 text-center">
-          <button onclick="loadMoreHeadlines()" class="glass-pill px-5 py-2.5 rounded-2xl text-xs font-semibold text-sky-300 hover:text-white">
-            Load More Headlines (${totalCount - shownCount} remaining)
-          </button>
-        </div>`;
-      }
-
+      const totalCount = primary.length + duplicates.length + readPool.length, shownCount = Math.min(visibleLimit, totalCount);
+      if (shownCount < totalCount) html += `<div class="pt-2 text-center"><button onclick="loadMoreHeadlines()" class="glass-pill px-5 py-2.5 rounded-2xl text-xs font-semibold text-sky-300 hover:text-white">Load More Headlines (${totalCount - shownCount} remaining)</button></div>`;
       list.innerHTML = html;
     }
 
     function renderHeadingRowHTML(item, isRead, isDuplicate) {
-      const timeAgo = formatTimeAgo(item.published_at);
-      const hasServerSummary = Boolean(item.layman_news && item.layman_news.trim().length > 0);
+      const timeAgo = formatTimeAgo(item.published_at), hasServerSummary = Boolean(item.layman_news && item.layman_news.trim().length > 0);
       const rowClass = isRead ? 'row-read' : (isDuplicate ? 'row-duplicate' : 'row-unread');
-
-      return `
-      <div id="row-${item.id}" class="heading-row ${rowClass}">
-        <div onclick="onRowClick(event, '${item.id}')" class="p-3.5 sm:px-4 flex items-center justify-between gap-3 cursor-pointer select-none">
-          <div class="flex items-start gap-2.5 min-w-0 flex-1 pointer-events-none">
-            <span id="readDot-${item.id}" class="mt-1.5 shrink-0 ${isRead ? 'hidden' : ''}"><div class="unread-indicator"></div></span>
-            <div class="min-w-0 flex-1">
-              <h3 class="headline-text text-left text-xs sm:text-sm text-white hover:text-sky-300 transition leading-snug line-clamp-2">${item.title}</h3>
-              <div class="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] text-slate-200/90">
-                <span class="font-semibold text-white/95">${item.channel_title}</span><span>•</span><span>${timeAgo}</span>
-                <span id="laymanTag-${item.id}" class="text-[10px] text-emerald-300 font-medium ${hasServerSummary ? '' : 'hidden'}">• Layman Ready</span>
-                ${isDuplicate ? `<span class="text-[10px] text-amber-300 font-medium">• Similar topic above</span>` : ''}
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-200 hover:text-red-400 transition text-sm" title="Watch Original on YouTube"><i class="fa-brands fa-youtube"></i></a>
-          </div>
-        </div>
-        <div id="drawer-${item.id}" class="hidden p-4 bg-black/70 border-t border-white/15 collapsible-zone"></div>
-      </div>`;
+      return `<div id="row-${item.id}" class="heading-row ${rowClass}"><div onclick="onRowClick(event, '${item.id}')" class="p-3.5 sm:px-4 flex items-center justify-between gap-3 cursor-pointer select-none"><div class="flex items-start gap-2.5 min-w-0 flex-1 pointer-events-none"><span id="readDot-${item.id}" class="mt-1.5 shrink-0 ${isRead ? 'hidden' : ''}"><div class="unread-indicator"></div></span><div class="min-w-0 flex-1"><h3 class="headline-text text-left text-xs sm:text-sm text-white hover:text-sky-300 transition line-clamp-2">${item.title}</h3><div class="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] text-slate-200/90"><span class="font-semibold text-white/95">${item.channel_title}</span><span>•</span><span>${timeAgo}</span><span id="laymanTag-${item.id}" class="text-[10px] text-emerald-300 font-medium ${hasServerSummary ? '' : 'hidden'}">• Layman Ready</span>${isDuplicate ? `<span class="text-[10px] text-amber-300 font-medium">• Similar topic above</span>` : ''}</div></div></div><div class="flex items-center gap-2 shrink-0"><a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-200 hover:text-red-400 transition text-sm" title="Watch Original on YouTube"><i class="fa-brands fa-youtube"></i></a></div></div><div id="drawer-${item.id}" class="hidden p-4 bg-black/70 border-t border-white/15 collapsible-zone"></div></div>`;
     }
 
-    function formatTimeAgo(isoString) {
-      try {
-        const diff = (Date.now() - new Date(isoString).getTime()) / 1000;
-        if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-        if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-        return `${Math.floor(diff / 86400)}d ago`;
-      } catch (e) { return ""; }
-    }
-
-    function regenerateLayman(videoId) {
-      const v = allVideos.find(x => x.id === videoId);
-      if (v) v.layman_news = "";
-      runInlineAI(videoId, 'layman');
-    }
+    function formatTimeAgo(isoString) { try { const diff = (Date.now() - new Date(isoString).getTime()) / 1000; if (diff < 3600) return `${Math.floor(diff / 60)}m ago`; if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`; return `${Math.floor(diff / 86400)}d ago`; } catch (e) { return ""; } }
+    function regenerateLayman(videoId) { const v = allVideos.find(x => x.id === videoId); if (v) v.layman_news = ""; runInlineAI(videoId, 'layman'); }
 
     async function runInlineAI(videoId, type) {
-      markAsRead(videoId);
-      const video = allVideos.find(v => v.id === videoId);
-      if (!video) return;
+      markAsRead(videoId); const video = allVideos.find(v => v.id === videoId); if (!video) return;
       const cardModel = document.getElementById(`cardEngine-${videoId}`)?.value;
-
       if (type === 'layman') {
         const box = document.getElementById(`inlineOutput-${videoId}`), drawer = document.getElementById(`drawer-${videoId}`), badgeEl = document.getElementById(`laymanModelBadge-${videoId}`);
-        if (video.layman_news && video.layman_news.trim().length > 0) {
-          box.innerHTML = formatMarkdown(video.layman_news);
-          if (badgeEl) badgeEl.innerHTML = renderAttributionBadge(video.layman_engine || "Pre-Generated", video.layman_model || dynamicModels[0]);
-          drawer.dataset.loaded = "true";
-          return;
-        }
+        if (video.layman_news && video.layman_news.trim().length > 0) { box.innerHTML = formatMarkdown(video.layman_news); if (badgeEl) badgeEl.innerHTML = renderAttributionBadge(video.layman_engine || "Pre-Generated", video.layman_model || dynamicModels[0]); drawer.dataset.loaded = "true"; return; }
         box.innerHTML = `<span class="text-sky-300 flex items-center gap-1.5 py-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Synthesizing Layman briefing via Key 1 → Failover Chain...</span>`;
         try {
           const result = await executeFailoverChain(buildLaymanPrompt(video), 'layman', cardModel, 600);
           video.layman_news = result.text; video.layman_engine = result.engineName; video.layman_model = result.model;
-          saveCachedLayman(video.id, result.text, result.engineName, result.model);
-          updateLaymanProgressCounter();
+          saveCachedLayman(video.id, result.text, result.engineName, result.model); updateLaymanProgressCounter();
           if (badgeEl) badgeEl.innerHTML = renderAttributionBadge(result.engineName, result.model);
-          box.innerHTML = formatMarkdown(result.text);
-          drawer.dataset.loaded = "true";
+          box.innerHTML = formatMarkdown(result.text); drawer.dataset.loaded = "true";
         } catch (err) {
           if (err.message === "GEMINI_KEYS_REQUIRED") { toggleCurtain(true); box.innerHTML = `<span class="text-amber-300 text-xs">Please enter your Gemini API Keys in the Control Center.</span>`; }
           else box.innerHTML = `<div class="flex items-center justify-between gap-2 text-rose-400 text-xs py-1"><span>${err.message}</span><button onclick="runInlineAI('${videoId}', 'layman')" class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold shrink-0">Retry</button></div>`;
         }
         return;
       }
-
-      const container = document.getElementById(`qaResponseContainer-${videoId}`);
-      container.classList.remove('hidden');
-      const tempId = 'deepen-' + Date.now();
-      const title = type === 'specific' ? "Specific Knowledge (Comprehensive Dossier)" : "UPSC Curated Analysis";
+      const container = document.getElementById(`qaResponseContainer-${videoId}`); container.classList.remove('hidden');
+      const tempId = 'deepen-' + Date.now(), title = type === 'specific' ? "Specific Knowledge (Comprehensive Dossier)" : "UPSC Curated Analysis";
       container.insertAdjacentHTML('beforeend', `<div id="${tempId}" class="p-3.5 rounded-2xl bg-black/55 border border-white/15 text-xs text-slate-100 space-y-2"></div>`);
-
-      const cached = getDeepCache(videoId, type);
-      if (cached) {
-        renderDeepenResult(videoId, type, tempId, title, cached);
-        return;
-      }
+      const cached = getDeepCache(videoId, type); if (cached) { renderDeepenResult(videoId, type, tempId, title, cached); return; }
       executeDeepenRequest(videoId, type, tempId, title, cardModel);
     }
 
     function renderDeepenResult(videoId, type, tempId, title, result) {
-      const el = document.getElementById(tempId);
-      if (!el) return;
-      el.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10">
-          <div class="flex flex-wrap items-center gap-2"><span class="font-semibold text-sky-300">${title}</span>${renderAttributionBadge(result.engineName, result.model)}</div>
-          <button onclick="executeDeepenRequest('${videoId}', '${type}', '${tempId}', '${title}', document.getElementById('cardEngine-${videoId}')?.value)" class="text-[10px] text-slate-300 hover:text-white px-2 py-0.5 glass-pill rounded"><i class="fa-solid fa-rotate-right mr-1"></i> Regenerate</button>
-        </div>
-        <div class="prose-slate text-xs space-y-2 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(result.text)}</div>
-        <div class="pt-1.5 text-center text-[10px] text-slate-400 border-t border-white/10">▲ Tap anywhere to collapse</div>`;
+      const el = document.getElementById(tempId); if (!el) return;
+      el.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-white/10"><div class="flex flex-wrap items-center gap-2"><span class="font-semibold text-sky-300">${title}</span>${renderAttributionBadge(result.engineName, result.model)}</div><button onclick="executeDeepenRequest('${videoId}', '${type}', '${tempId}', '${title}', document.getElementById('cardEngine-${videoId}')?.value)" class="text-[10px] text-slate-300 hover:text-white px-2 py-0.5 glass-pill rounded"><i class="fa-solid fa-rotate-right mr-1"></i> Regenerate</button></div><div class="prose-slate text-xs space-y-2 pt-1 text-slate-100 leading-relaxed">${formatMarkdown(result.text)}</div><div class="pt-1.5 text-center text-[10px] text-slate-400 border-t border-white/10">▲ Tap anywhere to collapse</div>`;
     }
 
     async function executeDeepenRequest(videoId, type, tempId, title, overrideModel) {
-      const video = allVideos.find(v => v.id === videoId), el = document.getElementById(tempId);
-      if (!video || !el) return;
+      const video = allVideos.find(v => v.id === videoId), el = document.getElementById(tempId); if (!video || !el) return;
       el.innerHTML = `<div class="font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-layer-group text-amber-400"></i> ${title}</div><div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i><span>Routing through Reserved Active Keys × ${dynamicModels.length} Models...</span></div>`;
-      const prompt = type === 'specific' ? buildSpecificKnowledgePrompt(video) : buildUpscPrompt(video);
       try {
-        const result = await executeFailoverChain(prompt, 'active', overrideModel, 950);
-        saveDeepCache(videoId, type, result.text, result.engineName, result.model);
-        renderDeepenResult(videoId, type, tempId, title, result);
+        const result = await executeFailoverChain(type === 'specific' ? buildSpecificKnowledgePrompt(video) : buildUpscPrompt(video), 'active', overrideModel, 950);
+        saveDeepCache(videoId, type, result.text, result.engineName, result.model); renderDeepenResult(videoId, type, tempId, title, result);
       } catch (err) {
         if (err.message === "GEMINI_KEYS_REQUIRED") toggleCurtain(true);
         el.innerHTML = `<div class="font-semibold text-sky-300 mb-1">${title}</div><div class="flex items-center justify-between gap-2 text-rose-400 text-xs"><span>${err.message}</span><button onclick="executeDeepenRequest('${videoId}', '${type}', '${tempId}', '${title}', document.getElementById('cardEngine-${videoId}')?.value)" class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold shrink-0">Retry</button></div>`;
@@ -2202,21 +1800,13 @@ Format strictly as:
     }
 
     async function submitInlineCustom(videoId, retryQuery = null, retryCardId = null) {
-      const input = document.getElementById(`customInput-${videoId}`);
-      const query = retryQuery || (input ? input.value.trim() : '');
-      if (!query) return;
+      const input = document.getElementById(`customInput-${videoId}`), query = retryQuery || (input ? input.value.trim() : ''); if (!query) return;
       const video = allVideos.find(v => v.id === videoId); if (!video) return;
-      const cardModel = document.getElementById(`cardEngine-${videoId}`)?.value;
-      const container = document.getElementById(`qaResponseContainer-${videoId}`);
-      container.classList.remove('hidden');
-      const tempId = retryCardId || ('qa-heading-' + Date.now());
-      if (!retryCardId) {
-        container.insertAdjacentHTML('beforeend', `<div id="${tempId}" class="p-3.5 rounded-2xl bg-black/55 border border-white/15 text-xs text-slate-100 space-y-2"></div>`);
-        if (input) input.value = '';
-      }
+      const cardModel = document.getElementById(`cardEngine-${videoId}`)?.value, container = document.getElementById(`qaResponseContainer-${videoId}`);
+      container.classList.remove('hidden'); const tempId = retryCardId || ('qa-heading-' + Date.now());
+      if (!retryCardId) { container.insertAdjacentHTML('beforeend', `<div id="${tempId}" class="p-3.5 rounded-2xl bg-black/55 border border-white/15 text-xs text-slate-100 space-y-2"></div>`); if (input) input.value = ''; }
       const cardEl = document.getElementById(tempId);
       if (cardEl) cardEl.innerHTML = `<div class="font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-amber-400"></i> ${query}</div><div class="text-slate-300 flex items-center gap-2 py-1 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin text-sky-400"></i><span>Analyzing via Reserved Active Keys × ${dynamicModels.length} Models...</span></div>`;
-
       const prompt = `Answer thoroughly with concrete names, dates, numbers, and institutional facts:\nTopic: "${video.title}" (${video.channel_title})\nContext: "${(video.description || video.layman_news || '').slice(0, 1000)}"\nInquiry: "${query}"\n\nFormat strictly as:\n## 1. Direct Answer & Core Findings\n*\n## 2. Official Stances & Reactions\n*\n## 3. Strategic & Practical Context\n*`;
       try {
         const result = await executeFailoverChain(prompt, 'active', cardModel, 900);
@@ -2228,16 +1818,12 @@ Format strictly as:
     }
 
     async function generateInlineQuestions(videoId) {
-      markAsRead(videoId);
-      const video = allVideos.find(v => v.id === videoId); if (!video) return;
-      const cardModel = document.getElementById(`cardEngine-${videoId}`)?.value;
-      const qBox = document.getElementById(`smartQuestionsBox-${videoId}`);
-      qBox.classList.remove('hidden');
-      qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Formulating deep analytical questions...</span>`;
+      markAsRead(videoId); const video = allVideos.find(v => v.id === videoId); if (!video) return;
+      const cardModel = document.getElementById(`cardEngine-${videoId}`)?.value, qBox = document.getElementById(`smartQuestionsBox-${videoId}`);
+      qBox.classList.remove('hidden'); qBox.innerHTML = `<span class="text-purple-300 text-[11px]"><i class="fa-solid fa-circle-notch fa-spin"></i> Formulating deep analytical questions...</span>`;
       try {
         const result = await executeFailoverChain(`Based on: "${video.title}", write 3 sharp analytical questions. Return ONLY JSON array: ["Q1?", "Q2?", "Q3?"]`, 'active', cardModel, 300);
-        let questions = [];
-        try { const m = result.text.match(/\[.*\]/s); questions = JSON.parse(m ? m[0] : result.text); } catch (e) { questions = [`What are the geopolitical implications of ${video.title.slice(0, 50)}?`, `How have official agencies responded?`, `What are the key figures and timelines?`]; }
+        let questions = []; try { const m = result.text.match(/\[.*\]/s); questions = JSON.parse(m ? m[0] : result.text); } catch (e) { questions = [`What are the geopolitical implications of ${video.title.slice(0, 50)}?`, `How have official agencies responded?`, `What are the key figures and timelines?`]; }
         qBox.innerHTML = `<div class="w-full flex items-center justify-between text-[10px] text-slate-300 pb-1"><span>Suggested Inquiries:</span>${renderAttributionBadge(result.engineName, result.model)}</div>${questions.map(q => `<button onclick="document.getElementById('customInput-${videoId}').value = ${JSON.stringify(q)}; submitInlineCustom('${videoId}')" class="glass-pill text-left px-2.5 py-1.5 rounded-xl text-[11px] text-purple-200 w-full">⚡ ${q}</button>`).join('')}`;
       } catch (err) {
         if (err.message === "GEMINI_KEYS_REQUIRED") toggleCurtain(true);
@@ -2247,8 +1833,7 @@ Format strictly as:
 
     function submitMasterQuery() { const q = document.getElementById('masterInput').value.trim(); if (q) runMasterQuery(q); }
     async function runMasterQuery(query) {
-      const box = document.getElementById('masterOutput');
-      box.classList.remove('hidden');
+      const box = document.getElementById('masterOutput'); box.classList.remove('hidden');
       box.innerHTML = `<div class="flex items-center gap-2 text-sky-300 py-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Master Gemini routing across Reserved Active Keys × ${dynamicModels.length} Models...</span></div>`;
       const contextSummary = allVideos.filter(v => !isVideoChannelPaused(v)).slice(0, 12).map((v, i) => `[${i+1}] (${v.channel_title}) ${v.title}`).join('\n');
       const prompt = `Active dashboard headlines:\n${contextSummary}\n\nRequest: "${query}"\n\nProvide an authoritative, information-dense intelligence report with bold headings, concrete facts, figures, and crisp bullet points.`;
