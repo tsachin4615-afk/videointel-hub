@@ -20,8 +20,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install yt-dlp & scrapetube
-        run: pip install --upgrade yt-dlp scrapetube
+      - name: Install yt-dlp
+        run: pip install --upgrade yt-dlp
 
       - name: Run bulletproof fetcher & 3-key Layman engine
         env:
