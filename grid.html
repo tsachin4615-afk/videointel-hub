@@ -12,35 +12,43 @@
   <style>
     :root { --app-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; --app-scale: 1; }
     html { font-size: calc(16px * var(--app-scale)); }
-    body { background-color: #040508; color: #f1f5f9; font-family: var(--app-font); overflow-x: hidden; transition: font-family 0.2s ease; }
+    body { background-color: #040508; color: #f1f5f9; font-family: var(--app-font); overflow-x: hidden; }
+    /* Cool static ambient backdrop: zero continuous GPU animation or heavy blur */
     .ios-ambient-backdrop { position: fixed; inset: 0; z-index: -2; pointer-events: none; background-color: #02040a; overflow: hidden; }
-    .ambient-orb { position: absolute; border-radius: 9999px; filter: blur(95px); opacity: 0.65; transition: all 1.2s ease; animation: floatOrbs 22s ease-in-out infinite alternate; }
-    .orb-1 { width: 420px; height: 420px; top: 4%; left: 8%; }
-    .orb-2 { width: 380px; height: 380px; top: 38%; right: 6%; animation-delay: -7s; }
-    .orb-3 { width: 340px; height: 340px; bottom: 5%; left: 18%; animation-delay: -13s; opacity: 0.45; }
-    .orb-4 { width: 290px; height: 290px; top: 15%; right: 32%; animation-delay: -4s; opacity: 0.40; }
-    @keyframes floatOrbs { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -25px) scale(1.07); } 100% { transform: translate(-25px, 20px) scale(0.96); } }
-    .glass-surface { background: rgba(18, 21, 29, 0.62); backdrop-filter: blur(32px) saturate(190%); -webkit-backdrop-filter: blur(32px) saturate(190%); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.10); }
-    .card-glow { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(30px) saturate(190%); -webkit-backdrop-filter: blur(30px) saturate(190%); border-radius: 1.35rem; }
-    .card-unread { background: rgba(22, 26, 36, 0.58); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.55), inset 0 1px 0 0 rgba(255, 255, 255, 0.11); opacity: 1; }
-    .card-unread:hover { border-color: rgba(255, 255, 255, 0.32); transform: translateY(-2px); background: rgba(30, 35, 48, 0.68); }
-    .card-duplicate { background: rgba(16, 19, 27, 0.48); border: 1px dashed rgba(245, 158, 11, 0.35); opacity: 0.86; }
+    .ambient-orb { position: absolute; border-radius: 9999px; opacity: 0.30; pointer-events: none; }
+    .orb-1 { width: 520px; height: 520px; top: -8%; left: -6%; }
+    .orb-2 { width: 460px; height: 460px; top: 32%; right: -8%; }
+    .orb-3 { width: 420px; height: 420px; bottom: -6%; left: 10%; opacity: 0.22; }
+    .orb-4 { width: 360px; height: 360px; top: 10%; right: 24%; opacity: 0.18; }
+    .glass-surface { background: rgba(16, 20, 30, 0.88); border: 1px solid rgba(255, 255, 255, 0.13); box-shadow: 0 10px 28px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.08); }
+    @media (min-width: 768px) {
+      .glass-surface { background: rgba(18, 21, 29, 0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    }
+    .card-glow {
+      content-visibility: auto;
+      contain-intrinsic-size: 340px;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+      border-radius: 1.35rem;
+    }
+    .card-unread { background: rgba(20, 24, 34, 0.88); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 8px 24px -5px rgba(0, 0, 0, 0.50); opacity: 1; }
+    .card-unread:hover { border-color: rgba(255, 255, 255, 0.30); background: rgba(28, 33, 46, 0.92); }
+    .card-duplicate { background: rgba(16, 19, 27, 0.82); border: 1px dashed rgba(245, 158, 11, 0.38); opacity: 0.88; }
     .card-duplicate:hover { border-color: rgba(245, 158, 11, 0.65); opacity: 1; }
-    .card-read { background: rgba(10, 12, 18, 0.42); border: 1px solid rgba(255, 255, 255, 0.06); opacity: 0.55; filter: grayscale(25%); }
-    .card-read:hover { opacity: 0.85; border-color: rgba(255, 255, 255, 0.18); }
-    .glass-pill { background: rgba(28, 32, 44, 0.65); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.09); transition: all 0.15s ease; }
-    .glass-pill:hover { background: rgba(42, 48, 66, 0.78); border-color: rgba(255, 255, 255, 0.28); }
+    .card-read { background: rgba(10, 12, 18, 0.76); border: 1px solid rgba(255, 255, 255, 0.06); opacity: 0.60; }
+    .card-read:hover { opacity: 0.88; border-color: rgba(255, 255, 255, 0.18); }
+    .glass-pill { background: rgba(28, 33, 46, 0.84); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08); transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease; }
+    .glass-pill:hover { background: rgba(42, 48, 66, 0.92); border-color: rgba(255, 255, 255, 0.28); }
     .glass-pill:active { transform: scale(0.96); }
     select { appearance: none; -webkit-appearance: none; }
-    .unread-indicator { width: 8px; height: 8px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
+    .unread-indicator { width: 8px; height: 8px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 6px #38bdf8; }
     .collapsible-zone { cursor: pointer; }
     details.curtain-section > summary, details.master-collapsible > summary { list-style: none; cursor: pointer; }
     details.curtain-section > summary::-webkit-details-marker, details.master-collapsible > summary::-webkit-details-marker { display: none; }
     details.curtain-section[open] .chevron-icon, details.master-collapsible[open] .chevron-icon { transform: rotate(180deg); }
     .chevron-icon { transition: transform 0.2s ease; }
-    #curtainDrawer { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); background: rgba(14, 17, 25, 0.90); backdrop-filter: blur(42px) saturate(200%); -webkit-backdrop-filter: blur(42px) saturate(200%); border-left: 1px solid rgba(255, 255, 255, 0.16); }
+    #curtainDrawer { transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); background: rgba(12, 15, 23, 0.97); border-left: 1px solid rgba(255, 255, 255, 0.16); will-change: transform; }
     #curtainDrawer.open { transform: translateX(0); }
-    #curtainBackdrop { transition: opacity 0.3s ease; }
+    #curtainBackdrop { transition: opacity 0.25s ease; }
     #pullIndicator { transition: transform 0.2s ease; transform: translateY(-100%); }
     #pullIndicator.visible { transform: translateY(0); }
   </style>
@@ -144,7 +152,7 @@
   </main>
 
   <!-- CURTAIN PANEL -->
-  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/55 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
+  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/65 z-50 hidden opacity-0 transition-opacity"></div>
 
   <aside id="curtainDrawer" class="fixed top-0 right-0 h-full w-96 max-w-[94vw] z-50 shadow-2xl flex flex-col justify-between">
     <div class="p-5 overflow-y-auto flex-1 space-y-3">
@@ -290,7 +298,7 @@
     </div>
 
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v16.0 (4-Step Failover)</span>
+      <span>VideoIntel Hub v16.1 (Cool Mobile Grid)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -303,8 +311,10 @@
     const DEFAULT_HIGH_QUOTA_MODELS = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemma-4-31b-it"];
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     const RETIRE_CONFIRM_THRESHOLD = 3;
+    const PAGE_SIZE = 20;
 
     let channelRoster = [], allVideos = [], currentFilter = 'ALL', onlyLast24Hours = false;
+    let visibleLimit = PAGE_SIZE;
     let aiExplicitPrimaryIds = null, aiExplicitDuplicateIds = null;
     let dynamicModels = [];
     let activeDispatchCount = parseInt(localStorage.getItem('ACTIVE_DISPATCH_COUNTER') || '0', 10);
@@ -341,10 +351,10 @@
 
     let currentGlassTint = localStorage.getItem('GLASS_TINT') || 'midnight';
     const GLASS_TINTS = {
-      midnight:['radial-gradient(circle,#1e293b 0%,#0f172a 70%,transparent 100%)','radial-gradient(circle,#334155 0%,#0f172a 70%,transparent 100%)','radial-gradient(circle,#1e1b4b 0%,#090d16 70%,transparent 100%)','radial-gradient(circle,#0f172a 0%,#020617 70%,transparent 100%)'],
-      control:['radial-gradient(circle,#9333ea 0%,#4f46e5 70%,transparent 100%)','radial-gradient(circle,#0ea5e9 0%,#2563eb 70%,transparent 100%)','radial-gradient(circle,#ea580c 0%,#e11d48 70%,transparent 100%)','radial-gradient(circle,#10b981 0%,#0d9488 70%,transparent 100%)'],
-      warm:['radial-gradient(circle,#f59e0b 0%,#b45309 70%,transparent 100%)','radial-gradient(circle,#ea580c 0%,#9a3412 70%,transparent 100%)','radial-gradient(circle,#d97706 0%,#78350f 70%,transparent 100%)','radial-gradient(circle,#fbbf24 0%,#b45309 70%,transparent 100%)'],
-      emerald:['radial-gradient(circle,#10b981 0%,#047857 70%,transparent 100%)','radial-gradient(circle,#0d9488 0%,#115e59 70%,transparent 100%)','radial-gradient(circle,#0ea5e9 0%,#0369a1 70%,transparent 100%)','radial-gradient(circle,#34d399 0%,#065f46 70%,transparent 100%)']
+      midnight:['radial-gradient(circle,rgba(30,41,59,0.8) 0%,transparent 70%)','radial-gradient(circle,rgba(51,65,85,0.7) 0%,transparent 70%)','radial-gradient(circle,rgba(30,27,75,0.7) 0%,transparent 70%)','radial-gradient(circle,rgba(15,23,42,0.8) 0%,transparent 70%)'],
+      control:['radial-gradient(circle,rgba(147,51,234,0.65) 0%,transparent 70%)','radial-gradient(circle,rgba(14,165,233,0.65) 0%,transparent 70%)','radial-gradient(circle,rgba(234,88,12,0.55) 0%,transparent 70%)','radial-gradient(circle,rgba(16,185,129,0.55) 0%,transparent 70%)'],
+      warm:['radial-gradient(circle,rgba(245,158,11,0.55) 0%,transparent 70%)','radial-gradient(circle,rgba(234,88,12,0.5) 0%,transparent 70%)','radial-gradient(circle,rgba(217,119,6,0.45) 0%,transparent 70%)','radial-gradient(circle,rgba(251,191,36,0.4) 0%,transparent 70%)'],
+      emerald:['radial-gradient(circle,rgba(16,185,129,0.55) 0%,transparent 70%)','radial-gradient(circle,rgba(13,148,136,0.5) 0%,transparent 70%)','radial-gradient(circle,rgba(14,165,233,0.45) 0%,transparent 70%)','radial-gradient(circle,rgba(52,211,153,0.4) 0%,transparent 70%)']
     };
     function setGlassTint(t) {
       if (!GLASS_TINTS[t]) return; currentGlassTint = t; localStorage.setItem('GLASS_TINT', t);
@@ -630,7 +640,7 @@
     function setChannelPauseDate(i, d) { const c = channelRoster[i]; if (!c) return; c.paused = Boolean(d); c.paused_until = d || null; savePermanentChannelRosterLocally(); syncRosterToGitHubRepo(); renderFilters(); renderCurtainChannels(); renderGrid(); }
 
     // Grid Core
-    function toggleCurtain(o) { const d = document.getElementById('curtainDrawer'), b = document.getElementById('curtainBackdrop'); if (o) { b.classList.remove('hidden'); setTimeout(() => b.classList.remove('opacity-0'), 10); d.classList.add('open'); } else { d.classList.remove('open'); b.classList.add('opacity-0'); setTimeout(() => b.classList.add('hidden'), 300); } }
+    function toggleCurtain(o) { const d = document.getElementById('curtainDrawer'), b = document.getElementById('curtainBackdrop'); if (o) { b.classList.remove('hidden'); setTimeout(() => b.classList.remove('opacity-0'), 10); d.classList.add('open'); } else { d.classList.remove('open'); b.classList.add('opacity-0'); setTimeout(() => b.classList.add('hidden'), 260); } }
     function getReadSet() { try { return new Set(JSON.parse(localStorage.getItem('VIDEO_INTEL_READ_SET') || '[]')); } catch (e) { return new Set(); } }
     function markAsRead(id) { const s = getReadSet(); if (!s.has(id)) { s.add(id); try { localStorage.setItem('VIDEO_INTEL_READ_SET', JSON.stringify(Array.from(s))); } catch (e) {} updateCardVisualState(id, true); updateReadStatsDisplay(); } }
     function updateCardVisualState(id, isRead) { const c = document.getElementById(`card-${id}`), d = document.getElementById(`readDot-${id}`); if (c) { c.classList.toggle('card-unread', !isRead); c.classList.toggle('card-read', isRead); } if (d && isRead) d.classList.add('hidden'); }
@@ -641,7 +651,7 @@
       document.getElementById('readStats').innerHTML = `<span class="text-emerald-400 font-semibold">${p !== undefined ? p : allVideos.length - tr} Top</span> • <span class="text-amber-400 font-semibold">${dup || 0} Repeats</span> • <span class="text-slate-300 font-semibold">${tr} Read</span>`;
       const cc = document.getElementById('curtainReadCount'); if (cc) cc.innerText = `${tr} Read`;
     }
-    function toggleTimeFilter() { onlyLast24Hours = !onlyLast24Hours; document.getElementById('timeFilterLabel').innerText = onlyLast24Hours ? "Last 24 Hours Only" : "Showing All Time (Top 100 Prioritized)"; document.getElementById('timeFilterBtn').classList.toggle('border-sky-400', onlyLast24Hours); renderGrid(); }
+    function toggleTimeFilter() { onlyLast24Hours = !onlyLast24Hours; visibleLimit = PAGE_SIZE; document.getElementById('timeFilterLabel').innerText = onlyLast24Hours ? "Last 24 Hours Only" : "Showing All Time (Top 100 Prioritized)"; document.getElementById('timeFilterBtn').classList.toggle('border-sky-400', onlyLast24Hours); renderGrid(); }
 
     async function loadFeed() {
       loadThreeKeySettingsIntoUI(); loadDynamicModelRoster(); await loadPermanentChannelRoster(); runWeeklyModelDiscovery(false);
@@ -661,15 +671,15 @@
         updateLaymanProgressCounter(); renderFilters(); renderCurtainChannels(); renderGrid();
       } catch (e) { document.getElementById('videoGrid').innerHTML = `<div class="col-span-full text-center py-12 text-rose-400 text-sm">Failed to load feed.</div>`; }
     }
-    async function triggerManualRefresh() { const i = document.getElementById('pullIndicator'); if (i) i.classList.add('visible'); await loadFeed(); if (i) setTimeout(() => i.classList.remove('visible'), 500); }
+    async function triggerManualRefresh() { const i = document.getElementById('pullIndicator'); if (i) i.classList.add('visible'); visibleLimit = PAGE_SIZE; await loadFeed(); if (i) setTimeout(() => i.classList.remove('visible'), 500); }
 
     function getActiveVisibleChannelTitles() { return ['ALL', ...new Set(allVideos.filter(v => !isVideoChannelPaused(v)).map(v => v.channel_title).filter(Boolean))]; }
     function renderFilters() {
       const chs = getActiveVisibleChannelTitles();
       document.getElementById('filterBar').innerHTML = chs.map((c, idx) => `<button onclick="filterByChannelTitle(${idx})" class="channel-pill px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap ${currentFilter === c ? 'bg-sky-500 text-white border border-white/30' : 'glass-pill text-slate-300'}">${c === 'ALL' ? 'All Active Channels' : c}</button>`).join('');
     }
-    function filterByChannelTitle(i) { currentFilter = getActiveVisibleChannelTitles()[i] || 'ALL'; renderFilters(); renderCurtainChannels(); renderGrid(); }
-    function selectChannelFromRoster(c) { currentFilter = c; renderFilters(); renderCurtainChannels(); renderGrid(); toggleCurtain(false); }
+    function filterByChannelTitle(i) { currentFilter = getActiveVisibleChannelTitles()[i] || 'ALL'; visibleLimit = PAGE_SIZE; renderFilters(); renderCurtainChannels(); renderGrid(); }
+    function selectChannelFromRoster(c) { currentFilter = c; visibleLimit = PAGE_SIZE; renderFilters(); renderCurtainChannels(); renderGrid(); toggleCurtain(false); }
     function renderCurtainChannels() {
       const c = document.getElementById('curtainChannelList'); if (!c) return;
       const q = (document.getElementById('channelSearchFilter')?.value || '').toLowerCase().trim();
@@ -680,6 +690,86 @@
         html += `<div class="p-2.5 rounded-xl border ${p ? 'bg-rose-950/25 border-rose-500/30 opacity-75' : 'bg-black/35 border-white/10'} space-y-2"><div class="flex items-center justify-between gap-2"><button onclick="selectChannelFromRoster(${JSON.stringify(ch.title || ch.handle)})" class="text-left text-xs font-medium truncate flex-1 ${p ? 'line-through text-slate-400' : 'text-white'}">${ch.title || ch.handle}</button><button onclick="toggleChannelPause(${idx})" class="px-2 py-1 rounded-lg text-[10px] border ${p ? 'bg-emerald-600/30 text-emerald-200' : 'bg-amber-500/20 text-amber-200'}">${p ? 'Resume' : 'Pause'}</button></div></div>`;
       });
       c.innerHTML = html;
+    }
+
+    function formatTimeAgo(isoString) {
+      try {
+        const diff = (Date.now() - new Date(isoString).getTime()) / 1000;
+        if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+        return `${Math.floor(diff / 86400)}d ago`;
+      } catch (e) { return ""; }
+    }
+
+    function getNormalizedKeywords(title) {
+      const stopWords = new Set(["the","a","an","in","to","for","of","and","on","with","by","is","at","from","video","news","breaking","update","explained","full","analysis","why","how","what","watch","live","about","this","that","over","into","vs","new","top","latest","after","will"]);
+      return title.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w));
+    }
+    function clusterAndDeduplicate(unreadVideos) {
+      if (aiExplicitPrimaryIds && aiExplicitDuplicateIds) {
+        const primary = [], duplicates = [], dSet = new Set(aiExplicitDuplicateIds);
+        for (const v of unreadVideos) (dSet.has(v.id) ? duplicates.push({ ...v, isDuplicateTopic: true }) : primary.push(v));
+        return { primary, duplicates };
+      }
+      const clusters = [];
+      for (const vid of unreadVideos) {
+        const words = getNormalizedKeywords(vid.title);
+        let assigned = null;
+        for (const c of clusters) {
+          const setB = new Set(c.keywords);
+          let ov = 0; for (const w of words) if (setB.has(w)) ov++;
+          if (ov >= 3 || (ov >= 2 && words.length <= 4)) { assigned = c; break; }
+        }
+        if (assigned) assigned.videos.push(vid); else clusters.push({ keywords: words, videos: [vid] });
+      }
+      const primary = [], duplicates = [];
+      for (const c of clusters) {
+        if (c.videos.length === 1) primary.push(c.videos[0]);
+        else {
+          const s = [...c.videos].sort((a, b) => (Boolean(b.layman_news) - Boolean(a.layman_news)) || ((b.description?.length || 0) - (a.description?.length || 0)));
+          primary.push(s[0]);
+          for (let i = 1; i < s.length; i++) duplicates.push({ ...s[i], isDuplicateTopic: true });
+        }
+      }
+      return { primary, duplicates };
+    }
+
+    async function runMasterAITopicDeduplication() {
+      const box = document.getElementById('masterOutput');
+      box.classList.remove('hidden');
+      box.innerHTML = `<div class="flex items-center gap-2 text-sky-300 py-3"><i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i><span>Master Gemini analyzing topics across all active channels...</span></div>`;
+      const readSet = getReadSet();
+      const unread = allVideos.filter(v => !readSet.has(v.id) && !isVideoChannelPaused(v)).slice(0, 80);
+      if (!unread.length) { box.innerHTML = `<div class="text-amber-400 text-xs py-2">No unread news to analyze.</div>`; return; }
+      const prompt = `Identify duplicate headlines covering the SAME story. Pick 1 best ID per story for "primaryIds" and put duplicates in "duplicateIds".\nList:\n${unread.map(v => `[${v.id}] (${v.channel_title}) ${v.title}`).join('\n')}\nReturn ONLY valid JSON: {"summary": "1-sentence overview", "primaryIds": ["id1"], "duplicateIds": ["id2"]}`;
+      try {
+        const result = await executeFailoverChain(prompt, 'active', document.getElementById('engineSelector')?.value, 900);
+        const match = result.text.match(/\{[\s\S]*\}/);
+        const data = JSON.parse(match ? match[0] : result.text);
+        aiExplicitPrimaryIds = data.primaryIds || [];
+        aiExplicitDuplicateIds = data.duplicateIds || [];
+        box.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/15 mb-2"><div class="flex items-center gap-2"><span class="font-semibold text-emerald-400"><i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> AI Deduplication Complete</span>${renderAttributionBadge(result.engineName, result.model)}</div><button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button></div><div class="text-xs text-slate-100"><p class="mb-1">${data.summary || 'Feed re-indexed.'}</p><p class="text-slate-300 text-[11px]">Primary: <strong class="text-emerald-300">${aiExplicitPrimaryIds.length}</strong> | Repeats: <strong class="text-amber-300">${aiExplicitDuplicateIds.length}</strong></p></div>`;
+        renderGrid();
+      } catch (err) {
+        if (err.message === "GEMINI_KEYS_REQUIRED") { toggleCurtain(true); box.classList.add('hidden'); }
+        else box.innerHTML = `<div class="flex items-center justify-between text-rose-400 text-xs py-1"><span>${err.message}</span><button onclick="runMasterAITopicDeduplication()" class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold">Retry</button></div>`;
+      }
+    }
+
+    function submitMasterQuery() { const q = document.getElementById('masterInput').value.trim(); if (q) runMasterQuery(q); }
+    async function runMasterQuery(query) {
+      const box = document.getElementById('masterOutput');
+      box.classList.remove('hidden');
+      box.innerHTML = `<div class="flex items-center gap-2 text-sky-300 py-2"><i class="fa-solid fa-circle-notch fa-spin"></i><span>Master Gemini routing across Reserved Active Keys × ${dynamicModels.length} Models...</span></div>`;
+      const contextSummary = allVideos.filter(v => !isVideoChannelPaused(v)).slice(0, 12).map((v, i) => `[${i+1}] (${v.channel_title}) ${v.title}`).join('\n');
+      const prompt = `Active dashboard headlines:\n${contextSummary}\n\nRequest: "${query}"\n\nProvide an authoritative, information-dense intelligence report with bold headings, concrete facts, figures, and crisp bullet points.`;
+      try {
+        const result = await executeFailoverChain(prompt, 'active', document.getElementById('engineSelector')?.value, 1000);
+        box.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/15 mb-2"><div class="flex flex-wrap items-center gap-2"><span class="font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-brain text-amber-400"></i> ${query}</span>${renderAttributionBadge(result.engineName, result.model)}</div><div class="flex items-center gap-2"><button onclick='runMasterQuery(${JSON.stringify(query)})' class="text-[10px] text-sky-300 hover:text-white glass-pill px-2 py-0.5 rounded">Regenerate</button><button onclick="document.getElementById('masterOutput').classList.add('hidden')" class="text-slate-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button></div></div><div class="prose-slate text-xs space-y-2 leading-relaxed">${formatMarkdown(result.text)}</div>`;
+      } catch (err) {
+        if (err.message === "GEMINI_KEYS_REQUIRED") { toggleCurtain(true); box.classList.add('hidden'); }
+        else box.innerHTML = `<div class="flex items-center justify-between text-rose-400 text-xs py-1"><span>${err.message}</span><button onclick='runMasterQuery(${JSON.stringify(query)})' class="px-2.5 py-1 glass-pill rounded-lg text-sky-300 font-semibold">Retry</button></div>`;
+      }
     }
 
     function formatMarkdown(t) { return t.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/^###\s(.*)$/gm, '<h3 class="text-sky-300 font-semibold text-xs mt-2.5 mb-1">$1</h3>').replace(/^##\s(.*)$/gm, '<h2 class="text-amber-300 font-bold text-xs mt-3 mb-1">$1</h2>').replace(/^\*\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-200 mb-1">$1</li>').replace(/^-\s(.*)$/gm, '<li class="ml-4 list-disc text-slate-200 mb-1">$1</li>').replace(/\n\n/g, '<p class="mt-2"></p>').replace(/\n/g, '<br/>'); }
@@ -782,9 +872,97 @@
       } catch (err) { b.innerHTML = `<span class="text-rose-400 text-[11px]">${err.message}</span>`; }
     }
 
+    function loadMoreCards() {
+      visibleLimit += PAGE_SIZE;
+      renderGrid();
+    }
+
+    function renderCardHTML(item, isRead, isDuplicate) {
+      const cardClass = isRead ? 'card-read' : (isDuplicate ? 'card-duplicate' : 'card-unread');
+      const timeAgo = formatTimeAgo(item.published_at);
+      const hasLayman = Boolean(item.layman_news && item.layman_news.trim().length > 0);
+      const thumb = item.thumbnail_url || `https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`;
+
+      return `
+      <article id="card-${item.id}" class="card-glow ${cardClass} overflow-hidden flex flex-col">
+        <div onclick="onMediaClick(event, '${item.id}')" class="cursor-pointer select-none">
+          <div class="relative aspect-video bg-black/60 overflow-hidden">
+            <img src="${thumb}" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+            <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+              <span id="readDot-${item.id}" class="${isRead ? 'hidden' : ''}"><div class="unread-indicator"></div></span>
+              <span class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-black/75 text-white border border-white/15">${item.channel_title || item.handle}</span>
+            </div>
+            <div class="absolute bottom-2.5 right-2.5 flex items-center gap-1.5">
+              ${hasLayman ? `<span class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-emerald-600/85 text-white">Layman Ready</span>` : ''}
+              ${isDuplicate ? `<span class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-amber-600/85 text-white">Repeat</span>` : ''}
+            </div>
+          </div>
+
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-white leading-snug line-clamp-2 mb-2">${item.title}</h3>
+            <div class="flex items-center justify-between text-[11px] text-slate-300/80">
+              <span>${timeAgo}</span>
+              <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-red-400 flex items-center gap-1 font-medium">
+                <i class="fa-brands fa-youtube text-red-400"></i> Watch
+              </a>
+            </div>
+          </div>
+        </div>
+        <div id="output-${item.id}" class="hidden p-4 bg-black/55 border-t border-white/15 collapsible-zone"></div>
+      </article>`;
+    }
+
     function renderGrid() {
       const rs = getReadSet(), cutoff = new Date(Date.now() - 86400000);
       let filtered = allVideos.filter(v => !isVideoChannelPaused(v));
       if (currentFilter !== 'ALL') filtered = filtered.filter(v => v.channel_title === currentFilter || v.handle === currentFilter);
       if (onlyLast24Hours) filtered = filtered.filter(v => new Date(v.published_at) >= cutoff);
-      const unread = filtered.filter(v => !rs.has(v.id)), read = filtered.filter(v
+
+      const unread = filtered.filter(v => !rs.has(v.id)), read = filtered.filter(v => rs.has(v.id));
+      const { primary, duplicates } = clusterAndDeduplicate(unread);
+      updateReadStatsDisplay(primary.length, duplicates.length, read.length);
+
+      const grid = document.getElementById('videoGrid');
+      if (!filtered.length) {
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">No active updates match your filter.</div>`;
+        return;
+      }
+
+      let remaining = visibleLimit;
+      let html = '';
+
+      const visPrimary = primary.slice(0, remaining);
+      remaining -= visPrimary.length;
+      html += visPrimary.map(v => renderCardHTML(v, false, false)).join('');
+
+      if (remaining > 0 && duplicates.length > 0) {
+        const visDup = duplicates.slice(0, remaining);
+        remaining -= visDup.length;
+        html += `<div class="col-span-full p-3 rounded-2xl bg-amber-500/10 border border-amber-400/30 flex items-center justify-between"><span class="text-xs font-bold text-amber-300 uppercase tracking-wider"><i class="fa-solid fa-clone text-amber-400 mr-1"></i> Repeated Coverage (${duplicates.length})</span><span class="text-[11px] text-amber-300 font-mono">Demoted</span></div>`;
+        html += visDup.map(v => renderCardHTML(v, false, true)).join('');
+      }
+
+      if (remaining > 0 && read.length > 0) {
+        const visRead = read.slice(0, remaining);
+        remaining -= visRead.length;
+        html += `<div class="col-span-full p-3 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-between"><span class="text-xs font-bold text-slate-300 uppercase tracking-wider"><i class="fa-solid fa-check-double text-slate-400 mr-1"></i> Read Archive (${read.length})</span><button onclick="resetReadState()" class="text-xs text-sky-300 hover:text-white glass-pill px-2.5 py-1 rounded-xl">Unmark All</button></div>`;
+        html += visRead.map(v => renderCardHTML(v, true, false)).join('');
+      }
+
+      const totalCount = primary.length + duplicates.length + read.length;
+      const shownCount = Math.min(visibleLimit, totalCount);
+      if (shownCount < totalCount) {
+        html += `<div class="col-span-full py-4 text-center">
+          <button onclick="loadMoreCards()" class="glass-pill px-6 py-2.5 rounded-2xl text-xs font-semibold text-sky-300 hover:text-white">
+            Load More Videos (${totalCount - shownCount} remaining)
+          </button>
+        </div>`;
+      }
+
+      grid.innerHTML = html;
+    }
+
+    loadFeed();
+  </script>
+</body>
+</html>
