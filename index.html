@@ -13,6 +13,10 @@
     :root {
       --app-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       --app-scale: 1;
+      --bubble-alpha: 0.42;
+      --dimmer-alpha: 0.25;
+      --headline-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+      --headline-weight: 500;
     }
     html { font-size: calc(16px * var(--app-scale)); }
     body {
@@ -21,51 +25,110 @@
       font-family: var(--app-font);
       overflow-x: hidden;
     }
-    /* Cool static ambient backdrop: zero continuous GPU animation or heavy blur */
-    .ios-ambient-backdrop {
-      position: fixed; inset: 0; z-index: -2; pointer-events: none;
-      background-color: #02040a; overflow: hidden;
-    }
-    .ambient-orb {
-      position: absolute; border-radius: 9999px;
-      opacity: 0.32;
+
+    /* 30 FPS Wallpaper Canvas & Dimmer */
+    #bgCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -3;
       pointer-events: none;
     }
-    .orb-1 { width: 520px; height: 520px; top: -8%; left: -6%; }
-    .orb-2 { width: 460px; height: 460px; top: 32%; right: -8%; }
-    .orb-3 { width: 420px; height: 420px; bottom: -6%; left: 10%; opacity: 0.24; }
-    .orb-4 { width: 360px; height: 360px; top: 10%; right: 24%; opacity: 0.20; }
+    #bgDimmer {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-color: rgba(2, 4, 10, var(--dimmer-alpha));
+      transition: background-color 0.25s ease;
+    }
 
     .glass-surface {
-      background: rgba(16, 20, 30, 0.88);
-      border: 1px solid rgba(255, 255, 255, 0.13);
+      background: rgba(12, 16, 26, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: 0 10px 28px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
     }
     @media (min-width: 768px) {
       .glass-surface {
-        background: rgba(18, 21, 29, 0.72);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
+        background: rgba(14, 18, 28, 0.68);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
       }
     }
+
+    /* Floating Headline Bubbles */
     .heading-row {
       content-visibility: auto;
-      contain-intrinsic-size: 74px;
-      transition: background-color 0.15s ease;
+      contain-intrinsic-size: 78px;
+      border-radius: 1.15rem;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+      overflow: hidden;
     }
-    .row-unread { background-color: rgba(22, 26, 36, 0.65); border-bottom: 1px solid rgba(255, 255, 255, 0.09); opacity: 1; }
-    .row-unread:hover { background-color: rgba(34, 40, 56, 0.78); }
-    .row-duplicate { background-color: rgba(16, 19, 27, 0.60); border-bottom: 1px dashed rgba(245, 158, 11, 0.35); opacity: 0.86; }
-    .row-duplicate:hover { background-color: rgba(28, 32, 44, 0.72); }
-    .row-read { background-color: rgba(10, 12, 18, 0.55); border-bottom: 1px solid rgba(255, 255, 255, 0.05); opacity: 0.58; }
-    .row-read:hover { opacity: 0.85; background-color: rgba(18, 22, 32, 0.65); }
+    .heading-row:active { transform: scale(0.992); }
+
+    body.bubble-pill .heading-row { border-radius: 1.65rem; }
+    body.bubble-accent .heading-row { border-radius: 0.9rem; border-left-width: 4px; }
+    body.bubble-accent .row-unread { border-left-color: #38bdf8; }
+    body.bubble-accent .row-duplicate { border-left-color: #f59e0b; }
+    body.bubble-accent .row-read { border-left-color: rgba(148, 163, 184, 0.4); }
+
+    .row-unread {
+      background-color: rgba(14, 18, 28, var(--bubble-alpha));
+      opacity: 1;
+    }
+    .row-unread:hover {
+      background-color: rgba(24, 30, 46, min(0.92, calc(var(--bubble-alpha) + 0.14)));
+      border-color: rgba(255, 255, 255, 0.26);
+    }
+    .row-duplicate {
+      background-color: rgba(18, 16, 12, var(--bubble-alpha));
+      border-style: dashed;
+      border-color: rgba(245, 158, 11, 0.42);
+      opacity: 0.90;
+    }
+    .row-read {
+      background-color: rgba(8, 10, 16, max(0.14, calc(var(--bubble-alpha) - 0.08)));
+      border-color: rgba(255, 255, 255, 0.07);
+      opacity: 0.62;
+    }
+    .row-read:hover { opacity: 0.88; }
+
+    /* Text Clarity Modes */
+    .headline-text {
+      text-shadow: var(--headline-shadow);
+      font-weight: var(--headline-weight);
+    }
+    body.clarity-crisp {
+      --headline-shadow: 0 1px 3px rgba(0, 0, 0, 0.78);
+      --headline-weight: 500;
+    }
+    body.clarity-high {
+      --headline-shadow: 0 1px 2px rgba(0, 0, 0, 0.98), 0 0 8px rgba(0, 0, 0, 0.85);
+      --headline-weight: 600;
+    }
+    body.clarity-halo {
+      --headline-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 12px rgba(0, 0, 0, 0.95);
+      --headline-weight: 600;
+    }
+    body.clarity-halo .headline-text {
+      background: rgba(4, 6, 12, 0.48);
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.4rem;
+      display: inline;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
     .glass-pill {
-      background: rgba(28, 33, 46, 0.82);
+      background: rgba(24, 29, 42, 0.80);
       border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
       transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
     }
-    .glass-pill:hover { background: rgba(42, 48, 66, 0.90); border-color: rgba(255, 255, 255, 0.28); }
+    .glass-pill:hover { background: rgba(40, 46, 64, 0.90); border-color: rgba(255, 255, 255, 0.28); }
     .glass-pill:active { transform: scale(0.96); }
     select { appearance: none; -webkit-appearance: none; }
     .unread-indicator { width: 7px; height: 7px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 6px #38bdf8; }
@@ -77,7 +140,7 @@
     #curtainDrawer {
       transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateX(100%);
-      background: rgba(12, 15, 23, 0.97);
+      background: rgba(12, 15, 23, 0.96);
       border-left: 1px solid rgba(255, 255, 255, 0.16);
       will-change: transform;
     }
@@ -87,14 +150,10 @@
     #pullIndicator.visible { transform: translateY(0); }
   </style>
 </head>
-<body class="min-h-screen pb-20 relative">
+<body class="min-h-screen pb-20 relative clarity-crisp">
 
-  <div class="ios-ambient-backdrop">
-    <div id="orb1" class="ambient-orb orb-1"></div>
-    <div id="orb2" class="ambient-orb orb-2"></div>
-    <div id="orb3" class="ambient-orb orb-3"></div>
-    <div id="orb4" class="ambient-orb orb-4"></div>
-  </div>
+  <canvas id="bgCanvas"></canvas>
+  <div id="bgDimmer"></div>
 
   <div id="pullIndicator" class="fixed top-0 left-0 right-0 z-50 glass-surface border-b border-white/20 text-sky-200 text-xs py-2.5 text-center flex items-center justify-center gap-2">
     <i class="fa-solid fa-arrows-rotate fa-spin text-sky-400"></i>
@@ -113,7 +172,7 @@
             Headings Intelligence
             <span id="headerEngineBadge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full glass-pill text-emerald-300">3 Keys × 3 Models Chain</span>
           </h1>
-          <p class="text-xs text-slate-300/80">Equal N-Model Split • Zero-Wait Universal Failover</p>
+          <p class="text-xs text-slate-300/85">Equal N-Model Split • Zero-Wait Universal Failover</p>
         </div>
       </div>
 
@@ -150,7 +209,7 @@
         <div class="relative flex-1">
           <input id="masterInput" type="text" placeholder="Ask Master Gemini across all channels..."
             onkeydown="if(event.key==='Enter') submitMasterQuery()"
-            class="w-full bg-black/40 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
+            class="w-full bg-black/45 text-xs text-white placeholder-slate-400 rounded-2xl pl-3.5 pr-9 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
           <button onclick="submitMasterQuery()" class="absolute right-3 top-2.5 text-slate-300 hover:text-sky-400">
             <i class="fa-solid fa-paper-plane text-xs"></i>
           </button>
@@ -192,7 +251,7 @@
         </div>
       </details>
 
-      <div id="masterOutput" class="hidden mt-4 p-4 rounded-2xl bg-black/50 border border-white/15 text-xs text-slate-100 space-y-2 shadow-inner"></div>
+      <div id="masterOutput" class="hidden mt-4 p-4 rounded-2xl bg-black/60 border border-white/15 text-xs text-slate-100 space-y-2 shadow-inner"></div>
     </div>
   </section>
 
@@ -207,12 +266,12 @@
           <i class="fa-solid fa-check-double"></i> Mark All Read
         </button>
         <button onclick="toggleCurtain(true)" class="glass-pill px-3.5 py-1.5 rounded-xl text-xs font-medium text-sky-300 hover:text-white flex items-center gap-1.5">
-          <i class="fa-solid fa-key"></i> Keys & Models
+          <i class="fa-solid fa-key"></i> Keys & Appearance
         </button>
       </div>
 
       <div class="flex items-center gap-2">
-        <div class="text-xs text-slate-300" id="readStats">0 Read / 0 Total</div>
+        <div class="text-xs text-slate-200 drop-shadow" id="readStats">0 Read / 0 Total</div>
         <span id="countBadge" class="text-xs glass-pill text-sky-300 px-2.5 py-0.5 rounded-full font-medium">Loading...</span>
       </div>
     </div>
@@ -221,13 +280,14 @@
       <button class="channel-pill active px-3.5 py-1.5 rounded-xl text-xs font-medium bg-sky-500 text-white whitespace-nowrap">All Channels</button>
     </div>
 
-    <div class="glass-surface rounded-3xl overflow-hidden mt-2">
-      <div class="px-4 py-3 bg-white/5 border-b border-white/15 text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center justify-between">
-        <span>Headline & Source (Tap Row to Read • Tap Anywhere Inside Description to Collapse)</span>
-        <span class="pr-2">Original</span>
+    <!-- Floating Bubbles List -->
+    <div class="mt-2">
+      <div class="px-3 py-2 mb-2 rounded-2xl glass-pill text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+        <span>Headline Bubbles (Tap to Read • Tap Briefing to Collapse)</span>
+        <span class="pr-1">Original</span>
       </div>
-      <div id="headingsList" class="divide-y divide-white/10">
-        <div class="py-16 text-center text-slate-400 text-xs">
+      <div id="headingsList" class="space-y-2.5">
+        <div class="py-16 text-center text-slate-300 text-xs glass-surface rounded-3xl">
           <i class="fa-solid fa-circle-notch fa-spin text-xl text-sky-400 mb-2"></i>
           <p>Compiling high-density intelligence briefing...</p>
         </div>
@@ -260,8 +320,80 @@
         </a>
       </div>
 
-      <!-- SECTION 1: 3 API KEYS & SPLITTING ROLES -->
-      <details open class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/35">
+      <!-- COLLAPSED SECTION: LIVE WALLPAPERS & BUBBLE STYLE -->
+      <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-indigo-400/35">
+        <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-indigo-300 select-none">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-film text-indigo-400"></i> Live Wallpapers & Bubble Style</span>
+          <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
+        </summary>
+        <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
+          <div>
+            <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Animated Wallpaper (9 Cool 30 FPS Scenes)</label>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="setWallpaper('space')" id="wpBtn-space" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌌 Dark Space</button>
+              <button onclick="setWallpaper('bluesky')" id="wpBtn-bluesky" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">☁️ Blue Sky</button>
+              <button onclick="setWallpaper('sunset')" id="wpBtn-sunset" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌅 Sunset</button>
+              <button onclick="setWallpaper('twilight')" id="wpBtn-twilight" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌆 Twilight</button>
+              <button onclick="setWallpaper('aurora')" id="wpBtn-aurora" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">✨ Aurora</button>
+              <button onclick="setWallpaper('aquarium')" id="wpBtn-aquarium" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🐠 Aquarium</button>
+              <button onclick="setWallpaper('nebula')" id="wpBtn-nebula" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🪐 Nebula</button>
+              <button onclick="setWallpaper('rain')" id="wpBtn-rain" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌧️ Rain</button>
+              <button onclick="setWallpaper('pitch')" id="wpBtn-pitch" class="px-2 py-1.5 rounded-xl text-[10px] font-medium border text-center transition">🌑 Pitch Black</button>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-white/10">
+            <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Headline Bubble Shape</label>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="setBubbleStyle('soft')" id="bStyleBtn-soft" class="py-1.5 rounded-xl text-[11px] font-medium border text-center transition">Soft Float</button>
+              <button onclick="setBubbleStyle('pill')" id="bStyleBtn-pill" class="py-1.5 rounded-xl text-[11px] font-medium border text-center transition">Compact Pill</button>
+              <button onclick="setBubbleStyle('accent')" id="bStyleBtn-accent" class="py-1.5 rounded-xl text-[11px] font-medium border text-center transition">Accent Edge</button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- COLLAPSED SECTION: TEXT CLARITY STUDIO -->
+      <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-cyan-400/35">
+        <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-cyan-300 select-none">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-eye text-cyan-400"></i> Text Clarity & Transparency</span>
+          <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
+        </summary>
+        <div class="px-3.5 pb-3.5 pt-2 space-y-3 border-t border-white/10">
+          <div>
+            <div class="flex justify-between text-[10px] text-slate-300 mb-1">
+              <span>Bubble Opacity (Lower = More Transparent)</span>
+              <span id="bubbleAlphaVal" class="font-mono text-cyan-300">42%</span>
+            </div>
+            <input id="bubbleAlphaSlider" type="range" min="15" max="90" value="42" oninput="setBubbleAlpha(this.value)" class="w-full accent-sky-400 cursor-pointer" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-[10px] text-slate-300 mb-1">
+              <span>Background Dimmer (Eye Comfort)</span>
+              <span id="dimmerAlphaVal" class="font-mono text-cyan-300">25%</span>
+            </div>
+            <input id="dimmerAlphaSlider" type="range" min="0" max="80" value="25" oninput="setDimmerAlpha(this.value)" class="w-full accent-sky-400 cursor-pointer" />
+          </div>
+
+          <div class="pt-1 border-t border-white/10">
+            <label class="text-[10px] font-semibold uppercase tracking-wider text-slate-300 block mb-1.5">Text Enhancement Mode</label>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="setTextClarity('crisp')" id="clarityBtn-crisp" class="py-1.5 rounded-xl text-[10px] font-medium border text-center transition">Crisp</button>
+              <button onclick="setTextClarity('high')" id="clarityBtn-high" class="py-1.5 rounded-xl text-[10px] font-medium border text-center transition">High Contrast</button>
+              <button onclick="setTextClarity('halo')" id="clarityBtn-halo" class="py-1.5 rounded-xl text-[10px] font-medium border text-center transition">Dark Halo</button>
+            </div>
+          </div>
+
+          <label class="flex items-center justify-between pt-2 border-t border-white/10 text-[11px] text-slate-200 cursor-pointer">
+            <span>Auto-Adapt Readability on Bright Skies</span>
+            <input id="autoAdaptToggle" type="checkbox" checked onchange="setAutoAdapt(this.checked)" class="accent-sky-400 w-4 h-4 cursor-pointer" />
+          </label>
+        </div>
+      </details>
+
+      <!-- SECTION 1: 3 API KEYS & SPLITTING ROLES (COLLAPSED BY DEFAULT) -->
+      <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-sky-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-sky-300 select-none">
           <span class="flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> 3 Project API Keys & Rate Limits</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
@@ -315,8 +447,8 @@
         </div>
       </details>
 
-      <!-- SECTION 2: DYNAMIC MODEL POOL & WEEKLY AUTO-DISCOVERY -->
-      <details open class="curtain-section glass-pill rounded-2xl overflow-hidden border border-purple-400/35">
+      <!-- SECTION 2: DYNAMIC MODEL POOL & WEEKLY AUTO-DISCOVERY (COLLAPSED BY DEFAULT) -->
+      <details class="curtain-section glass-pill rounded-2xl overflow-hidden border border-purple-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-purple-300 select-none">
           <span class="flex items-center gap-2"><i class="fa-solid fa-cubes text-purple-400"></i> Dynamic Models & Equal Split (<span id="activeModelCountLabel">3</span>)</span>
           <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
@@ -408,23 +540,7 @@
         </div>
       </details>
 
-      <!-- SECTION 6: FROSTED GLASS TINT -->
-      <details class="curtain-section glass-pill rounded-2xl overflow-hidden">
-        <summary class="p-3.5 flex items-center justify-between text-xs font-semibold text-white select-none">
-          <span class="flex items-center gap-2"><i class="fa-solid fa-palette text-purple-400"></i> Frosted Glass Tint</span>
-          <i class="fa-solid fa-chevron-down chevron-icon text-[10px] text-slate-400"></i>
-        </summary>
-        <div class="px-3.5 pb-3.5 pt-2 border-t border-white/10">
-          <div class="grid grid-cols-2 gap-1.5">
-            <button onclick="setGlassTint('midnight')" id="tintBtn-midnight" class="px-2.5 py-2 rounded-xl text-[11px] font-medium border flex items-center gap-1.5 transition"><span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span> Pure Midnight</button>
-            <button onclick="setGlassTint('control')" id="tintBtn-control" class="px-2.5 py-2 rounded-xl text-[11px] font-medium border flex items-center gap-1.5 transition"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Control Center</button>
-            <button onclick="setGlassTint('warm')" id="tintBtn-warm" class="px-2.5 py-2 rounded-xl text-[11px] font-medium border flex items-center gap-1.5 transition"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Warm Amber</button>
-            <button onclick="setGlassTint('emerald')" id="tintBtn-emerald" class="px-2.5 py-2 rounded-xl text-[11px] font-medium border flex items-center gap-1.5 transition"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Emerald Glow</button>
-          </div>
-        </div>
-      </details>
-
-      <!-- SECTION 7: READ HISTORY -->
+      <!-- SECTION 6: READ HISTORY -->
       <details class="curtain-section glass-pill rounded-2xl overflow-hidden">
         <summary class="p-3.5 flex items-center justify-between text-xs font-semibold text-white select-none">
           <span class="flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-rose-400"></i> Read History & Archive</span>
@@ -444,7 +560,7 @@
     </div>
 
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v16.1 (Cool Mobile Engine)</span>
+      <span>VideoIntel Hub v17.0 (Bubbles + 9 Wallpapers)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -490,6 +606,233 @@
     const pathCooldownUntil = new Map();
 
     // ============================================================================
+    // COOL 30 FPS WALLPAPER ENGINE (9 SCENES) + BUBBLE & TEXT CLARITY STUDIO
+    // ============================================================================
+    let currentWallpaper = localStorage.getItem('APP_WALLPAPER') || 'space';
+    let currentBubbleStyle = localStorage.getItem('APP_BUBBLE_STYLE') || 'soft';
+    let currentBubbleAlpha = parseInt(localStorage.getItem('APP_BUBBLE_ALPHA') || '42', 10);
+    let currentDimmerAlpha = parseInt(localStorage.getItem('APP_BG_DIMMER') || '25', 10);
+    let currentTextClarity = localStorage.getItem('APP_TEXT_CLARITY') || 'crisp';
+    let autoAdaptEnabled = localStorage.getItem('APP_AUTO_ADAPT') !== 'false';
+
+    const BRIGHT_WALLPAPERS = new Set(['bluesky', 'sunset']);
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d', { alpha: false });
+    let cw = 0, ch = 0, lastFrame = 0, animTime = 0;
+    let stars = [], clouds = [], drops = [], bubbles = [], fishes = [];
+
+    function resizeCanvas() {
+      cw = canvas.width = window.innerWidth;
+      ch = canvas.height = window.innerHeight;
+      initSceneEntities();
+    }
+
+    function initSceneEntities() {
+      stars = Array.from({ length: 85 }, () => ({
+        x: Math.random() * cw, y: Math.random() * ch,
+        r: Math.random() * 1.4 + 0.3,
+        vx: -(Math.random() * 0.25 + 0.06), vy: (Math.random() - 0.5) * 0.08,
+        a: Math.random() * 0.7 + 0.25
+      }));
+      clouds = Array.from({ length: 7 }, (_, i) => ({
+        x: (cw / 6) * i, y: ch * (0.12 + Math.random() * 0.45),
+        w: 140 + Math.random() * 140, h: 42 + Math.random() * 34,
+        vx: 0.14 + Math.random() * 0.18, a: 0.16 + Math.random() * 0.16
+      }));
+      drops = Array.from({ length: 55 }, () => ({
+        x: Math.random() * cw, y: Math.random() * ch,
+        len: 10 + Math.random() * 14, vy: 3.2 + Math.random() * 2.5, a: 0.15 + Math.random() * 0.25
+      }));
+      bubbles = Array.from({ length: 30 }, () => ({
+        x: Math.random() * cw, y: Math.random() * ch,
+        r: 2 + Math.random() * 5, vy: -(0.35 + Math.random() * 0.6),
+        wobble: Math.random() * Math.PI * 2
+      }));
+      fishes = Array.from({ length: 5 }, (_, i) => ({
+        x: Math.random() * cw, y: ch * (0.2 + i * 0.14),
+        size: 10 + Math.random() * 10, vx: (i % 2 === 0 ? 1 : -1) * (0.3 + Math.random() * 0.35)
+      }));
+    }
+
+    function drawWallpaperFrame(ts) {
+      requestAnimationFrame(drawWallpaperFrame);
+      if (document.hidden) return;
+      if (currentWallpaper === 'pitch') return;
+      if (ts - lastFrame < 33) return; // Cap at ~30 FPS to keep mobile cool
+      lastFrame = ts;
+      animTime += 0.015;
+
+      if (currentWallpaper === 'space') {
+        ctx.fillStyle = '#03050a';
+        ctx.fillRect(0, 0, cw, ch);
+        for (const s of stars) {
+          s.x += s.vx; s.y += s.vy;
+          if (s.x < 0) s.x = cw; if (s.y < 0) s.y = ch; if (s.y > ch) s.y = 0;
+          ctx.fillStyle = `rgba(210, 228, 255, ${s.a})`;
+          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (currentWallpaper === 'bluesky') {
+        const g = ctx.createLinearGradient(0, 0, 0, ch);
+        g.addColorStop(0, '#0c4a6e'); g.addColorStop(0.55, '#0284c7'); g.addColorStop(1, '#38bdf8');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        for (const c of clouds) {
+          c.x += c.vx; if (c.x - c.w > cw) c.x = -c.w;
+          ctx.fillStyle = `rgba(255, 255, 255, ${c.a})`;
+          ctx.beginPath(); ctx.ellipse(c.x, c.y, c.w * 0.5, c.h * 0.5, 0, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (currentWallpaper === 'sunset') {
+        const g = ctx.createLinearGradient(0, 0, 0, ch);
+        g.addColorStop(0, '#1e1b4b'); g.addColorStop(0.45, '#9a3412'); g.addColorStop(0.78, '#ea580c'); g.addColorStop(1, '#f59e0b');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        for (const c of clouds) {
+          c.x += c.vx * 0.7; if (c.x - c.w > cw) c.x = -c.w;
+          ctx.fillStyle = `rgba(254, 215, 170, ${c.a * 0.85})`;
+          ctx.beginPath(); ctx.ellipse(c.x, c.y, c.w * 0.55, c.h * 0.42, 0, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (currentWallpaper === 'twilight') {
+        const g = ctx.createLinearGradient(0, 0, 0, ch);
+        g.addColorStop(0, '#090d1f'); g.addColorStop(0.55, '#1e1b4b'); g.addColorStop(1, '#4c1d95');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        for (const s of stars) {
+          s.x += s.vx * 0.4; if (s.x < 0) s.x = cw;
+          ctx.fillStyle = `rgba(226, 232, 240, ${s.a * 0.6})`;
+          ctx.beginPath(); ctx.arc(s.x, s.y * 0.75, s.r, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (currentWallpaper === 'aurora') {
+        ctx.fillStyle = '#030712'; ctx.fillRect(0, 0, cw, ch);
+        for (let i = 0; i < 3; i++) {
+          const yBase = ch * (0.22 + i * 0.18) + Math.sin(animTime + i) * 28;
+          const g = ctx.createLinearGradient(0, yBase - 80, 0, yBase + 80);
+          g.addColorStop(0, 'rgba(16, 185, 129, 0)');
+          g.addColorStop(0.5, i === 1 ? 'rgba(56, 189, 248, 0.16)' : 'rgba(16, 185, 129, 0.18)');
+          g.addColorStop(1, 'rgba(16, 185, 129, 0)');
+          ctx.fillStyle = g;
+          ctx.fillRect(0, yBase - 80, cw, 160);
+        }
+      } else if (currentWallpaper === 'aquarium') {
+        const g = ctx.createLinearGradient(0, 0, 0, ch);
+        g.addColorStop(0, '#042f2e'); g.addColorStop(0.5, '#083344'); g.addColorStop(1, '#020617');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        ctx.strokeStyle = 'rgba(165, 243, 252, 0.25)';
+        for (const b of bubbles) {
+          b.y += b.vy; b.x += Math.sin(animTime * 2 + b.wobble) * 0.3;
+          if (b.y < -10) { b.y = ch + 10; b.x = Math.random() * cw; }
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.stroke();
+        }
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
+        for (const f of fishes) {
+          f.x += f.vx;
+          if (f.vx > 0 && f.x > cw + 30) f.x = -30;
+          if (f.vx < 0 && f.x < -30) f.x = cw + 30;
+          ctx.beginPath(); ctx.ellipse(f.x, f.y, f.size, f.size * 0.45, 0, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (currentWallpaper === 'nebula') {
+        const g = ctx.createRadialGradient(cw * 0.3, ch * 0.3, 20, cw * 0.5, ch * 0.5, Math.max(cw, ch));
+        g.addColorStop(0, '#2e1065'); g.addColorStop(0.45, '#0f172a'); g.addColorStop(1, '#02040a');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+        for (const s of stars) {
+          s.x += s.vx * 0.5; if (s.x < 0) s.x = cw;
+          ctx.fillStyle = `rgba(216, 180, 254, ${s.a * 0.7})`;
+          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (currentWallpaper === 'rain') {
+        ctx.fillStyle = '#050814'; ctx.fillRect(0, 0, cw, ch);
+        ctx.strokeStyle = 'rgba(148, 197, 255, 0.22)'; ctx.lineWidth = 1;
+        for (const d of drops) {
+          d.y += d.vy; d.x -= 0.4;
+          if (d.y > ch) { d.y = -20; d.x = Math.random() * cw; }
+          ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x - 2, d.y + d.len); ctx.stroke();
+        }
+      }
+    }
+
+    function setWallpaper(key, skipAuto = false) {
+      currentWallpaper = key;
+      localStorage.setItem('APP_WALLPAPER', key);
+      if (key === 'pitch') {
+        ctx.fillStyle = '#040508';
+        ctx.fillRect(0, 0, cw, ch);
+      }
+      if (!skipAuto && autoAdaptEnabled) {
+        if (BRIGHT_WALLPAPERS.has(key)) {
+          if (currentDimmerAlpha < 38) setDimmerAlpha(42);
+          setTextClarity('halo');
+        } else {
+          if (currentDimmerAlpha > 35) setDimmerAlpha(22);
+          if (currentTextClarity === 'halo') setTextClarity('crisp');
+        }
+      }
+      ['space','bluesky','sunset','twilight','aurora','aquarium','nebula','rain','pitch'].forEach(w => {
+        const b = document.getElementById(`wpBtn-${w}`);
+        if (b) b.className = currentWallpaper === w
+          ? "px-2 py-1.5 rounded-xl text-[10px] font-semibold border border-sky-400 bg-sky-500/25 text-white text-center transition"
+          : "px-2 py-1.5 rounded-xl text-[10px] font-medium border border-white/10 bg-black/35 text-slate-300 hover:text-white text-center transition";
+      });
+    }
+
+    function setBubbleStyle(style) {
+      currentBubbleStyle = style;
+      localStorage.setItem('APP_BUBBLE_STYLE', style);
+      document.body.classList.remove('bubble-soft', 'bubble-pill', 'bubble-accent');
+      document.body.classList.add(`bubble-${style}`);
+      ['soft', 'pill', 'accent'].forEach(s => {
+        const b = document.getElementById(`bStyleBtn-${s}`);
+        if (b) b.className = currentBubbleStyle === s
+          ? "py-1.5 rounded-xl text-[11px] font-semibold border border-sky-400 bg-sky-500/25 text-white text-center transition"
+          : "py-1.5 rounded-xl text-[11px] font-medium border border-white/10 bg-black/35 text-slate-300 hover:text-white text-center transition";
+      });
+    }
+
+    function setBubbleAlpha(val) {
+      currentBubbleAlpha = parseInt(val, 10);
+      localStorage.setItem('APP_BUBBLE_ALPHA', String(currentBubbleAlpha));
+      document.documentElement.style.setProperty('--bubble-alpha', (currentBubbleAlpha / 100).toFixed(2));
+      const lbl = document.getElementById('bubbleAlphaVal');
+      const sl = document.getElementById('bubbleAlphaSlider');
+      if (lbl) lbl.innerText = `${currentBubbleAlpha}%`;
+      if (sl) sl.value = String(currentBubbleAlpha);
+    }
+
+    function setDimmerAlpha(val) {
+      currentDimmerAlpha = parseInt(val, 10);
+      localStorage.setItem('APP_BG_DIMMER', String(currentDimmerAlpha));
+      document.documentElement.style.setProperty('--dimmer-alpha', (currentDimmerAlpha / 100).toFixed(2));
+      const lbl = document.getElementById('dimmerAlphaVal');
+      const sl = document.getElementById('dimmerAlphaSlider');
+      if (lbl) lbl.innerText = `${currentDimmerAlpha}%`;
+      if (sl) sl.value = String(currentDimmerAlpha);
+    }
+
+    function setTextClarity(mode) {
+      currentTextClarity = mode;
+      localStorage.setItem('APP_TEXT_CLARITY', mode);
+      document.body.classList.remove('clarity-crisp', 'clarity-high', 'clarity-halo');
+      document.body.classList.add(`clarity-${mode}`);
+      ['crisp', 'high', 'halo'].forEach(m => {
+        const b = document.getElementById(`clarityBtn-${m}`);
+        if (b) b.className = currentTextClarity === m
+          ? "py-1.5 rounded-xl text-[10px] font-semibold border border-cyan-400 bg-cyan-500/25 text-white text-center transition"
+          : "py-1.5 rounded-xl text-[10px] font-medium border border-white/10 bg-black/35 text-slate-300 hover:text-white text-center transition";
+      });
+    }
+
+    function setAutoAdapt(enabled) {
+      autoAdaptEnabled = Boolean(enabled);
+      localStorage.setItem('APP_AUTO_ADAPT', String(autoAdaptEnabled));
+    }
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    resizeCanvas();
+    const aaToggle = document.getElementById('autoAdaptToggle');
+    if (aaToggle) aaToggle.checked = autoAdaptEnabled;
+    setBubbleStyle(currentBubbleStyle);
+    setBubbleAlpha(currentBubbleAlpha);
+    setDimmerAlpha(currentDimmerAlpha);
+    setTextClarity(currentTextClarity);
+    setWallpaper(currentWallpaper, true);
+    requestAnimationFrame(drawWallpaperFrame);
+
+    // ============================================================================
     // UNIVERSAL TAP-TO-COLLAPSE DETECTOR
     // ============================================================================
     let pointerDownX = 0, pointerDownY = 0;
@@ -507,7 +850,7 @@
     });
 
     // ============================================================================
-    // TYPOGRAPHY & GLASS TINT
+    // TYPOGRAPHY
     // ============================================================================
     let currentAppFont = localStorage.getItem('APP_FONT') || 'sf';
     let currentAppScale = localStorage.getItem('APP_SCALE') || '1';
@@ -544,30 +887,6 @@
       });
     }
     setAppFont(currentAppFont); setAppScale(currentAppScale);
-
-    let currentGlassTint = localStorage.getItem('GLASS_TINT') || 'midnight';
-    const GLASS_TINTS = {
-      midnight: ['radial-gradient(circle, rgba(30,41,59,0.8) 0%, transparent 70%)', 'radial-gradient(circle, rgba(51,65,85,0.7) 0%, transparent 70%)', 'radial-gradient(circle, rgba(30,27,75,0.7) 0%, transparent 70%)', 'radial-gradient(circle, rgba(15,23,42,0.8) 0%, transparent 70%)'],
-      control: ['radial-gradient(circle, rgba(147,51,234,0.65) 0%, transparent 70%)', 'radial-gradient(circle, rgba(14,165,233,0.65) 0%, transparent 70%)', 'radial-gradient(circle, rgba(234,88,12,0.55) 0%, transparent 70%)', 'radial-gradient(circle, rgba(16,185,129,0.55) 0%, transparent 70%)'],
-      warm: ['radial-gradient(circle, rgba(245,158,11,0.55) 0%, transparent 70%)', 'radial-gradient(circle, rgba(234,88,12,0.5) 0%, transparent 70%)', 'radial-gradient(circle, rgba(217,119,6,0.45) 0%, transparent 70%)', 'radial-gradient(circle, rgba(251,191,36,0.4) 0%, transparent 70%)'],
-      emerald: ['radial-gradient(circle, rgba(16,185,129,0.55) 0%, transparent 70%)', 'radial-gradient(circle, rgba(13,148,136,0.5) 0%, transparent 70%)', 'radial-gradient(circle, rgba(14,165,233,0.45) 0%, transparent 70%)', 'radial-gradient(circle, rgba(52,211,153,0.4) 0%, transparent 70%)']
-    };
-    function setGlassTint(tintKey) {
-      if (!GLASS_TINTS[tintKey]) return;
-      currentGlassTint = tintKey;
-      localStorage.setItem('GLASS_TINT', tintKey);
-      for (let i = 1; i <= 4; i++) {
-        const el = document.getElementById(`orb${i}`);
-        if (el) el.style.background = GLASS_TINTS[tintKey][i - 1];
-      }
-      ['midnight', 'control', 'warm', 'emerald'].forEach(t => {
-        const btn = document.getElementById(`tintBtn-${t}`);
-        if (btn) btn.className = currentGlassTint === t
-          ? "px-2.5 py-2 rounded-xl text-[11px] font-semibold border border-white/40 bg-white/15 text-white flex items-center gap-1.5 transition shadow-sm"
-          : "px-2.5 py-2 rounded-xl text-[11px] font-medium border border-white/10 bg-black/30 text-slate-300 hover:text-white flex items-center gap-1.5 transition";
-      });
-    }
-    setGlassTint(currentGlassTint);
 
     // ============================================================================
     // DYNAMIC N-MODEL ROSTER + WEEKLY AUTO-DISCOVERY + RETIREMENT
@@ -1319,7 +1638,7 @@ Format strictly as:
     }
 
     // ============================================================================
-    // CORE HEADINGS UI & INTERACTIONS (LAZY DRAWERS + PAGINATION)
+    // CORE HEADINGS UI & INTERACTIONS (BUBBLES + LAZY DRAWERS + PAGINATION)
     // ============================================================================
     function toggleCurtain(open) {
       const drawer = document.getElementById('curtainDrawer'), backdrop = document.getElementById('curtainBackdrop');
@@ -1388,7 +1707,7 @@ Format strictly as:
         document.getElementById('countBadge').innerText = `${allVideos.length} Headlines`;
         updateLaymanProgressCounter(); renderFilters(); renderCurtainChannels(); renderHeadings();
       } catch (err) {
-        document.getElementById('headingsList').innerHTML = `<div class="p-8 text-center text-rose-400 text-xs">Failed to load feed data.</div>`;
+        document.getElementById('headingsList').innerHTML = `<div class="p-8 text-center text-rose-400 text-xs glass-surface rounded-3xl">Failed to load feed data.</div>`;
       }
     }
 
@@ -1520,7 +1839,7 @@ Format strictly as:
           </div>
         </div>
 
-        <div id="inlineOutput-${videoId}" class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-100 leading-relaxed space-y-2 mb-3"></div>
+        <div id="inlineOutput-${videoId}" class="p-3.5 rounded-2xl bg-black/55 border border-white/10 text-xs text-slate-100 leading-relaxed space-y-2 mb-3"></div>
         <div class="py-1 my-1 text-center text-[10px] text-slate-400 border-y border-white/10 select-none">▲ Tap anywhere on any description or empty space to collapse</div>
 
         <div class="flex flex-wrap gap-1.5 mb-2.5 mt-2">
@@ -1529,7 +1848,7 @@ Format strictly as:
           <button onclick="generateInlineQuestions('${videoId}')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-purple-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions</button>
         </div>
 
-        <div id="smartQuestionsBox-${videoId}" class="hidden flex flex-wrap gap-1.5 mb-3 p-2.5 rounded-xl bg-black/40 border border-white/15"></div>
+        <div id="smartQuestionsBox-${videoId}" class="hidden flex flex-wrap gap-1.5 mb-3 p-2.5 rounded-xl bg-black/45 border border-white/15"></div>
         <div id="qaResponseContainer-${videoId}" class="hidden space-y-2.5 mb-3"></div>
 
         <div class="mt-3 pt-3 border-t border-white/15">
@@ -1541,7 +1860,7 @@ Format strictly as:
             </div>
           </div>
           <div class="relative">
-            <input id="customInput-${videoId}" type="text" placeholder="Ask personal or deep questions..." onkeydown="if(event.key==='Enter') submitInlineCustom('${videoId}')" class="w-full bg-black/45 text-xs text-white placeholder-slate-400 rounded-xl pl-3 pr-8 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
+            <input id="customInput-${videoId}" type="text" placeholder="Ask personal or deep questions..." onkeydown="if(event.key==='Enter') submitInlineCustom('${videoId}')" class="w-full bg-black/50 text-xs text-white placeholder-slate-400 rounded-xl pl-3 pr-8 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
             <button onclick="submitInlineCustom('${videoId}')" class="absolute right-2.5 top-2.5 text-slate-300 hover:text-sky-400"><i class="fa-solid fa-paper-plane text-xs"></i></button>
           </div>
         </div>`;
@@ -1584,7 +1903,7 @@ Format strictly as:
       updateReadStatsDisplay(primary.length, duplicates.length, readPool.length);
 
       const list = document.getElementById('headingsList');
-      if (!filtered.length) { list.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs">No active updates match your filter.</div>`; return; }
+      if (!filtered.length) { list.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs glass-surface rounded-3xl">No active updates match your filter.</div>`; return; }
 
       let remaining = visibleLimit;
       let html = '';
@@ -1596,22 +1915,22 @@ Format strictly as:
       if (remaining > 0 && duplicates.length > 0) {
         const visibleDup = duplicates.slice(0, remaining);
         remaining -= visibleDup.length;
-        html += `<div class="p-3.5 bg-amber-500/10 border-y border-amber-400/30 flex items-center justify-between"><span class="text-xs font-bold text-amber-300 uppercase tracking-wider"><i class="fa-solid fa-clone text-amber-400 mr-1"></i> Repeated Coverage (${duplicates.length})</span><span class="text-[11px] text-amber-300 font-mono">Demoted</span></div>`;
+        html += `<div class="px-4 py-2.5 rounded-2xl bg-amber-500/15 border border-amber-400/35 flex items-center justify-between"><span class="text-xs font-bold text-amber-300 uppercase tracking-wider"><i class="fa-solid fa-clone text-amber-400 mr-1"></i> Repeated Coverage (${duplicates.length})</span><span class="text-[11px] text-amber-300 font-mono">Demoted</span></div>`;
         html += visibleDup.map(item => renderHeadingRowHTML(item, false, true)).join('');
       }
 
       if (remaining > 0 && readPool.length > 0) {
         const visibleRead = readPool.slice(0, remaining);
         remaining -= visibleRead.length;
-        html += `<div class="p-3.5 bg-black/40 border-y border-white/10 flex items-center justify-between"><span class="text-xs font-bold text-slate-300 uppercase tracking-wider"><i class="fa-solid fa-check-double text-slate-400 mr-1"></i> Read Archive (${readPool.length})</span><button onclick="resetReadState()" class="text-xs text-sky-300 hover:text-white glass-pill px-2.5 py-1 rounded-xl">Unmark All</button></div>`;
+        html += `<div class="px-4 py-2.5 rounded-2xl bg-black/50 border border-white/15 flex items-center justify-between"><span class="text-xs font-bold text-slate-300 uppercase tracking-wider"><i class="fa-solid fa-check-double text-slate-400 mr-1"></i> Read Archive (${readPool.length})</span><button onclick="resetReadState()" class="text-xs text-sky-300 hover:text-white glass-pill px-2.5 py-1 rounded-xl">Unmark All</button></div>`;
         html += visibleRead.map(item => renderHeadingRowHTML(item, true, false)).join('');
       }
 
       const totalCount = primary.length + duplicates.length + readPool.length;
       const shownCount = Math.min(visibleLimit, totalCount);
       if (shownCount < totalCount) {
-        html += `<div class="p-4 text-center bg-black/30">
-          <button onclick="loadMoreHeadlines()" class="glass-pill px-5 py-2 rounded-2xl text-xs font-semibold text-sky-300 hover:text-white">
+        html += `<div class="pt-2 text-center">
+          <button onclick="loadMoreHeadlines()" class="glass-pill px-5 py-2.5 rounded-2xl text-xs font-semibold text-sky-300 hover:text-white">
             Load More Headlines (${totalCount - shownCount} remaining)
           </button>
         </div>`;
@@ -1631,19 +1950,19 @@ Format strictly as:
           <div class="flex items-start gap-2.5 min-w-0 flex-1 pointer-events-none">
             <span id="readDot-${item.id}" class="mt-1.5 shrink-0 ${isRead ? 'hidden' : ''}"><div class="unread-indicator"></div></span>
             <div class="min-w-0 flex-1">
-              <h3 class="text-left text-xs sm:text-sm font-medium text-white hover:text-sky-300 transition leading-snug line-clamp-2">${item.title}</h3>
-              <div class="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-300/80">
-                <span class="font-semibold text-slate-200">${item.channel_title}</span><span>•</span><span>${timeAgo}</span>
+              <h3 class="headline-text text-left text-xs sm:text-sm text-white hover:text-sky-300 transition leading-snug line-clamp-2">${item.title}</h3>
+              <div class="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] text-slate-200/90">
+                <span class="font-semibold text-white/95">${item.channel_title}</span><span>•</span><span>${timeAgo}</span>
                 <span id="laymanTag-${item.id}" class="text-[10px] text-emerald-300 font-medium ${hasServerSummary ? '' : 'hidden'}">• Layman Ready</span>
                 ${isDuplicate ? `<span class="text-[10px] text-amber-300 font-medium">• Similar topic above</span>` : ''}
               </div>
             </div>
           </div>
           <div class="flex items-center gap-2 shrink-0">
-            <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-300 hover:text-red-400 transition text-sm" title="Watch Original on YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-200 hover:text-red-400 transition text-sm" title="Watch Original on YouTube"><i class="fa-brands fa-youtube"></i></a>
           </div>
         </div>
-        <div id="drawer-${item.id}" class="hidden p-4 bg-black/55 border-t border-white/15 collapsible-zone"></div>
+        <div id="drawer-${item.id}" class="hidden p-4 bg-black/70 border-t border-white/15 collapsible-zone"></div>
       </div>`;
     }
 
@@ -1696,7 +2015,7 @@ Format strictly as:
       container.classList.remove('hidden');
       const tempId = 'deepen-' + Date.now();
       const title = type === 'specific' ? "Specific Knowledge (Comprehensive Dossier)" : "UPSC Curated Analysis";
-      container.insertAdjacentHTML('beforeend', `<div id="${tempId}" class="p-3.5 rounded-2xl bg-black/50 border border-white/15 text-xs text-slate-100 space-y-2"></div>`);
+      container.insertAdjacentHTML('beforeend', `<div id="${tempId}" class="p-3.5 rounded-2xl bg-black/55 border border-white/15 text-xs text-slate-100 space-y-2"></div>`);
 
       const cached = getDeepCache(videoId, type);
       if (cached) {
@@ -1743,7 +2062,7 @@ Format strictly as:
       container.classList.remove('hidden');
       const tempId = retryCardId || ('qa-heading-' + Date.now());
       if (!retryCardId) {
-        container.insertAdjacentHTML('beforeend', `<div id="${tempId}" class="p-3.5 rounded-2xl bg-black/50 border border-white/15 text-xs text-slate-100 space-y-2"></div>`);
+        container.insertAdjacentHTML('beforeend', `<div id="${tempId}" class="p-3.5 rounded-2xl bg-black/55 border border-white/15 text-xs text-slate-100 space-y-2"></div>`);
         if (input) input.value = '';
       }
       const cardEl = document.getElementById(tempId);
