@@ -20,67 +20,69 @@
       color: #f1f5f9;
       font-family: var(--app-font);
       overflow-x: hidden;
-      transition: font-family 0.2s ease;
     }
+    /* Cool static ambient backdrop: zero continuous GPU animation or heavy blur */
     .ios-ambient-backdrop {
       position: fixed; inset: 0; z-index: -2; pointer-events: none;
       background-color: #02040a; overflow: hidden;
     }
     .ambient-orb {
-      position: absolute; border-radius: 9999px; filter: blur(95px);
-      opacity: 0.65; transition: all 1.2s ease;
-      animation: floatOrbs 22s ease-in-out infinite alternate;
+      position: absolute; border-radius: 9999px;
+      opacity: 0.32;
+      pointer-events: none;
     }
-    .orb-1 { width: 420px; height: 420px; top: 4%; left: 8%; }
-    .orb-2 { width: 380px; height: 380px; top: 38%; right: 6%; animation-delay: -7s; }
-    .orb-3 { width: 340px; height: 340px; bottom: 5%; left: 18%; animation-delay: -13s; opacity: 0.45; }
-    .orb-4 { width: 290px; height: 290px; top: 15%; right: 32%; animation-delay: -4s; opacity: 0.40; }
-    @keyframes floatOrbs {
-      0% { transform: translate(0px, 0px) scale(1); }
-      50% { transform: translate(30px, -25px) scale(1.07); }
-      100% { transform: translate(-25px, 20px) scale(0.96); }
-    }
+    .orb-1 { width: 520px; height: 520px; top: -8%; left: -6%; }
+    .orb-2 { width: 460px; height: 460px; top: 32%; right: -8%; }
+    .orb-3 { width: 420px; height: 420px; bottom: -6%; left: 10%; opacity: 0.24; }
+    .orb-4 { width: 360px; height: 360px; top: 10%; right: 24%; opacity: 0.20; }
+
     .glass-surface {
-      background: rgba(18, 21, 29, 0.62);
-      backdrop-filter: blur(32px) saturate(190%);
-      -webkit-backdrop-filter: blur(32px) saturate(190%);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
+      background: rgba(16, 20, 30, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      box-shadow: 0 10px 28px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
     }
-    .heading-row { transition: all 0.2s ease; }
-    .row-unread { background-color: rgba(22, 26, 36, 0.48); border-bottom: 1px solid rgba(255, 255, 255, 0.09); opacity: 1; }
-    .row-unread:hover { background-color: rgba(34, 40, 56, 0.65); }
-    .row-duplicate { background-color: rgba(16, 19, 27, 0.45); border-bottom: 1px dashed rgba(245, 158, 11, 0.35); opacity: 0.86; }
-    .row-duplicate:hover { background-color: rgba(28, 32, 44, 0.60); }
-    .row-read { background-color: rgba(10, 12, 18, 0.38); border-bottom: 1px solid rgba(255, 255, 255, 0.05); opacity: 0.55; filter: grayscale(25%); }
-    .row-read:hover { opacity: 0.85; background-color: rgba(18, 22, 32, 0.52); }
+    @media (min-width: 768px) {
+      .glass-surface {
+        background: rgba(18, 21, 29, 0.72);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+    }
+    .heading-row {
+      content-visibility: auto;
+      contain-intrinsic-size: 74px;
+      transition: background-color 0.15s ease;
+    }
+    .row-unread { background-color: rgba(22, 26, 36, 0.65); border-bottom: 1px solid rgba(255, 255, 255, 0.09); opacity: 1; }
+    .row-unread:hover { background-color: rgba(34, 40, 56, 0.78); }
+    .row-duplicate { background-color: rgba(16, 19, 27, 0.60); border-bottom: 1px dashed rgba(245, 158, 11, 0.35); opacity: 0.86; }
+    .row-duplicate:hover { background-color: rgba(28, 32, 44, 0.72); }
+    .row-read { background-color: rgba(10, 12, 18, 0.55); border-bottom: 1px solid rgba(255, 255, 255, 0.05); opacity: 0.58; }
+    .row-read:hover { opacity: 0.85; background-color: rgba(18, 22, 32, 0.65); }
     .glass-pill {
-      background: rgba(28, 32, 44, 0.65);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(28, 33, 46, 0.82);
       border: 1px solid rgba(255, 255, 255, 0.14);
-      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.09);
-      transition: all 0.15s ease;
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
     }
-    .glass-pill:hover { background: rgba(42, 48, 66, 0.78); border-color: rgba(255, 255, 255, 0.28); }
+    .glass-pill:hover { background: rgba(42, 48, 66, 0.90); border-color: rgba(255, 255, 255, 0.28); }
     .glass-pill:active { transform: scale(0.96); }
     select { appearance: none; -webkit-appearance: none; }
-    .unread-indicator { width: 7px; height: 7px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
+    .unread-indicator { width: 7px; height: 7px; border-radius: 9999px; background-color: #38bdf8; box-shadow: 0 0 6px #38bdf8; }
     .collapsible-zone { cursor: pointer; }
     details.curtain-section > summary, details.master-collapsible > summary { list-style: none; cursor: pointer; }
     details.curtain-section > summary::-webkit-details-marker, details.master-collapsible > summary::-webkit-details-marker { display: none; }
     details.curtain-section[open] .chevron-icon, details.master-collapsible[open] .chevron-icon { transform: rotate(180deg); }
     .chevron-icon { transition: transform 0.2s ease; }
     #curtainDrawer {
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateX(100%);
-      background: rgba(14, 17, 25, 0.90);
-      backdrop-filter: blur(42px) saturate(200%);
-      -webkit-backdrop-filter: blur(42px) saturate(200%);
+      background: rgba(12, 15, 23, 0.97);
       border-left: 1px solid rgba(255, 255, 255, 0.16);
+      will-change: transform;
     }
     #curtainDrawer.open { transform: translateX(0); }
-    #curtainBackdrop { transition: opacity 0.3s ease; }
+    #curtainBackdrop { transition: opacity 0.25s ease; }
     #pullIndicator { transition: transform 0.2s ease; transform: translateY(-100%); }
     #pullIndicator.visible { transform: translateY(0); }
   </style>
@@ -233,10 +235,8 @@
     </div>
   </main>
 
-  <!-- ============================================================================== -->
-  <!-- STEP 4: DYNAMIC CURTAIN PANEL (3 KEYS + DYNAMIC MODELS + WEEKLY AUTO-DISCOVERY) -->
-  <!-- ============================================================================== -->
-  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/55 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity"></div>
+  <!-- DYNAMIC CURTAIN PANEL -->
+  <div id="curtainBackdrop" onclick="toggleCurtain(false)" class="fixed inset-0 bg-black/65 z-50 hidden opacity-0 transition-opacity"></div>
 
   <aside id="curtainDrawer" class="fixed top-0 right-0 h-full w-96 max-w-[94vw] z-50 shadow-2xl flex flex-col justify-between">
     <div class="p-5 overflow-y-auto flex-1 space-y-3">
@@ -271,7 +271,6 @@
             Use 3 keys from <strong>3 separate Google Cloud projects</strong>. While the site is open, <strong>Key 2 & Key 3</strong> handle active queries exclusively, while <strong>Key 1</strong> runs background Layman prep (+ acts as final overflow failover).
           </p>
 
-          <!-- Key 1: Background Layman + Failover Overflow -->
           <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/25 space-y-1.5">
             <div class="flex items-center justify-between">
               <span class="text-[11px] font-bold text-amber-300">Key 1 • Background Layman + Overflow</span>
@@ -288,7 +287,6 @@
             </div>
           </div>
 
-          <!-- Key 2: Active Search Reserved #1 -->
           <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-400/30 space-y-1.5">
             <div class="flex items-center justify-between">
               <span class="text-[11px] font-bold text-emerald-300">Key 2 • Active Reserved #1 (50% Split)</span>
@@ -297,7 +295,6 @@
             <input id="apiKey2Input" type="password" onchange="saveThreeKeySettings()" placeholder="Paste Project 2 Gemini API Key..." class="w-full bg-black/50 text-[11px] text-white placeholder-slate-400 rounded-lg px-2.5 py-1.5 border border-white/15 focus:outline-none focus:border-emerald-400" />
           </div>
 
-          <!-- Key 3: Active Search Reserved #2 -->
           <div class="p-2.5 rounded-xl bg-sky-500/10 border border-sky-400/30 space-y-1.5">
             <div class="flex items-center justify-between">
               <span class="text-[11px] font-bold text-sky-300">Key 3 • Active Reserved #2 (50% Split)</span>
@@ -318,7 +315,7 @@
         </div>
       </details>
 
-      <!-- SECTION 2: DYNAMIC MODEL POOL & WEEKLY AUTO-DISCOVERY (STEP 3 & STEP 4) -->
+      <!-- SECTION 2: DYNAMIC MODEL POOL & WEEKLY AUTO-DISCOVERY -->
       <details open class="curtain-section glass-pill rounded-2xl overflow-hidden border border-purple-400/35">
         <summary class="p-3.5 flex items-center justify-between text-xs font-bold text-purple-300 select-none">
           <span class="flex items-center gap-2"><i class="fa-solid fa-cubes text-purple-400"></i> Dynamic Models & Equal Split (<span id="activeModelCountLabel">3</span>)</span>
@@ -329,7 +326,6 @@
             Every model below is automatically shared across <strong>all 3 keys</strong> with equal splitting & zero-wait failover. Auto-scans weekly for new free models (>100 RPD) and removes retired models only after 3 confirmed 404s.
           </p>
 
-          <!-- Add New Model Input -->
           <div class="flex items-center gap-1.5">
             <input id="addModelInput" type="text" placeholder="Add model ID (e.g. gemma-4-26b-a4b-it)..."
               onkeydown="if(event.key==='Enter') addManualModel()"
@@ -339,10 +335,8 @@
             </button>
           </div>
 
-          <!-- Active Model List -->
           <div id="dynamicModelList" class="space-y-1.5 max-h-48 overflow-y-auto pr-0.5"></div>
 
-          <!-- Weekly Auto-Discovery Status & Manual Scan -->
           <div class="pt-2 border-t border-white/10 space-y-1.5">
             <div class="flex items-center justify-between text-[10px] text-slate-300">
               <span id="weeklySyncStatus">Weekly scan: Pending</span>
@@ -450,7 +444,7 @@
     </div>
 
     <div class="p-4 border-t border-white/15 bg-black/40 flex items-center justify-between text-xs text-slate-400">
-      <span>VideoIntel Hub v16.0 (4-Step Failover)</span>
+      <span>VideoIntel Hub v16.1 (Cool Mobile Engine)</span>
       <button onclick="toggleCurtain(false)" class="text-sky-400 hover:text-sky-300 font-medium">Close Panel</button>
     </div>
   </aside>
@@ -470,7 +464,6 @@
       "@ReVIEWbySoukhyaGaonkar", "@MasthMagaa"
     ];
 
-    // Default High-Quota Free-Tier Seed Models (RPD > 100)
     const DEFAULT_HIGH_QUOTA_MODELS = [
       "gemini-3.5-flash-lite",
       "gemini-3.1-flash-lite",
@@ -478,22 +471,23 @@
     ];
 
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-    const RETIRE_CONFIRM_THRESHOLD = 3; // Only auto-remove after 3 consecutive confirmed retirement errors
+    const RETIRE_CONFIRM_THRESHOLD = 3;
+    const PAGE_SIZE = 35;
 
     let channelRoster = [];
     let allVideos = [];
     let currentFilter = 'ALL';
     let onlyLast24Hours = false;
+    let visibleLimit = PAGE_SIZE;
     let aiExplicitPrimaryIds = null;
     let aiExplicitDuplicateIds = null;
 
-    // Runtime state for equal splitting & zero-wait failover
     let dynamicModels = [];
     let activeDispatchCount = parseInt(localStorage.getItem('ACTIVE_DISPATCH_COUNTER') || '0', 10);
     let laymanDispatchCount = parseInt(localStorage.getItem('LAYMAN_DISPATCH_COUNTER') || '0', 10);
     let laymanQueueRunning = false;
     let activeSearchBusyUntil = 0;
-    const pathCooldownUntil = new Map(); // keyId::model -> timestamp
+    const pathCooldownUntil = new Map();
 
     // ============================================================================
     // UNIVERSAL TAP-TO-COLLAPSE DETECTOR
@@ -553,10 +547,10 @@
 
     let currentGlassTint = localStorage.getItem('GLASS_TINT') || 'midnight';
     const GLASS_TINTS = {
-      midnight: ['radial-gradient(circle, #1e293b 0%, #0f172a 70%, transparent 100%)', 'radial-gradient(circle, #334155 0%, #0f172a 70%, transparent 100%)', 'radial-gradient(circle, #1e1b4b 0%, #090d16 70%, transparent 100%)', 'radial-gradient(circle, #0f172a 0%, #020617 70%, transparent 100%)'],
-      control: ['radial-gradient(circle, #9333ea 0%, #4f46e5 70%, transparent 100%)', 'radial-gradient(circle, #0ea5e9 0%, #2563eb 70%, transparent 100%)', 'radial-gradient(circle, #ea580c 0%, #e11d48 70%, transparent 100%)', 'radial-gradient(circle, #10b981 0%, #0d9488 70%, transparent 100%)'],
-      warm: ['radial-gradient(circle, #f59e0b 0%, #b45309 70%, transparent 100%)', 'radial-gradient(circle, #ea580c 0%, #9a3412 70%, transparent 100%)', 'radial-gradient(circle, #d97706 0%, #78350f 70%, transparent 100%)', 'radial-gradient(circle, #fbbf24 0%, #b45309 70%, transparent 100%)'],
-      emerald: ['radial-gradient(circle, #10b981 0%, #047857 70%, transparent 100%)', 'radial-gradient(circle, #0d9488 0%, #115e59 70%, transparent 100%)', 'radial-gradient(circle, #0ea5e9 0%, #0369a1 70%, transparent 100%)', 'radial-gradient(circle, #34d399 0%, #065f46 70%, transparent 100%)']
+      midnight: ['radial-gradient(circle, rgba(30,41,59,0.8) 0%, transparent 70%)', 'radial-gradient(circle, rgba(51,65,85,0.7) 0%, transparent 70%)', 'radial-gradient(circle, rgba(30,27,75,0.7) 0%, transparent 70%)', 'radial-gradient(circle, rgba(15,23,42,0.8) 0%, transparent 70%)'],
+      control: ['radial-gradient(circle, rgba(147,51,234,0.65) 0%, transparent 70%)', 'radial-gradient(circle, rgba(14,165,233,0.65) 0%, transparent 70%)', 'radial-gradient(circle, rgba(234,88,12,0.55) 0%, transparent 70%)', 'radial-gradient(circle, rgba(16,185,129,0.55) 0%, transparent 70%)'],
+      warm: ['radial-gradient(circle, rgba(245,158,11,0.55) 0%, transparent 70%)', 'radial-gradient(circle, rgba(234,88,12,0.5) 0%, transparent 70%)', 'radial-gradient(circle, rgba(217,119,6,0.45) 0%, transparent 70%)', 'radial-gradient(circle, rgba(251,191,36,0.4) 0%, transparent 70%)'],
+      emerald: ['radial-gradient(circle, rgba(16,185,129,0.55) 0%, transparent 70%)', 'radial-gradient(circle, rgba(13,148,136,0.5) 0%, transparent 70%)', 'radial-gradient(circle, rgba(14,165,233,0.45) 0%, transparent 70%)', 'radial-gradient(circle, rgba(52,211,153,0.4) 0%, transparent 70%)']
     };
     function setGlassTint(tintKey) {
       if (!GLASS_TINTS[tintKey]) return;
@@ -576,7 +570,7 @@
     setGlassTint(currentGlassTint);
 
     // ============================================================================
-    // STEP 3 & STEP 4: DYNAMIC N-MODEL ROSTER + WEEKLY AUTO-DISCOVERY + RETIREMENT
+    // DYNAMIC N-MODEL ROSTER + WEEKLY AUTO-DISCOVERY + RETIREMENT
     // ============================================================================
     function getRetireTracker() {
       try { return JSON.parse(localStorage.getItem('MODEL_RETIRE_TRACKER') || '{}'); } catch (e) { return {}; }
@@ -650,7 +644,6 @@
       tracker[modelId] = (tracker[modelId] || 0) + 1;
       saveRetireTracker(tracker);
 
-      // Strict rule: Only remove if confirmed retired multiple times (3+ consecutive times)
       if (tracker[modelId] >= RETIRE_CONFIRM_THRESHOLD && dynamicModels.length > 1) {
         dynamicModels = dynamicModels.filter(m => m !== modelId);
         delete tracker[modelId];
@@ -671,10 +664,8 @@
 
     function isQualifyingHighQuotaFreeModel(modelId) {
       const id = modelId.toLowerCase();
-      // Exclude non-text, paid-only, legacy 1.5/2.0, low-RPD flash/pro/preview
       const banned = ['tts', 'image', 'audio', 'live', 'transcribe', 'embedding', 'aqa', 'vision', 'robotics', 'omni', 'nano', 'pro', 'carbon', 'argon', 'neon', '1.5', '2.0', '2.5', 'exp', 'thinking'];
       if (banned.some(b => id.includes(b))) return false;
-      // Accept high-quota free-tier families: Flash-Lite (500 RPD) and Gemma 4/5 IT (1500+ RPD)
       const isFlashLite = id.includes('flash-lite') && !id.includes('preview');
       const isGemmaIT = /^gemma-(4|5|6).*-it$/.test(id);
       return isFlashLite || isGemmaIT;
@@ -704,14 +695,12 @@
           if (!methods.includes('generateContent')) continue;
           availableIds.add(id);
 
-          // Add newly discovered qualifying free models without removing working ones
           if (isQualifyingHighQuotaFreeModel(id) && !dynamicModels.includes(id)) {
             dynamicModels.push(id);
             newlyAdded.push(id);
           }
         }
 
-        // Check if any existing model completely vanished from Google's live catalog (counts as 1 retirement confirmation)
         const tracker = getRetireTracker();
         for (const existing of [...dynamicModels]) {
           if (availableIds.size > 5 && !availableIds.has(existing)) {
@@ -804,10 +793,9 @@
     }
 
     // ============================================================================
-    // STEP 1, 2 & 3: 3-KEY MANAGEMENT + EQUAL SPLITTING + UNIVERSAL ZERO-WAIT FAILOVER
+    // 3-KEY MANAGEMENT + EQUAL SPLITTING + UNIVERSAL ZERO-WAIT FAILOVER
     // ============================================================================
     function loadThreeKeySettingsIntoUI() {
-      // Seamlessly migrate any previously saved keys
       const k1 = localStorage.getItem('GEMINI_KEY_1') || localStorage.getItem('DEDICATED_LAYMAN_KEY') || localStorage.getItem('GEMINI_FRONTEND_KEY') || '';
       const k2 = localStorage.getItem('GEMINI_KEY_2') || localStorage.getItem('ACTIVE_SEARCH_KEY_1') || localStorage.getItem('GEMINI_BACKUP_KEY') || '';
       const k3 = localStorage.getItem('GEMINI_KEY_3') || localStorage.getItem('ACTIVE_SEARCH_KEY_2') || '';
@@ -874,9 +862,6 @@
       setB('key3Status', k3.length > 10, 'Reserved Ready', 'Not Set');
     }
 
-    // Builds the interconnected zero-wait failover chain:
-    // Active Mode: Starts with Equal Split across Key 2 & Key 3 -> Model 1..N -> Other Active Key Model 1..N -> Key 1 Overflow Model 1..N
-    // Layman Mode (Website Open): Starts with Key 1 -> Equal Split across Model 1..N -> Overflow to Key 2 & Key 3 if Key 1 fails
     function buildFailoverChain(mode, overrideStartModel = null) {
       const allKeys = getAllConfiguredKeys();
       if (allKeys.length === 0) return [];
@@ -891,7 +876,6 @@
       let startModelIdx = 0;
 
       if (mode === 'layman') {
-        // Step 1 (Website Open): Key 1 handles Layman prep, cycling equally across N models; Key 2 & Key 3 are overflow only
         if (k1) orderedKeys.push(k1);
         if (k2) orderedKeys.push(k2);
         if (k3) orderedKeys.push(k3);
@@ -899,14 +883,13 @@
         laymanDispatchCount++;
         localStorage.setItem('LAYMAN_DISPATCH_COUNTER', String(laymanDispatchCount));
       } else {
-        // Step 2: 2 Reserved Active Keys (Key 2 & Key 3) split 50/50, and inside each key split 1/N across models!
         const activePool = [k2, k3].filter(Boolean);
         if (activePool.length >= 2) {
           const keyIdx = activeDispatchCount % 2;
           const perKeyTurn = Math.floor(activeDispatchCount / 2);
           startModelIdx = perKeyTurn % N;
           orderedKeys = [activePool[keyIdx], activePool[1 - keyIdx]];
-          if (k1) orderedKeys.push(k1); // Step 3: Overflow to Key 1 only if both Active keys fail
+          if (k1) orderedKeys.push(k1);
         } else if (activePool.length === 1) {
           startModelIdx = activeDispatchCount % N;
           orderedKeys = [activePool[0]];
@@ -923,7 +906,6 @@
         startModelIdx = models.indexOf(overrideStartModel);
       }
 
-      // Build Key-first interconnected chain: KeyA-M1 -> KeyA-M2 -> ... -> KeyA-MN -> KeyB-M1 -> ...
       const rotatedModels = models.slice(startModelIdx).concat(models.slice(0, startModelIdx));
       const chain = [];
       const seenKeys = new Set();
@@ -944,7 +926,6 @@
       const chain = buildFailoverChain(mode, overrideModel);
       if (chain.length === 0) throw new Error("GEMINI_KEYS_REQUIRED");
 
-      // Prioritize non-cooling paths first, keep cooling paths at the very end as last-resort zero-wait fallback
       const now = Date.now();
       const readyPaths = chain.filter(p => (pathCooldownUntil.get(p.pathId) || 0) <= now);
       const coolingPaths = chain.filter(p => (pathCooldownUntil.get(p.pathId) || 0) > now);
@@ -979,7 +960,6 @@
                 model: step.model
               };
             }
-            // Empty/invalid answer -> immediate failover to next path
             lastErr = `Empty response on ${step.keyObj.label}/${step.model}`;
             continue;
           } else {
@@ -990,13 +970,11 @@
               pathCooldownUntil.set(step.pathId, Date.now() + 45000);
             }
             recordPossibleRetirement(step.model, res.status, msg);
-            // Any failure -> immediately continue to next (Key -> Model) in chain with ZERO waiting
             continue;
           }
         } catch (e) {
           clearTimeout(tid);
           lastErr = e.message || "Network/Timeout";
-          // Network or timeout failure -> immediately continue to next path
           continue;
         }
       }
@@ -1015,7 +993,7 @@
     }
 
     // ============================================================================
-    // STEP 1: BACKGROUND LAYMAN'S READ QUEUE (KEY 1 SPLIT EQUALLY ACROSS N MODELS)
+    // BACKGROUND LAYMAN'S READ QUEUE
     // ============================================================================
     function getCachedLaymanMap() {
       try { return JSON.parse(localStorage.getItem('LAYMAN_SUMMARY_CACHE') || '{}'); } catch (e) { return {}; }
@@ -1341,12 +1319,12 @@ Format strictly as:
     }
 
     // ============================================================================
-    // CORE HEADINGS UI & INTERACTIONS
+    // CORE HEADINGS UI & INTERACTIONS (LAZY DRAWERS + PAGINATION)
     // ============================================================================
     function toggleCurtain(open) {
       const drawer = document.getElementById('curtainDrawer'), backdrop = document.getElementById('curtainBackdrop');
       if (open) { backdrop.classList.remove('hidden'); setTimeout(() => backdrop.classList.remove('opacity-0'), 10); drawer.classList.add('open'); }
-      else { drawer.classList.remove('open'); backdrop.classList.add('opacity-0'); setTimeout(() => backdrop.classList.add('hidden'), 300); }
+      else { drawer.classList.remove('open'); backdrop.classList.add('opacity-0'); setTimeout(() => backdrop.classList.add('hidden'), 260); }
     }
 
     function getReadSet() { try { return new Set(JSON.parse(localStorage.getItem('VIDEO_INTEL_READ_SET') || '[]')); } catch (e) { return new Set(); } }
@@ -1374,6 +1352,7 @@ Format strictly as:
     }
     function toggleTimeFilter() {
       onlyLast24Hours = !onlyLast24Hours;
+      visibleLimit = PAGE_SIZE;
       document.getElementById('timeFilterLabel').innerText = onlyLast24Hours ? "Last 24 Hours Only" : "Showing All Time (Top 100 Prioritized)";
       document.getElementById('timeFilterBtn').classList.toggle('border-sky-400', onlyLast24Hours);
       renderHeadings();
@@ -1416,6 +1395,7 @@ Format strictly as:
     async function triggerManualRefresh() {
       const ind = document.getElementById('pullIndicator');
       if (ind) ind.classList.add('visible');
+      visibleLimit = PAGE_SIZE;
       await loadFeed();
       if (ind) setTimeout(() => ind.classList.remove('visible'), 500);
     }
@@ -1434,8 +1414,8 @@ Format strictly as:
           ${ch === 'ALL' ? 'All Active Channels' : ch}
         </button>`).join('');
     }
-    function filterByChannelTitle(idx) { currentFilter = getActiveVisibleChannelTitles()[idx] || 'ALL'; renderFilters(); renderCurtainChannels(); renderHeadings(); }
-    function selectChannelFromRoster(ch) { currentFilter = ch; renderFilters(); renderCurtainChannels(); renderHeadings(); toggleCurtain(false); }
+    function filterByChannelTitle(idx) { currentFilter = getActiveVisibleChannelTitles()[idx] || 'ALL'; visibleLimit = PAGE_SIZE; renderFilters(); renderCurtainChannels(); renderHeadings(); }
+    function selectChannelFromRoster(ch) { currentFilter = ch; visibleLimit = PAGE_SIZE; renderFilters(); renderCurtainChannels(); renderHeadings(); toggleCurtain(false); }
 
     function renderCurtainChannels() {
       const container = document.getElementById('curtainChannelList'); if (!container) return;
@@ -1526,18 +1506,69 @@ Format strictly as:
         .replace(/\n/g, '<br/>');
     }
 
+    function buildDrawerInnerHTML(videoId) {
+      const selectedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'auto-equal-split';
+      return `
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 mb-2 border-b border-white/10 text-[11px] text-slate-300">
+          <div class="flex items-center gap-2">
+            <span class="text-teal-300 font-semibold flex items-center gap-1"><i class="fa-solid fa-newspaper text-amber-400"></i> Layman Briefing</span>
+            <span id="laymanModelBadge-${videoId}"></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="regenerateLayman('${videoId}')" class="text-[10px] text-sky-300 hover:text-white px-2 py-0.5 glass-pill rounded"><i class="fa-solid fa-rotate-right mr-1"></i> Refresh</button>
+            <span class="text-[10px] text-slate-300 hidden sm:inline">Tap anywhere to collapse</span>
+          </div>
+        </div>
+
+        <div id="inlineOutput-${videoId}" class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-100 leading-relaxed space-y-2 mb-3"></div>
+        <div class="py-1 my-1 text-center text-[10px] text-slate-400 border-y border-white/10 select-none">▲ Tap anywhere on any description or empty space to collapse</div>
+
+        <div class="flex flex-wrap gap-1.5 mb-2.5 mt-2">
+          <button onclick="runInlineAI('${videoId}', 'specific')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-sky-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge (Deep)</button>
+          <button onclick="runInlineAI('${videoId}', 'upsc')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-amber-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-landmark text-[10px]"></i> UPSC Curated</button>
+          <button onclick="generateInlineQuestions('${videoId}')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-purple-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions</button>
+        </div>
+
+        <div id="smartQuestionsBox-${videoId}" class="hidden flex flex-wrap gap-1.5 mb-3 p-2.5 rounded-xl bg-black/40 border border-white/15"></div>
+        <div id="qaResponseContainer-${videoId}" class="hidden space-y-2.5 mb-3"></div>
+
+        <div class="mt-3 pt-3 border-t border-white/15">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-globe text-amber-400"></i><span>Gemini Deep Search (2 Active Keys × N Models)</span></label>
+            <div class="relative">
+              <select id="cardEngine-${videoId}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">${getEngineOptionsHTML(selectedEngine)}</select>
+              <i class="fa-solid fa-chevron-down absolute right-2 top-2 text-[8px] text-slate-300 pointer-events-none"></i>
+            </div>
+          </div>
+          <div class="relative">
+            <input id="customInput-${videoId}" type="text" placeholder="Ask personal or deep questions..." onkeydown="if(event.key==='Enter') submitInlineCustom('${videoId}')" class="w-full bg-black/45 text-xs text-white placeholder-slate-400 rounded-xl pl-3 pr-8 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
+            <button onclick="submitInlineCustom('${videoId}')" class="absolute right-2.5 top-2.5 text-slate-300 hover:text-sky-400"><i class="fa-solid fa-paper-plane text-xs"></i></button>
+          </div>
+        </div>`;
+    }
+
     function onRowClick(event, videoId) {
       if (event && event.target.closest('button, input, a, select, textarea, label')) return;
       const drawer = document.getElementById(`drawer-${videoId}`);
-      if (drawer && !drawer.classList.contains('hidden')) { closeDrawer(videoId); return; }
+      if (!drawer) return;
+      if (!drawer.classList.contains('hidden')) { closeDrawer(videoId); return; }
+      if (drawer.dataset.built !== "true") {
+        drawer.innerHTML = buildDrawerInnerHTML(videoId);
+        drawer.dataset.built = "true";
+      }
       markAsRead(videoId);
-      if (drawer) drawer.classList.remove('hidden');
+      drawer.classList.remove('hidden');
       runInlineAI(videoId, 'layman');
     }
     function closeDrawer(videoId) {
       const drawer = document.getElementById(`drawer-${videoId}`);
       if (drawer) { drawer.classList.add('hidden'); drawer.dataset.loaded = "false"; }
       updateRowVisualState(videoId, true);
+    }
+
+    function loadMoreHeadlines() {
+      visibleLimit += PAGE_SIZE;
+      renderHeadings();
     }
 
     function renderHeadings() {
@@ -1555,15 +1586,37 @@ Format strictly as:
       const list = document.getElementById('headingsList');
       if (!filtered.length) { list.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs">No active updates match your filter.</div>`; return; }
 
-      let html = primary.map(item => renderHeadingRowHTML(item, false, false)).join('');
-      if (duplicates.length > 0) {
+      let remaining = visibleLimit;
+      let html = '';
+
+      const visiblePrimary = primary.slice(0, remaining);
+      remaining -= visiblePrimary.length;
+      html += visiblePrimary.map(item => renderHeadingRowHTML(item, false, false)).join('');
+
+      if (remaining > 0 && duplicates.length > 0) {
+        const visibleDup = duplicates.slice(0, remaining);
+        remaining -= visibleDup.length;
         html += `<div class="p-3.5 bg-amber-500/10 border-y border-amber-400/30 flex items-center justify-between"><span class="text-xs font-bold text-amber-300 uppercase tracking-wider"><i class="fa-solid fa-clone text-amber-400 mr-1"></i> Repeated Coverage (${duplicates.length})</span><span class="text-[11px] text-amber-300 font-mono">Demoted</span></div>`;
-        html += duplicates.map(item => renderHeadingRowHTML(item, false, true)).join('');
+        html += visibleDup.map(item => renderHeadingRowHTML(item, false, true)).join('');
       }
-      if (readPool.length > 0) {
+
+      if (remaining > 0 && readPool.length > 0) {
+        const visibleRead = readPool.slice(0, remaining);
+        remaining -= visibleRead.length;
         html += `<div class="p-3.5 bg-black/40 border-y border-white/10 flex items-center justify-between"><span class="text-xs font-bold text-slate-300 uppercase tracking-wider"><i class="fa-solid fa-check-double text-slate-400 mr-1"></i> Read Archive (${readPool.length})</span><button onclick="resetReadState()" class="text-xs text-sky-300 hover:text-white glass-pill px-2.5 py-1 rounded-xl">Unmark All</button></div>`;
-        html += readPool.map(item => renderHeadingRowHTML(item, true, false)).join('');
+        html += visibleRead.map(item => renderHeadingRowHTML(item, true, false)).join('');
       }
+
+      const totalCount = primary.length + duplicates.length + readPool.length;
+      const shownCount = Math.min(visibleLimit, totalCount);
+      if (shownCount < totalCount) {
+        html += `<div class="p-4 text-center bg-black/30">
+          <button onclick="loadMoreHeadlines()" class="glass-pill px-5 py-2 rounded-2xl text-xs font-semibold text-sky-300 hover:text-white">
+            Load More Headlines (${totalCount - shownCount} remaining)
+          </button>
+        </div>`;
+      }
+
       list.innerHTML = html;
     }
 
@@ -1571,7 +1624,6 @@ Format strictly as:
       const timeAgo = formatTimeAgo(item.published_at);
       const hasServerSummary = Boolean(item.layman_news && item.layman_news.trim().length > 0);
       const rowClass = isRead ? 'row-read' : (isDuplicate ? 'row-duplicate' : 'row-unread');
-      const selectedEngine = localStorage.getItem('GEMINI_SELECTED_ENGINE') || 'auto-equal-split';
 
       return `
       <div id="row-${item.id}" class="heading-row ${rowClass}">
@@ -1591,45 +1643,7 @@ Format strictly as:
             <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-300 hover:text-red-400 transition text-sm" title="Watch Original on YouTube"><i class="fa-brands fa-youtube"></i></a>
           </div>
         </div>
-
-        <div id="drawer-${item.id}" class="hidden p-4 bg-black/55 border-t border-white/15 collapsible-zone">
-          <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 mb-2 border-b border-white/10 text-[11px] text-slate-300">
-            <div class="flex items-center gap-2">
-              <span class="text-teal-300 font-semibold flex items-center gap-1"><i class="fa-solid fa-newspaper text-amber-400"></i> Layman Briefing</span>
-              <span id="laymanModelBadge-${item.id}"></span>
-            </div>
-            <div class="flex items-center gap-2">
-              <button onclick="regenerateLayman('${item.id}')" class="text-[10px] text-sky-300 hover:text-white px-2 py-0.5 glass-pill rounded"><i class="fa-solid fa-rotate-right mr-1"></i> Refresh</button>
-              <span class="text-[10px] text-slate-300 hidden sm:inline">Tap anywhere to collapse</span>
-            </div>
-          </div>
-
-          <div id="inlineOutput-${item.id}" class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-100 leading-relaxed space-y-2 mb-3"></div>
-          <div class="py-1 my-1 text-center text-[10px] text-slate-400 border-y border-white/10 select-none">▲ Tap anywhere on any description or empty space to collapse</div>
-
-          <div class="flex flex-wrap gap-1.5 mb-2.5 mt-2">
-            <button onclick="runInlineAI('${item.id}', 'specific')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-sky-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-layer-group text-[10px]"></i> Specific Knowledge (Deep)</button>
-            <button onclick="runInlineAI('${item.id}', 'upsc')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-amber-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-landmark text-[10px]"></i> UPSC Curated</button>
-            <button onclick="generateInlineQuestions('${item.id}')" class="glass-pill px-2.5 py-1 rounded-lg text-[11px] text-purple-300 flex items-center gap-1 font-medium"><i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i> Smart Questions</button>
-          </div>
-
-          <div id="smartQuestionsBox-${item.id}" class="hidden flex flex-wrap gap-1.5 mb-3 p-2.5 rounded-xl bg-black/40 border border-white/15"></div>
-          <div id="qaResponseContainer-${item.id}" class="hidden space-y-2.5 mb-3"></div>
-
-          <div class="mt-3 pt-3 border-t border-white/15">
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <label class="text-[11px] font-semibold text-sky-300 flex items-center gap-1.5"><i class="fa-solid fa-globe text-amber-400"></i><span>Gemini Deep Search (2 Active Keys × N Models)</span></label>
-              <div class="relative">
-                <select id="cardEngine-${item.id}" onchange="syncEngineSelection(this.value)" class="card-engine-selector glass-pill text-[10px] text-sky-200 pl-2.5 pr-6 py-1 rounded-lg focus:outline-none font-medium">${getEngineOptionsHTML(selectedEngine)}</select>
-                <i class="fa-solid fa-chevron-down absolute right-2 top-2 text-[8px] text-slate-300 pointer-events-none"></i>
-              </div>
-            </div>
-            <div class="relative">
-              <input id="customInput-${item.id}" type="text" placeholder="Ask personal or deep questions..." onkeydown="if(event.key==='Enter') submitInlineCustom('${item.id}')" class="w-full bg-black/45 text-xs text-white placeholder-slate-400 rounded-xl pl-3 pr-8 py-2.5 border border-white/15 focus:outline-none focus:border-white/35 shadow-inner" />
-              <button onclick="submitInlineCustom('${item.id}')" class="absolute right-2.5 top-2.5 text-slate-300 hover:text-sky-400"><i class="fa-solid fa-paper-plane text-xs"></i></button>
-            </div>
-          </div>
-        </div>
+        <div id="drawer-${item.id}" class="hidden p-4 bg-black/55 border-t border-white/15 collapsible-zone"></div>
       </div>`;
     }
 
@@ -1684,7 +1698,6 @@ Format strictly as:
       const title = type === 'specific' ? "Specific Knowledge (Comprehensive Dossier)" : "UPSC Curated Analysis";
       container.insertAdjacentHTML('beforeend', `<div id="${tempId}" class="p-3.5 rounded-2xl bg-black/50 border border-white/15 text-xs text-slate-100 space-y-2"></div>`);
 
-      // Instant device cache hit if already generated earlier
       const cached = getDeepCache(videoId, type);
       if (cached) {
         renderDeepenResult(videoId, type, tempId, title, cached);
