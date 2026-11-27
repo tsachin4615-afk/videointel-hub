@@ -1,5 +1,976 @@
 [
   {
+    "timestamp": "2026-11-27T21:03:34.424996+00:00",
+    "total_new_videos": 607,
+    "active_channels_count": 51,
+    "channels": [
+      {
+        "channel_name": "BBC News",
+        "handle": "@BBCNews",
+        "video_count": 15,
+        "topics": [
+          "How AI could be coming for your bank account | BBC News",
+          "Could Spain's socialists be about to lose power? #Spain #Election #BBCNews",
+          "Hundreds of thousands still without power after storms hit US on Thanksgiving. #BBCNews",
+          "The Week: What The Downing Street Max Balegde Story Says About The Media | BBC Newscast",
+          "Cannabis farm hidden in bunker under playground in Spain. #BBCNews",
+          "What does Zelensky think about Trump calling Putin 'my friend'? | BBC News",
+          "A Thanksgiving storm hit the eastern US on Thursday bringing winds of up to 70mph. #BBCNews",
+          "New Jersey declared a state of emergency after a storm hit the US East Coast on Thursday. #BBCNews",
+          "Could your benefit payments be affected by a \"serious cyber incident\"? #BBCNews",
+          "Catherine joins cancer support group in new documentary. #Cancer #Health #BBCNews",
+          "What we know about the 'cyber incident' affecting UK government services | BBC News",
+          "What's behind the surge in severe flu cases in the UK? #Flu #UK #BBCNews",
+          "This Black Friday, adults are buying toys for themselves | The Global Story",
+          "Inside mission to grab some of Mars' moondust | BBC News",
+          "Train attack driver's '10 seconds' to change line | BBC News"
+        ]
+      },
+      {
+        "channel_name": "Al Jazeera English",
+        "handle": "@aljazeeraenglish",
+        "video_count": 9,
+        "topics": [
+          "Nine children reunite with families in Ukraine after Melania Trump mediation",
+          "Hamas chief's last surviving son escapes Israeli strike in Gaza",
+          "UN Gaza rapporteur Francesca Albanese denied entry into Costa Rica | AJ Shorts",
+          "Renewed fighting forces families to flee in eastern DR Congo",
+          "‘AI Kid of India’ talks future of education with Vladimir Putin",
+          "With the rise of AI, are we close to having universal basic income | Money Works",
+          "Syria debates citizenship rights for children of foreign fighters",
+          "Elon Musk gets the greenlight from the US to launch one million satellites | AJ #shorts",
+          "Why an AI-written sequel to Russian Author Gogol’s novel is dividing readers"
+        ]
+      },
+      {
+        "channel_name": "Reuters",
+        "handle": "@Reuters",
+        "video_count": 8,
+        "topics": [
+          "Thanksgiving storm floods roads in New Jersey’s Stone Harbor",
+          "LIVE: New York Stock Exchange opening bell rings",
+          "Six taken to hospital as Marseille and Levski Sofia soccer fans clash",
+          "Six taken to hospital after fans clash at Europa League match",
+          "Cut off: Russians board last buses to Estonia as border shuts",
+          "US curbs leave Nvidia shipment halt in limbo",
+          "LIVE: Powerful storm hits US East Coast",
+          "Passengers board last buses to Estonia as Russian border shuts"
+        ]
+      },
+      {
+        "channel_name": "Associated Press",
+        "handle": "@AssociatedPress",
+        "video_count": 12,
+        "topics": [
+          "Ukrainian children return from Russia in an operation mediated by Melania Trump",
+          "Cuban government holds memorial for the 10th anniversary of the death of Fidel Castro",
+          "Scientists use drones and poop-sniffing dogs to check orca health",
+          "He used to be on the streets. Now he wows crowds with his homemade DJ decks",
+          "EU leaders split over budget spending and a $49 billion loan to Ukraine",
+          "‘A big letdown’: Visitors react as bad weather postpones Macy’s Thanksgiving Day Parade",
+          "European Council President Costa says no long term budget agreement reached",
+          "Estonia prepares to close its border crossings with Russia",
+          "Mexico seeks U.S. talks over SpaceX use of Mexican airspace",
+          "Former French PM Dominique de Villepin to run for president to prevent far-right victory",
+          "How Serbia’s students devised a winning strategy to bring down strongman Vucic",
+          "LIVE: First giant panda born in Indonesia turns 1"
+        ]
+      },
+      {
+        "channel_name": "DW News",
+        "handle": "@dwnews",
+        "video_count": 13,
+        "topics": [
+          "United States East Coast hit by floods | DW News",
+          "Germany is borrowing billions for defense. Who pays? | Berlin Briefing Podcast",
+          "Football match between Turkish and Israeli clubs turns into diplomatic incident | DW News",
+          "One of the EU's last direct links to Russia is about to shut down | DW News",
+          "EU funding fight | DW News",
+          "Germany's biggest budget ever comes with big cuts | DW News",
+          "EU leaders leave Brussels without a deal on the bloc's next seven-year budget | DW News",
+          "Spanish police discover cannabis bunker under playground | DW News",
+          "Spain's election is becoming a vote on the housing crisis | DW News",
+          "Jungle warfare — in Ukraine | DW News",
+          "Why China is watching Taiwan's elections so closely | DW News",
+          "Deutsche Bank's leaked files expose ties to Epstein, Trump and oligarchs | DW News",
+          "How will Spain's housing crisis sway voters? | DW News"
+        ]
+      },
+      {
+        "channel_name": "FRANCE 24 English",
+        "handle": "@France24_en",
+        "video_count": 10,
+        "topics": [
+          "The End of Spain’s ‘Frankenstein’ Coalition? Presidential Plotting in Paris, Kushner & Kremlin Trap",
+          "Paris Paloma tackles Greek mythology, generative AI in her second album 'The Fatal Flaw'",
+          "Big EU defence projects under threat from proposed budget cuts: Commissioner Andrius Kubilius",
+          "From cyberbullying to extremist content, can EU Kids Act protect minors online? • FRANCE 24",
+          "Asia and Europe stocks rally after volatile week • FRANCE 24 English",
+          "Sierra Leone: Maternal deaths fall as healthcare improves, but challenges remain • FRANCE 24",
+          "France: Macron lashes out at Le Pen’s ‘arrogance’ • FRANCE 24 English",
+          "DR Congo: Copper reserves put Africa at the centre of the global race for critical minerals",
+          "Nigeria: Political violence and attacks on candidates raise fears ahead of January elections",
+          "French student protests: A 'very bizarre' government response • FRANCE 24 English"
+        ]
+      },
+      {
+        "channel_name": "Sky News",
+        "handle": "@SkyNews",
+        "video_count": 14,
+        "topics": [
+          "Space probe survives perilous mission to Mercury: What next?",
+          "'Predator' jailed for blackmailing children and sharing indecent images on Com network",
+          "How government 'cyber incident' affects you",
+          "Christmas calamity: market sparks AI row | The UK Tonight with Sarah-Jane Mee",
+          "If 2020 went Trump's way...",
+          "Mornings with Jones and Melbourne | Saturday 28 November 2026",
+          "The impact of Poundland's collapse",
+          "'I haven't explored this outside my family walls': Kate on cancer diagnosis",
+          "Have social media stars demeaned Number 10?",
+          "Department for Work and Pensions hit by 'deeply alarming' incident",
+          "Abuse survivor: pull the Huw Edwards documentary now | The UK Tonight with Sarah-Jane Mee",
+          "Public urged to mask up, social distance and get vaccinated as number of hospitalisations surge",
+          "All Conservative candidates need to support leaving ECHR in next election, Kemi Badenoch announces",
+          "Poundland has collapsed. This Is Why."
+        ]
+      },
+      {
+        "channel_name": "euronews",
+        "handle": "@euronews",
+        "video_count": 9,
+        "topics": [
+          "Europe Tonight: How do opposing Spanish parties expect to address housing or imiigration issues?",
+          "Inside Austria's Green Tech Valley: Europe's hub for green innovation",
+          "Spain election: Is Vox set to be the kingmaker? And how crucial is the housing issue?",
+          "How can Europe become better prepared for future challenges?",
+          "Europe Tonight: EU budget summit collapses as Spain braces for vote and UK unveils deal",
+          "EU enlargement back in focus: Montenegro, Moldova and Greece's 2027 role",
+          "Is the new EU-UK deal really a win-win?",
+          "Italian MPs' EU committee questions the core of the hunting reform",
+          "Spain election: Will Vox be the kingmaker, and will housing decide the vote?"
+        ]
+      },
+      {
+        "channel_name": "TRT World",
+        "handle": "@trtworld",
+        "video_count": 14,
+        "topics": [
+          "A new era for Serbia: Political change and a wave of arrests",
+          "Bosnia and Herzegovina celebrates Statehood Day as Serbia faces democratic changes",
+          "Israeli forces bar Palestinians from their land in the occupied West Bank",
+          "Daily pill offers new hope in fight against pancreatic cancer",
+          "Housing crisis dominates debate ahead of Spain elections",
+          "Israel demolishes UNRWA headquarters in occupied East Jerusalem",
+          "Israeli forces escalate demolitions in the occupied West Bank",
+          "Pro-Palestinian protesters block Amazon warehouse in Berlin over Israel ties",
+          "Rescuers search for missing miners after Indonesia gold mine floods",
+          "FEED-BACK",
+          "Iran denies involvement in drone attack that killed two in Kuwait",
+          "Israel kills deputy education minister, his wife in central Gaza",
+          "AI opens new opportunities for blind students in Malawi",
+          "Backlash grows over Sri Lanka's controversial anti-terrorism bill"
+        ]
+      },
+      {
+        "channel_name": "africanews",
+        "handle": "@africanews",
+        "video_count": 8,
+        "topics": [
+          "Cairo mourns 31 victims of deadly fuel tanker inferno as families bid farewell",
+          "Burundi bars main opposition leader from next year's presidential election",
+          "Moroccans turn to prayer as historic drought deepens across the country",
+          "Senegalese migrants risk deadly Atlantic crossing in search of a better life",
+          "Guinea-Bissau's military government defends postponement of elections",
+          "China and Belt and Road partners step up cooperation on green energy",
+          "Europe's biggest museum complex about to open in the Belgian capital",
+          "Queen’s University Belfast clears Jason Arday’s research after plagiarism probe"
+        ]
+      },
+      {
+        "channel_name": "WION",
+        "handle": "@WION",
+        "video_count": 5,
+        "topics": [
+          "Houthis: 11 Killed in Saudi Strike in Yemen | Hackers Breach US Air Force Cloud One | WION Headlines",
+          "Is Trump Trying to Break OPEC? America's Global Oil Power Play | The Verdict",
+          "Can India Fight Without Satellite Navigation | WION Defence Pulse",
+          "Can Field Visits Transform Defence Innovation | WION Defence Pulse",
+          "2100 Nuclear Warheads Ready for Rapid Launch l Trump's Nuclear Holocaust Warning l Gravitas Live"
+        ]
+      },
+      {
+        "channel_name": "Firstpost",
+        "handle": "@Firstpost",
+        "video_count": 15,
+        "topics": [
+          "'Congress Can Do Real Things...': GOP Representatives Ripped Over ATF Gun Records | LIVE",
+          "Kim's Nuke Show, Trump on Edge; Russia Downs 863 Ukrainian Drones, Burns Kyiv | HEADLINES TODAY LIVE",
+          "LIVE| IND v NZ 2nd Test: India's Repeated Siraj Snub Sparks Backlash| First Sports With Rupha Ramani",
+          "'45 Days to Disclose US Deals': Kenya Court Rules Ebola Site 'Unconstitutional' | Firstpost Africa",
+          "Watch Fierce Winds Turn Jersey Shore Boardwalk Into A Sandstorm | Firstpost News",
+          "LIVE: Who Hit Kuwait? Iran Blames Ukraine in Explosive 'False Flag' Allegation | Firstpost Live",
+          "US WAR LIVE: 'Iran can Bomb Europe' Trump Issues 'Nuclear Holocaust' Warning",
+          "'Congo Demands Answers': Uganda General Kainerugaba's Posts Spark Row With DRC | Firstpost Africa",
+          "'Smelly', 'Unhygienic'... Why Does This Racist Image of Indians Persist? | Firstpost America | N18G",
+          "'Are U.S. Sailors Safe?' Senators Press Trump's Navy Picks on Suicides, Security Failures | LIVE",
+          "'Destruction Will Fall Upon Eritrea': Abiy Hardens Ethiopia's Red Sea Access Push | Firstpost Africa",
+          "JAISHANKAR LIVE: India's Global Move, World Leaders Discuss Maritime Cooperation, Regional Security",
+          "SPAIN ELECTION LIVE: Pedro Sanchez Holds Final Rally Ahead of Spain's November 29 Election",
+          "Spain Sends Military Emergency Unit To Tackle Migrant Surge | Firstpost News",
+          "'We Will Protect Our Brothers': Kainerugaba's Posts Strain Uganda-DR Congo Ties | Firstpost Africa"
+        ]
+      },
+      {
+        "channel_name": "CNA",
+        "handle": "@channelnewsasia",
+        "video_count": 15,
+        "topics": [
+          "Japan's education minister narrowly survives censure vote | East Asia Tonight Nov 27, 2026",
+          "Legal leaders say justice must serve the people as Singapore marks 200 years of rule of law",
+          "Cremation, burial and niche fees to increase from 2027; first hike in more than 25 years",
+          "New tripartite council to help transform Singapore's healthcare workforce for future",
+          "Consumer protection review panel proposes cooling-off period for prepaid packages",
+          "Slower real income growth, higher non-PMET unemployment in 2026: MOM",
+          "Man in Thailand stumbles upon and folds laundry while apparently drunk",
+          "India's Supreme Court orders warning labels on packaged foods high in sugar, salt and fat",
+          "Muay Thai Pikachu? Bangkok’s new Pokemon Center",
+          "Taiwan local elections: Taipei mayoral race in spotlight amid fierce contests in key battlegrounds",
+          "CNA Explains: How will the chip loophole closure affect China's AI development?",
+          "AirAsia delays salary payments to end of month as part of efforts to conserve cash",
+          "Trump says he 'did a great thing' in push to reinstate Nvidia CEO Jensen Huang",
+          "Better support, fare transparency for ComfortDelGro’s taxi, private-hire drivers",
+          "Trump's new tariffs: Do existing trade agreements offer any protection?"
+        ]
+      },
+      {
+        "channel_name": "NHK WORLD-JAPAN",
+        "handle": "@NHKWORLDJAPAN",
+        "video_count": 15,
+        "topics": [
+          "One year since deadly record rains in AsiaーNHK WORLD-JAPAN NEWS",
+          "Lack of Upper House majority a hurdle for Japan PM TakaichiーNHK WORLD-JAPAN NEWS",
+          "Expert: Prices, protests fuel Eurozone fiscal fearsーNHK WORLD-JAPAN NEWS",
+          "How Taipei's mayoral race could shape Taiwan's political futureーNHK WORLD-JAPAN NEWS",
+          "Kibinago - Trails to Oishii Tokyo",
+          "Lanterns light up night sky in Chiang MaiーNHK WORLD-JAPAN NEWS #shorts",
+          "Santa Claus Arrives in Japan Ahead of ChristmasーNHK WORLD-JAPAN NEWS #shorts",
+          "AI takes root in a Yamanashi vineyardーNHK WORLD-JAPAN NEWS",
+          "Hardships remain for Nepal flood survivors 3 months onーNHK WORLD-JAPAN NEWS",
+          "Fire, explosion hit Bangkok refineryーNHK WORLD-JAPAN NEWS",
+          "Kutani Ware - Japanology Plus",
+          "Bathing capybaras make a splash in ShizuokaーNHK WORLD-JAPAN NEWS #shorts",
+          "Blast off for Pakistani astronaut on Chinese spacecraftーNHK WORLD-JAPAN NEWS #shorts",
+          "Mural in Singapore nods to 60 years of ties with JapanーNHK WORLD-JAPAN NEWS",
+          "Japan’s mark on the 100th Thanksgiving paradeーNHK WORLD-JAPAN NEWS"
+        ]
+      },
+      {
+        "channel_name": "South China Morning Post",
+        "handle": "@SouthChinaMorningPost",
+        "video_count": 15,
+        "topics": [
+          "What to expect as Duterte’s ICC trial begins",
+          "Bangladesh garment workers continue protests",
+          "Chinese robot dog survives 1,000°C inferno",
+          "400,000-guest wedding in India brings traffic to a halt",
+          "The Wang Fuk Court fire: Rising from the ashes, reluctantly",
+          "Hong Kong mourns on 1st anniversary of deadly Tai Po fire",
+          "60% of Japan’s data centres are right here",
+          "Hong Kong proposes bill to compensate injured delivery workers",
+          "Indonesian gold mine floods kill 13 miners",
+          "“I just couldn’t hold onto my flat”",
+          "Hongkongers honour Tai Po fire victims on first anniversary",
+          "Hanoi hotpot restaurant explosion kills 6",
+          "The network of greed behind Hong Kong’s deadly Tai Po fire",
+          "“I really no longer have my mum and dad”",
+          "Hundreds attend Catholic mass ahead of Tai Po Fire anniversary"
+        ]
+      },
+      {
+        "channel_name": "ABC News (Australia)",
+        "handle": "@abcnewsaustralia",
+        "video_count": 15,
+        "topics": [
+          "Robert Crawford found guilty of murdering wife Frances at Lockyer Valley home | ABC NEWS",
+          "Parties make final pitches to Victorians ahead of state election | ABC NEWS",
+          "Interest rates fail to dampen bargain hunters in the Black Friday sales | ABC NEWS",
+          "Mushroom murderer Erin Patterson makes last-ditch bid to High Court | ABC NEWS",
+          "BOM predicts increased heatwaves, warm nights ahead | ABC NEWS",
+          "ASX jumps 2.8pc in the week despite volatility surge | Finance Report | ABC NEWS",
+          "Sam Wood to remain behind bars on DV charges | ABC NEWS",
+          "Results of independent Sandpapergate forum to be made public | ABC NEWS",
+          "Domestic gas reservation laws pass parliament as political year wraps | ABC NEWS",
+          "Large areas of the country facing elevated bushfire risk this summer | ABC NEWS",
+          "ASX bounces back this week, but growth outlook 'subdued' | ABC NEWS",
+          "The questions we couldn’t answer… until now | Ep #21 | The Case Of…",
+          "Nobody asked what would help, says Indigenous children's commissioner | ABC NEWS",
+          "Major storms inundate the US East Coast on Thanksgiving | ABC NEWS",
+          "What does it take to build an airport? | ABC Business Daily"
+        ]
+      },
+      {
+        "channel_name": "CNN",
+        "handle": "@CNN",
+        "video_count": 11,
+        "topics": [
+          "Musk’s SpaceX approved to build AI data centers in space",
+          "Retired colonel on deadly drone attack in Kuwait",
+          "Is this the wellness vacation of dreams?",
+          "Players accuse former coach of sexual harassment, call on FIFA to act",
+          "Far-right activist Loomer breaks with Trump over Huang’s Nvidia return",
+          "A sister on the ‘phantom weight’ of grieving her brother",
+          "Police discover cannabis farm hidden beneath children’s playground in Spain",
+          "Truck left suspended across overpass after driver loses control",
+          "Suspects steal $330K worth of designer bags",
+          "Will Mariah Carey’s \"All I Want for Christmas Is You\" top the charts again this year?",
+          "New York hit by massive storm on Thanksgiving"
+        ]
+      },
+      {
+        "channel_name": "PBS NewsHour",
+        "handle": "@PBSNewsHour",
+        "video_count": 15,
+        "topics": [
+          "5 ways states are regulating AI right now",
+          "French court orders actor Depardieu to trial on rape charge",
+          "Federal judge blocks FCC early review of ABC licenses",
+          "U.S. allies and rivals hit back at Trump's new tariff plans",
+          "How AI can help save money on gifts this holiday season",
+          "How women in Israel are playing larger roles in the military",
+          "PBS News Hour full episode, Nov. 26, 2026",
+          "The best strategies for holiday shopping in the age of AI",
+          "New book focuses on how to get through life's hardest days",
+          "WATCH LIVE: President Trump and first lady call U.S. service members on Thanksgiving",
+          "Journalist's experiences highlight challenges of being a family caregiver",
+          "Despite political divide, Americans often 'speak in one voice'",
+          "How Democrats' election successes could lead to new climate change policies",
+          "News Wrap: EPA reports ‘zero’ airborne lead in Iowa",
+          "Stormy Thanksgiving weather causes delays and damages for many Americans"
+        ]
+      },
+      {
+        "channel_name": "ABC News",
+        "handle": "@ABCNews",
+        "video_count": 11,
+        "topics": [
+          "Bands scramble after Macy's Thanksgiving Day Parade delay",
+          "Zelenskyy pushes back on Trump calling Putin a ‘friend’",
+          "Good Morning America Full Broadcast — Friday, November 27, 2026",
+          "12-year-old with cochlear implant finds community with USA Deaf Soccer",
+          "Cargo ships appear to float in sky in viral mirage video",
+          "Get creative with your Thanksgiving leftovers",
+          "Princess Diana charity collapses",
+          "How to get creative with Thanksgiving leftovers",
+          "Holiday shoppers hit the stores on Black Friday",
+          "Massive Thanksgiving storm batters Eastern US",
+          "EPA awaiting results following Iowa plant detonation"
+        ]
+      },
+      {
+        "channel_name": "NBC News",
+        "handle": "@NBCNews",
+        "video_count": 15,
+        "topics": [
+          "AI toy switches languages for no apparent reason",
+          "Large tree falls on home during Thanksgiving storm",
+          "House destroyed by overnight explosion in Minnesota",
+          "Authorities seize 26 critically endangered mud turtles",
+          "Millions face aftermath of historic Thanksgiving storm",
+          "20th anniversary of Macy’s Great American Marching Band",
+          "We put AI toys’ child guardrails to the test",
+          "Trump weighs in on veto power, Iran war and Putin",
+          "Mel Robbins on Rewiring Our Brains, Guiding Oprah and Not Being a ‘Human Volcano’ - Nov. 27",
+          "This Morning’s Top Headlines – Nov. 27 | News NOW",
+          "Bear sightings are on the rise across the U.S.",
+          "Search underway for pregnant escaped inmate in New Mexico",
+          "LIVE: NBC News NOW - Nov. 27",
+          "FIFA targeted by cyberattack",
+          "Families struggle with Thanksgiving plans after Iowa detonation"
+        ]
+      },
+      {
+        "channel_name": "CBC News",
+        "handle": "@CBCNews",
+        "video_count": 12,
+        "topics": [
+          "Supreme Court issues landmark decision upholding most of Quebec's secularism law",
+          "Carney holds news conference in Yellowknife",
+          "What the Supreme Court's Bill 21 decision means for Quebec and its residents",
+          "Bill 21 ruling recognized Quebec's distinct character, says prof who help write it",
+          "Could Canadian workers refuse to handle Israeli goods?",
+          "Your house is like a rainforest",
+          "Can the global climate fight get back on track? | Front Burner",
+          "Carney responds after top court upholds most of Quebec's secularism law",
+          "'Still room' for debate around Bill 21 despite Supreme Court ruling, law prof says",
+          "Canada's top court upholds Quebec secularism law with 1 exception",
+          "Supreme Court of Canada upholds Quebec’s controversial secularism law",
+          "Ukraine's Zelenskyy likens Trump's friendship with Putin to friendship with Hitler"
+        ]
+      },
+      {
+        "channel_name": "Financial Times",
+        "handle": "@FinancialTimes",
+        "video_count": 15,
+        "topics": [
+          "Spain's voters share their views on Pedro Sánchez ahead of the election | FT #shorts",
+          "Is the PM trading tough questions for TikTok likes? | FT #shorts",
+          "Down but not out: why ESG investing isn’t going away | FT Rethink",
+          "Why the AI rally has stalled | FT #shorts",
+          "Why is the return of Nvidia’s Jensen Huang uniting Taiwan and China? | FT #shorts",
+          "Tiny London quant fund is one of the UK’s biggest corporate taxpayers | FT #shorts",
+          "The most famous economist you've probably never heard of | FT #shorts",
+          "Does Jensen Huang’s return signal a crisis for capitalism? | FT #shorts",
+          "What is remigration? | FT #shorts",
+          "The secretive Iranian cyber unit behind Europe’s freezer hacks | FT #shorts",
+          "Trump makes big profit on Nvidia shares after Huang’s return | FT #shorts",
+          "Should we ban teenagers from Vinted and eBay? | FT #shorts",
+          "Britain bought fake C4 explosives for Ukraine | FT #shorts",
+          "How Britain bought fake C4 explosives for Ukraine | FT",
+          "Nvidia shares soar after board reinstates Jensen Huang | FT #shorts"
+        ]
+      },
+      {
+        "channel_name": "The Economist",
+        "handle": "@TheEconomist",
+        "video_count": 15,
+        "topics": [
+          "What President Marine Le Pen would mean for Europe | The Economist",
+          "What a Marine Le Pen presidency would mean for Europe | The Economist",
+          "Is China to blame for spy allegations? | The Economist",
+          "How much American AI tech has China got hold of?",
+          "China’s economy explained: why Beijing needs a new growth model | The Economist",
+          "It’s a mistake to bring back Jensen Huang | The Economist",
+          "Does taxing the rich actually work? | The Economist",
+          "Are the rich taxed too much? | The Economist",
+          "What’s going to happen in 2027? | The Economist",
+          "What did Trump achieve by meeting Xi and Putin? | The Economist",
+          "“Unprepared” Trump achieved little with Putin and Xi meeting | The Economist",
+          "Why AI engineers are scared of self-building artificial intelligence | The Economist",
+          "Three things to know about Anthropic's IPO",
+          "Will AI start building itself in 2027? | The Economist",
+          "MBS is having a bad year | The Economist"
+        ]
+      },
+      {
+        "channel_name": "TLDR News Global",
+        "handle": "@TLDRnewsGLOBAL",
+        "video_count": 15,
+        "topics": [
+          "Trump Tariffs Everyone Again: What?",
+          "Can the US Economy Withstand a Stock Market Crash?",
+          "The ICJ Finds Myanmar Guilty of Genocide: What Next?",
+          "Argentina Slips Into Recession: Is Milei Finished?",
+          "Why is China Importing So Much Gold?",
+          "Why is the US Dollar Surging?",
+          "Why Indonesia Is Falling Into a Political Crisis",
+          "Why the US Israel Relationship Looks Fundamentally Damaged",
+          "Why China’s Economy is Starting to Look Shaky",
+          "Why the Midterms Might Have Killed the Electoral College",
+          "The Houthis Advance Again: Are the Saudis in Trouble?",
+          "The Democrats’ Legislative Priorities Explained",
+          "Why El Salvador's Haiti Intervention is Going Surprisingly Well",
+          "Why Syria is Trying to Join the Mecca Pact",
+          "How the GOP Civil War is Shaking Out"
+        ]
+      },
+      {
+        "channel_name": "TLDR News EU",
+        "handle": "@TLDRnewsEU",
+        "video_count": 15,
+        "topics": [
+          "The Russia-Ukraine Proxy War in Libya Explained",
+          "Why European Negotiations With Russia Look Futile",
+          "How Ukraine’s Deep Strike Capabilities are Putting Pressure on Putin",
+          "Why Le Pen Could Still be Banned From Running",
+          "Why Is Poland Doing So Well?",
+          "How the UK is Quietly Forging a ‘Mini-NATO’",
+          "France’s Unexpected Presidential Candidates Explained",
+          "No, Russia is Not a Superpower",
+          "The Czech Political Crisis Explained",
+          "Why Russia is Ditching the Chinese Yuan",
+          "How the Nordics and Baltics Fell Out Over Ukraine",
+          "Why Montenegro Now Looks Like the EU’s Next Member",
+          "Why Ukraine Is Doing Better Than You’d Think",
+          "Serbia’s New Government Explained",
+          "Why This French Politician Is Suddenly Everywhere"
+        ]
+      },
+      {
+        "channel_name": "DEF Tallks  by Aadi",
+        "handle": "@deftalksbyaadi",
+        "video_count": 14,
+        "topics": [
+          "Delimitation Passed! Modi Govt. OFFENSIVE BEGINS Congress Reaction I Omkar Chaudhary, Aadi",
+          "India HITS Turkey, Erdogan Runs to UN on Brahmos, Pakistan Spy Ship, Sindh Protests I Levina, Aadi",
+          "Modi Govt Action: Look Out Notice on CJP,  Saurav Das Citizenship Stuck? What Next I Aadi",
+          "Delimitation Bill & FCRA: Why Parliament is Recalled? | Aadi Pathikrit Show",
+          "TRUMP TARGETS MAKE IN INDIA & AATMANIRBHARTA! USA's New 25% Tariff Game Explained I Aadi",
+          "Turkish Spy Ship in Pakistan, Chinese Satellites on India, Pak's Next Pahalgam Plan I Brig Pandey",
+          "India Bans Pakistan Dramas & Shows in India, DGISPR Game Exposed I Ojas Bhandari, Aadi",
+          "Why is Modi's Opposition in Panic? SP Congress Break Up? Saurav Das Not Indian I Sanjay Dixit, Aadi",
+          "INDIA Brings Back 60 Tonnes of GOLD! How Much More? Indian FOREX & Gold Reserves I Aadi",
+          "Modi Govt's BIG Move Against China! India to Build Its Own Critical Machines I Aadi Pathikrit Show",
+          "SAURAV DAS Passport Impounded? CJP Stuck, MEA Hits Back, Indian Intelligence Report I Aadi",
+          "BJP-SAD Alliance in Punjab: Why Kejriwal is Losing Sleep | Ramnik Maan, Aadi",
+          "Will India Spare Bangladesh? Sheikh Hasina Return Protests Erupt, B'desh Army I Col RSN Singh, Aadi",
+          "Is Russia Entering Iran Conflict?Iran Plans Strike on Europe, US Bases, Russia in Libya I Manish Rai"
+        ]
+      },
+      {
+        "channel_name": "India Decoded by Anirudh",
+        "handle": "@IndiaDecodedAA",
+        "video_count": 15,
+        "topics": [
+          "India Does the Impossible! Develops The World’s Most Precise CNC Machine! To Save Huge ₹18000 Crores",
+          "The Tables Have Turned! India Now Holds Massive Power in World Oil Market. Russia, US need India",
+          "DRDO's Gift. India Ends Dependence on Foreign Carbon Fiber Towpreg for Fighter Jets",
+          "Bangladesh Make U-Turn! Drops All Demands for Ganga Treaty! Now Seeks Just Renewal!",
+          "Shocking. China Was Sending 100 Missiles' Worth Of Fuel To Bangladesh, And Got Caught",
+          "Power of Indian Diplomacy! Russia Offers Biggest Discount on Crude Oil. India Rejected The Offer!",
+          "JWALA MK-1: India's Missile Tested at Pokhran That Hunts Drones on Its Own",
+          "India Suprises Everyone! Stocks get $13.5 Billion, Bonds get $1 Billion. World Markets Collapse!",
+          "भारत की नई रक्षा रणनीति की वजह",
+          "Tables Have Turned! India Alone Has More Power than OPEC in Oil Markets. Russia, US, OPEC Need India",
+          "US की सेक्शन 301 जांच का असली सच",
+          "India Numbers Shock Everyone! RBI Hits Huge ₹50000 Crore Jackpot. Rupee Rises Against All Currencies",
+          "India Won’t Tolerate Nonsense. Rejects US Summon For Ajit Doval. Calls It Completely Baseless.",
+          "Huge Move For Sovereignty! After 43 Years, India Refuses to Reveal Details of New Brahmos Missiles!",
+          "India’s First Indigenous Bullet Train B28 Is Finally Here"
+        ]
+      },
+      {
+        "channel_name": "World Affairs by Unacademy",
+        "handle": "@WorldAffairsUnacademy",
+        "video_count": 15,
+        "topics": [
+          "OPPOSITION TRAPPED? DELIMITATION BILL BACK | 850-Seat Lok Sabha, Women's Quota & 360 Votes | Kinjal",
+          "CHINA SABOTAGE, US PANIC Over Make in India! Landlocked States Become New Engines of Growth | Kinjal",
+          "TURKEY CRIES AT UN! Why India's 650 km BrahMos for Cyprus Scares Erdogan, Sindoor Payback | Kinjal",
+          "IRAN'S NEW UNDERGROUND MILITARY BASE! | Trump's Nuclear Claims Challenged by Satellite Images",
+          "5 Types of Spy Satellites Watching You Right Now | Kinjal",
+          "US PANICS: 25% TARIFF ON MAKE IN INDIA | Why Is America Angry That India Is Making So Much? | Kinjal",
+          "RUSSIA'S NUCLEAR WEAPON IN SPACE? | Putin's New Challenge to the West Explained",
+          "8,000 PAK TROOPS CAN'T SAVE RIYADH | Houthis Hit PIF Tower, Ras Tanura Burns, Jeddah Next | Kinjal",
+          "PAKISTAN - CHINA'S PUPPET IN SPACE | First Astronaut To Satellite Intel For Pahalgam Attack | Kinjal",
+          "Why Putin and Xi Gave Trump a Red Carpet in G3 Shenzhen 2026 |  International Relations #kinjalsir",
+          "TRUMP BRINGS JENSEN HUANG BACK! | Nvidia, China Spy Row & America's AI Power Struggle",
+          "HASINA DEFIES DEATH SENTENCE, RETURNING DEC 16 | Dhaka Vows Handcuffs, Tarique Blames India | Kinjal",
+          "IRAN WAR COSTS AMERICA ASIA | Asia Power Index 2026: India Now Major Power, Modi No. 2 | Kinjal",
+          "WHY BALEN SHAH CHOSE INDIA OVER CHINA! | Nepal's Foreign Policy Explained | UPSC",
+          "CHINA'S SECRET SHIP FOR BANGLADESH SEIZED | 405 Tonnes Missile Chemical, Northeast Threat | Kinjal"
+        ]
+      },
+      {
+        "channel_name": "StudyIQ IAS",
+        "handle": "@StudyIQEducationLtd",
+        "video_count": 15,
+        "topics": [
+          "USA Is Losing the AI War? | China, NVIDIA & The New World Order | World War 3.0 | StudyIQ IAS",
+          "Is Your Privacy Really Safe? How Police Access Your Personal Data | Digital Privacy | StudyIQ",
+          "Indian Constitution Relevance Today | The Truth About Indian Constitution | StudyIQ IAS",
+          "Punjab's Biggest Failure: From India's Food Basket to Debt and Drugs! | GS2, GS3 | StudyIQ IAS",
+          "Is Chai More Dangerous Than You Think? India's Daily Addiction Exposed! | GS2, GS3 | StudyIQ IAS",
+          "Why Only 3 Communities Are Recruited in the President’s Bodyguard? | By Ankit Agrawal #shorts",
+          "The Hindu newspaper Analysis | 27 November 2026 | UPSC Current Affairs | PIB & Editorial | StudyIQ",
+          "Grab Mega Discounts on All UPSC Courses #shorts #upsc #ias",
+          "The Red Sea's Death Pools: Where Even Fish Cannot Survive! | StudyIQ IAS",
+          "Grab Massive Discount on Sociology Optional Batch #shorts #upsc #ias",
+          "Boost your UPSC Preparation with StudyIQ's Courses #shorts #upsc #ias",
+          "Target UPSC 2027, 2028 & 2029 | Complete Geography Optional Preparation | New Batch Begins Today!",
+          "The Hindu newspaper Analysis | 28 November 2026 | UPSC Current Affairs | PIB & Editorial | StudyIQ",
+          "Get 65% Discounts on GS Foundation Batch | Sale is Live #shorts #upsc",
+          "Tips & Guidance for UPSC Aspirants #shorts #upsc #ias"
+        ]
+      },
+      {
+        "channel_name": "Coffee With Sumeet Jain",
+        "handle": "@coffeewithsumeetjain",
+        "video_count": 9,
+        "topics": [
+          "AMIT SHAH ने ऐसी चाल चली है, Opposition कि हवा निकलनी बंद हो गयी #amitshah #indianpolitics",
+          "GOVT अब DESPERATE हो गयी है? RBI के Rules रातों रात Change कर दिए #rbiguidelines  #economypolicy",
+          "Nirmala Sitharaman Sweating? Tax Shock Before Budget 2027 # #indiabudget  #nirmalasitharaman",
+          "DONALD \"DRUNK\" पागल हो गया? Modi को धमकी दे बैठा #trumpsarkar #geopolitics #moditrump #tradewar",
+          "RBI’s Double Strike On Bank Accounts\"Stop Switch\" & Crackdown Explained #reservebank #monetarypolicy",
+          "RBI Puts EMERGEENCY HANDBRAKE on India's entire FINANCIAL SYSTEM | CWSJ-3908 | Sumeet Jain",
+          "Breaking: China ने हद्द कर दी, Indian Ocean का नाम Change कर दिया #indiachinarelations #eastchinasea",
+          "Breaking: China ने हद्द कर दी, Indian Ocean का नाम Change कर दिया | CWSJ-3907 | Sumeet Jain",
+          "Balen Shah आया 3 दिन के लिए, 25 घंटों में ही क्यूँ भाग गया #geopolitics #modi #indianepal #balenshah"
+        ]
+      },
+      {
+        "channel_name": "India Global Review",
+        "handle": "@IndiaGlobalReview",
+        "video_count": 9,
+        "topics": [
+          "Britain Prepares for War: 100,000 Military Reservists Contacted | The Palki Sharma Show",
+          "Your Degree Isn’t Enough Anymore: How to Get Hired in AI Era | The Palki Sharma Show | IGR",
+          "Why is Water Becoming a Luxury? | The Palki Sharma Show | IGR | India Global Review",
+          "The AI Job Market: Why a Degree Isn't Enough Anymore | The Palki Sharma Show | India Global Review",
+          "Peace or Escalation: High-Stakes Winter in Ukraine | The Palki Sharma Show | India Global Review",
+          "IBM Forces Foreign Workers to Re-Locate or Leave | The Palki Sharma Show | IGR | India Global Review",
+          "Japan’s $353 Billion Defence Budget: Why Are Officials Still Unhappy? | The Palki Sharma Show",
+          "AI Stocks Tumble: The Risks for Global Economy Decoded | The Palki Sharma Show | IGR",
+          "LIVE | AI Stocks Tumble: The Risks for Global Economy Decoded | The Palki Sharma Show | IGR"
+        ]
+      },
+      {
+        "channel_name": "Times Axis",
+        "handle": "@TimesAxis",
+        "video_count": 9,
+        "topics": [
+          "BrahMos in Cyprus? Why Turkey Is Alarmed by India’s Missile; Rushes To UN With THIS Security Concern",
+          "Pakistan AI Bomb Case: Teen Arrested After FBI Alert Raises Questions About Chatbot Threat Reports",
+          "U.S Dividing Asian Neighbours? China Calls Out USCC Report On Beijing Thwarting India's Rise",
+          "Turkey Panics Over India's BrahMos To Cyprus; Raises UN Alarm Over Delhi's Strategic Circling",
+          "Viral: China’s ‘Chubby’ Leopard Gets Free Feasts, Bigger Home At 19; Turns Internet Sensation",
+          "Bangladesh’s ‘India Attack’ From Pak: Abhijit Iyer-Mitra On Hasina ‘Extradition’, Tarique's Dilemma",
+          "India Rejects Netflix' Pak Drama Dreams; Sharp Pahalgam 'Reminder' To Mahira Khan, Fawad Khan",
+          "Trump-Kim Meeting Flopped: Why North Korea's Kim Jong Un Skipped APEC And Doubled Down On His Nukes",
+          "18 Years After 26/11, Why Isn't Hafiz Saeed Being Tried In India? | File Stuck, Order Ignored"
+        ]
+      },
+      {
+        "channel_name": "Let's Crack UPSC CSE",
+        "handle": "@LetsCrackUPSCCSE",
+        "video_count": 9,
+        "topics": [
+          "China-Bangladesh Secret Deal Exposed? Indonesia Seizes Ship Carrying Missile Fuel for Dhaka",
+          "Asia Power Index 2026: China Overtakes US, India Secures 3rd Position in Asia's Power Ranking",
+          "UPSC CSAT Percentage | Percentage Tricks & Concepts for UPSC 2027–28 | Parvej Alam",
+          "India’s Lithium-Free Battery Claim: 10,000 MU Capacity, 10-Year Life & China Dependency Explained",
+          "Daily Current Affairs for UPSC | 19 & 20 November | PIB, The Hindu & Indian Express | PYQs+MCQs",
+          "Gandhi Sagar Dam’s 10,000 MWh Lithium-Free Battery Breakthrough: India’s Answer to China!",
+          "Daily Current Affairs for UPSC | 18 November | PIB, The Hindu & Indian Express | PYQs+MCQs",
+          "India & US Reject UN Death Penalty Moratorium: Sovereignty and the Right to Decide Its Own Laws",
+          "Kulgam Encounter: PM Modi's Strong Message: Terrorism | Indian Army Eliminates CRPF Attack Terrorist"
+        ]
+      },
+      {
+        "channel_name": "Adda247 Bankers ",
+        "handle": "@bankers-adda",
+        "video_count": 9,
+        "topics": [
+          "SBI Clerk Mains Exam Analysis 2026 | Reasoning, Quant, English & GA Analysis | Complete Paper Review",
+          "IBPS PO 2026 Interview Dates Out 📢 #shortsfeed",
+          "IBPS RRB Clerk Reasoning 2026 | RRB Clerk Mock Test | By Sona Sharma",
+          "The Hindu Editorial Analysis | 27 NOV Editorial Analysis | English Vocabulary, Grammar & Skimming",
+          "The Hindu Editorial Analysis | 28 NOV Editorial Analysis | English Vocabulary, Grammar & Skimming",
+          "QUANTS में ZERO 😳 SBI में HERO 😎 #shortsfeed",
+          "SBI CLERK MAINS 2026 GA EXAM REVIEW  #shortsfeed",
+          "Aakhir Kya Zidd Hai Ye? 🔥 #shortsfeed",
+          "IBPS PO 2026 | Interview Session by Vaibhav Sir 🔥 #ibpspointerview #shortsfeed"
+        ]
+      },
+      {
+        "channel_name": "Parcham Classes",
+        "handle": "@ParchamClasses",
+        "video_count": 15,
+        "topics": [
+          "One Word Substitution for SSC CHSL | Complete Revision with Exam Questions",
+          "NCERT Foundation Batch Live Classes | Science Orientation | Complete Analysis & Exam Trends",
+          "Daily Current Affairs MCQ | 27 November 2026 | Current Affairs Today | #Shorts",
+          "Weekly Current Affairs 2026 | November 2026 Week 4 | Parcham Classes Current Affairs",
+          "28 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
+          "27 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
+          "Jet Streams One Shot | Types of Jet Streams & Indian Monsoon | Geography for SSC & Railway",
+          "NCERT Foundation Batch Live Classes | Polity Orientation | Complete Analysis & Exam Trends",
+          "NCERT Foundation Batch Live Classes | Geography Orientation | Complete Analysis & Exam Trends",
+          "NCERT Foundation Batch Live Classes | Economics Orientation | Complete Analysis & Exam Trends",
+          "26 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
+          "Complete Inflation Explained: Causes, Types & Effects on Economy for SSC CGL & Railway",
+          "25 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
+          "Weekly Banking Current Affairs | November Week 3 | Parcham Classes",
+          "Daily Current Affairs MCQ | Current Affairs Today I 24 November 2026 #parchamclasses"
+        ]
+      },
+      {
+        "channel_name": "AffairsCloud",
+        "handle": "@AffairsCloud-Com",
+        "video_count": 3,
+        "topics": [
+          "27 November 2026",
+          "26 November 2026",
+          "Important One Liners - Index & Ranking | English | AffairsCloud"
+        ]
+      },
+      {
+        "channel_name": "Alpha Defense - Hindi",
+        "handle": "@AlphaDefenseHindi",
+        "video_count": 9,
+        "topics": [
+          "Diwali Special: Top 10 Desi Weapon",
+          "New Hypersonic Missile : HCMD",
+          "2 Squadrons of Naval Tejas for Indian Navy",
+          "PM Modi’s First Capital Ship ?",
+          "AMCA : Bid Submitted & NextMy Movie",
+          "India’s NavIC is back on Track ?",
+          "Rafale M Spotted on INS Vikrant",
+          "Alpha Defense Unfiltered: 3 Project",
+          "World’s 1st islamic Jet Engine"
+        ]
+      },
+      {
+        "channel_name": "Defence Decode",
+        "handle": "@defencedecodeOfficial",
+        "video_count": 9,
+        "topics": [
+          "Kolkata Class destroyers High DEW capability | New indigenous  Marine Gas turbine Generators",
+          "LRLACM tested in Final Configuration | Deep strike beyond LAC",
+          "India's ICBM destroyers | How effective against Modern MARVs?",
+          "DRDO RPSA under fabrication, configuration sealed | Role and Importance of Pack hunt",
+          "5000km IRBM interceptor tested | NASM MR test",
+          "AMCA Full Scale Engineering Model Tested for RCS validation",
+          "4th S-400 SQDN deployed | Su-30MKI to get anti china sensor",
+          "Rudram-II Flight Tested | 300km + Target pin point Hit",
+          "India's Brahmos network | India Vietnam BrahMos deal signed"
+        ]
+      },
+      {
+        "channel_name": "Gareeb Scientist",
+        "handle": "@GareebScientist",
+        "video_count": 9,
+        "topics": [
+          "ISRO NavIC Launch Watch Along ft. @AlphaDefense  ( Night Launch )",
+          "ISRO GSLV NIGHT Launch - LIVE Watch Along - GSLV-F17/EOS-05",
+          "Skyroot Vikram 1 - LIVE Watch Along",
+          "ISRO Launches a 6 tonne Private Satellites | LVM3 M6 BlueBird | LIVE With ANIMATIONS",
+          "DRONE MOTORS Now Made In India | Factory Tour",
+          "INDIAN Startup's DRONE SWARMS are Breaking World Records",
+          "ISRO Launches NISAR On GSLV-F16 | LIVE With ANIMATIONS",
+          "I Built a DRONE with an INDIAN Flight Computer",
+          "IPL's CHINESE Dog is a Security THREAT 🚨"
+        ]
+      },
+      {
+        "channel_name": "NEXT IAS",
+        "handle": "@NEXTIAS",
+        "video_count": 15,
+        "topics": [
+          "Student's Insightful Interaction with NEXT IAS Faculties | Preparation & Strategy | UPSC | NEXT IAS",
+          "How NEXT IAS Prepares Engineers for UPSC Interviews | UPSC | NEXT IAS",
+          "How Ambala Reduced Stubble Burning by 80%? | A District-Level Success Story | NEXT IAS",
+          "Korku Tribe of India | Endangered Language, Gadli Dance & Unique Traditions | NEXT IAS",
+          "Hapus GI Tag Dispute: Maharashtra vs Gujarat | Who Owns the Name? | UPSC | NEXT IAS",
+          "Pong Dam: A Haven for Migratory Birds | Himachal Pradesh's Ramsar Site | NEXT IAS",
+          "UPSC Prelims Test Strategy: Improve Accuracy & Track Your Mistakes | NEXT IAS",
+          "Come Read With Me | NEXT IAS",
+          "Don't Read Every Editorial | NEXT IAS",
+          "What to Read in Today’s Newspaper? | Daily News Analysis for UPSC #thehindu #nextias | NEXT IAS",
+          "What to Read in Today’s Newspaper? | Daily News Analysis for UPSC #theindianexpress #nextias",
+          "Nisar Dishant Amrutlal AIR 19 | CSE Mock Interview | Interview Guidance Program | NEXT IAS",
+          "Sickle Cell Anaemia in Tribal Communities | Biological & Sociocultural Factors | UPSC | NEXT IAS",
+          "UPSC Interview Preparation: How NEXT IAS Supports Students Beyond Delhi | UPSC | NEXT IAS",
+          "Parali to Biofuel: How 2G Biofuel Can Reduce Stubble Burning & Pollution | NEXT IAS"
+        ]
+      },
+      {
+        "channel_name": "Drishti IAS : English",
+        "handle": "@DrishtiIASEnglish",
+        "video_count": 9,
+        "topics": [
+          "The Hindu Analysis & PIB | 27 November 2026 | Current Affairs | UPSC | Drishti IAS English",
+          "Confused About How to Start UPSC Preparation? Join Our Free Seminar in Karol Bagh!",
+          "The Hindu Analysis & PIB | 28 November 2026 | Current Affairs | UPSC | Drishti IAS English",
+          "Delimitation Bill 2026 | Special Parliament Session & Women's Reservation | #shorts #Delimitation",
+          "The Hindu Analysis & PIB | 29-30 November 2026 | Current Affairs | UPSC | Drishti IAS English",
+          "The Hindu Analysis & PIB | 26 November 2026 | Current Affairs | UPSC | Drishti IAS English",
+          "Constitutional Amendments One Shot | UPSC PYQs | Polity | UPSC Prelims 2027 | Drishti IAS English",
+          "West Bengal to Paschim Banga? | Article 3 | UPSC #shorts #Article3 #WestBengal #paschimbanga",
+          "Soils of India One Shot | Types, Distribution &Characteristics | AARAMBH Batch | Drishti IAS English"
+        ]
+      },
+      {
+        "channel_name": "Sleepy Classes IAS",
+        "handle": "@SleepyClassesIAS",
+        "video_count": 9,
+        "topics": [
+          "Gangetic River Dolphin Explained in 60 Seconds! 🐬 #SleepyClasses #upscpreparation #aspirants",
+          "Languages and their History | Hindi, Urdu and Chinese | UPSC history series |",
+          "A to Z Series | Y - Yudh Abhyas 2026 | UPSC EPFO APFC 2026 |",
+          "A to Z Series | Xenotransplantation | UPSC EPFO APFC 2026",
+          "The Science of Solving MCQs in UPSC Prelims | UPSC Prelims Strategy",
+          "A to Z Series | VB–G RAM G Act, 2025 | UPSC EPFO APFC 2026",
+          "A to Z Series | U - ULLAS – Nav Bharat Saaksharta Karyakram | UPSC EPFO APFC 2026",
+          "5 Important MCQs with Explanation | Science and Technology Current Affairs for UPSC Prelims",
+          "CIE Manufacturing Scheme | ₹11,000 Crore Cabinet Approved Scheme | UPSC Economy Current Affairs"
+        ]
+      },
+      {
+        "channel_name": "Amit Sengupta",
+        "handle": "@amitsengupta01",
+        "video_count": 10,
+        "topics": [
+          "What is NEW START Treaty | Strategic Arms Reduction Treaty",
+          "Why China Doesn't Want to Join Trump's STAR Treaty?",
+          "Is America Playing Two Games With China",
+          "Trump, Putin & Xi - The 3 Men Shaping the World, G3",
+          "Cyclone Murasu Explained in easy way",
+          "Israel Election has no majority - What to learn from it? Democracy vs demography",
+          "UAE honours Captain Smit Machchhar for bravery, Skull stiches",
+          "Cyclone Arnab in Bay of Bengal Explained",
+          "Mass protest in France Explained",
+          "Real reason behind France protest - UAE had already warned Europe"
+        ]
+      },
+      {
+        "channel_name": "THE CHANAKYA DIALOGUES HINDI",
+        "handle": "@TheChanakyaDialoguesHindi",
+        "video_count": 9,
+        "topics": [
+          "Major Gaurav Arya’s Big Announcement | The Chanakya Dialogues",
+          "Why Did Trump Support Jensen Huang? | Major Gaurav Arya | The Chanakya Dialogues",
+          "जेनसन हुआंग ने इस्तीफा क्यों दिया? | Major Gaurav Arya | The Chanakya Dialogues",
+          "इज़रायल ने भारत की मदद की! | Major Gaurav Arya | The Chanakya Dialogues",
+          "राहुल के बयान पर बवाल! | Major Gaurav Arya | The Chanakya Dialogues",
+          "भारत-नेपाल का रिश्ता धर्म से जुड़ा है? | Major Gaurav Arya | The Chanakya Dialogues",
+          "बालेन शाह का PM मोदी को न्योता! | Major Gaurav Arya | The Chanakya Dialogues",
+          "भारत-नेपाल में दौड़ेगीसरयू-कमला एक्सप्रेस! | Major Gaurav Arya | The Chanakya Dialogues",
+          "Who Sent Rocket Explosives? Indonesia Seizes Shipment | The Chanakya Dialogues Major Gaurav Arya |"
+        ]
+      },
+      {
+        "channel_name": "StratNewsGlobal",
+        "handle": "@StratNewsGlobal",
+        "video_count": 11,
+        "topics": [
+          "Former Philippines President Rodrigo Duterte faces historic ICC trial over war on drugs | #shorts",
+          "Spain's Pablo Hernández de Cos to succeed Christine Lagarde as ECB President | #shorts #eu #ecb",
+          "Colombia opens new mega-prison as President De La Espriella vows to crack down on prison corruption",
+          "US Army detonates nearly 5 tonnes of unstable explosives at Iowa Ammunition Plant | #shorts #usa",
+          "North Korea expels Swiss diplomat amid sanctions row over children’s camp | #shorts #northkorea",
+          "Fort Hood Shooting | Former Army psychiatrist Nidal Hasan asks judge for stay of execution | #shorts",
+          "What Jensen Huang’s return means for Nvidia, Trump, China & The U.S. Economy",
+          "Mamdani Takes Aim at Billionaire Wealth and Corporate Power After Jensen's Huang's Return to Nvidia",
+          "Jensen Huang's return gives Trump a meme and a boost to his portfolio value | #shorts #jensenhuang",
+          "Nvidia reinstates Jensen Huang after pressure from Trump days after spy gate, extra-marital scandal",
+          "Democrats Win Biggest House Majority in 34 Years with 258 Seats | #shorts #democrats #usdemocrats"
+        ]
+      },
+      {
+        "channel_name": "Third Eye",
+        "handle": "@ThirdEyekannada",
+        "video_count": 14,
+        "topics": [
+          "ನೂರಾರು ಕೋಟಿ ಸಾಮ್ರಾಜ್ಯ ಪತನ- ಒಂದು ಕೊಲೆ, ಎಲ್ಲವೂ ದಿ ಎಂಡ್- ಸಚಿವ ಕೊಲೆಗಾರನಾಗಿದ್ಯಾಕೆ?- Vinay Kulkarni",
+          "ಸುಪ್ರೀಂ ಮುಂದೆ ವಿಜಯ್ ಸರ್ಕಾರದ ಕ್ಷಮೆ- ಕೋರ್ಟ್ ಆದೇಶವನ್ನೇ ಉಲ್ಲಂಘಿಸಿದ ಸರ್ಕಾರ- Deepam Row Tamilnadu Update",
+          "ಸಿನಿಮಾ ಮೀರಿಸುವ ಕೊಲೆ- ಇದುಸಚಿವನಿಂದಲೇ ನಡೀತು ಕೃತ್ಯ!- ಸಚಿವನಿಗೆ ಅಡಿಯಾಳಾದ ಪೊಲೀಸ್ರು- Vinay Kulakarni Case",
+          "ವಿನಯ್ ಕುಲಕರ್ಣಿಗೆ ಬಿಗ್ ಶಾಕ್!- ಜಾಮೀನು ರದ್ಧು, ಮತ್ತೆ ಜೈಲು-ಸುಪ್ರೀಂಕೋರ್ಟ್ ದೊಡ್ಡ ತೀರ್ಪು- Vinay Kulkarni",
+          "ದಿಢೀರ್ ಪೊಲೀಸ್ ಸ್ಟೇಷನ್‌ಗೆ ನುಗ್ಗಿದ- 9 ಪೊಲೀಸ್ರ ಮೇಲೆ ಭೀಕರ ದಾಳಿ- Delhi Jama Masjid Police Station News",
+          "ಕೊನೆಗೂ ದೀಪ ಬೆಳಗಲೇ ಇಲ್ಲ!- ಸುಪ್ರೀಂ ಆದೇಶ ಧಿಕ್ಕರಿಸಿದ ವಿಜಯ್!- Deepam Row In Tamilandu Update",
+          "52 ಬಾಲ್ 200 ರನ್, 28 ಸಿಕ್ಸ್!- ವೈಭವ್ ಸೂರ್ಯವಂಶಿ ಭರ್ಜರಿ ದ್ವಿಶತಕ- Vaibhav Suryavamashi Double Hundred",
+          "ಸಿಡಿದೆದ್ದ ಆಶಾ ಕಾರ್ಯಕರ್ತೆಯರು!- ಪಟ್ಟು ಬಿಡದೇ ಹೋರಾಟ- ಅತ್ತ ವಿದೇಶಕ್ಕೆ ಹಾರಿದ ಡಿಕೆಶಿ!- Asha Workers Protest",
+          "ಗೋಲ್ಡ್ ಲೋನ್ ಪಡೆದವ್ರಿಗೆ ನೋಟಿಸ್!- ಚಿನ್ನ ಹರಾಜಾಗುತ್ತಾ?ಡಿಸೆಂಬರ್ 9ಕ್ಕೆ ಜನ ಕಾಯ್ತಿರೋದ್ಯಾಕೆ?- Gold Loan Issue",
+          "ಚಿನ್ನದ ರೇಟ್ ಇನ್ನೂ ಇಳಿಯುತ್ತೆ!- ಡಿಸೆಂಬರ್‌ನಲ್ಲಿ ಚಿನ್ನ ತಗೊಳಿ- ತಜ್ಞರ ಮಾತನ್ನೊಮ್ಮೆ ಕೇಳಿ!- Golda Rate Update",
+          "ಸರ್ಕಾರದ ವಿರುದ್ಧ ಸಿಡಿದೆದ್ದ ಕೈ ಶಾಸಕರು- ಶಾಸಕರ ರಾಜೀನಾಮೆ ಜಟಾಪಟಿ- Nayana Motamma, Elephant Issue",
+          "ದೀಪಂ ವಿರುದ್ಧ ನಿಂತ ವಿಜಯ್ -ವಿಜಯ್ ಸರ್ಕಾರ ಸುಪ್ರೀಂ ಮೊರೆ- ಹಿಂದೂ ವಿರೋಧಿ ಎಂದ ಬಿಜೆಪಿ- Deepam Controversy",
+          "ಮೂವರು ಐ ವಿಟ್ನೆಸ್ ಕೋರ್ಟ್‌ನಲ್ಲಿ ಉಲ್ಟಾ!- ದರ್ಶನ್ ಪರ ಹೇಳಿಕೆ?- Renukaswamy Case Update |dboss darshan",
+          "ವರ್ಷಾ, ಪರಿಮಳ ಟೀಚರ್, ಜಾಹ್ನವಿ ವಿಚಾರಣೆ- ಸೌಜನ್ಯ ಕೇಸ್ ಮಹತ್ತರ ಬೆಳವಣಿಗೆ!- Soujanya Case latest Update"
+        ]
+      },
+      {
+        "channel_name": "Raj Shamani",
+        "handle": "@rajshamani",
+        "video_count": 10,
+        "topics": [
+          "Comment YES if this motivated you | Raj Shamani #Shorts",
+          "Comment 💯 if you agree to this | Raj Shamani #Shorts #mindset",
+          "Have you ever felt this? | Raj Shamani #Shorts #lifelessons",
+          "Send this to a SRK fan | Raj Shamani #Shorts #shahrukh",
+          "Comment 💯 if you feel this is true | Raj Shamani #Shorts #mindset",
+          "Share it with that person with whom you can share everything and anything | Raj Shamani #Shorts",
+          "Comment TRUE if you could relate to this | Raj Shamani #Shorts #genz",
+          "Share this with your partner | Raj Shamani #Shorts #relationship",
+          "How Men's Show Affection | Raj Shamani #Shorts #relationship",
+          "Share this with that friend | Raj Shamani #Shorts #friendship"
+        ]
+      },
+      {
+        "channel_name": "Inconnect News",
+        "handle": "@inconnectnews",
+        "video_count": 14,
+        "topics": [
+          "Why Astra MK1 Makes Rafale Unstoppable #IndianAirForce #DefenceNews #AstraMK1 #newsupdate",
+          "India Nepal Ties: Modi's Secret Geopolitical Win, India Nepal, Inconnect News",
+          "India vs Pakistan: Why This New Terror Threat Changes Everything | India Pakistan War | Defence News",
+          "India vs Pakistan: The Truth About Naval Power #indiannavy #defence #latestnews",
+          "Pakistan Panics As India Rejects Indus Water Treaty Talks, Indus Waters Treaty, Inconnect News",
+          "Rafale Fleet Update: India’s Response To The Missing Jet Report | Indian Air Force | Defence News",
+          "Why The Indian Navy Is Expanding Faster Than Ever #indiannavy #defence #shorts",
+          "India’s Missile Range Secret That Japan Wants To Unlock, Indian Defence Update, Inconnect News",
+          "India’s Global Oil Hunt: Is This The New Energy Jackpot?, India Crude Oil, Indian News",
+          "How India Built the 4th Largest Navy in the World ⚓ #indiannavy #defence #shorts",
+          "India Israel Defence Deal: Is the Navy Preparing for War?",
+          "POK Crisis: Is Pakistan Losing Control? Operation Sindoor Truth | India Pakistan War | POK News",
+          "Indus Water Treaty: Is a Water War Between India and Pak Next? | SCO Summit | Inconnect News",
+          "Why India’s Economic Boom Faces A Political Breaking Point, India Economy, Indian News"
+        ]
+      },
+      {
+        "channel_name": "Narendra Modi",
+        "handle": "@NarendraModi",
+        "video_count": 14,
+        "topics": [
+          "LIVE: PM Modi participates in BJP National Office Bearers' meeting in Delhi",
+          "The ghats of Kashi shine like never before on Dev Deepawali",
+          "PM Modi Pays Tribute to Sikh Traditions | 'Kirat Karo, Vand Chhako, Naam Japo' | #shorts",
+          "PM Modi joins Shabad Kirtan on the Parkash Purab of Sri Guru Nanak Dev Ji",
+          "LIVE: PM Modi joins Shabad Kirtan on the Parkash Purab of Sri Guru Nanak Dev Ji",
+          "PM Modi's remarks during the joint press meet with Nepal Prime Minister Balendra Shah",
+          "PM Modi meets Balendra Shah, Prime Minister of #nepal at Hyderabad House | #shorts",
+          "India and Nepal: A friendship that keeps growing stronger",
+          "PM Modi attends the ceremonial reception of Balendra Shah, Prime Minister of #nepal | #shorts",
+          "LIVE: PM Modi, Nepal Prime Minister Balendra Shah attend joint press meet",
+          "LIVE : PM Modi, Nepal PM witness a demonstration of Railway technologies and Gatishakti portal",
+          "LIVE: PM Modi, Nepal Prime Minister Balendra Shah hold bilateral talks in New Delhi",
+          "LIVE: PM Modi meets Balendra Shah, Prime Minister of Nepal at Hyderabad House, New Delhi",
+          "LIVE: PM Modi at ceremonial reception of Balendra Shah, Prime Minister of Nepal"
+        ]
+      },
+      {
+        "channel_name": "ReVIEW by Soukhya Gaonkar ",
+        "handle": "@ReVIEWbySoukhyaGaonkar",
+        "video_count": 15,
+        "topics": [
+          "ಕೊನೆಗೂ ಸುಪ್ರೀಂ ಕಠಿಣ ತೀರ್ಪು! ನಾಳೆಯೇ ದೀಪ-ವಿಜಯ್ ಗೆ ಸಂಕಷ್ಟ! ಹಿಂದೂಗಳಿಗೆ ಐತಿಹಾಸಿಕ ಜಯ! Thiruparankundram",
+          "ವಿದೇಶಾಂಗ ಇಲಾಖೆ ಬಿಗ್ ಸ್ಟೆಪ್! ದೇಶ ವಿರೋಧಿಗಳು ಲಾಕ್! ದಂಗೆ ಎಬ್ಬಿಸಿದವರಿಗೆ‌ ಬಿಗ್ ಶಾಕ್! MEA",
+          "ಶತಮಾನಗಳು ಇನ್ನು ಮೋದಿ ಮರೆಯಲ್ಲ!ಅಂಥಾ ನಿರ್ಧಾರ -ದೇಶದಲ್ಲಿ ಕಂಪನ! ರಾಷ್ಟ್ರ ರಾಜಕಾರಣ ಕಂಡರಿಯದ ಆಪರೇಷನ್!",
+          "ಮೋದಿ ಶಪಥ! ಇದೇ ನವಂಬರ್ 30ಕ್ಕೆ ವಿಶೇಷ ಅಧಿವೇಶನ!",
+          "ಇವ್ರು ಏನು ಮಾಡಿಲ್ವಾ? ಆಶಾಗಳು ಮಾಡಿರೋ ಕ್ರಾಂತಿ! WHO ಮೆಚ್ಚಿದವ್ರಿಗೆ ಎಂಥಾ ಅವಮಾನ! ASHA WORKERS",
+          "ತಿಮ್ಮಪ್ಪನಿಗೆ 121 ಕೆ.ಜಿ ಚಿನ್ನದ ಮಹಾಕಾಣಿಕೆ!😲ಇತಿಹಾಸದಲ್ಲೇ ಅತಿದೊಡ್ಡ ದೇಣಿಗೆ |Tirupati 121 Kg Gold Donation",
+          "ಕೈ 8 ಪ್ರಭಾವಿಗಳು NDAಗೆ? DKಗೆ ಶಾಕ್-ಕೈಯಲ್ಲಿ ಶುರು ಕಂಪನ! CM DKSHIVAKUMAR",
+          "ಚಿನ್ನದ ದರ ಕುಸಿತ-ತರಕಾರಿಯಂತೆ ಖರೀದಿಗೆ ಮುಗಿಬಿದ್ದ ಚೀನಿಯರು! ಮುಂದೆ ಬೆಲೆ ಎಷ್ಟಾಗೋದಿದೆ?GOLD PRICE HIKE |CHINA",
+          "ಪಾಕಿಸ್ತಾನ ಬಳಿಕ ಭಾರತದಲ್ಲೇ ಅತಿಹೆಚ್ಚು ಮುಸ್ಲಿಂ-ಹೊಸ ವರದಿ‌ ಬಿಚ್ಚಿಟ್ಟ ಅಂಕಿ-ಅಂಶ!| muslim population",
+          "NDAಗೆ ಅತೀದೊಡ್ಡ ನಂಬರ್!ಭಾರಿ ಆಪರೇಷನ್-ಮೋದಿಗೆ ಶಾ ಬಿಗ್ ಗಿಫ್ಟ್! ಐತಿಹಾಸಿಕ ಬಿಲ್ ಪಾಸ್ ಗೆ ಮುಹೂರ್ತ! 2/3 MAJORITY",
+          "ಕೈಗೆ ದೊಡ್ಡ ರಾಜ್ಯದಲ್ಲಿ ಎಂಥಾ ಶಾಕ್! ಇತ್ತ DK ಪ್ಲಾನ್ ತಲೆಕೆಳಗಾಯ್ತಲ್ಲ! Rahul Gandhi| CM DKSHIVAKUMAR",
+          "ಸುಪ್ರೀಂ ಆದೇಶ ಧಿಕ್ಕರಿಸಿದ CM!ಸರ್ಕಾರ ಸುಮ್ನೇ ಬಿಡ್ತಾರಾ ಜನ? ಈ ದೇಶದಲ್ಲಿ ಇದೇನಾಗ್ತಿದೆ-ಭಾರಿ ಆಕ್ರೋಶ ಸ್ಫೋಟ",
+          "HDK ಸಿಎಂ ಮಾಡಿದ್ದು ನಾವು!ಇಲ್ಲಾಂದ್ರೆ ಯಾರ್ ಇವ್ರನ್ನ ಕೇರ್ ಮಾಡ್ತಿದ್ರು!|kumaraswamy| cheluvarayaswamy",
+          "ನಮೋ ರಾಜತಾಂತ್ರಿಕ ದಿಗ್ವಿಜಯ!ಮಾಸ್ಟರ್ ಸ್ಟ್ರೋಕ್ -ದೇಶಕ್ಕೆ ಬಿಗ್ ನ್ಯೂಸ್! NARENDRA MODI",
+          "NDA ತೆಕ್ಕೆಗೆ 2 ರಾಜ್ಯಗಳು? ಶಾ ಶಾಕ್-ಬೆಚ್ಚಿಬಿದ್ದ ಕೈ,ಆಫ್,SP! ಯೋಗಿ ಭರ್ಜರಿ ಕಾರ್ಯಾಚರಣೆ! Modi | Amithshah"
+        ]
+      },
+      {
+        "channel_name": "Masth Magaa",
+        "handle": "@MasthMagaa",
+        "video_count": 12,
+        "topics": [
+          "ಸರ್ಜರಿ ಇಲ್ಲದೆ ಮಂಡಿ ನೋವು ಕಮ್ಮಿ ಆಗುತ್ತಾ? | Knee Pain Relief | Masth Magaa | Amar Prasad",
+          "ರೇಡಿಯೋ ಫ್ರೀಕ್ವೆನ್ಸಿ ಮೂಲಕ ನೋವು ನಿವಾರಣೆ! | Radiofrequency Ablation | Masth Magaa",
+          "ಸರ್ಜರಿ ಇಲ್ಲದೆ ಬೆನ್ನು ನೋವು ನಿವಾರಣೆ ಹೇಗೆ? | Slip Disc Treatment | Masth Magaa | Amar Prasad",
+          "ಕೈ ಬಿಟ್ಟು ಕಮಲ ಹಿಡಿದ ಡಿಎಂಕೆ | Delimitation | Special Parliament Session | Seats | Masth Magaa | Amar",
+          "ಸೈಕ್ಲೋನ್‌ಗೆ ಅಮೆರಿಕ ಅಲ್ಲೋಲ ಕಲ್ಲೋಲ! | BSF Operation| US Storm | Masth Magaa | Amar",
+          "ಇಷ್ಟ ಬಂದಾಗ ಕಳಿಸಬೋದು ಮೆಸೇಜ್! ‌ | WhatsApp Message Scheduling Feature | Masth Magaa | Amar Prasad",
+          "ಮೀಸಲು ಪಟ್ಟಿ ಸಿದ್ಧವಾದ್ರೂ ವಿಳಂಬ ಯಾಕೆ? Karnataka Local Body Elections Delay Explained |Masth Magaa|Amar",
+          "ಎಸ್ಟೋನಿಯಾದಲ್ಲಿ ರಷ್ಯಾ ಇದೇನ್‌ ಮಾಡ್ತಿದೆ? | Russia vs Estonia | NATO | Putin | Masth Magaa |Amar Prasad",
+          "ಯುಕೆ-ಇಯು ನಡುವೆ ಹೊಸ ಒಪ್ಪಂದ! | IBM | US Visa | Green Card | NRI Corner | Masth Magaa | Amar Prasad",
+          "ಪುಷ್ಪ ದಾಖಲೆ ಮುರಿದ ರಾಮಾಯಣ! | Emergency Session | Modi OBC | CJP |  Masth Magaa | Amar Prasad",
+          "ಯಾವ ಟೆಸ್ಟ್‌ನಲ್ಲೂ ಸಿಗಲ್ಲ ಈ ನೋವು! | Nociplastic Pain | Masth Magaa",
+          "ಭಾರತ ಬಗ್ಗಿಸೋಕೆ ತಂತ್ರ! | USA New Tariffs | Make In India | Masth Magaa | Indian Economy | Amar Prasad"
+        ]
+      }
+    ]
+  },
+  {
     "timestamp": "2026-11-27T19:04:02.809450+00:00",
     "total_new_videos": 662,
     "active_channels_count": 52,
@@ -5088,1148 +6059,6 @@
           "ಚಿನ್ನದಲ್ಲಿ ಇದನ್ನೇ ಕಲಬೆರಕೆ ಮಾಡೋದ್ಯಾಕೆ? | Gold Adulteration | Rhenium | BIS | Masth Magaa |Amar Prasad",
           "ಲಾಲ್‌ಬಾಗ್ ಟನಲ್ ರೋಡ್ ಕ್ಯಾನ್ಸಲ್ | TN Deepam Row | Lalbagh Tunnel | Masth Magaa | Amar Prasad",
           "ಕ್ರೆಡಿಟ್‌ ಕಾರ್ಡ್‌ ಸಿಸ್ಟಮ್‌ ಬದಲಿಸ್ತಿರೋ ಕಾರ್ಡ್!‌ | Credit Card | Cibil Score | Masth Magaa | Amar"
-        ]
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-11-27T07:27:30.355894+00:00",
-    "total_new_videos": 771,
-    "active_channels_count": 52,
-    "channels": [
-      {
-        "channel_name": "BBC News",
-        "handle": "@BBCNews",
-        "video_count": 20,
-        "topics": [
-          "Zelensky questions 'strange' Trump-Putin friendship | BBC News",
-          "Major Thanksgiving storm brings flooding, flight delays across US. #BBCNews",
-          "The '80s Campaign That Still Haunts US Parents | The Global Story",
-          "Kuwait drone strike kills two Italian nationals | BBC News",
-          "Democrats go after Nvidia CEO Jensen Huang | BBC Americast",
-          "UK net migration falls to lowest level this century | BBC Newscast",
-          "Musk just got approval to build data centres in space. Why? | BBC News",
-          "Why fuel tanker crash in Cairo was so deadly. #Cairo #BBCNews",
-          "Diesel tanker carrying up to 7,000 tonnes capsizes near Ibiza, killing one person. #BBCNews",
-          "Could the Huntingdon train attack have been prevented? #BBCNews",
-          "Elon Musk's plan to send a million SpaceX data satellites into space approved. #BBCNews",
-          "Zohran Mamdani on postponing Macy's Thanksgiving Day Parade. #BBCNews",
-          "Confronting the man accused of helping migrant smugglers | Global News Podcast",
-          "Airbnb host catches dozens at party on smart doorbell. #Airbnb #Party #BBCNews",
-          "Christmas market CANCELS bookings after AI backlash. #BBCNews",
-          "Huntingdon train attacker found guilty of all 14 counts of attempted murder | BBC News",
-          "Egyptian authorities arrest driver over tanker crash and massive fire that killed 31 | BBC News",
-          "Students react to collapse of Poundland. #Poundland #Students #BBCNews",
-          "I followed Putin to China for a historic summit | BBC News",
-          "Australian senator plays peek-a-boo with baby in parliament. #Australia #BBCNews"
-        ]
-      },
-      {
-        "channel_name": "Al Jazeera English",
-        "handle": "@aljazeeraenglish",
-        "video_count": 20,
-        "topics": [
-          "Palestinian Filmmakers Document War and Displacement at Doha Film Festival",
-          "New Zealand’s Opportunity Party poised to become election kingmaker | AJ #shorts",
-          "Estonia closing land borders with Russia to keep out spies",
-          "Kenyan court orders disclosure of US deal over Ebola quarantine facility",
-          "Spain and Morocco under-17 stars target World Cup 2030 | AJ #shorts",
-          "Trump says the US has ‘close to 50%’ of world’s oil",
-          "Clashes halt match as Turkiye football fans raise Palestinian flags | AJ #shorts",
-          "Spain election puts housing, jobs and rail safety in focus",
-          "Inside Ukraine’s power crisis amid its war with Russia",
-          "America’s Thanksgiving holiday seen through different eyes | AJ #shorts",
-          "Iran says two oil tankers hit naval mines in Strait of Hormuz",
-          "What’s behind the rise of the far-right in Spain?",
-          "Bangladesh garment workers clash with police over low wages",
-          "Indian politician facing murder charges hosts 400,000-guest wedding",
-          "Peru burns more than 10 tonnes of seized drugs",
-          "New York calls off Macy’s Thanksgiving Day Parade as high winds are forecast",
-          "EU discusses its next budget and funding for Ukraine",
-          "Kushner explains the ‘good thing’ about Gaza’s destruction",
-          "What will Trump's latest tariffs mean for the world? | Inside Story",
-          "UK net migration falls, but nearly two-thirds of Britons think it’s rising"
-        ]
-      },
-      {
-        "channel_name": "Reuters",
-        "handle": "@Reuters",
-        "video_count": 20,
-        "topics": [
-          "Putin, Kazakh leader tout AI while guarding national interests",
-          "Search resumes for missing in flooded Indonesia mine",
-          "Trump: fine by me if Putin comes to the G20 summit",
-          "Inside Vietnam’s Search for Stolen Pets Bound for Slaughter",
-          "Stolen pets sold for meat in Vietnam",
-          "Kazakhstan boosts AI cooperation with Russia",
-          "Trump says Putin can attend G20 if he wants",
-          "LIVE: Weather map showing storm moving along the US East Coast",
-          "Malls make a comeback as shoppers seek more than deals",
-          "Powerful storm triggers flooding on US East Coast",
-          "Heartbroken mother returns to site of Hong Kong fire one year later",
-          "Heartbroken mother returns to site of Hong Kong fire one year later | REUTERS",
-          "US malls make a comeback as shoppers seek more than deals | REUTERS",
-          "Bangladeshi workers caught in limbo as wage dispute drags on",
-          "Bangladeshi workers caught in limbo as wage dispute drags on | REUTERS",
-          "LIVE: Flooding hits California as El Nino storms fuel king tides",
-          "Pablo Hernandez de Cos: the man set to be ECB president",
-          "LIVE: UK parliament discusses energy price rise",
-          "🪱 The world of Arrakis opens for 'Dune' fans in Los Angeles",
-          "Market Talk: 'Markets have a degree of tariff fatigue'"
-        ]
-      },
-      {
-        "channel_name": "Associated Press",
-        "handle": "@AssociatedPress",
-        "video_count": 20,
-        "topics": [
-          "How Serbia’s students devised a winning strategy to bring down strongman Vucic",
-          "LIVE: First giant panda born in Indonesia turns 1",
-          "UN peacekeepers prepare to leave southern Lebanon with no plan for what's next",
-          "‘No future here': Why Senegal’s young people risk their lives to reach Europe",
-          "Heavy rain, wind and flooding plague much of US on Thanksgiving holiday",
-          "EU leaders are divided over budget spending as they weigh a $49B loan to Ukraine",
-          "Gérard Depardieu is ordered to stand trial for rape and sexual assault",
-          "FCC says SpaceX can deploy 1 million satellites for data centers in space",
-          "The Macy's Thanksgiving Day Parade is moved to Saturday",
-          "Vance says he doesn’t think Jensen Huang needs a pardon, has seen no evidence he “committed a crime”",
-          "Taiwan will choose mayors and other leaders in elections closely watched by China",
-          "Fuel tanker crash causes a massive fire and kills at least 31 people in Egypt",
-          "Can Cyprus find remains of its disappeared before development erases the past?",
-          "China and Japan hit back at Trump's new tariff plans",
-          "Video shows flames and smoke rising after an explosion at an oil facility in Bangkok",
-          "Charred vehicles and more than 30 killed in major highway fire near Cairo",
-          "Waves and king tides pound the California coast",
-          "WATCH: Waves collapse a California pier during king tides",
-          "The US Army blows up bomb chemicals in Iowa despite fears of a toxic plume",
-          "Mexico is stepping up its crackdown on drug cartels, but cartels are adapting"
-        ]
-      },
-      {
-        "channel_name": "DW News",
-        "handle": "@dwnews",
-        "video_count": 16,
-        "topics": [
-          "Two Italians killed in drone attack in Kuwait | DW News",
-          "Ebola deaths could be much higher than reported | DW News",
-          "The workers caught in Germany's industrial transition | DW News",
-          "Buy flowers, do chores: Is this GTA 6? | DW News",
-          "Storm brings Thanksgiving travel chaos | DW News",
-          "How safe are residents after the Iowa explosion? | DW News",
-          "Protests for Palestinian peace activist detained without trial | DW News",
-          "From New York to California, severe weather upends Thanksgiving plans | DW News",
-          "Building collapse kills several in Karachi | DW News",
-          "As Ukraine costs rise, Europe confronts difficult budget choices | DW News",
-          "Will Elon Musk's plan to have data centers in orbit take off? | DW News",
-          "Can Spain's Pedro Sanchez survive snap elections? | DW News",
-          "Thousands protest in Erbil as Baghdad seeks control over Kurdish region | DW News",
-          "Is Europe ready to counter a Russian threat? | DW News",
-          "Why would Ukraine fight Russia in Africa? | DW News",
-          "Huge explosion hits Bangkok oil depot | DW News"
-        ]
-      },
-      {
-        "channel_name": "FRANCE 24 English",
-        "handle": "@France24_en",
-        "video_count": 15,
-        "topics": [
-          "Lyon held and Marseille pushed in mixed Europa League night for French clubs • FRANCE 24 English",
-          "Nigeria faces rising election violence in run up to vote • FRANCE 24 English",
-          "Will Spain swing from Socialists to hard right? • FRANCE 24 English",
-          "Hamas weighs response after Israel kills 10 people in Gaza • FRANCE 24 English",
-          "Trump urges Putin to end 'military aggression' in Europe • FRANCE 24 English",
-          "France's Bardella faces new allegations of anti-Semitic comments • FRANCE 24 English",
-          "Le Pen slams push for EU budget deal before French election • FRANCE 24 English",
-          "French far-right leader Jordan Bardella faces fresh allegations of anti-Semitism • FRANCE 24",
-          "Will Spain's far right replace Europe's left-wing stalwart? • FRANCE 24 English",
-          "ACROSS AFRICA:  Tunisian Photographer's Family Focus • FRANCE 24 English",
-          "In California, exceptional tides and nearly 9m-high waves batter the coast • FRANCE 24 English",
-          "Lost homes, stolen freedom: National Book Award winners on exile and imprisonment • FRANCE 24",
-          "Across Africa: The Scars of South Africa's Soweto Uprising • FRANCE 24 English",
-          "From leadership crises to tech outages, can corporations rebuild public trust? • FRANCE 24 English",
-          "Season's eatings! Celebrating Thanksgiving in France • FRANCE 24 English"
-        ]
-      },
-      {
-        "channel_name": "Sky News",
-        "handle": "@SkyNews",
-        "video_count": 17,
-        "topics": [
-          "Black Friday could turn into 'Black Fraud Day,' MPs warn | Mornings with Jones and Melbourne",
-          "Infant Carers",
-          "Would America be better off if Trump had won in 2020? Your thanksgiving questions answered",
-          "Too young to be noticed: Britain’s invisible infant carers",
-          "'Biggest stalking shake-up' may not go far enough",
-          "Labour and Tories battle for credit after fall in net migration | The Wrap",
-          "Trump approves disaster relief after floods in Florida",
-          "Witch Hunts of Papua New Guinea | Special programme with Cordelia Lynch",
-          "Huntingdon train attacker guilty of 14 counts of attempted murder | The UK Tonight",
-          "'Keep this under the radar': Inside the new Mandelson files",
-          "Why was UK migration so high and why is it falling so fast?",
-          "Why is the Ministry of Defence contacting veterans?",
-          "What's really behind UK's net migration drop? | The Cathy Newman Show",
-          "What really happened during Covid?",
-          "A Thanksgiving helping of Trump100",
-          "Elon Musk to launch up to a million satellites into space",
-          "Huntingdon train attacker guilty of attempting to murder 14 people"
-        ]
-      },
-      {
-        "channel_name": "euronews",
-        "handle": "@euronews",
-        "video_count": 15,
-        "topics": [
-          "LIVE:  | EU leaders unable to find an agreement on EU's budgetEurope Today S2 #10",
-          "Latest news bulletin | November 27th, 2026 – Morning",
-          "Thanksgiving storms flood US coasts and disrupt holiday travel",
-          "de Villepin: France must tackle financial, social and ecological debts",
-          "Eurozone leaders back Hernández de Cos to succeed Lagarde at ECB",
-          "Why the Mediterranean is a hotspot for oil spills after tanker sinks near Ibiza",
-          "Europe Tonight: EU leaders clash over record-high budget amid Ukraine funding standoff",
-          "EU defence funds aim to boost cooperation, says security expert",
-          "Ukrainian forces hold their ground despite limited resources",
-          "EU budget must remain balanced, unlike national budgets",
-          "Austria prioritises national interests in EU funding talks",
-          "Watch #EuropeTonight Live: EU leaders clash over record-high budget amid Ukraine funding standoff",
-          "EU needs more investment in security and competitiveness, analyst says",
-          "German chancellor says all countries must contribute to Ukraine aid",
-          "How can the EU continue to afford supporting Ukraine?"
-        ]
-      },
-      {
-        "channel_name": "TRT World",
-        "handle": "@trtworld",
-        "video_count": 20,
-        "topics": [
-          "Pedro Sanchez: Europe’s most pro-Palestine PM",
-          "Israeli police clash with ultra-Orthodox protesters over mandatory military conscription",
-          "Israel’s Impunity Playbook Ep 2: Make the witness disappear",
-          "Americans paying more for Thanksgiving dinner this year",
-          "Araghchi tells Kuwait Iran had no involvement in drone incident",
-          "Besiktas beat Hapoel Be'er Sheva 2-1 at Batumi Arena",
-          "UK net migration hits near 30-year low outside pandemic",
-          "Netanyahu faces parliamentary setbacks as coalition talks continue",
-          "Israel intensifies attacks on Gaza despite ceasefire",
-          "Iraq sentences 11 people to prison for oil smuggling",
-          "Students rally in Paris to demand increased education spending",
-          "Following Assam eviction drive, Muslim family forced to live in the open",
-          "Bangladesh garment industry struggles due to new US tariffs",
-          "Witnesses to Genocide | Ep 4: British neonatologist recounts treating newborns under fire in Gaza",
-          "Israel’s Impunity Playbook Episode 2: Make the witness disappear",
-          "Kiev urges for more Western military support as war sees deadlock",
-          "Hong Kong probe reveals Wang Fuk Court fire was preventable",
-          "Around 11,000 cancer patients in Gaza denied treatment",
-          "Pakistan's fishermen caught between war costs and pollution",
-          "Tech export curbs intensify China-US AI race"
-        ]
-      },
-      {
-        "channel_name": "africanews",
-        "handle": "@africanews",
-        "video_count": 10,
-        "topics": [
-          "Italy not informed about Ukraine drone strike on Russian ships in Libya",
-          "Algeria condemns 'spillover' of Ukraine war into Libya",
-          "Nigeria: ISWAP turns to armed drones and global financing networks",
-          "Guinea-Bissau delays elections for two years to 2028",
-          "Ebola: UN says outbreak driving spike in gender-based violence in Congo",
-          "US-backed Ebola quarantine centre violated constitution, Kenyan court rules",
-          "Extreme heat threatens pregnant women in South Africa’s informal settlements",
-          "American artist showcases plants in YSL Marrakech Museum in Morocco",
-          "Italy's Meloni concerned after Ukraine attack on Russian ship in Libya",
-          "Egypt says 31 dead in Cairo fuel truck inferno, one man arrested"
-        ]
-      },
-      {
-        "channel_name": "WION",
-        "handle": "@WION",
-        "video_count": 20,
-        "topics": [
-          "Russia-Japan Tensions LIVE: Tokyo's Hypersonic Missiles Move Closer To Russian Border | WION",
-          "Saudi Strikes Yemen LIVE: Saudi Attacks Yemeni Capital Sanaa After Houthi Attacks On Riyadh | WION",
-          "LIVE: Donald Trump Signs $100 Million Disaster Relief Declaration For Flood-Hit Florida | WION",
-          "Saudi Coalition Claims Destruction Of Houthi Missile Platform | WION Newspoint",
-          "Kim Orders Wider Nuclear Development Across Multiple Domains | Newspoint",
-          "Estonia Set to Close Its Land Border Crossings to Russia by Dec 1 | WION Shorts",
-          "Chennai Businessman Donates 121 Kg Gold Worth ₹208 Crore to Tirumala Temple | WION Shorts",
-          "US-Iran War: US President Trump Comments on Meetings With Putin and Xi | WION Shorts",
-          "India’s ‘AI Kid’ Raul John Aju Meets Putin, Shares Selfie With Russian President | WION Shorts",
-          "Iran War: Two Italians Killed by ‘Drone Strike Debris’ in Kuwait  | WION Shorts",
-          "Deandra Dottin Becomes First Batter To Get Out Via 'Free-Ball' | WION Newspoint",
-          "Mecca Pact Nations To Discuss Yemen | US Think Tank Flags Iran's Underground Buildup | WION",
-          "Russia Furious, Japan's Dangerous Gamble, Tokyo Deploys Hypersonic Missiles Near Russia | Gravitas",
-          "China Launches A 'Long-March-2D' Carrier Rocket | WION News",
-          "Bangladesh Protest: Garment Workers Clash With Police Over Wage Hike | Chaos Grips Dhaka | WION",
-          "France Protest: Police Step Up Pressure With Checks At Airport, Border | WION News",
-          "US-Iran War LIVE: Tehran Launches Barrage Of Drones Toward Kuwait, West Asia On Edge | WION",
-          "Digital Sri Lanks Summit 2026: Building Sri Lanka's Next Generation Of Entrepreneurs | WION News",
-          "States Empowered Against Zakir Naik's IRF | US Think Tank Flags Iran's Underground Buildup | WION",
-          "Donald Trump's Tariff Agenda Faces New Challenge | WION World Business Watch"
-        ]
-      },
-      {
-        "channel_name": "Firstpost",
-        "handle": "@Firstpost",
-        "video_count": 20,
-        "topics": [
-          "Trump's Awkward On-Camera Moment! Marine Dodges Invitation To Question Melania",
-          "Kim's Nuke Show, Trump on Edge; Russia Downs 863 Ukrainian Drones, Burns Kyiv | HEADLINES TODAY LIVE",
-          "LIVE: Inside NATO's Push to Stop Putin as Russia Raises Baltic Nuclear Stakes | Firstpost Live",
-          "US WAR LIVE: 'Iran can Bomb Europe' Trump Issues 'Nuclear Holocaust' Warning",
-          "LIVE: Who Hit Kuwait? Iran Blames Ukraine in Explosive 'False Flag' Allegation | Firstpost Live",
-          "JAISHANKAR LIVE: India's Global Move, World Leaders Discuss Maritime Cooperation, Regional Security",
-          "China Tests New Taiwan Landing Operation in New Coastal Drills | Firstpost News",
-          "Princess Kate Visits Arts And Crafts Charity In Scotland | Firstpost News",
-          "'Please, Don't Attack NATO': 2 Nordic Leaders Secretly Plead With Putin After Nuclear..FirstpostLive",
-          "Indian Air Force Holds Spectacular Air Show at Pune's Lohegaon Air Station | Firstpost News",
-          "India's AI Prodigy Raul John Aju's Selfie With Putin Goes Viral | Firstpost News",
-          "India EU Trade Deal On Track For 2026, US Pact Nears Culmination | Firstpost News",
-          "New Trump Confuses Israel With Iran, Says Its Military is Wiped Out | Firstpost News",
-          "'Pay Or Be Destroyed': Iran 'Burns' Amazon, Microsoft, Starlink In Chilling Video| Firstpost Live",
-          "New Italian MEP Mocks Von Der Leyen Over €45bn Ukraine 'Christmas Gift' | Firstpost News",
-          "Trump Backs Jensen Huang for 'Second Term' as Nvidia Probe Looms | Firstpost News",
-          "100 Seconds of Horror: Iran 'Torches' U.S. Titans | Firstpost Live",
-          "Meloni Slaps Down Zelensky, 'Keep Your War...'| Firstpost Live",
-          "Meloni's Public Dressing-Down of Zelensky After Kyiv Bombs Putin's Ship In NATO Zone| Firstpost Live",
-          "LIVE: 'We Will Design Here': Traore Opens a New $66 Mn Tech Hub in Burkina Faso | Firstpost Africa"
-        ]
-      },
-      {
-        "channel_name": "CNA",
-        "handle": "@channelnewsasia",
-        "video_count": 20,
-        "topics": [
-          "K-pop stars spotted filming Pocha Rhapsody at Singapore’s Haji Lane",
-          "At least 22 injured after Hong Kong ferry crashes into oil depot dock",
-          "Has Singapore’s reputation been affected by the probe on Nvidia-Megaspeed?",
-          "US tariff demands put Asian economies in difficult position over China ties: Analyst",
-          "Trump says Putin can come to G20 if he wants",
-          "‘We are not going to kowtow to any country’: DPM Gan on US tariffs",
-          "Has the Nvidia-Megaspeed probe hurt Singapore’s reputation? DPM Gan Kim Yong weighs in",
-          "ICC acting prosecutor speaks to CNA ahead of Duterte's crimes against humanity trial",
-          "Trump hails Jensen Huang’s return to Nvidia; calls his wife ‘phenomenal’",
-          "Presiden Prabowo pangku pesilat cilik saat peringatan Hari Guru",
-          "Prabowo invites young pencak silat performer to sit on his lap during Teacher’s Day celebration",
-          "Fire breaks out at Pattavikorn Market in Bangkok",
-          "Internship experience more important than a degree?",
-          "Ask Work It: How to show initiative at a new job without looking like a know-it-all",
-          "New system to give families with complex needs one plan, one caseworker",
-          "‘Only with a home can we begin again’: Tai Po fire survivors grieve a year on",
-          "Anti-vice operations: 6 women arrested after raids on residential units, massage parlours",
-          "Financial disputes resolution: More than 5,300 claims handled by FIDReC, fraud and scams top source",
-          "Trump tariffs: Singapore very disappointed and disagrees with USTR's findings, says METI",
-          "China pushes back against fresh US tariff proposals | East Asia Tonight Nov 26, 2026"
-        ]
-      },
-      {
-        "channel_name": "NHK WORLD-JAPAN",
-        "handle": "@NHKWORLDJAPAN",
-        "video_count": 14,
-        "topics": [
-          "Bathing capybaras make a splash in ShizuokaーNHK WORLD-JAPAN NEWS #shorts",
-          "Blast off for Pakistani astronaut on Chinese spacecraftーNHK WORLD-JAPAN NEWS #shorts",
-          "No shortcuts: the journey of a Japanese F1 bossーNHK WORLD-JAPAN NEWS",
-          "Pakistan celebrates country’s first-ever astronautーNHK WORLD-JAPAN NEWS",
-          "North Korea's economy powers higherーNHK WORLD-JAPAN NEWS",
-          "Generations On Track: Toyohashi's Iconic Streetcar - Japan Railway Journal",
-          "What the failed Trump-Kim meeting says about North Korea's leverageーNHK WORLD-JAPAN NEWS",
-          "Deep trouble at Lake ChuzenjiーNHK WORLD-JAPAN NEWS",
-          "Nostalgia for Heisei-era items drives comebackーNHK WORLD-JAPAN NEWS #shorts",
-          "Shrinking community opens its empty homesーNHK WORLD-JAPAN NEWS",
-          "'Queen of stone skipping' keeps honing her artーNHK WORLD-JAPAN NEWS",
-          "3 dead, 34 unaccounted for after Indonesia factory fireーNHK WORLD-JAPAN NEWS",
-          "Why Japan's security debate is about more than just policyーNHK WORLD-JAPAN NEWS",
-          "Shuri Castle reopens after rise from asheーNHK WORLD-JAPAN NEWS #shorts"
-        ]
-      },
-      {
-        "channel_name": "South China Morning Post",
-        "handle": "@SouthChinaMorningPost",
-        "video_count": 17,
-        "topics": [
-          "400,000-guest wedding in India brings traffic to a halt",
-          "The Wang Fuk Court fire: Rising from the ashes, reluctantly",
-          "60% of Japan’s data centres are right here",
-          "Hong Kong proposes bill to compensate injured delivery workers",
-          "Indonesian gold mine floods kill 13 miners",
-          "“I just couldn’t hold onto my flat”",
-          "Hongkongers honour Tai Po fire victims on first anniversary",
-          "Hanoi hotpot restaurant explosion kills 6",
-          "“I really no longer have my mum and dad”",
-          "Hundreds attend Catholic mass ahead of Tai Po Fire anniversary",
-          "‘My heart is being left behind’ in Wang Fuk Court",
-          "South Korea tells island to take cover as Russian jets near",
-          "Shanghai party chief Chen Jining placed under investigation",
-          "Pakistan’s first astronaut lifts off aboard Chinese spacecraft",
-          "The Wang Fuk Court fire: The search for answers",
-          "Why did China park nearly 300 warplanes across 11 remote airbases?",
-          "Indonesian train collides with a minibus at railway crossing"
-        ]
-      },
-      {
-        "channel_name": "ABC News (Australia)",
-        "handle": "@abcnewsaustralia",
-        "video_count": 20,
-        "topics": [
-          "Large areas of the country facing elevated bushfire risk this summer | ABC NEWS",
-          "ASX bounces back this week, but growth outlook 'subdued' | ABC NEWS",
-          "The questions we couldn’t answer… until now | Ep #21 | The Case Of…",
-          "Nobody asked what would help, says Indigenous children's commissioner | ABC NEWS",
-          "Major storms inundate the US East Coast on Thanksgiving | ABC NEWS",
-          "What does it take to build an airport? | ABC Business Daily",
-          "Expert explains psychological tools retailers use on Black Friday | ABC NEWS",
-          "NZ government fails to secure majority | ABC NEWS",
-          "Flames over 15 metres fanned by strong winds on Flinders Island | ABC NEWS",
-          "How Australia Post sends out 111 million packages over Black Friday and Christmas | ABC NEWS",
-          "New Zealand's incumbent government fails to secure a majority | ABC NEWS",
-          "More Aussies losing their jobs as economy slows and AI use rises | ABC NEWS",
-          "Jess Wilson's privatisation call won't avoid 'extinction' event for Labor: Raf Epstein | ABC NEWS",
-          "Sam Wood denied bail by Queensland's Court of Appeal | ABC NEWS",
-          "IN FULL: Albanese speaks alongside senior ministers after sitting year ends | ABC NEWS",
-          "Why this bushfire season could be so dangerous | ABC NEWS",
-          "IN FULL: Officials warn of dangerous bushfire season as national outlook released | ABC NEWS",
-          "Ben Carroll or Jess Wilson? Victoria decides | Politics Now | ABC News",
-          "Victorian Greens Leader Ellen Sandell speaks on election eve | ABC NEWS",
-          "Victorian Premier Ben Carroll speaks on the eve of the state's election | ABC NEWS"
-        ]
-      },
-      {
-        "channel_name": "CNN",
-        "handle": "@CNN",
-        "video_count": 10,
-        "topics": [
-          "Widespread power outages upend Thanksgiving preparations",
-          "Hear from people who came to see postponed Macy’s Thanksgiving Day Parade",
-          "Melania Trump’s involvement in rescuing families in Ukraine",
-          "Band performs in Times Square after Macy’s parade postponed",
-          "Thanksgiving celebrations across the country",
-          "‘Freezing my butt off’: CNN’s business reporter takes cold plunge for charity",
-          "Settlers torched his home. Then came the bulldozer.",
-          "Why is the Philippines so obsessed with beauty pageants?",
-          "Meet the sheep who drives her own wheelchair",
-          "Thanksgiving storm batters East Coast"
-        ]
-      },
-      {
-        "channel_name": "PBS NewsHour",
-        "handle": "@PBSNewsHour",
-        "video_count": 20,
-        "topics": [
-          "PBS News Hour full episode, Nov. 26, 2026",
-          "How women in Israel are playing larger roles in the military",
-          "The best strategies for holiday shopping in the age of AI",
-          "New book focuses on how to get through life's hardest days",
-          "WATCH LIVE: President Trump and first lady call U.S. service members on Thanksgiving",
-          "Journalist's experiences highlight challenges of being a family caregiver",
-          "Despite political divide, Americans often 'speak in one voice'",
-          "How Democrats' election successes could lead to new climate change policies",
-          "News Wrap: EPA reports ‘zero’ airborne lead in Iowa",
-          "Stormy Thanksgiving weather causes delays and damages for many Americans",
-          "WATCH LIVE: Trump expected to speak at Mar-a-Lago on Thanksgiving",
-          "First married mother crowned as Miss Universe",
-          "Ábrego García lands in Spain after self-deporting",
-          "Massive king tide waves pummel California coast",
-          "PBS News Hour full episode, Nov. 25, 2026",
-          "Meet the young maestro leading the Chicago Symphony Orchestra",
-          "From her apartment, photographer captures unique view of Macy's Thanksgiving Day Parade",
-          "Cranberry farmers forced to adapt as climate change threatens harvest",
-          "Ben Shapiro and Amna Nawaz discuss GOP's future on 'Settle In'",
-          "Former Israeli generals protect Palestinians from settler attacks during olive harvest"
-        ]
-      },
-      {
-        "channel_name": "ABC News",
-        "handle": "@ABCNews",
-        "video_count": 13,
-        "topics": [
-          "Nor'easter brings heavy flooding to East Coast",
-          "LIVE: ABC News Live - Thursday, November 26",
-          "New video shows FedEx cargo jet overshooting runway in Miami",
-          "Senior dog floats in kayak amid New Jersey flooding",
-          "Boston man who won $1 Million scratch ticket now faces deportation",
-          "A Massachusetts museum serves Thanksgiving 17th century style",
-          "Butterball’s turkey talk-line marks 45 years of Thanksgiving help",
-          "Philadelphia Thanksgiving Day Parade",
-          "Storm's impact on Thanksgiving travel",
-          "Powerful waves batter Pacifica as king tides swamp parts of California",
-          "What to know after Army blows up toxic bomb-making material in Iowa",
-          "The Toy Insider shares its picks for the hottest holiday toys of 2026",
-          "Tracking the monster Thanksgiving storm"
-        ]
-      },
-      {
-        "channel_name": "NBC News",
-        "handle": "@NBCNews",
-        "video_count": 14,
-        "topics": [
-          "Performers race to stay after Macy’s parade postponement",
-          "East Coast storm brings heavy rain, winds and flooding",
-          "Record-breaking high tides are swamping the West Coast",
-          "Families navigate Thanksgiving after toxic chemical detonation",
-          "Trump announces Florida disaster relief after severe weather",
-          "Trump and the first lady call service members",
-          "Ukrainian President Zelenskyy thanks Americans for support",
-          "LIVE: NBC News NOW",
-          "High tide from the Jersey Shore swamp streets downtown",
-          "High tides hit N.J. roadways as coastal flooding continues",
-          "Rescuers race to find survivors after mine floods",
-          "Heavy rain and wind flood the streets of Ocean City, NJ",
-          "We asked an AI toy to spell. It struggled.",
-          "Andy Taylor, guitarist of Duran Duran dies at 65"
-        ]
-      },
-      {
-        "channel_name": "CBC News",
-        "handle": "@CBCNews",
-        "video_count": 14,
-        "topics": [
-          "What’s at stake as the Supreme Court rules on Quebec’s secularism law",
-          "Quebec vs. the Crown: Who wins? | About That",
-          "Most anomalously hot day on Earth",
-          "Watch elected officials debate | Question Period | Nov. 27, 2026",
-          "Supreme Court to rule on Quebec's secularism law",
-          "Watch elected officials debate | Question Period | Nov. 26, 2026",
-          "Record-breaking king tides flood California coastlines",
-          "2 arrested after investigation into GTA home invasions, police say",
-          "Could Ottawa seize farmers' land for high-speed rail? | The Current",
-          "Alberta's health system response to the CFB Wainwright incident",
-          "Ontario imposing new e-bike regulations from May 1, 2027",
-          "Israeli judges call to drop 1 of Netanyahu's 3 corruption charges",
-          "Health Canada warns rare vision loss tied to semaglutide GLP-1 drug",
-          "Supreme Court to rule on minority rights debate | Front Burner"
-        ]
-      },
-      {
-        "channel_name": "Bloomberg Television",
-        "handle": "@markets",
-        "video_count": 15,
-        "topics": [
-          "What to Know Ahead of Spain’s Snap Election",
-          "AI Rally Faces Fresh Test: Nvidia Curbs & Trump Tariffs",
-          "Huawei Teases AI Chip to Rival Giants SK Hynix, Samsung",
-          "Asian Stocks Extend Recovery as AI Trade Rebounds",
-          "Inflation-Wary Shoppers Prepare for Black Friday",
-          "Spain's De Cos Set to Succeed Lagarde as ECB President",
-          "Global Stocks Climb as AI Trade Rebounds",
-          "Trump’s China Tariffs Threaten Fresh Trade Tensions",
-          "Can Trump Gain Any Leverage Over China With the 40% Tariff Threat?",
-          "Asian Stock Markets Are Cheap Enough Now: Market Analysis",
-          "Trump Aims to Keep Leverage Over Xi With 40% Tariff Threat",
-          "Houthis Target Jeddah and Jazan Ports as Attacks on Saudi Arabia Intensify",
-          "China Tech Stocks Rebound From Record Slump",
-          "US Proposes New Tariffs, Asian Stocks Rise As AI Trade Rebounds",
-          "US Tariff Plan Raises Stakes for India to Clinch Trade Deal"
-        ]
-      },
-      {
-        "channel_name": "Financial Times",
-        "handle": "@FinancialTimes",
-        "video_count": 20,
-        "topics": [
-          "Why is the return of Nvidia’s Jensen Huang uniting Taiwan and China? | FT #shorts",
-          "Tiny London quant fund is one of the UK’s biggest corporate taxpayers | FT #shorts",
-          "The most famous economist you've probably never heard of | FT #shorts",
-          "Does Jensen Huang’s return signal a crisis for capitalism? | FT #shorts",
-          "What is remigration? | FT #shorts",
-          "The secretive Iranian cyber unit behind Europe’s freezer hacks | FT #shorts",
-          "Trump makes big profit on Nvidia shares after Huang’s return | FT #shorts",
-          "Should we ban teenagers from Vinted and eBay? | FT #shorts",
-          "Britain bought fake C4 explosives for Ukraine | FT #shorts",
-          "How Britain bought fake C4 explosives for Ukraine | FT",
-          "Nvidia shares soar after board reinstates Jensen Huang | FT #shorts",
-          "Americans want their politicians to be ‘fighters’ | FT #shorts",
-          "The FT’s books of the year | FT #shorts",
-          "Quickfire questions with Mastercard boss Michael Miebach | FT #shorts",
-          "Could history help predict the next two years of US politics? | Martin Wolf on the US midterms",
-          "Is this the beginning of the end of Brexit? | FT #shorts",
-          "What did China gain from the Apec summit? | FT #shorts",
-          "How pensions ate the state | FT #shorts",
-          "Is Anthropic's IPO a defining moment for AI? | FT #shorts",
-          "The Myanmar genocide ruling explained | FT #shorts"
-        ]
-      },
-      {
-        "channel_name": "The Economist",
-        "handle": "@TheEconomist",
-        "video_count": 14,
-        "topics": [
-          "What a Marine Le Pen presidency would mean for Europe | The Economist",
-          "Is China to blame for spy allegations? | The Economist",
-          "How much American AI tech has China got hold of?",
-          "It’s a mistake to bring back Jensen Huang | The Economist",
-          "Are the rich taxed too much? | The Economist",
-          "What’s going to happen in 2027? | The Economist",
-          "What did Trump achieve by meeting Xi and Putin? | The Economist",
-          "Three things to know about Anthropic's IPO",
-          "Will AI start building itself in 2027? | The Economist",
-          "MBS is having a bad year | The Economist",
-          "Is the world becoming more equal? | The Economist",
-          "Can Republicans move on from Trump?",
-          "Can Nvidia survive without Jensen Huang? | The Economist",
-          "Why Ukraine’s refinery strikes backfired | The Economist"
-        ]
-      },
-      {
-        "channel_name": "TLDR News Global",
-        "handle": "@TLDRnewsGLOBAL",
-        "video_count": 14,
-        "topics": [
-          "Why the US Israel Relationship Looks Fundamentally Damaged",
-          "Why China’s Economy is Starting to Look Shaky",
-          "Why the Midterms Might Have Killed the Electoral College",
-          "The Houthis Advance Again: Are the Saudis in Trouble?",
-          "The Democrats’ Legislative Priorities Explained",
-          "Why El Salvador's Haiti Intervention is Going Surprisingly Well",
-          "Why Syria is Trying to Join the Mecca Pact",
-          "How the GOP Civil War is Shaking Out",
-          "How China Is Slowly Trying to Take Over the UN",
-          "What the Midterm Results Mean for 2028",
-          "Is This the Beginning of the End of “Trumpism”?",
-          "Which Voter Groups Swung Hardest Against Trump?",
-          "The Astonishing US Midterm Results Explained",
-          "Why Israel Looks Increasingly Ungovernable"
-        ]
-      },
-      {
-        "channel_name": "TLDR News EU",
-        "handle": "@TLDRnewsEU",
-        "video_count": 14,
-        "topics": [
-          "No, Russia is Not a Superpower",
-          "The Czech Political Crisis Explained",
-          "Why Russia is Ditching the Chinese Yuan",
-          "How the Nordics and Baltics Fell Out Over Ukraine",
-          "Why Montenegro Now Looks Like the EU’s Next Member",
-          "Why Ukraine Is Doing Better Than You’d Think",
-          "Serbia’s New Government Explained",
-          "Why This French Politician Is Suddenly Everywhere",
-          "What the US Midterms Mean for Europe",
-          "How the Coming \"Election Supercycle\" Could Reshape the EU",
-          "How Meloni’s Electoral Reform is Backfiring",
-          "Poland’s Constitutional Crisis Explained",
-          "Why Sweden Might Have to Redo its Election",
-          "The New EU-Canada Deal Explained"
-        ]
-      },
-      {
-        "channel_name": "DEF Tallks  by Aadi",
-        "handle": "@deftalksbyaadi",
-        "video_count": 15,
-        "topics": [
-          "India HITS Turkey, Erdogan Runs to UN on Brahmos, Pakistan Spy Ship, Sindh Protests I Levina, Aadi",
-          "Modi Govt Action: Look Out Notice on CJP,  Saurav Das Citizenship Stuck? What Next I Aadi",
-          "Delimitation Bill & FCRA: Why Parliament is Recalled? | Aadi Pathikrit Show",
-          "Turkish Spy Ship in Pakistan, Chinese Satellites on India, Pak's Next Pahalgam Plan I Brig Pandey",
-          "SAURAV DAS Passport Impounded? CJP Stuck, MEA Hits Back, Indian Intelligence Report I Aadi",
-          "BJP-SAD Alliance in Punjab: Why Kejriwal is Losing Sleep | Ramnik Maan, Aadi",
-          "Will India Spare Bangladesh? Sheikh Hasina Return Protests Erupt, B'desh Army I Col RSN Singh, Aadi",
-          "Is Russia Entering Iran Conflict?Iran Plans Strike on Europe, US Bases, Russia in Libya I Manish Rai",
-          "China's Pahalgam Connection? 129 Satellite Images & Operation Sindoor's Biggest Mystery I Aadi",
-          "Trump Threatens Fresh Tariffs on India, Trade Deal & Sanctions I Aadi Pathikrit Show",
-          "Sheikh Hasina Returns to Bangladesh on 16 December, Yunus Runs & Tarique Rehman I Aadi Pathikrit",
-          "Saurav Das is badly stuck",
-          "Russia Offers India Bigger Oil Discounts! Modi's Oil Strategy Changes the Game I Aadi",
-          "Why YOGI Getting a Free Hand Changes UP Elections? Modi Govt Plan, Saurav Das Stuck I Awanish, Aadi",
-          "SHOCKING REALITY of Jensen Huang’s Return to NVIDIA | Tech, Elon Musk, Trump & US Poilitics I Aadi"
-        ]
-      },
-      {
-        "channel_name": "India Decoded by Anirudh",
-        "handle": "@IndiaDecodedAA",
-        "video_count": 14,
-        "topics": [
-          "DRDO's Gift. India Ends Dependence on Foreign Carbon Fiber Towpreg for Fighter Jets",
-          "Shocking. China Was Sending 100 Missiles' Worth Of Fuel To Bangladesh, And Got Caught",
-          "JWALA MK-1: India's Missile Tested at Pokhran That Hunts Drones on Its Own",
-          "भारत की नई रक्षा रणनीति की वजह",
-          "US की सेक्शन 301 जांच का असली सच",
-          "Huge Move For Sovereignty! After 43 Years, India Refuses to Reveal Details of New Brahmos Missiles!",
-          "India’s First Indigenous Bullet Train B28 Is Finally Here",
-          "India Stops Taking Nonsense! No India-US trade deal until new US tariff framework, Section 301 probe",
-          "India’s 1st Indigenous SOLAR SILVER PASTE is Here. Saved ₹10000 Crore",
-          "No More Dependence on Lithium! India Develops Largest Lithium Free Battery, Storage 10 Million Units",
-          "BrahMos Hits 290 km. Zen’s HyperStrike Claims 400Km. Father Of Brahmos?",
-          "Chinese Off-Switch Gone. 1st Time, India Launches ₹2800 Crore Minerals China-Breaking Scheme",
-          "India’s ₹10000 Crore Shock to China. 1st Indigenous SOLAR SILVER PASTE! China Sold 24% Costly",
-          "India’s Biggest Global Move! India’s Adani Takes Over 7 European Ports in Huge ₹27000 Crore Deal"
-        ]
-      },
-      {
-        "channel_name": "World Affairs by Unacademy",
-        "handle": "@WorldAffairsUnacademy",
-        "video_count": 16,
-        "topics": [
-          "5 Types of Spy Satellites Watching You Right Now | Kinjal",
-          "8,000 PAK TROOPS CAN'T SAVE RIYADH | Houthis Hit PIF Tower, Ras Tanura Burns, Jeddah Next | Kinjal",
-          "PAKISTAN - CHINA'S PUPPET IN SPACE | First Astronaut To Satellite Intel For Pahalgam Attack | Kinjal",
-          "Why Putin and Xi Gave Trump a Red Carpet in G3 Shenzhen 2026 |  International Relations #kinjalsir",
-          "TRUMP BRINGS JENSEN HUANG BACK! | Nvidia, China Spy Row & America's AI Power Struggle",
-          "HASINA DEFIES DEATH SENTENCE, RETURNING DEC 16 | Dhaka Vows Handcuffs, Tarique Blames India | Kinjal",
-          "IRAN WAR COSTS AMERICA ASIA | Asia Power Index 2026: India Now Major Power, Modi No. 2 | Kinjal",
-          "WHY BALEN SHAH CHOSE INDIA OVER CHINA! | Nepal's Foreign Policy Explained | UPSC",
-          "CHINA'S SECRET SHIP FOR BANGLADESH SEIZED | 405 Tonnes Missile Chemical, Northeast Threat | Kinjal",
-          "UKRAINE DRAGS AFRICA INTO WAR | $200M Russian Warship Sunk in Libya, Is NATO Behind It? | Kinjal",
-          "WHO DOES TRUMP REALLY RESPECT? | Body Language at APEC: Xi, Putin, Takaichi, Anwar, Vietnam | Kinjal",
-          "India's Muslim Population to Rise by 2070? | Pew Research Demographic Projections Explained",
-          "\"LOOK AT INDIA\": AMERICA'S $40T DEBT PANIC | Why Trump's Fed Rate Cut Will CRASH US Economy | Kinjal",
-          "Pakistan's 15 New Provinces Plan Explained | Asim Munir's Power Strategy?",
-          "IRAN DARES US NAVAL BLOCKADE: Sends 14 Tankers, Hit One & Gulf Burns | India’s oil at risk | Kinjal",
-          "WHY GUYANA IS WOOING INDIA? | Guyana rejects US push on Essequibo, offers India 20% oil | Kinjal"
-        ]
-      },
-      {
-        "channel_name": "StudyIQ IAS",
-        "handle": "@StudyIQEducationLtd",
-        "video_count": 17,
-        "topics": [
-          "LEGISLATURE | Class 11 UPSC Polity Lecture 9 | NCERT 2026 |  StudyIQ IAS",
-          "The Red Sea's Death Pools: Where Even Fish Cannot Survive! | StudyIQ IAS",
-          "UPSC Course Discounts | Achievers Carnival Sale Starts Today | StudyIQ IAS",
-          "Special Mentorship Program for UPSC Prelims 2027 Aspirants #shorts #upsc #vijendersir",
-          "Turkey Panics Over India's BrahMos To Cyprus | Ankit Agrawal Study IQ",
-          "Massive Discounts on PSIR Optional Batch | Enrol Now #shorts #upsc #ias",
-          "Suucess in Prelims 2027: Master Indian Polity with Shashank Tyagi | StudyIQ",
-          "The Hindu newspaper Analysis | 27 November 2026 | UPSC Current Affairs | PIB & Editorial | StudyIQ",
-          "These Things Make UPSC Aspirants Live Easy #shorts #upsc #motivation",
-          "Executive 2.0 | Class 11 UPSC Polity Lecture 7 | NCERT 2026 |  StudyIQ",
-          "UPSC 2028 Aspirants: Build Your Foundation, Crack Your Dream | Smart Foundation Batch 2028",
-          "Talcott Parsons Theory | One Shot Revision | UPSC Sociology 2026 | StudyIQ IAS",
-          "Is Liberalism Under Threat? Understanding Islam, Democracy & Global Politics | StudyIQ IAS",
-          "Why Does India's President Have a Special Army Regiment? | By Ankit Agrawal #shorts",
-          "The Hindu Newspaper Analysis | 26 November 2026 | UPSC Current Affairs | PIB & Editorial | StudyIQ",
-          "Join This Webinar to Boost Your Answer Writing Skills for UPSC #shorts #zoom #webinar",
-          "Target UPSC 2027, 2028 & 2029 | Complete Geography Optional Preparation | New Batch Begins Today!"
-        ]
-      },
-      {
-        "channel_name": "Coffee With Sumeet Jain",
-        "handle": "@coffeewithsumeetjain",
-        "video_count": 14,
-        "topics": [
-          "Nirmala Sitharaman Sweating? Tax Shock Before Budget 2027 # #indiabudget  #nirmalasitharaman",
-          "DONALD \"DRUNK\" पागल हो गया? Modi को धमकी दे बैठा #trumpsarkar #geopolitics #moditrump #tradewar",
-          "RBI’s Double Strike On Bank Accounts\"Stop Switch\" & Crackdown Explained #reservebank #monetarypolicy",
-          "Breaking: China ने हद्द कर दी, Indian Ocean का नाम Change कर दिया #indiachinarelations #eastchinasea",
-          "Balen Shah आया 3 दिन के लिए, 25 घंटों में ही क्यूँ भाग गया #geopolitics #modi #indianepal #balenshah",
-          "Balen Shah आया 3 दिन के लिए, 25 घंटों में ही क्यूँ भाग गया? | CWSJ-3906 | Sumeet Jain",
-          "Jensen Huang emotional speech MADE ME CRY #coffeewithsumeetjain #jensenhuang",
-          "MODI Should Become FINANCE MINISTER? #geopolitics #rbi #modiji #indianeconomy #gold",
-          "GOLD के बाद, Modi ने फिर भविष्यवाणी कर दी, Demand बड़ने वाली है | CWSJ-3905 | Sumeet Jain",
-          "Trump ने RAVAN का वध कर डाला, How Trump Used Nvidea To Destroy CHINA? #trumpsarkar #trumpswar",
-          "Trump ने RAVAN का वध कर डाला, How Trump Used Nvidea To Destroy CHINA? | CWSJ-3904 | Sumeet Jain",
-          "Bharat Split the Gulf’s Trade Wall, BYE-BYE DUBAI | CWSJ-3903 | Sumeet Jain",
-          "DECEMBER 1 को सब कुछ CHANGE होने वाला है, Modi किसी को भी भागने नहीं देंगे, #rbi #rupeefall",
-          "DECEMBER 1 को सब कुछ CHANGE होने वाला है, Modi किसी को भी भागने नहीं देंगे | CWSJ-3902 | Sumeet Jain"
-        ]
-      },
-      {
-        "channel_name": "India Global Review",
-        "handle": "@IndiaGlobalReview",
-        "video_count": 17,
-        "topics": [
-          "The Palki Sharma Show LIVE: Houthis Strike Saudi Oil Refinery | Tariffs to Pressure India? | IGR",
-          "Trump Calls Jensen Huang’s Return as NVIDIA CEO His ‘Second Term’ | IGR | India Global Review",
-          "The Palki Sharma Show | November 26, 2026 | IGR | India Global Review",
-          "Cairo Tanker Crash Kills 31 as Car Collision Triggers Massive Fire | IGR | India Global Review",
-          "Trump Says Putin Is Welcome to Attend December G20 Summit in Florida | IGR | India Global Review",
-          "Russia MoFA Briefing LIVE: Russia Launches Ballistic Missile Attack on Kyiv | India Global Review",
-          "LIVE: Putin Addresses AI Journey 2026: Russia’s Vision for Artificial Intelligence | IGR",
-          "LIVE | Indonesia Mine Tragedy: 13 Dead, Search Resumes for 13 Trapped | IGR | India Global Review",
-          "China vs Japan LIVE: China Accuses Japanese Vessels of Entering Disputed Waters |India Global review",
-          "LIVE: Russia’s Progress Cargo Spacecraft Arrives at International Space Station |India Global Review",
-          "EU Summit LIVE: EU Leaders Gather in Brussels to Discuss Ukraine and Spending Priorities | IGR",
-          "China MoFA Briefing LIVE: China Warns Against Trade Wars Amid Trump’s New Tariff Push",
-          "LIVE | Iraq: Protests Erupt in Erbil Over Troop Deployment Along Kurdistan Borders | IGR",
-          "Bangladesh's Cricket U-Turn: Players Register for IPL Again | The Palki Sharma Show | IGR",
-          "Five Women Killed \"Every Hour\" | The Palki Sharma Show | IGR | India Global Review",
-          "Houthis Strike Saudi Oil Refinery: Oil and Trade at Risk Again | The Palki Sharma Show | IGR",
-          "New Tariff Risk: Stress Test for Indian Economy? | The Palki Sharma Show | IGR | India Global Review"
-        ]
-      },
-      {
-        "channel_name": "Times Axis",
-        "handle": "@TimesAxis",
-        "video_count": 14,
-        "topics": [
-          "India Rejects Netflix' Pak Drama Dreams; Sharp Pahalgam 'Reminder' To Mahira Khan, Fawad Khan",
-          "Trump-Kim Meeting Flopped: Why North Korea's Kim Jong Un Skipped APEC And Doubled Down On His Nukes",
-          "18 Years After 26/11, Why Isn't Hafiz Saeed Being Tried In India? | File Stuck, Order Ignored",
-          "What's America's Problem With Make In India? Decoding Trump's 25% Tariff Threat",
-          "'Unacceptable': Turkey's 'Rude' Interruption Sparks African Fury; Big Fight Amid 'Weak Apology'",
-          "Solomon Islands Shuts Down China's Pacific Ambition; 'No Foreign Military' In New Australia Deal",
-          "'Indian Ocean Must Not Divide': Ajit Doval's Blunt Message To Maldives After Male Courts Pak, China",
-          "Hafiz Saeed's Son 'Thanks' Asim Munir; Lashkar Insider Blows Away Pak Army's Terror Smokescreen",
-          "Turkey Humiliated: Global Backlash After 'Disrespecting' Ghana At COP31 And A Live-Mic Snub",
-          "Pakistan's Space Leap: How It Complements Chinese Surveillance, Threatens India's Security",
-          "India-NZ Cricket: How Three Schoolboys & A Rubbish Collector Made NZ's Deputy PM Backtrack",
-          "India's ‘Red Line’ Over Pak's Netflix Series: Yes To Cricket, But No To Fawad Khan?",
-          "Indo-US Trade Deal A Bargaining Chip To ‘Shield’ From Trump Tariff? | The Silver Lining",
-          "Why Australian Hindu And Jewish Groups Are Protesting Bangladesh Jamaat Chief's Visit"
-        ]
-      },
-      {
-        "channel_name": "Let's Crack UPSC CSE",
-        "handle": "@LetsCrackUPSCCSE",
-        "video_count": 14,
-        "topics": [
-          "UPSC CSAT Percentage | Percentage Tricks & Concepts for UPSC 2027–28 | Parvej Alam",
-          "India’s Lithium-Free Battery Claim: 10,000 MU Capacity, 10-Year Life & China Dependency Explained",
-          "Daily Current Affairs for UPSC | 19 & 20 November | PIB, The Hindu & Indian Express | PYQs+MCQs",
-          "Gandhi Sagar Dam’s 10,000 MWh Lithium-Free Battery Breakthrough: India’s Answer to China!",
-          "Daily Current Affairs for UPSC | 18 November | PIB, The Hindu & Indian Express | PYQs+MCQs",
-          "India & US Reject UN Death Penalty Moratorium: Sovereignty and the Right to Decide Its Own Laws",
-          "Kulgam Encounter: PM Modi's Strong Message: Terrorism | Indian Army Eliminates CRPF Attack Terrorist",
-          "UPSC CSAT Profit & Loss | Concepts, Tricks & Shortcuts for UPSC 2027–28 | Parvej Alam",
-          "Daily Current Affairs for UPSC | 17 November | PIB, The Hindu & Indian Express | PYQs+MCQs",
-          "Inflation Hits 6.09%! Will RBI Increase Repo Rate?",
-          "India’s Big Border Crackdown: 500 Bangladeshi Migrants Detained Amid Hasina Fallout | Security Alert",
-          "Daily Current Affairs for UPSC | 16 November | PIB, The Hindu & Indian Express | PYQs+MCQs",
-          "India Exports Hit Record $89 Billion! US Tariffs Backfire? Trade Deficit & Global Trade Explained",
-          "How 2 major summits this week point to balance & bargain strategy in big-power diplomacy"
-        ]
-      },
-      {
-        "channel_name": "Adda247 Bankers",
-        "handle": "@bankers-adda",
-        "video_count": 15,
-        "topics": [
-          "SBI Clerk Mains Exam Analysis 2026 | Reasoning, Quant, English & GA Analysis | Complete Paper Review",
-          "Aakhir Kya Zidd Hai Ye? 🔥 #shortsfeed",
-          "SBI Clerk Mains 2026 GA Exact Paper | 26 November Shift 1 | Complete General Awareness Analysis",
-          "SBI Clerk Mains 2026 Quant | 26 Nov Shift 1 Exact Memory Based Paper Analysis",
-          "The Hindu Editorial Analysis | 27 NOV Editorial Analysis | English Vocabulary, Grammar & Skimming",
-          "IBPS PO 2026 | Interview Session by Vaibhav Sir 🔥 #ibpspointerview #shortsfeed",
-          "SBI Clerk Mains 2026 English Paper Analysis | 26 Nov 2026 Shift 1 Exact Questions",
-          "Are You Guys Ready for Ziddi? #shortsfeed",
-          "The Hindu Editorial Analysis | 26 NOV Editorial Analysis | English Vocabulary, Grammar & Skimming",
-          "IBPS RRB Clerk 2026 | Quants Master Mock | Target 40/40 in 20 Minutes | ऐसे Attempt करना है!",
-          "SBI CLERK 2026 MAINS REASONING EXAM ANALYSIS  #shortsfeed",
-          "SBI CLERK 2026 MAINS Quants EXAM ANALYSIS #shortsfeed",
-          "SBI CLERK 2026 MAINS GA EXAM ANALYSIS #shortsfeed",
-          "SBI CLERK 2026 MAINS ENGLISH EXAM ANALYSIS #shortsfeed",
-          "SBI Clerk Mains 2026 | Schemes, Static GK, Banking Awareness & Current Affairs Rapid Fire 🔥"
-        ]
-      },
-      {
-        "channel_name": "Parcham Classes",
-        "handle": "@ParchamClasses",
-        "video_count": 17,
-        "topics": [
-          "One Word Substitution for SSC CHSL | Complete Revision with Exam Questions",
-          "Daily Current Affairs MCQ | 27 November 2026 | Current Affairs Today | #Shorts",
-          "Weekly Current Affairs 2026 | November 2026 Week 4 | Parcham Classes Current Affairs",
-          "28 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
-          "27 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
-          "Jet Streams One Shot | Types of Jet Streams & Indian Monsoon | Geography for SSC & Railway",
-          "26 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
-          "Complete Inflation Explained: Causes, Types & Effects on Economy for SSC CGL & Railway",
-          "25 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
-          "Weekly Banking Current Affairs | November Week 3 | Parcham Classes",
-          "Daily Current Affairs MCQ | Current Affairs Today I 24 November 2026 #parchamclasses",
-          "24 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
-          "4 Months Banking, RBI & Financial News Masterclass | SBI Clerk Mains 2026",
-          "Daily Current Affairs MCQ | Current Affairs Today I 22-23 November 2026 #parchamclasses",
-          "Top Headlines of the Week | November Week 3 #currentaffairs",
-          "22-23 November Current Affairs 2026 | Daily Current Affairs | Current Affairs Today",
-          "Time and Work Tricks & All Types in One Shot | SSC CGL 2026 Maths"
-        ]
-      },
-      {
-        "channel_name": "AffairsCloud",
-        "handle": "@AffairsCloud-Com",
-        "video_count": 8,
-        "topics": [
-          "27 November 2026",
-          "26 November 2026",
-          "Static Banking & Financial Awareness (Lecture 42) - Balance of Payments - II",
-          "Important One Liners - Banking & Finance | English | AffairsCloud",
-          "November 2026 Current Affairs - Part I | English | Monthly Current Affairs | AffairsCloud",
-          "25 November Current Affairs 2026 | English | Daily Current Affairs | Current Affairs Today",
-          "25 November Current Affairs 2026 | Hindi | Daily Current Affairs | Current Affairs Today",
-          "Important One Liners - Sports | English | AffairsCloud"
-        ]
-      },
-      {
-        "channel_name": "Alpha Defense - Hindi",
-        "handle": "@AlphaDefenseHindi",
-        "video_count": 14,
-        "topics": [
-          "Diwali Special: Top 10 Desi Weapon",
-          "New Hypersonic Missile : HCMD",
-          "2 Squadrons of Naval Tejas for Indian Navy",
-          "PM Modi’s First Capital Ship ?",
-          "AMCA : Bid Submitted & NextMy Movie",
-          "India’s NavIC is back on Track ?",
-          "Rafale M Spotted on INS Vikrant",
-          "Alpha Defense Unfiltered: 3 Project",
-          "World’s 1st islamic Jet Engine",
-          "India Tracked F35 by Indian Radar",
-          "UAE Back on Rafale F5: Opportunity",
-          "Screwdriver Nirbhar Rafale of Navy",
-          "UP Police with SSS Sniper & Guns",
-          "SSS Defence Gun on Rudra Helo?"
-        ]
-      },
-      {
-        "channel_name": "Defence Decode",
-        "handle": "@defencedecodeOfficial",
-        "video_count": 14,
-        "topics": [
-          "Kolkata Class destroyers High DEW capability | New indigenous  Marine Gas turbine Generators",
-          "LRLACM tested in Final Configuration | Deep strike beyond LAC",
-          "India's ICBM destroyers | How effective against Modern MARVs?",
-          "DRDO RPSA under fabrication, configuration sealed | Role and Importance of Pack hunt",
-          "5000km IRBM interceptor tested | NASM MR test",
-          "AMCA Full Scale Engineering Model Tested for RCS validation",
-          "4th S-400 SQDN deployed | Su-30MKI to get anti china sensor",
-          "Rudram-II Flight Tested | 300km + Target pin point Hit",
-          "India's Brahmos network | India Vietnam BrahMos deal signed",
-          "AMCA RFP issued for 3 partners | Final selection by Q4 2026",
-          "Air to Air ULPGM ER tested | importance for Aerospace denial",
-          "TATA C-295 First Flight ready | 22+92 Tata Rafale for IAF",
-          "AMCA set  for prototyping | Integration Lab underway",
-          "#Divyastra Adv Agni MIRV ready for Induction | Multi Mode Validation"
-        ]
-      },
-      {
-        "channel_name": "Gareeb Scientist",
-        "handle": "@GareebScientist",
-        "video_count": 14,
-        "topics": [
-          "ISRO NavIC Launch Watch Along ft. @AlphaDefense  ( Night Launch )",
-          "ISRO GSLV NIGHT Launch - LIVE Watch Along - GSLV-F17/EOS-05",
-          "Skyroot Vikram 1 - LIVE Watch Along",
-          "ISRO Launches a 6 tonne Private Satellites | LVM3 M6 BlueBird | LIVE With ANIMATIONS",
-          "DRONE MOTORS Now Made In India | Factory Tour",
-          "INDIAN Startup's DRONE SWARMS are Breaking World Records",
-          "ISRO Launches NISAR On GSLV-F16 | LIVE With ANIMATIONS",
-          "I Built a DRONE with an INDIAN Flight Computer",
-          "IPL's CHINESE Dog is a Security THREAT 🚨",
-          "INDIAN Startup Making JET ENGINES : Success, Struggles, Big Dreams | DG Propulsion",
-          "Watch ISRO Launch 2nd Indian Atomic clock equipped NavIC Sat | GSLV-F15/NVS-02",
-          "ISRO vs SpaceX : Docking Ports ( 3D Animation ) | SPADEX",
-          "Visiting India's INSANE Satellite Startup | Pixxel Tour",
-          "What Did India Do in Science and Tech in 2024?"
-        ]
-      },
-      {
-        "channel_name": "NEXT IAS",
-        "handle": "@NEXTIAS",
-        "video_count": 14,
-        "topics": [
-          "Come Read With Me | NEXT IAS",
-          "Don't Read Every Editorial | NEXT IAS",
-          "What to Read in Today’s Newspaper? | Daily News Analysis for UPSC #thehindu #nextias | NEXT IAS",
-          "What to Read in Today’s Newspaper? | Daily News Analysis for UPSC #theindianexpress #nextias",
-          "Nisar Dishant Amrutlal AIR 19 | CSE Mock Interview | Interview Guidance Program | NEXT IAS",
-          "Sickle Cell Anaemia in Tribal Communities | Biological & Sociocultural Factors | UPSC | NEXT IAS",
-          "UPSC Interview Preparation: How NEXT IAS Supports Students Beyond Delhi | UPSC | NEXT IAS",
-          "Parali to Biofuel: How 2G Biofuel Can Reduce Stubble Burning & Pollution | NEXT IAS",
-          "Palmyra Palm: The Wonder Tree of India | India's Unique Jaggery Export | NEXT IAS",
-          "Asia Power Index 2026: India Ranks 3rd | US vs China | UPSC Current Affairs  | UPSC | NEXT IAS",
-          "UPSC Foundation & Advanced Courses Explained | Start Early with the Right Preparation | NEXT IAS",
-          "Sardar Sarovar Dam: The Lifeline of Gujarat | Built on Which River? | NEXT IAS",
-          "How Does NEXT IAS Prepare Engineers & Medical Students for the UPSC Interview? | UPSC | NEXT IAS",
-          "G3 World Order Explained | US, Russia & China | Is India Being Left Out? | UPSC | NEXT IAS"
-        ]
-      },
-      {
-        "channel_name": "Drishti IAS : English",
-        "handle": "@DrishtiIASEnglish",
-        "video_count": 14,
-        "topics": [
-          "The Hindu Analysis & PIB | 27 November 2026 | Current Affairs | UPSC | Drishti IAS English",
-          "The Hindu Analysis & PIB | 28 November 2026 | Current Affairs | UPSC | Drishti IAS English",
-          "The Hindu Analysis & PIB | 26 November 2026 | Current Affairs | UPSC | Drishti IAS English",
-          "West Bengal to Paschim Banga? | Article 3 | UPSC #shorts #Article3 #WestBengal #paschimbanga",
-          "Colombo Security Conclave 2026 | Ajit Doval's Indian Ocean Message | UPSC #shorts #CSC #ajitdoval",
-          "The Hindu Analysis & PIB | 25 November 2026 | Current Affairs | UPSC | Drishti IAS English",
-          "How to Read NCERTs for UPSC 2028?  | NCERT Booklist | UPSC| Drishti IAS English",
-          "Asia Power Index 2026 | Lowy Institute Report | UPSC | Drishti IAS English #shorts #AsiaPowerIndex",
-          "NBFC One Shot | Banking System | AARAMBH Batch | Economy | UPSC | Drishti IAS English",
-          "Miss Universe 2026 | Jennifer Barreto of Puerto Rico English #shorts #MissUniverse2026 #PuertoRico",
-          "Hapus Mango GI Tag Dispute 2026 | Maharashtra vs Gujarat | Alphonso Mango| UPSC| Drishti IAS English",
-          "India's First E Waste Free District | E Waste Management | UPSC | Drishti IAS English",
-          "Asia Power Index 2026 |  Most Powerful Countries | Lowy Institute Report | UPSC| Drishti IAS English",
-          "Constitution Day Sale 2026 | Upto 50% OFF on All Online Courses | UPSC | Drishti IAS #shorts #UPSC"
-        ]
-      },
-      {
-        "channel_name": "Sleepy Classes IAS",
-        "handle": "@SleepyClassesIAS",
-        "video_count": 14,
-        "topics": [
-          "The Science of Solving MCQs in UPSC Prelims | UPSC Prelims Strategy",
-          "A to Z Series | U - ULLAS – Nav Bharat Saaksharta Karyakram | UPSC EPFO APFC 2026",
-          "CIE Manufacturing Scheme | ₹11,000 Crore Cabinet Approved Scheme | UPSC Economy Current Affairs",
-          "Trick to memorise junagarh inscription (Girnar) | Mnemonics for History |",
-          "Compound Interest for UPSC CSAT | Basics, Short Tricks & Solved Questions | CSAT Maths",
-          "Punjabi Puzzle - Extremely Difficult To Solve _ Try Yourself Or Share with Your Friend",
-          "UPSC Prelims Preparation Strategy | How to Prepare GS in 6 Months? 5 Questions You Must Ask",
-          "When Sociology Chooses You for Cracking UPSC",
-          "World Artificial Intelligence Cooperation Organisation",
-          "Union Executive MCQs for UPSC Prelims | Indian Polity | President, Council of Ministers & Ordinances",
-          "Integrated Strategies Defeated Left Wing Extremism",
-          "Writ of Mandamus Explained | Article 32 & 226, Supreme Court Judgments | UPSC Polity",
-          "UPSC Preparation Strategy by AIR 1 Toppers | Shakti Dubey & Anuj Agnihotri | Books, PYQs & Revision",
-          "Supreme Court Judgments on Reservation | Indian Polity for UPSC Prelims | One Shot Revision"
-        ]
-      },
-      {
-        "channel_name": "Amit Sengupta",
-        "handle": "@amitsengupta01",
-        "video_count": 10,
-        "topics": [
-          "What is NEW START Treaty | Strategic Arms Reduction Treaty",
-          "Why China Doesn't Want to Join Trump's STAR Treaty?",
-          "Is America Playing Two Games With China",
-          "Trump, Putin & Xi - The 3 Men Shaping the World, G3",
-          "Cyclone Murasu Explained in easy way",
-          "Israel Election has no majority - What to learn from it? Democracy vs demography",
-          "UAE honours Captain Smit Machchhar for bravery, Skull stiches",
-          "Cyclone Arnab in Bay of Bengal Explained",
-          "Mass protest in France Explained",
-          "Real reason behind France protest - UAE had already warned Europe"
-        ]
-      },
-      {
-        "channel_name": "THE CHANAKYA DIALOGUES HINDI",
-        "handle": "@TheChanakyaDialoguesHindi",
-        "video_count": 9,
-        "topics": [
-          "Major Gaurav Arya’s Big Announcement | The Chanakya Dialogues",
-          "Why Did Trump Support Jensen Huang? | Major Gaurav Arya | The Chanakya Dialogues",
-          "जेनसन हुआंग ने इस्तीफा क्यों दिया? | Major Gaurav Arya | The Chanakya Dialogues",
-          "इज़रायल ने भारत की मदद की! | Major Gaurav Arya | The Chanakya Dialogues",
-          "राहुल के बयान पर बवाल! | Major Gaurav Arya | The Chanakya Dialogues",
-          "भारत-नेपाल का रिश्ता धर्म से जुड़ा है? | Major Gaurav Arya | The Chanakya Dialogues",
-          "बालेन शाह का PM मोदी को न्योता! | Major Gaurav Arya | The Chanakya Dialogues",
-          "भारत-नेपाल में दौड़ेगीसरयू-कमला एक्सप्रेस! | Major Gaurav Arya | The Chanakya Dialogues",
-          "दुनिया का डिफेंस सप्लायर बन रहा भारत! | Major Gaurav Arya | The Chanakya Dialogues"
-        ]
-      },
-      {
-        "channel_name": "StratNewsGlobal",
-        "handle": "@StratNewsGlobal",
-        "video_count": 12,
-        "topics": [
-          "US Army detonates nearly 5 tonnes of unstable explosives at Iowa Ammunition Plant | #shorts #usa",
-          "North Korea expels Swiss diplomat amid sanctions row over children’s camp | #shorts #northkorea",
-          "Fort Hood Shooting | Former Army psychiatrist Nidal Hasan asks judge for stay of execution | #shorts",
-          "What Jensen Huang’s return means for Nvidia, Trump, China & The U.S. Economy",
-          "Mamdani Takes Aim at Billionaire Wealth and Corporate Power After Jensen's Huang's Return to Nvidia",
-          "Jensen Huang's return gives Trump a meme and a boost to his portfolio value | #shorts #jensenhuang",
-          "Nvidia reinstates Jensen Huang after pressure from Trump days after spy gate, extra-marital scandal",
-          "Democrats Win Biggest House Majority in 34 Years with 258 Seats | #shorts #democrats #usdemocrats",
-          "Democrat Chuck Hubbard Defeats Republican Veteran Virginia Foxx | #shorts #democrat #usa #republican",
-          "This is a Tough Crowd and I've been to the Oval Office, Alone': Mark Carney's Dig At Trump",
-          "Reporter Takes Cover As Gunshots Are Heard During His Broadcast in Mexico | #shorts #mexico",
-          "Mexico Captures FBI's Most Wanted Drug Fugitive After Gunfight | El Chapo Isidro | #shorts #mexico"
-        ]
-      },
-      {
-        "channel_name": "Third Eye",
-        "handle": "@ThirdEyekannada",
-        "video_count": 15,
-        "topics": [
-          "ಕೊನೆಗೂ NDAಗೆ ಬಹುಮತ?- ಸೋಮವಾರ ದೊಡ್ಡ ಬೆಳವಣಿಗೆ- ಇವತ್ತು ಮೋದಿ ಮಹತ್ವದ ಸಭೆ- DeLimitation Bill Update",
-          "ವಿನಯ್ ಕುಲಕರ್ಣಿಗೆ ಬಿಗ್ ಶಾಕ್!- ಜಾಮೀನು ರದ್ಧು, ಮತ್ತೆ ಜೈಲು-ಸುಪ್ರೀಂಕೋರ್ಟ್ ದೊಡ್ಡ ತೀರ್ಪು- Vinay Kulkarni",
-          "ದಿಢೀರ್ ಪೊಲೀಸ್ ಸ್ಟೇಷನ್‌ಗೆ ನುಗ್ಗಿದ- 9 ಪೊಲೀಸ್ರ ಮೇಲೆ ಭೀಕರ ದಾಳಿ- Delhi Jama Masjid Police Station News",
-          "ಕೊನೆಗೂ ದೀಪ ಬೆಳಗಲೇ ಇಲ್ಲ!- ಸುಪ್ರೀಂ ಆದೇಶ ಧಿಕ್ಕರಿಸಿದ ವಿಜಯ್!- Deepam Row In Tamilandu Update",
-          "52 ಬಾಲ್ 200 ರನ್, 28 ಸಿಕ್ಸ್!- ವೈಭವ್ ಸೂರ್ಯವಂಶಿ ಭರ್ಜರಿ ದ್ವಿಶತಕ- Vaibhav Suryavamashi Double Hundred",
-          "ಸಿಡಿದೆದ್ದ ಆಶಾ ಕಾರ್ಯಕರ್ತೆಯರು!- ಪಟ್ಟು ಬಿಡದೇ ಹೋರಾಟ- ಅತ್ತ ವಿದೇಶಕ್ಕೆ ಹಾರಿದ ಡಿಕೆಶಿ!- Asha Workers Protest",
-          "ಗೋಲ್ಡ್ ಲೋನ್ ಪಡೆದವ್ರಿಗೆ ನೋಟಿಸ್!- ಚಿನ್ನ ಹರಾಜಾಗುತ್ತಾ?ಡಿಸೆಂಬರ್ 9ಕ್ಕೆ ಜನ ಕಾಯ್ತಿರೋದ್ಯಾಕೆ?- Gold Loan Issue",
-          "ಚಿನ್ನದ ರೇಟ್ ಇನ್ನೂ ಇಳಿಯುತ್ತೆ!- ಡಿಸೆಂಬರ್‌ನಲ್ಲಿ ಚಿನ್ನ ತಗೊಳಿ- ತಜ್ಞರ ಮಾತನ್ನೊಮ್ಮೆ ಕೇಳಿ!- Golda Rate Update",
-          "ಸರ್ಕಾರದ ವಿರುದ್ಧ ಸಿಡಿದೆದ್ದ ಕೈ ಶಾಸಕರು- ಶಾಸಕರ ರಾಜೀನಾಮೆ ಜಟಾಪಟಿ- Nayana Motamma, Elephant Issue",
-          "ದೀಪಂ ವಿರುದ್ಧ ನಿಂತ ವಿಜಯ್ -ವಿಜಯ್ ಸರ್ಕಾರ ಸುಪ್ರೀಂ ಮೊರೆ- ಹಿಂದೂ ವಿರೋಧಿ ಎಂದ ಬಿಜೆಪಿ- Deepam Controversy",
-          "ಮೂವರು ಐ ವಿಟ್ನೆಸ್ ಕೋರ್ಟ್‌ನಲ್ಲಿ ಉಲ್ಟಾ!- ದರ್ಶನ್ ಪರ ಹೇಳಿಕೆ?- Renukaswamy Case Update |dboss darshan",
-          "ವರ್ಷಾ, ಪರಿಮಳ ಟೀಚರ್, ಜಾಹ್ನವಿ ವಿಚಾರಣೆ- ಸೌಜನ್ಯ ಕೇಸ್ ಮಹತ್ತರ ಬೆಳವಣಿಗೆ!- Soujanya Case latest Update",
-          "ರೌಡಿಗಳ ಮನೆಗೆ ನುಗ್ಗಿದ ಪೊಲೀಸ್ರು!- ಬೆಂಗಳೂರು ಪೊಲೀಸ್ರಿಂದ ಆ್ಯಕ್ಷನ್- Bengaluru Police Crackdown on Rowdies!",
-          "ಬಿತ್ತು, ಬಿತ್ತು, ಬಿದ್ದೇಬಿಡ್ತು ಚಿನ್ನ!- ನೋಡ್ತೀರಿ 10,000ಕ್ಕೆ ಬರುತ್ತೆ ರೇಟ್- Gold Rate Update explained",
-          "13 ಜಿಲ್ಲೆಗಳಲ್ಲಿ ಜನ್ರೇ ಇಲ್ಲ- ಊರಿಗೇ ಊರೇ ಖಾಲಿ- ಉತ್ತರ ಕರ್ನಾಟಕಕ್ಕೆ ಅನ್ಯಾಯ- North Karnataka Immigration"
-        ]
-      },
-      {
-        "channel_name": "Raj Shamani",
-        "handle": "@rajshamani",
-        "video_count": 10,
-        "topics": [
-          "Comment 💯 if you agree to this | Raj Shamani #Shorts #mindset",
-          "Have you ever felt this? | Raj Shamani #Shorts #lifelessons",
-          "Send this to a SRK fan | Raj Shamani #Shorts #shahrukh",
-          "Comment 💯 if you feel this is true | Raj Shamani #Shorts #mindset",
-          "Share it with that person with whom you can share everything and anything | Raj Shamani #Shorts",
-          "Comment TRUE if you could relate to this | Raj Shamani #Shorts #genz",
-          "Share this with your partner | Raj Shamani #Shorts #relationship",
-          "How Men's Show Affection | Raj Shamani #Shorts #relationship",
-          "Share this with that friend | Raj Shamani #Shorts #friendship",
-          "❤️🫡| Raj Shamani #Shorts #podcast"
-        ]
-      },
-      {
-        "channel_name": "Inconnect News",
-        "handle": "@inconnectnews",
-        "video_count": 10,
-        "topics": [
-          "Indian Ocean Security: How Muizzu Is Testing India’s Patience, India Maldives, Defence News",
-          "Why Astra MK1 Makes Rafale Unstoppable #IndianAirForce #DefenceNews #AstraMK1 #newsupdate",
-          "India vs Pakistan: Why This New Terror Threat Changes Everything | India Pakistan War | Defence News",
-          "India vs Pakistan: The Truth About Naval Power #indiannavy #defence #latestnews",
-          "Pakistan Panics As India Rejects Indus Water Treaty Talks, Indus Waters Treaty, Inconnect News",
-          "Rafale Fleet Update: India’s Response To The Missing Jet Report | Indian Air Force | Defence News",
-          "Why The Indian Navy Is Expanding Faster Than Ever #indiannavy #defence #shorts",
-          "India’s Missile Range Secret That Japan Wants To Unlock, Indian Defence Update, Inconnect News",
-          "India’s Global Oil Hunt: Is This The New Energy Jackpot?, India Crude Oil, Indian News",
-          "How India Built the 4th Largest Navy in the World ⚓ #indiannavy #defence #shorts"
-        ]
-      },
-      {
-        "channel_name": "Narendra Modi",
-        "handle": "@NarendraModi",
-        "video_count": 9,
-        "topics": [
-          "The ghats of Kashi shine like never before on Dev Deepawali",
-          "PM Modi Pays Tribute to Sikh Traditions | 'Kirat Karo, Vand Chhako, Naam Japo' | #shorts",
-          "PM Modi joins Shabad Kirtan on the Parkash Purab of Sri Guru Nanak Dev Ji",
-          "LIVE: PM Modi joins Shabad Kirtan on the Parkash Purab of Sri Guru Nanak Dev Ji",
-          "PM Modi's remarks during the joint press meet with Nepal Prime Minister Balendra Shah",
-          "PM Modi meets Balendra Shah, Prime Minister of #nepal at Hyderabad House | #shorts",
-          "India and Nepal: A friendship that keeps growing stronger",
-          "PM Modi attends the ceremonial reception of Balendra Shah, Prime Minister of #nepal | #shorts",
-          "LIVE: PM Modi, Nepal Prime Minister Balendra Shah attend joint press meet"
-        ]
-      },
-      {
-        "channel_name": "ReVIEW by Soukhya Gaonkar ",
-        "handle": "@ReVIEWbySoukhyaGaonkar",
-        "video_count": 10,
-        "topics": [
-          "ಶತಮಾನಗಳು ಮೋದಿ ಮರೆಯಲ್ಲ!ಅಂಥಾ ನಿರ್ಧಾರ -ದೇಶದಲ್ಲಿ ಕಂಪನ! ರಾಷ್ಟ್ರ ರಾಜಕಾರಣ ಕಂಡರಿಯದ ಆಪರೇಷನ್!",
-          "ಮೋದಿ ಶಪಥ! ಇದೇ ನವಂಬರ್ 30ಕ್ಕೆ ವಿಶೇಷ ಅಧಿವೇಶನ!",
-          "ತಿಮ್ಮಪ್ಪನಿಗೆ 121 ಕೆ.ಜಿ ಚಿನ್ನದ ಮಹಾಕಾಣಿಕೆ!😲ಇತಿಹಾಸದಲ್ಲೇ ಅತಿದೊಡ್ಡ ದೇಣಿಗೆ |Tirupati 121 Kg Gold Donation",
-          "ಪಾಕಿಸ್ತಾನ ಬಳಿಕ ಭಾರತದಲ್ಲೇ ಅತಿಹೆಚ್ಚು ಮುಸ್ಲಿಂ-ಹೊಸ ವರದಿ‌ ಬಿಚ್ಚಿಟ್ಟ ಅಂಕಿ-ಅಂಶ!| muslim population",
-          "ಸುಪ್ರೀಂ ಆದೇಶ ಧಿಕ್ಕರಿಸಿದ CM!ಸರ್ಕಾರ ಸುಮ್ನೇ ಬಿಡ್ತಾರಾ ಜನ? ಈ ದೇಶದಲ್ಲಿ ಇದೇನಾಗ್ತಿದೆ-ಭಾರಿ ಆಕ್ರೋಶ ಸ್ಫೋಟ",
-          "HDK ಸಿಎಂ ಮಾಡಿದ್ದು ನಾವು!ಇಲ್ಲಾಂದ್ರೆ ಯಾರ್ ಇವ್ರನ್ನ ಕೇರ್ ಮಾಡ್ತಿದ್ರು!|kumaraswamy| cheluvarayaswamy",
-          "ನಮೋ ರಾಜತಾಂತ್ರಿಕ ದಿಗ್ವಿಜಯ!ಮಾಸ್ಟರ್ ಸ್ಟ್ರೋಕ್ -ದೇಶಕ್ಕೆ ಬಿಗ್ ನ್ಯೂಸ್! NARENDRA MODI",
-          "NDA ತೆಕ್ಕೆಗೆ 2 ರಾಜ್ಯಗಳು? ಶಾ ಶಾಕ್-ಬೆಚ್ಚಿಬಿದ್ದ ಕೈ,ಆಫ್,SP! ಯೋಗಿ ಭರ್ಜರಿ ಕಾರ್ಯಾಚರಣೆ! Modi | Amithshah",
-          "ಡೈರೆಕ್ಟ್ ರಾಜಕಾರಣಕ್ಕೆ ದರ್ಶನ್?ಕೋರ್ಟ್ ನಲ್ಲಿ ಭಾರಿ ಬೆಳವಣಿಗೆ!ರಾಜ್ಯ ರಾಜಕಾರಣದ ಬ್ರೇಕಿಂಗ್ ನ್ಯೂಸ್ Actor Darshan",
-          "ಜಗತ್ತಿನ ಮೊದಲ ಎಥನಾಲ್ ಕ್ರಾಂತಿಯಾಗಿದ್ದು ಮೈಸೂರು ಮಹಾರಾಜರಿಂದ! ನಿರಾಣಿ ತೆರೆದಿಟ್ಟ ರೋಚಕ ಇತಿಹಾಸ! |murgesh nirani"
-        ]
-      },
-      {
-        "channel_name": "Masth Magaa",
-        "handle": "@MasthMagaa",
-        "video_count": 9,
-        "topics": [
-          "ಯಾವ ಟೆಸ್ಟ್‌ನಲ್ಲೂ ಸಿಗಲ್ಲ ಈ ನೋವು! | Nociplastic Pain | Masth Magaa",
-          "ನರದ ನೋವಾ? ಮೂಳೆ ನೋವಾ? | Neuropathic Pain | Masth Magaa | Amar Prasad",
-          "ಅಕ್ಯೂಟ್ ಮತ್ತು ಕ್ರಾನಿಕ್ ಪೇನ್ ವ್ಯತ್ಯಾಸವೇನು? | Acute vs Chronic Pain | Masth Magaa",
-          "ಸ್ಪೇನ್‌ಗೆ ನುಗ್ಗಿದ 26,000 ವಲಸಿಗರು! | Massive Data Leak | Houthi-Saudi | Masth Magaa | Amar",
-          "ಆಫ್ರಿಕಾ ಖಂಡ ಭಾರತಕ್ಕೆ ಯಾಕೆ ಮುಖ್ಯ? | India Africa Trade | Export | Masth Magaa | Amar Prasad",
-          "ಚಿನ್ನದಲ್ಲಿ ಇದನ್ನೇ ಕಲಬೆರಕೆ ಮಾಡೋದ್ಯಾಕೆ? | Gold Adulteration | Rhenium | BIS | Masth Magaa |Amar Prasad",
-          "ಲಾಲ್‌ಬಾಗ್ ಟನಲ್ ರೋಡ್ ಕ್ಯಾನ್ಸಲ್ | TN Deepam Row | Lalbagh Tunnel | Masth Magaa | Amar Prasad",
-          "ಕ್ರೆಡಿಟ್‌ ಕಾರ್ಡ್‌ ಸಿಸ್ಟಮ್‌ ಬದಲಿಸ್ತಿರೋ ಕಾರ್ಡ್!‌ | Credit Card | Cibil Score | Masth Magaa | Amar",
-          "ಪಾಕ್‌-ಚೀನಾ ಆಟ ಎಂತದ್ದು?| Chinese Satellites | Jamnagar Rifinary | Op Sindoor | Masth Magaa | Amar"
         ]
       }
     ]
